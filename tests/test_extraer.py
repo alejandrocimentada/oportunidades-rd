@@ -94,6 +94,7 @@ def test_redireccion_a_login_y_errores_http():
     res = ex.extraer("<html></html>", "https://x.do/empleos", 200, "https://x.do/login?next=/empleos")
     assert res.estado == "abrir manualmente"
     assert ex.extraer("", "https://x.do/empleos", 403).estado == "abrir manualmente"
+    assert ex.extraer("", "https://x.do/empleos", 404).estado == "error"
 
 
 def test_pagina_sin_vacantes():

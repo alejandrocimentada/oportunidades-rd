@@ -41,7 +41,7 @@ class ATS:
 @dataclass
 class Resultado:
     vacantes: list[Vacante] = field(default_factory=list)
-    estado: str = "ok"          # ok | sin vacantes | abrir manualmente
+    estado: str = "ok"          # ok | sin vacantes | abrir manualmente | error
     motivo: str = ""
     ats: str = ""
 
@@ -364,6 +364,8 @@ def texto_detalle(html: str) -> str:
 def extraer(html: str, url: str, status: int = 200, url_final: str = "") -> Resultado:
     redirige_a_login = bool(url_final and re.search(r"/(login|signin|sign-in|iniciar-sesion|auth)\b",
                                                      urlsplit(url_final).path, re.I))
+    if status in (404, 410):
+        return Resultado(estado="error", motivo=f"La página de empleos no existe ({status}): revisa el enlace.")
     if status >= 400 or redirige_a_login:
         return Resultado(estado="abrir manualmente", motivo=diagnosticar(html, status, url_final))
     vacs = extraer_html(html, url_final or url)

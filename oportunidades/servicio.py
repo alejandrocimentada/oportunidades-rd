@@ -96,7 +96,8 @@ def _vacantes_de_empresa(fetcher: Fetcher, emp: dict, detalles: bool) -> tuple[l
 def _desde_ats(fetcher: Fetcher, ats: ATS) -> tuple[list, str, str, str]:
     resp = fetcher.get(ats.feed)
     if resp.status >= 400:
-        return [], "abrir manualmente", f"El feed público de {ats.nombre} respondió {resp.status}.", ats.nombre
+        estado = "error" if resp.status in (404, 410) else "abrir manualmente"
+        return [], estado, f"El feed público de {ats.nombre} respondió {resp.status}: abre {ats.pagina}", ats.nombre
     try:
         vacs = parse_feed(ats, resp.texto)
     except Exception as exc:
