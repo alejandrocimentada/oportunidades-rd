@@ -32,7 +32,7 @@ _LUGARES_RD = ["santo domingo", "republica dominicana", "dominican republic", "d
                "santiago", " rd", "piantini", "naco", "zona franca"]
 _REMOTO = re.compile(r"(remoto|remote|hibrid|hybrid|teletrabajo|work from home|desde casa)", re.I)
 _PRESENCIAL = re.compile(r"(100\s*% presencial|presencial|on-?site|in-office|en oficina|en sitio)", re.I)
-_FINDE = re.compile(r"(fines? de semana|sabados?|domingos?|weekends?|turnos? rotativos?|rotating shifts?)", re.I)
+_FINDE = re.compile(r"(fines? de semana|sabados?|domingos|weekends?|turnos? rotativos?|rotating shifts?)", re.I)
 _ANOS = re.compile(
     r"(?:(?:minimo|al menos|mas de)\s+)?(\d{1,2})\s*\+?\s*(?:a\s*\d{1,2}\s*)?(?:anos?|years?)"
     r"(?:\s+(?:o mas|or more|\+))?(?:\s+(?:de|of))?\s+(?:experiencia|experience|exp)", re.I)
