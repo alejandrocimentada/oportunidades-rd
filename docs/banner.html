@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- Source for docs/banner.png (Spanish) and docs/banner.en.png (open with #en).
+     Render at 1600x640, e.g. with headless Edge/Chrome:
+     msedge --headless --window-size=1600,640 --screenshot=banner.png docs/banner.html -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Oportunidades RD banner</title>
+<style>
+  :root {
+    --ink: #1b1f23; --muted: #5b6570; --line: #e3e7ea; --card: #ffffff; --bg: #f5f7f6;
+    --accent: #9BE28F; --accent-ink: #1f5a17; --soft: #eefaeb; --warn: #9a5b00; --warn-soft: #fff5e0;
+    --mono: "Cascadia Mono", "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+    --sans: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1600px; height: 640px; overflow: hidden; background: var(--bg); }
+  body { font-family: var(--sans); color: var(--ink); padding: 28px; }
+  .card {
+    position: relative; width: 100%; height: 100%; background: var(--card);
+    border: 1.5px solid var(--line); border-radius: 28px; overflow: hidden;
+    display: grid; grid-template-columns: 780px 1fr; grid-template-rows: 1fr 64px;
+  }
+  .left { padding: 0 0 8px 72px; display: flex; flex-direction: column; justify-content: center; }
+  .label { align-self: flex-start; font-family: var(--mono); font-size: 18px; letter-spacing: .18em; color: var(--accent-ink); display: flex; align-items: center; gap: 12px; }
+  .label::before { content: ""; width: 12px; height: 12px; border-radius: 3px; background: var(--accent); }
+  h1 { font-size: 74px; font-weight: 750; letter-spacing: -.02em; margin-top: 22px; line-height: 1; }
+  .subtitle { font-size: 30px; color: var(--muted); margin-top: 20px; max-width: 660px; line-height: 1.25; }
+  .pills { display: flex; align-self: flex-start; gap: 12px; margin-top: 40px; }
+  .pill { font-family: var(--mono); font-size: 19px; padding: 9px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--soft); }
+  .pill b { color: var(--accent-ink); font-weight: 600; }
+
+  .right { display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 0 64px 8px 0; }
+  .lanes { display: flex; gap: 10px; font-size: 16px; font-weight: 600; }
+  .lanes span { padding: 6px 14px; border-radius: 999px; background: #e8eef2; }
+  .lanes .on { background: var(--accent); color: #14310f; }
+  .job { width: 660px; border: 1.5px solid var(--line); border-radius: 22px; padding: 22px 26px; background: #fff; box-shadow: 0 6px 24px rgba(20, 50, 20, .07); }
+  .top { display: flex; gap: 18px; align-items: center; }
+  .ring { width: 74px; height: 74px; border-radius: 50%; display: grid; place-items: center; flex: none;
+          background: conic-gradient(var(--accent) 84%, #edf0ee 0); }
+  .ring b { width: 58px; height: 58px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 24px; }
+  .top h2 { font-size: 27px; } .top p { color: var(--muted); font-size: 19px; margin-top: 2px; }
+  .rows { margin-top: 16px; display: grid; gap: 9px; font-size: 19px; }
+  .rows div { display: flex; gap: 12px; align-items: center; }
+  .rows i { font-style: normal; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; flex: none; font-weight: 800; font-size: 16px; }
+  .ok i { background: var(--soft); color: var(--accent-ink); }
+  .warn i { background: var(--warn-soft); color: var(--warn); }
+  .meta { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .meta span { font-family: var(--mono); font-size: 15px; color: var(--muted); border: 1.5px solid var(--line); border-radius: 8px; padding: 4px 10px; }
+  .meta .g { color: var(--accent-ink); border-color: #cdeec6; background: var(--soft); }
+
+  .strip {
+    grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; padding-left: 72px;
+    background: var(--accent); font-family: var(--mono); font-size: 19px; letter-spacing: .12em; color: #14310f; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <section class="left">
+    <div class="label" data-es="AGENTE DE EMPLEO · REPÚBLICA DOMINICANA" data-en="JOB-SEARCH AGENT · DOMINICAN REPUBLIC"></div>
+    <h1>Oportunidades RD</h1>
+    <p class="subtitle" data-es="Encuentra empresas, revisa sus vacantes y prepara tu postulación"
+       data-en="Find companies, review their openings and prepare your application"></p>
+    <div class="pills">
+      <span class="pill" data-es="IA · datos · automatización" data-en="AI · data · automation"></span>
+      <span class="pill"><b>localhost</b>:8765</span>
+      <span class="pill">.xlsx</span>
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="lanes">
+      <span data-es="Nuevo" data-en="New"></span><span class="on" data-es="Me interesa" data-en="Interested"></span>
+      <span data-es="Aplicado" data-en="Applied"></span><span data-es="Entrevista" data-en="Interview"></span>
+    </div>
+    <div class="job">
+      <div class="top"><div class="ring"><b>84</b></div>
+        <div><h2>AI Integration Specialist</h2><p data-es="Banco de ejemplo · Santo Domingo · híbrido" data-en="Sample bank · Santo Domingo · hybrid"></p></div></div>
+      <div class="rows">
+        <div class="ok"><i>✓</i><span data-es="Coincide con tu objetivo y tus habilidades" data-en="Matches your target role and skills"></span></div>
+        <div class="ok"><i>✓</i><span data-es="Python, SQL, LLM, Power Automate" data-en="Python, SQL, LLM, Power Automate"></span></div>
+        <div class="warn"><i>!</i><span data-es="Pide 5+ años con Azure" data-en="Asks for 5+ years of Azure"></span></div>
+      </div>
+      <div class="meta">
+        <span class="g" data-es="mensaje.md ✓" data-en="mensaje.md ✓"></span>
+        <span class="g" data-es="carta.md ✓" data-en="carta.md ✓"></span>
+        <span data-es="Head of Data ↗ LinkedIn" data-en="Head of Data ↗ LinkedIn"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip" data-es="🔒 TODO EN TU COMPUTADORA · RESPETA ROBOTS.TXT · NADA SE ENVÍA SOLO"
+       data-en="🔒 RUNS ON YOUR COMPUTER · RESPECTS ROBOTS.TXT · NOTHING IS SENT FOR YOU"></div>
+</div>
+<script>
+  const lang = location.hash === "#en" ? "en" : "es";
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-es]").forEach(el => { el.textContent = el.dataset[lang]; });
+</script>
+</body>
+</html>
