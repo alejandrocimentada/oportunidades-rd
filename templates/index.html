@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ nombre }}</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%239BE28F'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='%231b2a1a' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mark">✓</span><b>{{ nombre }}</b></div>
+  <nav class="tabs" role="tablist">
+    <button data-view="resumen" class="on">Resumen</button>
+    <button data-view="tablero">Tablero</button>
+    <button data-view="vacantes">Vacantes</button>
+    <button data-view="empresas">Empresas</button>
+  </nav>
+  <a class="btn ghost" href="/api/excel">Descargar Excel</a>
+</header>
+
+<main>
+  <section id="view-resumen" class="view on">
+    <div id="aviso-perfil" class="banner" hidden>
+      Todavía no tienes perfil. Pídele a tu agente: <i>«Configura Oportunidades RD»</i>, o corre
+      <code>python scripts/perfil.py show</code>.
+    </div>
+    <div class="tiles" id="tiles"></div>
+    <div class="pipeline" id="pipeline"></div>
+    <div class="grid2">
+      <div class="card">
+        <h2>Novedades <small id="nov-fecha"></small></h2>
+        <ul class="list" id="novedades"></ul>
+      </div>
+      <div class="card">
+        <h2>Próximos seguimientos</h2>
+        <ul class="list" id="seguimientos"></ul>
+        <h2 class="mt">Revisar tú en el navegador</h2>
+        <ul class="list" id="manuales"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-tablero" class="view">
+    <p class="hint">Arrastra una tarjeta para cambiar su estado. Haz clic para ver el detalle.</p>
+    <div class="board" id="board"></div>
+  </section>
+
+  <section id="view-vacantes" class="view">
+    <div class="filters">
+      <label>Buscar <input id="f-texto" type="search" placeholder="puesto o empresa"></label>
+      <label>Ajuste mínimo <input id="f-min" type="range" min="0" max="100" step="5" value="0"><output id="f-min-out">0</output></label>
+      <label>Empresa <select id="f-empresa"><option value="">Todas</option></select></label>
+      <label>Estado <select id="f-estado"><option value="">Todos</option>{% for e in estados %}<option>{{ e }}</option>{% endfor %}</select></label>
+      <label class="check"><input id="f-activas" type="checkbox" checked> Solo activas</label>
+    </div>
+    <table class="tbl" id="tbl-vacantes">
+      <thead><tr><th>Ajuste</th><th>Puesto</th><th>Empresa</th><th>Estado</th><th>Ubicación</th><th>Encontrada</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="view-empresas" class="view">
+    <p class="hint">Para contactar se sugieren <b>roles</b>, no personas: el enlace abre una búsqueda en LinkedIn con tu sesión.</p>
+    <div class="companies" id="companies"></div>
+  </section>
+</main>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <button class="close" id="drawer-close" aria-label="Cerrar">×</button>
+  <div id="drawer-body"></div>
+</aside>
+<div class="scrim" id="scrim"></div>
+<div class="toast" id="toast"></div>
+
+<script>window.ESTADOS = {{ estados|tojson }};</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

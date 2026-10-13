@@ -25,8 +25,8 @@ def test_senales_de_alerta(perfil):
     assert "RD$85,000" in alertas and "100,000" in alertas  # salario por debajo del mínimo
     assert "fines de semana" in alertas              # lunes a sábado
     faltan = " ".join(r["faltantes"])
-    assert "pytorch" in faltan and "kubernetes" in faltan
-    assert "python" not in faltan                    # ya lo tiene
+    assert "PyTorch" in faltan and "Kubernetes" in faltan
+    assert "Python" not in faltan                    # ya lo tiene
 
 
 def test_rol_vago(perfil):

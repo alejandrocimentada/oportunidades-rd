@@ -14,14 +14,14 @@ from .texto import norm
 
 # Vocabulario de habilidades para detectar lo que pide la vacante y te falta.
 HABILIDADES_CONOCIDAS = [
-    "python", "sql", "excel", "power bi", "tableau", "looker", "power automate", "power apps",
-    "uipath", "automation anywhere", "rpa", "n8n", "zapier", "javascript", "typescript", "node",
-    "react", "java", "c#", ".net", "golang", "aws", "azure", "gcp", "google cloud", "docker", "kubernetes",
-    "terraform", "airflow", "dbt", "spark", "databricks", "snowflake", "bigquery", "pandas", "scikit-learn",
-    "pytorch", "tensorflow", "machine learning", "deep learning", "nlp", "llm", "rag", "langchain",
-    "openai", "claude", "prompt engineering", "vector database", "api", "etl", "data warehouse",
-    "sap", "salesforce", "dynamics", "sharepoint", "git", "linux", "scrum", "agile", "estadistica",
-    "mlops", "fastapi", "flask", "django", "mongodb", "postgresql", "oracle", "kafka",
+    "Python", "SQL", "Excel", "Power BI", "Tableau", "Looker", "Power Automate", "Power Apps",
+    "UiPath", "Automation Anywhere", "RPA", "n8n", "Zapier", "JavaScript", "TypeScript", "Node",
+    "React", "Java", "C#", ".NET", "Golang", "AWS", "Azure", "GCP", "Google Cloud", "Docker", "Kubernetes",
+    "Terraform", "Airflow", "dbt", "Spark", "Databricks", "Snowflake", "BigQuery", "pandas", "scikit-learn",
+    "PyTorch", "TensorFlow", "machine learning", "deep learning", "NLP", "LLM", "RAG", "LangChain",
+    "OpenAI", "Claude", "prompt engineering", "vector database", "API", "ETL", "data warehouse",
+    "SAP", "Salesforce", "Dynamics", "SharePoint", "Git", "Linux", "Scrum", "Agile", "estadística",
+    "MLOps", "FastAPI", "Flask", "Django", "MongoDB", "PostgreSQL", "Oracle", "Kafka",
 ]
 _TEMAS_OBJETIVO = ["inteligencia artificial", " ia ", " ai ", "machine learning", "aprendizaje automatico",
                    "datos", "data", "automatizacion", "automation", "rpa", "analitica", "analytics",
@@ -144,7 +144,7 @@ def heuristica(perfil: dict, vacante: dict) -> dict:
     if not razones:
         razones.append("Pocas coincidencias claras con tu perfil.")
     return {
-        "ajuste": max(0, min(100, puntos)),
+        "ajuste": max(0, min(95, puntos)),  # la heurística nunca está "segura" al 100 %
         "por_que_encaja": razones[:3],
         "alertas": alertas,
         "faltantes": [f"{h} (lo pide la vacante)" for h in faltan[:6]],
