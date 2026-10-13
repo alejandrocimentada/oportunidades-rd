@@ -1,0 +1,8 @@
+{"jobs": [
+  {"id": 4001, "title": "AI Integration Engineer", "absolute_url": "https://job-boards.greenhouse.io/telcoejemplo/jobs/4001",
+   "location": {"name": "Santo Domingo, Dominican Republic"}, "updated_at": "2026-10-02T10:00:00-04:00",
+   "content": "&lt;p&gt;Integrate LLM APIs with our customer service platform. Requirements: 3+ years of experience with Python, REST APIs, AWS. Hybrid.&lt;/p&gt;"},
+  {"id": 4002, "title": "Senior Network Engineer", "absolute_url": "https://job-boards.greenhouse.io/telcoejemplo/jobs/4002",
+   "location": {"name": "Santiago, DR"}, "updated_at": "2026-09-20T10:00:00-04:00",
+   "content": "&lt;p&gt;8+ years of experience with Cisco networks. On-site only.&lt;/p&gt;"}
+]}

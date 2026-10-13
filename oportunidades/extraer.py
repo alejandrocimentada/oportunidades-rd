@@ -182,9 +182,10 @@ def parse_teamtailor(texto: str) -> list[Vacante]:
     out = []
     for item in root.iter("item"):
         lugar = ""
-        for child in item:
-            if child.tag.endswith("location") or child.tag.endswith("city"):
-                lugar = lugar or "".join(child.itertext()).strip()
+        for el in item.iter():
+            local = el.tag.rsplit("}", 1)[-1]
+            if local in ("city", "location") and (el.text or "").strip():
+                lugar = lugar or el.text.strip()
         out.append(Vacante(titulo=(item.findtext("title") or "").strip(), url=(item.findtext("link") or "").strip(),
                            ubicacion=lugar, fecha=_fecha(item.findtext("pubDate")),
                            descripcion=_texto_html(item.findtext("description") or "")))

@@ -1,0 +1,4 @@
+{"name": "Consultora Ejemplo", "jobs": [
+  {"title": "Data Engineer", "shortcode": "ABC123", "url": "https://apply.workable.com/j/ABC123", "city": "Santo Domingo",
+   "country": "Dominican Republic", "telecommuting": true, "published_on": "2026-10-03",
+   "description": "<p>Build ETL pipelines with Airflow and dbt.</p>"}]}

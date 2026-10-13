@@ -110,7 +110,6 @@ def rastrear(store: Store, perfil: dict, fetcher: Fetcher | None = None, solo: l
              detalles: bool = True, puntuar_nuevas: bool = True, log=print) -> dict:
     fetcher = fetcher or Fetcher()
     corrida = store.iniciar_corrida()
-    inicio = ahora()
     informes, manuales, fuera = [], [], []
     empresas = [e for e in store.empresas() if e["url_empleos"]]
     if solo:
@@ -137,7 +136,7 @@ def rastrear(store: Store, perfil: dict, fetcher: Fetcher | None = None, solo: l
                 inf.nuevas.append(vac["id"])
         store.conn.commit()
         if estado in ("ok", "sin vacantes"):
-            fuera += [v["id"] for v in store.marcar_no_vistas(emp["id"], corrida, inicio)]
+            fuera += [v["id"] for v in store.marcar_no_vistas(emp["id"], corrida)]
         else:
             manuales.append({"empresa": emp["nombre"], "estado": estado, "motivo": motivo, "enlace": emp["url_empleos"]})
         store.conn.execute("UPDATE empresas SET estado_rastreo = ?, nota_rastreo = ?, ats = ?, ultimo_rastreo = ?"

@@ -1,0 +1,4 @@
+{"offset": 0, "limit": 100, "totalFound": 1, "content": [
+  {"id": "7440001", "name": "Gerente de Analítica", "releasedDate": "2026-09-30T12:00:00.000Z",
+   "location": {"city": "Santo Domingo", "country": "do", "remote": false},
+   "company": {"identifier": "BancoEjemplo", "name": "Banco Ejemplo"}}]}

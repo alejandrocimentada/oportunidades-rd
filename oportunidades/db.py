@@ -74,7 +74,8 @@ CREATE TABLE IF NOT EXISTS vacantes (
     activa INTEGER NOT NULL DEFAULT 1,
     primera_vez TEXT NOT NULL,
     ultima_vez TEXT NOT NULL,
-    corrida_id INTEGER
+    corrida_id INTEGER,
+    vista_corrida INTEGER
 );
 CREATE INDEX IF NOT EXISTS ix_vacantes_url ON vacantes(url_canonica);
 CREATE INDEX IF NOT EXISTS ix_vacantes_clave ON vacantes(clave);
@@ -276,6 +277,8 @@ class Store:
             if url and not existente["url"]:
                 extra["url"], extra["url_canonica"] = url, url_canonica(url)
             extra["ultima_vez"], extra["activa"] = momento, 1
+            if corrida_id:
+                extra["vista_corrida"] = corrida_id
             sets = ", ".join(f"{k} = ?" for k in extra)
             self.conn.execute(f"UPDATE vacantes SET {sets} WHERE id = ?", (*extra.values(), existente["id"]))
             if commit:
@@ -284,10 +287,10 @@ class Store:
         cur = self.conn.execute(
             "INSERT INTO vacantes (empresa_id, empresa_nombre, titulo, ubicacion, url, url_canonica, clave,"
             " fecha_publicacion, descripcion, fuente, idioma, estado, estado_fecha, primera_vez, ultima_vez,"
-            " corrida_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            " corrida_id, vista_corrida) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (empresa_id, empresa_nombre, titulo, ubicacion, url, url_canonica(url),
              clave_vacante(empresa_nombre, titulo, ubicacion), fecha_publicacion, descripcion, fuente,
-             idioma(f"{titulo}\n{descripcion}"), "Nuevo", momento, momento, momento, corrida_id))
+             idioma(f"{titulo}\n{descripcion}"), "Nuevo", momento, momento, momento, corrida_id, corrida_id))
         vid = cur.lastrowid
         self.conn.execute("INSERT INTO historial (vacante_id, de_estado, a_estado, fecha, nota) VALUES (?,?,?,?,?)",
                           (vid, "", "Nuevo", momento, f"Encontrada ({fuente})"))
@@ -388,11 +391,11 @@ class Store:
                           (ahora(), json.dumps(resumen, ensure_ascii=False), corrida_id))
         self._changed()
 
-    def marcar_no_vistas(self, empresa_id: int, corrida_id: int, inicio: str) -> list[dict]:
+    def marcar_no_vistas(self, empresa_id: int, corrida_id: int) -> list[dict]:
         """Vacantes de una empresa rastreada que no aparecieron en esta corrida → activa = 0."""
         rows = self._rows(self.conn.execute(
-            "SELECT * FROM vacantes WHERE empresa_id = ? AND fuente != 'pegado' AND activa = 1 AND ultima_vez < ?",
-            (empresa_id, inicio)))
+            "SELECT * FROM vacantes WHERE empresa_id = ? AND fuente != 'pegado' AND activa = 1"
+            " AND COALESCE(vista_corrida, 0) != ?", (empresa_id, corrida_id)))
         if rows:
             self.conn.execute(
                 f"UPDATE vacantes SET activa = 0 WHERE id IN ({','.join('?' * len(rows))})",
