@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.claude/settings.local.json
+# datos locales: base de datos, caché, Excel y documentos generados
+data/*
+!data/.gitkeep
+# nunca subir un perfil real
+profile.yaml

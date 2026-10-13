@@ -1,0 +1,44 @@
+# Perfil de EJEMPLO con datos inventados. El tuyo vive en ~/.config/oportunidades-rd/profile.yaml
+# (nunca en esta carpeta). Créalo con el agente o con: python scripts/perfil.py ejemplo
+nombre: Ana Ejemplo Pérez
+titular: Me enfoco en integrar IA en procesos de negocio
+roles_objetivo:
+  - AI Integration Specialist
+  - Ingeniero de IA aplicada
+  - Especialista en automatización
+  - Analista de datos
+habilidades:
+  - Python
+  - SQL
+  - Power BI
+  - Power Automate
+  - LLM
+  - RAG
+  - APIs
+  - Excel
+experiencia: >-
+  Tres años automatizando reportes y procesos en una empresa de distribución; construí un asistente
+  interno con IA para consultar inventario y un tablero de ventas en Power BI.
+anos_experiencia: 3
+idiomas:
+  - Español (nativo)
+  - Inglés (C1)
+ubicacion: Santo Domingo
+preferencias:
+  dias: lunes a viernes
+  modalidad: hibrido        # presencial | hibrido | remoto
+  dias_remotos: 2
+  salario_minimo_dop: 100000
+enlaces:
+  portafolio: https://ejemplo.dev
+  github: https://github.com/ana-ejemplo
+  linkedin: ''
+industrias:
+  - banca
+  - telecomunicaciones
+  - retail/distribución
+  - logística
+  - tecnología/consultoría
+ia:
+  proveedor: agente         # agente | claude | openai | ninguno
+  modelo: ''                # vacío = modelo por defecto del proveedor
