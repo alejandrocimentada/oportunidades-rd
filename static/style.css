@@ -129,6 +129,7 @@ main { padding: 20px 24px 40px; max-width: 1500px; margin: 0 auto; }
 .box.good { background: var(--accent-soft); }
 .box.warn { background: var(--warn-soft); color: #5f3a00; }
 .box.gap { background: var(--gap-soft); color: #3d2a73; }
+.box.talk { background: var(--accent-soft); border-left: 3px solid var(--accent); }
 .box.none { color: var(--muted); padding-left: 0; }
 .desc { white-space: pre-wrap; max-height: 220px; overflow: auto; background: #fafbfa; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; }
 textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; resize: vertical; background: #fff; }

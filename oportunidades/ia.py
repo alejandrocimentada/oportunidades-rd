@@ -94,7 +94,9 @@ Responde SOLO con un objeto JSON con estas claves:
 - "por_que_encaja": exactamente 3 frases cortas en español
 - "alertas": lista de señales de alerta en español (p. ej. pide 5+ años en algo, solo presencial,
   salario por debajo del mínimo si se indica, rol vago). Lista vacía si no hay.
-- "faltantes": habilidades o requisitos que la persona no muestra en su perfil, en español."""
+- "faltantes": habilidades o requisitos que la persona no muestra en su perfil, en español.
+- "a_conversar": puntos a negociar que NO son alertas, en español. Si preferencias.salario_flexible_startups
+  es true y la empresa es una startup con salario por debajo del mínimo, ponlo aquí (no en "alertas")."""
 
 
 def perfil_para_ia(perfil: dict) -> dict:
@@ -118,5 +120,6 @@ def puntuar(perfil: dict, vacante: dict, llamadas: dict | None = None) -> dict:
         "por_que_encaja": [str(x) for x in data.get("por_que_encaja", [])][:3],
         "alertas": [str(x) for x in data.get("alertas", [])],
         "faltantes": [str(x) for x in data.get("faltantes", [])],
+        "a_conversar": [str(x) for x in data.get("a_conversar", [])],
         "puntuado_por": proveedor(perfil),
     }

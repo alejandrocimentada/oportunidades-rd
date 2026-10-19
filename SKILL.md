@@ -49,6 +49,7 @@ python scripts/perfil.py set ubicacion "Santo Domingo"
 python scripts/perfil.py set preferencias.modalidad hibrido   # presencial | hibrido | remoto
 python scripts/perfil.py set preferencias.dias_remotos 2   ;  set preferencias.dias "lunes a viernes"
 python scripts/perfil.py set preferencias.salario_minimo_dop 100000
+python scripts/perfil.py set preferencias.salario_flexible_startups true   # startups below the minimum → "a conversar", not a red flag
 python scripts/perfil.py set enlaces.github https://github.com/...   (also enlaces.portafolio, enlaces.linkedin)
 python scripts/perfil.py set nombre "..."   ;  set titular "one-line professional headline"
 python scripts/perfil.py set industrias "banca; telecomunicaciones; logística"
@@ -104,7 +105,8 @@ In `agente` mode, improve those scores yourself:
 1. `python scripts/vacantes.py pendientes --json` → profile + postings scored only by the heuristic.
 2. Read each description and the profile; be honest and concrete; don't invent facts.
 3. Save: `python scripts/vacantes.py guardar-puntuacion <id> --ajuste 78 --encaja "..." --encaja "..."
-   --encaja "..." --alerta "..." --falta "..."` (exactly 3 `--encaja`; alerts/gaps may be empty).
+   --encaja "..." --alerta "..." --falta "..." --conversar "..."` (exactly 3 `--encaja`; alerts/gaps may be empty). `--conversar` holds negotiable points that are not red
+   flags, e.g. a startup paying below the minimum when `preferencias.salario_flexible_startups` is true.
 
 With `claude`/`openai` and a key, `python scripts/vacantes.py puntuar --todas` does it via the API.
 

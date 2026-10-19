@@ -178,6 +178,7 @@ async function abrir(id) {
       ${v.activa ? "" : '<span class="tag">ya no aparece en la página</span>'}</div>
     <div class="d-sec"><h3>Por qué encaja</h3>${lista(v.por_que_encaja, "good", "Sin puntuar todavía.")}</div>
     <div class="d-sec"><h3>Señales de alerta</h3>${lista(v.alertas, "warn", "Ninguna detectada.")}</div>
+    ${(v.a_conversar || []).length ? `<div class="d-sec"><h3>A conversar</h3>${lista(v.a_conversar, "talk", "")}</div>` : ""}
     <div class="d-sec"><h3>Lo que me falta</h3>${lista(v.faltantes, "gap", "Nada evidente.")}</div>
     <div class="d-sec"><h3>Mensaje y carta</h3>
       ${puedeDocs ? "" : '<p class="hint">Marca la vacante «Me interesa» para preparar el mensaje y la carta.</p>'}

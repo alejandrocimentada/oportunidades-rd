@@ -100,3 +100,41 @@ def test_modelo_claude_por_defecto_y_configurable(store, perfil, monkeypatch):
     perfil["ia"] = {"proveedor": "claude", "modelo": "claude-opus-5-5"}
     ia.puntuar(perfil, v, {"claude": falso})
     assert usados == ["claude-opus-5-5"]
+
+
+def test_startup_bajo_minimo_es_a_conversar(perfil):
+    perfil["preferencias"]["salario_minimo_dop"] = 100000
+    vac = {"titulo": "Founding Engineer", "ubicacion": "Santo Domingo",
+           "descripcion": "Early-stage startup. Salario RD$70,000 + equity. Python, LLM, APIs. " * 4}
+    perfil["preferencias"]["salario_flexible_startups"] = True
+    r = ajuste.heuristica(perfil, vac)
+    assert r["a_conversar"] and not any("mínimo" in a for a in r["alertas"])
+    perfil["preferencias"]["salario_flexible_startups"] = False
+    r = ajuste.heuristica(perfil, vac)
+    assert not r["a_conversar"] and any("mínimo" in a for a in r["alertas"])
+
+
+def test_empresa_no_startup_bajo_minimo_sigue_siendo_alerta(perfil):
+    perfil["preferencias"].update(salario_minimo_dop=100000, salario_flexible_startups=True)
+    vac = {"titulo": "Analista de Automatización", "ubicacion": "Santo Domingo",
+           "descripcion": "Banco líder. Salario RD$60,000. Python, SQL, Power Automate. " * 5}
+    r = ajuste.heuristica(perfil, vac)
+    assert not r["a_conversar"] and any("mínimo" in a for a in r["alertas"])
+
+
+def test_a_conversar_se_guarda_y_migra(tmp_path):
+    import sqlite3
+    from oportunidades.db import Store
+    viejo = tmp_path / "viejo.db"
+    con = sqlite3.connect(viejo)
+    con.executescript(db_schema_sin_conversar())
+    con.close()
+    with Store(viejo) as s:
+        v, _ = s.upsert_vacante("X", empresa_nombre="Y")
+        v = s.guardar_puntuacion(v["id"], 70, ["a", "b", "c"], [], [], "agente", ["equity"])
+        assert v["a_conversar"] == ["equity"]
+
+
+def db_schema_sin_conversar():
+    from oportunidades import db
+    return db.SCHEMA.replace("    a_conversar TEXT NOT NULL DEFAULT '[]',\n", "")

@@ -70,12 +70,12 @@ def exportar(store: Store, destino: Path | None = None) -> Path:
 
     filas = [[v["id"], v["empresa_nombre"], v["titulo"], v["estado"], v["ajuste"], v["ubicacion"], v["url"],
               v["fecha_publicacion"], v["fuente"], v["idioma"], "\n".join(v["por_que_encaja"]),
-              "\n".join(v["alertas"]), "\n".join(v["faltantes"]), v["nota"], v["seguimiento"],
+              "\n".join(v["alertas"]), "\n".join(v["faltantes"]), "\n".join(v["a_conversar"]), v["nota"], v["seguimiento"],
               "sí" if v["activa"] else "ya no aparece", v["primera_vez"][:10], v["mensaje_path"], v["carta_path"]]
              for v in store.vacantes()]
     _hoja(wb, "Vacantes", [("ID", 6), ("Empresa", 24), ("Puesto", 36), ("Estado", 14), ("Ajuste", 8),
                            ("Ubicación", 20), ("Enlace", 40), ("Publicada", 12), ("Fuente", 16), ("Idioma", 8),
-                           ("Por qué encaja", 50), ("Señales de alerta", 50), ("Lo que me falta", 36),
+                           ("Por qué encaja", 50), ("Señales de alerta", 50), ("Lo que me falta", 36), ("A conversar", 36),
                            ("Notas", 30), ("Seguimiento", 12), ("Activa", 12), ("Encontrada", 12),
                            ("Mensaje", 30), ("Carta", 30)], filas, col_estado=3)
 

@@ -32,7 +32,7 @@ def puntuar(store: Store, perfil: dict, vacante_id: int, llamadas: dict | None =
             print(f"Aviso: {exc}. Uso la heurística local.", file=sys.stderr)
     res = res or ajuste.heuristica(perfil, datos)
     return store.guardar_puntuacion(vacante_id, res["ajuste"], res["por_que_encaja"], res["alertas"],
-                                    res["faltantes"], res["puntuado_por"])
+                                    res["faltantes"], res["puntuado_por"], res.get("a_conversar", []))
 
 
 # -- pegar --------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ Uso:
     python scripts/vacantes.py puntuar --todas         # todas las que no tienen puntuación
     python scripts/vacantes.py pendientes --json       # para el agente: vacantes sin puntuar + perfil
     python scripts/vacantes.py guardar-puntuacion 12 --ajuste 78 --encaja "..." --encaja "..." \
-        --encaja "..." --alerta "..." --falta "..."    # el agente guarda su propia evaluación
+        --encaja "..." --alerta "..." --falta "..." [--conversar "..."]    # el agente guarda su propia evaluación
 
     # Mensaje y carta (solo "Me interesa" o más avanzadas). Se guardan como archivos; nunca se envían.
     python scripts/vacantes.py generar 12 [--tipo mensaje|carta] [--idioma es|en]
@@ -71,6 +71,7 @@ def main(argv=None) -> int:
     g.add_argument("--encaja", action="append", default=[])
     g.add_argument("--alerta", action="append", default=[])
     g.add_argument("--falta", action="append", default=[])
+    g.add_argument("--conversar", action="append", default=[])
     gen = sub.add_parser("generar")
     gen.add_argument("id", type=int)
     gen.add_argument("--tipo", choices=redaccion.TIPOS)
@@ -129,7 +130,8 @@ def main(argv=None) -> int:
             elif args.cmd == "seguimiento":
                 print(f"Seguimiento: {store.set_seguimiento(args.id, args.fecha)['seguimiento'] or '(ninguno)'}")
             elif args.cmd == "guardar-puntuacion":
-                v = store.guardar_puntuacion(args.id, args.ajuste, args.encaja, args.alerta, args.falta, "agente")
+                v = store.guardar_puntuacion(args.id, args.ajuste, args.encaja, args.alerta, args.falta, "agente",
+                                             args.conversar)
                 print(_linea(v))
             elif args.cmd == "generar":
                 tipos = (args.tipo,) if args.tipo else redaccion.TIPOS

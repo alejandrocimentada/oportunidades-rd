@@ -37,6 +37,7 @@ _ANOS = re.compile(
     r"(?:(?:minimo|al menos|mas de)\s+)?(\d{1,2})\s*\+?\s*(?:a\s*\d{1,2}\s*)?(?:anos?|years?)"
     r"(?:\s+(?:o mas|or more|\+))?(?:\s+(?:de|of))?\s+(?:experiencia|experience|exp)", re.I)
 _SALARIO = re.compile(r"(?:rd\$|dop|\$|salario|sueldo|salary)[^0-9\n]{0,25}(\d{1,3}(?:[.,]\d{3})+|\d{4,7})", re.I)
+_STARTUP = re.compile(r"(start-?ups?|early[- ]stage|founding|fundador|pre-?seed|seed round|series [ab]|serie [ab]|equity|stock options|opciones sobre acciones|vc-backed|venture)", re.I)
 _GENERICOS = re.compile(r"^(analista|ejecutivo|auxiliar|asistente|coordinador|especialista|encargado|"
                         r"consultor|gestor|representante|oficial)\b\s*$", re.I)
 
@@ -67,7 +68,7 @@ def heuristica(perfil: dict, vacante: dict) -> dict:
     desc = vacante.get("descripcion", "")
     texto = f"{titulo}\n{vacante.get('ubicacion', '')}\n{desc}"
     tn, titn = f" {norm(texto)} ", f" {norm(titulo)} "
-    razones, alertas = [], []
+    razones, alertas, conversar = [], [], []
     puntos = 20
 
     # 1. ¿El puesto se parece a lo que buscas?
@@ -123,7 +124,9 @@ def heuristica(perfil: dict, vacante: dict) -> dict:
         puntos -= min(20, 5 * (anos - tengo))
     minimo = int(pref.get("salario_minimo_dop") or 0)
     salario = salario_maximo(texto)
-    if minimo and salario and salario < minimo:
+    if minimo and salario and salario < minimo and pref.get("salario_flexible_startups") and _STARTUP.search(texto):
+        conversar.append(f"Salario indicado (RD${salario:,}) menor que tu mínimo (RD${minimo:,}), pero es una startup: a conversar (equity o variable).")
+    elif minimo and salario and salario < minimo:
         alertas.append(f"El salario indicado (RD${salario:,}) está por debajo de tu mínimo (RD${minimo:,}).")
         puntos -= 15
 
@@ -148,5 +151,6 @@ def heuristica(perfil: dict, vacante: dict) -> dict:
         "por_que_encaja": razones[:3],
         "alertas": alertas,
         "faltantes": [f"{h} (lo pide la vacante)" for h in faltan[:6]],
+        "a_conversar": conversar,
         "puntuado_por": "heurística",
     }

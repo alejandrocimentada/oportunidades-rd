@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS vacantes (
     por_que_encaja TEXT NOT NULL DEFAULT '[]',
     alertas TEXT NOT NULL DEFAULT '[]',
     faltantes TEXT NOT NULL DEFAULT '[]',
+    a_conversar TEXT NOT NULL DEFAULT '[]',
     puntuado_por TEXT NOT NULL DEFAULT '',
     nota TEXT NOT NULL DEFAULT '',
     seguimiento TEXT NOT NULL DEFAULT '',
@@ -95,7 +96,10 @@ CREATE TABLE IF NOT EXISTS corridas (
 );
 """
 
-JSON_FIELDS = {"roles_contacto", "por_que_encaja", "alertas", "faltantes", "resumen"}
+JSON_FIELDS = {"roles_contacto", "por_que_encaja", "alertas", "faltantes", "a_conversar", "resumen"}
+
+# Columnas añadidas después de la primera versión: (tabla, columna, definición).
+MIGRACIONES = [("vacantes", "a_conversar", "TEXT NOT NULL DEFAULT '[]'")]
 
 # Un rol de contacto debe parecer un cargo, no un dato personal.
 _PARECE_DATO_PERSONAL = re.compile(
@@ -137,6 +141,9 @@ class Store:
         self.conn.row_factory = sqlite3.Row
         self.conn.execute("PRAGMA foreign_keys = ON")
         self.conn.executescript(SCHEMA)
+        for tabla, col, definicion in MIGRACIONES:
+            if col not in columnas(self, tabla):
+                self.conn.execute(f"ALTER TABLE {tabla} ADD COLUMN {col} {definicion}")
         self.after_change = after_change
 
     # -- utilidades -----------------------------------------------------------------------
@@ -353,12 +360,14 @@ class Store:
         return self.get_vacante(vacante_id)
 
     def guardar_puntuacion(self, vacante_id: int, ajuste: int, por_que_encaja: list[str],
-                           alertas: list[str], faltantes: list[str], puntuado_por: str) -> dict:
+                           alertas: list[str], faltantes: list[str], puntuado_por: str,
+                           a_conversar: list[str] = ()) -> dict:
         ajuste = max(0, min(100, int(ajuste)))
         self._update_vacante(vacante_id, ajuste=ajuste,
                              por_que_encaja=json.dumps(list(por_que_encaja)[:3], ensure_ascii=False),
                              alertas=json.dumps(list(alertas), ensure_ascii=False),
                              faltantes=json.dumps(list(faltantes), ensure_ascii=False),
+                             a_conversar=json.dumps(list(a_conversar), ensure_ascii=False),
                              puntuado_por=puntuado_por)
         return self.get_vacante(vacante_id)
 

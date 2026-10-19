@@ -22,7 +22,7 @@ LISTAS = {"roles_objetivo", "habilidades", "industrias", "idiomas"}
 ESCALARES = {
     "nombre", "titular", "experiencia", "anos_experiencia", "ubicacion",
     "preferencias.dias", "preferencias.modalidad", "preferencias.dias_remotos",
-    "preferencias.salario_minimo_dop", "enlaces.portafolio", "enlaces.github",
+    "preferencias.salario_minimo_dop", "preferencias.salario_flexible_startups", "enlaces.portafolio", "enlaces.github",
     "enlaces.linkedin", "ia.proveedor", "ia.modelo",
 }
 
@@ -42,6 +42,8 @@ def plantilla() -> dict:
             "modalidad": "hibrido",
             "dias_remotos": 0,
             "salario_minimo_dop": 0,
+            # En startups, un salario base menor (con equity o variable) es "a conversar", no una alerta.
+            "salario_flexible_startups": False,
         },
         "enlaces": {"portafolio": "", "github": "", "linkedin": ""},
         "industrias": [],
@@ -95,6 +97,9 @@ def validar(data: dict) -> dict:
     data["preferencias"]["modalidad"] = mod
     for clave in ("salario_minimo_dop", "dias_remotos"):
         data["preferencias"][clave] = _entero(data["preferencias"].get(clave), f"preferencias.{clave}")
+    flex = data["preferencias"].get("salario_flexible_startups")
+    data["preferencias"]["salario_flexible_startups"] = (
+        str(flex).strip().lower() in ("true", "1", "si", "sí", "yes") if isinstance(flex, str) else bool(flex))
     data["anos_experiencia"] = _entero(data.get("anos_experiencia"), "anos_experiencia")
     return data
 
