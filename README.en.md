@@ -180,7 +180,7 @@ Duplicates: same URL without tracking parameters, or same company + title + loca
 
 ### AI providers
 
-`ia.proveedor`: `agente` (default), `claude` (`ANTHROPIC_API_KEY`, default model `claude-opus-5-5`),
+`ia.proveedor`: `agente` (default), `claude` (`ANTHROPIC_API_KEY`, default model `claude-sonnet-5-5`),
 `openai` (`OPENAI_API_KEY`, default model `gpt-5`; change with `set ia.modelo`) or `ninguno`. With no
 key, or if the API fails, a local heuristic is used (max score 95). Only the profile fields and the
 posting text are sent, and only to the chosen provider.

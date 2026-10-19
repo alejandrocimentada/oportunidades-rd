@@ -253,7 +253,7 @@ Para probar sin tus datos: `python scripts/demo.py` y luego `python app.py --dem
 ### Puntuación y redacción con IA
 
 `ia.proveedor` en el perfil: `agente` (por defecto: el agente puntúa y redacta), `claude`
-(`ANTHROPIC_API_KEY`, modelo por defecto `claude-opus-5-5`), `openai` (`OPENAI_API_KEY`, modelo por
+(`ANTHROPIC_API_KEY`, modelo por defecto `claude-sonnet-5-5`), `openai` (`OPENAI_API_KEY`, modelo por
 defecto `gpt-5`; cámbialo con `set ia.modelo`) o `ninguno`. Sin clave, o si la API falla, se usa una
 heurística local (roles, habilidades, ubicación/modalidad, años pedidos, salario, fines de semana,
 anuncio vago); su ajuste máximo es 95. A la API se envía solo el perfil (sin rutas ni configuración)

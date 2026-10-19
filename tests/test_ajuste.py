@@ -87,3 +87,16 @@ def test_modo_agente_no_llama_api(perfil, monkeypatch):
     perfil["ia"] = {"proveedor": "agente", "modelo": ""}
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test")
     assert not ia.disponible(perfil)
+
+
+def test_modelo_claude_por_defecto_y_configurable(store, perfil, monkeypatch):
+    assert ia.MODELOS_POR_DEFECTO["claude"] == "claude-sonnet-5-5"
+    usados = []
+    def falso(sistema, usuario, modelo):
+        usados.append(modelo)
+        return json.dumps({"ajuste": 50, "por_que_encaja": ["a", "b", "c"], "alertas": [], "faltantes": []})
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test")
+    v, _ = store.upsert_vacante("AI Engineer", empresa_nombre="X", descripcion="LLM")
+    perfil["ia"] = {"proveedor": "claude", "modelo": "claude-opus-5-5"}
+    ia.puntuar(perfil, v, {"claude": falso})
+    assert usados == ["claude-opus-5-5"]

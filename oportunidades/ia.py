@@ -13,7 +13,7 @@ import json
 import os
 import re
 
-MODELOS_POR_DEFECTO = {"claude": "claude-opus-5-5", "openai": "gpt-5"}
+MODELOS_POR_DEFECTO = {"claude": "claude-sonnet-5-5", "openai": "gpt-5"}
 VARIABLES = {"claude": "ANTHROPIC_API_KEY", "openai": "OPENAI_API_KEY"}
 
 
