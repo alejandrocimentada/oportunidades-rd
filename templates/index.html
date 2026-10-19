@@ -4,13 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ nombre }}</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%239BE28F'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='%231b2a1a' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23191919'/%3E%3Cpath d='M16 6l2.4 7.6L26 16l-7.6 2.4L16 26l-2.4-7.6L6 16l7.6-2.4z' fill='%23B9FF66'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <header class="top">
-  <div class="brand"><span class="mark">✓</span><b>{{ nombre }}</b></div>
-  <nav class="tabs" role="tablist">
+  <div class="brand">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 6.1L20 11l-6.1 1.9L12 19l-1.9-6.1L4 11l6.1-1.9z"/></svg></span>
+    <b>{{ nombre }}</b>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Secciones">
     <button data-view="perfil">Mi perfil</button>
     <button data-view="resumen" class="on">Resumen</button>
     <button data-view="tablero">Tablero</button>
@@ -22,68 +28,93 @@
 
 <main>
   <section id="view-perfil" class="view">
-    <div class="intro">
-      <h1>Cuéntanos qué buscas</h1>
-      <p>Llena tu perfil y pulsa <b>Guardar y buscar</b>: revisamos las páginas de empleo de tus empresas y puntuamos
-        cada vacante contra lo que escribas aquí. Tu perfil se guarda solo en esta computadora.
-        La búsqueda únicamente <b>lee</b> páginas públicas: no envía nada ni aplica por ti.</p>
+    <div class="head">
+      <h1 class="pill-h">Mi perfil</h1>
+      <p>Ocho preguntas cortas. Con tus respuestas revisamos las páginas de empleo de tus empresas y puntuamos cada
+        vacante. Tu perfil se guarda solo en esta computadora; la búsqueda solo <b>lee</b> páginas públicas, no envía nada.</p>
     </div>
-    <form id="form-perfil" class="pform" autocomplete="off">
-      <fieldset><legend><i>1</i> ¿Qué roles buscas?</legend>
-        <label>Un rol por línea<textarea name="roles_objetivo" rows="4" placeholder="AI Integration Specialist&#10;Automation Engineer"></textarea></label>
+
+    <form id="form-perfil" class="wizard card" autocomplete="off" novalidate>
+      <div class="wz-top">
+        <span class="eyebrow" id="wz-paso">Paso 1 de 8</span>
+        <h2 id="wz-titulo">¿Qué roles buscas?</h2>
+        <div class="bar" aria-hidden="true"><div id="wz-bar"></div></div>
+        <ol class="wz-steps" id="wz-steps" aria-label="Pasos"></ol>
+      </div>
+
+      <fieldset class="step" data-titulo="¿Qué roles buscas?" data-corto="Roles"><legend>Roles</legend>
+        <label class="lbl" for="chip-roles_objetivo">Roles deseados</label>
+        <div class="chipbox" data-for="roles_objetivo" data-placeholder="ej. AI Integration Specialist"></div>
+        <textarea name="roles_objetivo" hidden></textarea>
       </fieldset>
-      <fieldset><legend><i>2</i> Habilidades y experiencia</legend>
-        <label>Habilidades y herramientas (una por línea)<textarea name="habilidades" rows="5" placeholder="Python&#10;SQL&#10;SAP"></textarea></label>
-        <label class="short">Años de experiencia<input name="anos_experiencia" type="number" min="0" max="50"></label>
-        <label>Resumen de tu experiencia (2-3 frases)<textarea name="experiencia" rows="4"></textarea></label>
+
+      <fieldset class="step" data-titulo="Habilidades y experiencia" data-corto="Habilidades"><legend>Habilidades y experiencia</legend>
+        <label class="lbl" for="chip-habilidades">Habilidades y herramientas</label>
+        <div class="chipbox" data-for="habilidades" data-placeholder="ej. Python, SAP, Tableau"></div>
+        <textarea name="habilidades" hidden></textarea>
+        <label class="lbl short">Años de experiencia<input name="anos_experiencia" type="number" min="0" max="50"></label>
+        <label class="lbl">Resumen de tu experiencia (2-3 frases)<textarea name="experiencia" rows="5"></textarea></label>
       </fieldset>
-      <fieldset><legend><i>3</i> Idiomas</legend>
-        <label>Uno por línea, con nivel<textarea name="idiomas" rows="2" placeholder="Español (nativo)&#10;Inglés (C1)"></textarea></label>
+
+      <fieldset class="step" data-titulo="¿Qué idiomas hablas?" data-corto="Idiomas"><legend>Idiomas</legend>
+        <label class="lbl" for="chip-idiomas">Idiomas, con nivel</label>
+        <div class="chipbox" data-for="idiomas" data-placeholder="ej. Inglés (C1)"></div>
+        <textarea name="idiomas" hidden></textarea>
       </fieldset>
-      <fieldset><legend><i>4</i> Dónde y cómo quieres trabajar</legend>
+
+      <fieldset class="step" data-titulo="Dónde y cómo quieres trabajar" data-corto="Dónde"><legend>Dónde y cómo quieres trabajar</legend>
         <div class="row">
-          <label>Ciudad<input name="ubicacion" placeholder="Santo Domingo"></label>
-          <label>Modalidad<select name="preferencias.modalidad"><option value="presencial">Presencial</option>
+          <label class="lbl">Ciudad<input name="ubicacion" placeholder="Santo Domingo"></label>
+          <label class="lbl">Modalidad<select name="preferencias.modalidad"><option value="presencial">Presencial</option>
             <option value="hibrido">Híbrido</option><option value="remoto">Remoto</option></select></label>
-          <label class="short">Días remotos<input name="preferencias.dias_remotos" type="number" min="0" max="5"></label>
+          <label class="lbl short">Días remotos<input name="preferencias.dias_remotos" type="number" min="0" max="5"></label>
         </div>
-        <label>Días y horario<input name="preferencias.dias" placeholder="lunes a viernes"></label>
+        <label class="lbl">Días y horario<input name="preferencias.dias" placeholder="lunes a viernes"></label>
       </fieldset>
-      <fieldset><legend><i>5</i> Salario</legend>
-        <label class="short">Mínimo mensual (RD$)<input name="preferencias.salario_minimo_dop" type="number" min="0" step="1000"></label>
+
+      <fieldset class="step" data-titulo="Salario" data-corto="Salario"><legend>Salario</legend>
+        <label class="lbl short">Mínimo mensual (RD$)<input name="preferencias.salario_minimo_dop" type="number" min="0" step="1000"></label>
         <label class="check"><input name="preferencias.salario_flexible_startups" type="checkbox">
-          En startups, un salario menor (con equity o variable) es «a conversar», no una alerta</label>
+          <span>En startups, un salario menor (con equity o variable) es «a conversar», no una alerta</span></label>
       </fieldset>
-      <fieldset><legend><i>6</i> Tu nombre y enlaces</legend>
+
+      <fieldset class="step" data-titulo="Tu nombre y enlaces" data-corto="Nombre"><legend>Tu nombre y enlaces</legend>
         <div class="row">
-          <label>Nombre (como va en las cartas)<input name="nombre"></label>
-          <label>Titular profesional<input name="titular"></label>
+          <label class="lbl">Nombre (como va en las cartas)<input name="nombre"></label>
+          <label class="lbl">Titular profesional<input name="titular"></label>
         </div>
         <div class="row">
-          <label>GitHub<input name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
-          <label>LinkedIn<input name="enlaces.linkedin" type="url" placeholder="https://www.linkedin.com/in/…"></label>
-          <label>Portafolio<input name="enlaces.portafolio" type="url" placeholder="déjalo vacío si aún no está en línea"></label>
+          <label class="lbl">GitHub<input name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
+          <label class="lbl">LinkedIn<input name="enlaces.linkedin" type="url" placeholder="https://www.linkedin.com/in/…"></label>
         </div>
+        <label class="lbl">Portafolio<input name="enlaces.portafolio" type="url" placeholder="déjalo vacío si aún no está en línea"></label>
       </fieldset>
-      <fieldset><legend><i>7</i> Industrias que más te interesan</legend>
+
+      <fieldset class="step" data-titulo="Industrias que más te interesan" data-corto="Industrias"><legend>Industrias</legend>
         <div class="chips">{% for i in industrias %}<label><input type="checkbox" name="industrias" value="{{ i }}"><span>{{ i }}</span></label>{% endfor %}</div>
       </fieldset>
-      <fieldset><legend><i>8</i> ¿Quién puntúa y redacta?</legend>
+
+      <fieldset class="step" data-titulo="¿Quién puntúa y redacta?" data-corto="IA"><legend>¿Quién puntúa y redacta?</legend>
         <div class="row">
-          <label>Proveedor<select name="ia.proveedor">
+          <label class="lbl">Proveedor<select name="ia.proveedor">
             <option value="agente">Tu agente (Claude Code), sin clave</option>
             <option value="claude">Claude, con tu ANTHROPIC_API_KEY</option>
             <option value="openai">OpenAI, con tu OPENAI_API_KEY</option>
             <option value="ninguno">Ninguno (solo reglas locales)</option></select></label>
-          <label>Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
+          <label class="lbl">Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
         </div>
+        <p class="hint" id="buscar-info"></p>
       </fieldset>
+
       <div class="pactions">
+        <button type="button" class="btn ghost" id="wz-prev">Anterior</button>
+        <span class="grow"></span>
         <button type="button" class="btn ghost" id="btn-guardar">Guardar</button>
-        <button type="submit" class="btn" id="btn-buscar">Guardar y buscar</button>
-        <span class="sub" id="buscar-info"></span>
+        <button type="button" class="btn dark" id="wz-next">Siguiente</button>
+        <button type="submit" class="btn lime" id="btn-buscar">Guardar y buscar</button>
       </div>
     </form>
+
     <div class="card progreso" id="progreso" hidden>
       <h2>Búsqueda <small id="prog-texto"></small></h2>
       <div class="bar"><div id="prog-bar"></div></div>
@@ -92,9 +123,12 @@
   </section>
 
   <section id="view-resumen" class="view on">
+    <div class="head">
+      <h1 class="pill-h">Resumen</h1>
+      <p>Lo nuevo, lo que elegiste y lo que toca hacer esta semana.</p>
+    </div>
     <div id="aviso-perfil" class="banner" hidden>
-      Todavía no tienes perfil. Pídele a tu agente: <i>«Configura Oportunidades RD»</i>, o corre
-      <code>python scripts/perfil.py show</code>.
+      Todavía no tienes perfil. Llénalo en <b>Mi perfil</b> o pídele a tu agente: <i>«Configura Oportunidades RD»</i>.
     </div>
     <div class="tiles" id="tiles"></div>
     <div class="pipeline" id="pipeline"></div>
@@ -113,26 +147,38 @@
   </section>
 
   <section id="view-tablero" class="view">
-    <p class="hint">Arrastra una tarjeta para cambiar su estado. Haz clic para ver el detalle.</p>
+    <div class="head">
+      <h1 class="pill-h">Tablero</h1>
+      <p>Arrastra una tarjeta para cambiar su estado. Haz clic para ver el detalle.</p>
+    </div>
     <div class="board" id="board"></div>
   </section>
 
   <section id="view-vacantes" class="view">
-    <div class="filters">
+    <div class="head">
+      <h1 class="pill-h">Vacantes</h1>
+      <p>Todas las vacantes encontradas, con su ajuste a tu perfil.</p>
+    </div>
+    <div class="filters card">
       <label>Buscar <input id="f-texto" type="search" placeholder="puesto o empresa"></label>
-      <label>Ajuste mínimo <input id="f-min" type="range" min="0" max="100" step="5" value="0"><output id="f-min-out">0</output></label>
+      <label>Ajuste mínimo <span class="range"><input id="f-min" type="range" min="0" max="100" step="5" value="0"><output id="f-min-out">0</output></span></label>
       <label>Empresa <select id="f-empresa"><option value="">Todas</option></select></label>
       <label>Estado <select id="f-estado"><option value="">Todos</option>{% for e in estados %}<option>{{ e }}</option>{% endfor %}</select></label>
       <label class="check"><input id="f-activas" type="checkbox" checked> Solo activas</label>
     </div>
-    <table class="tbl" id="tbl-vacantes">
-      <thead><tr><th>Ajuste</th><th>Puesto</th><th>Empresa</th><th>Estado</th><th>Ubicación</th><th>Encontrada</th></tr></thead>
-      <tbody></tbody>
-    </table>
+    <div class="card flush">
+      <table class="tbl" id="tbl-vacantes">
+        <thead><tr><th>Ajuste</th><th>Puesto</th><th>Empresa</th><th>Estado</th><th>Ubicación</th><th>Encontrada</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </section>
 
   <section id="view-empresas" class="view">
-    <p class="hint">Para contactar se sugieren <b>roles</b>, no personas: el enlace abre una búsqueda en LinkedIn con tu sesión.</p>
+    <div class="head">
+      <h1 class="pill-h">Empresas</h1>
+      <p>Para contactar se sugieren <b>roles</b>, no personas: el enlace abre una búsqueda en LinkedIn con tu sesión.</p>
+    </div>
     <div class="companies" id="companies"></div>
   </section>
 </main>
@@ -142,7 +188,7 @@
   <div id="drawer-body"></div>
 </aside>
 <div class="scrim" id="scrim"></div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status"></div>
 
 <script>window.ESTADOS = {{ estados|tojson }};</script>
 <script src="{{ url_for('static', filename='app.js') }}"></script>

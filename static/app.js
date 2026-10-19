@@ -142,7 +142,7 @@ function pintarEmpresas() {
   const clase = (e) => ({ ok: "rs-ok", "revisar manualmente": "rs-warn", "abrir manualmente": "rs-warn", error: "rs-err" }[e] || "");
   $("#companies").innerHTML = state.empresas.map((e) => `<article class="company">
       <header><div><h3>${esc(e.nombre)}</h3><span class="tag">${esc(e.industria)}</span></div>
-        <div title="Interés ${e.interes}/100"><div class="sub" style="font-size:12px;color:var(--muted)">Interés ${e.interes}</div>
+        <div title="Interés ${e.interes}/100"><div class="eyebrow">Interés ${e.interes}</div>
         <div class="meter"><i style="width:${+e.interes}%"></i></div></div></header>
       <p class="why">${esc(e.por_que)}</p>
       <div class="roles">${e.contactos.map((c) => `<a href="${safeUrl(c.linkedin)}" target="_blank" rel="noopener" title="Buscar en LinkedIn">${esc(c.rol)} ↗</a>`).join("")}</div>
@@ -153,7 +153,7 @@ function pintarEmpresas() {
         ${e.sitio_web ? `<a href="${safeUrl(e.sitio_web)}" target="_blank" rel="noopener">Sitio web ↗</a>` : ""}
         ${e.ats ? `<span class="tag">${esc(e.ats)}</span>` : ""}
       </div>
-      ${e.nota_rastreo && e.estado_rastreo !== "ok" ? `<div class="sub" style="font-size:12.5px;color:var(--warn)">${esc(e.nota_rastreo)}</div>` : ""}
+      ${e.nota_rastreo && e.estado_rastreo !== "ok" ? `<div class="nota-rastreo">${esc(e.nota_rastreo)}</div>` : ""}
     </article>`).join("") || `<p class="hint">Todavía no hay empresas. Pídele a tu agente que las busque.</p>`;
 }
 
@@ -168,11 +168,16 @@ async function abrir(id) {
       <span><button class="btn small ghost" data-gen="${tipo}" ${puedeDocs ? "" : "disabled"}>${texto ? "Rehacer" : "Preparar"}</button>
       ${texto ? `<button class="btn small" data-copy="${tipo}">Copiar</button>` : ""}</span></header>
       ${texto ? `<textarea id="doc-${tipo}" rows="${tipo === "carta" ? 12 : 6}" readonly>${esc(texto)}</textarea>` : ""}</div>`;
+  const n = v.ajuste;
+  const [nivel, etiqueta] = n == null ? ["none", "Sin puntuar"] : n >= 70 ? ["hi", "Buen ajuste"] : n >= 50 ? ["mid", "Ajuste parcial"] : ["low", "Ajuste bajo"];
   $("#drawer-body").innerHTML = `
-    <div class="d-head"><div class="ring" style="--p:${v.ajuste ?? 0}"><b>${v.ajuste ?? "–"}</b></div>
+    <div class="d-head"><div class="d-logo" aria-hidden="true">${esc((v.empresa_nombre || "?").trim().charAt(0).toUpperCase())}</div>
       <div><h2>${esc(v.titulo)}</h2><div class="sub">${esc(v.empresa_nombre || "Empresa sin registrar")} · ${esc(v.ubicacion || "sin ubicación")}</div>
-      <div class="sub">${v.url ? `<a href="${safeUrl(v.url)}" target="_blank" rel="noopener">Ver anuncio ↗</a> · ` : ""}
-        ${v.fecha_publicacion ? `publicada ${fecha(v.fecha_publicacion + "T12:00")} · ` : ""}puntuado por ${esc(v.puntuado_por || "—")}</div></div></div>
+      ${v.url ? `<div class="sub"><a href="${safeUrl(v.url)}" target="_blank" rel="noopener">Ver anuncio ↗</a></div>` : ""}</div></div>
+    <div class="d-body">
+    <div class="d-fit ${nivel}"><div><span class="eyebrow">Ajuste con tu perfil</span><h3>${etiqueta}</h3>
+      <div class="sub">${v.fecha_publicacion ? `publicada ${fecha(v.fecha_publicacion + "T12:00")} · ` : ""}puntuado por ${esc(v.puntuado_por || "—")}</div></div>
+      <b>${n ?? "–"}</b></div>
     <div class="d-row"><label>Estado <select id="d-estado">${ESTADOS.map((e) => `<option ${e === v.estado ? "selected" : ""}>${esc(e)}</option>`).join("")}</select></label>
       <label>Seguimiento <input type="date" id="d-seg" value="${esc(v.seguimiento)}"></label>
       ${v.activa ? "" : '<span class="tag">ya no aparece en la página</span>'}</div>
@@ -185,12 +190,13 @@ async function abrir(id) {
       ${doc("mensaje", "Mensaje corto (LinkedIn / correo)", v.mensaje)}
       ${doc("carta", "Carta de presentación", v.carta)}
       <p class="hint" style="margin-top:6px">Se guardan como archivos en <code>data/documentos</code>. Nada se envía solo.</p></div>
-    ${v.contactos.length ? `<div class="d-sec"><h3>A quién contactar (roles)</h3><div class="company" style="border:0;padding:0"><div class="roles">
-      ${v.contactos.map((c) => `<a href="${safeUrl(c.linkedin)}" target="_blank" rel="noopener">${esc(c.rol)} ↗</a>`).join("")}</div></div></div>` : ""}
+    ${v.contactos.length ? `<div class="d-sec"><h3>A quién contactar (roles)</h3><div class="roles">
+      ${v.contactos.map((c) => `<a href="${safeUrl(c.linkedin)}" target="_blank" rel="noopener">${esc(c.rol)} ↗</a>`).join("")}</div></div>` : ""}
     <div class="d-sec"><h3>Notas</h3><textarea id="d-nota" rows="3" placeholder="Escribe aquí; se guarda solo">${esc(v.nota)}</textarea></div>
     <div class="d-sec"><h3>Descripción</h3><div class="desc">${esc(v.descripcion || "Sin descripción. Abre el anuncio.")}</div></div>
     <div class="d-sec"><h3>Historial</h3><ul class="timeline">${v.historial.map((h) => `<li>${esc(h.a_estado)}
-      <div class="sub">${new Date(h.fecha).toLocaleString("es-DO")}${h.nota ? " · " + esc(h.nota) : ""}</div></li>`).join("")}</ul></div>`;
+      <div class="sub">${new Date(h.fecha).toLocaleString("es-DO")}${h.nota ? " · " + esc(h.nota) : ""}</div></li>`).join("")}</ul></div>
+    </div>`;
   $("#d-estado").addEventListener("change", (ev) => cambiarEstado(id, ev.target.value));
   $("#d-seg").addEventListener("change", async (ev) => {
     try { await api(`/api/vacantes/${id}/seguimiento`, { fecha: ev.target.value }); toast("Seguimiento guardado"); cargar(); } catch (e) { toast(e.message); }
@@ -227,18 +233,87 @@ const leer = (obj, ruta) => ruta.split(".").reduce((o, k) => (o ?? {})[k], obj);
 function llenarPerfil(perfil) {
   const f = $("#form-perfil");
   f.querySelectorAll("input, select, textarea").forEach((el) => {
+    if (!el.name) return;
     if (el.name === "industrias") { el.checked = (perfil.industrias || []).includes(el.value); return; }
     const v = leer(perfil, el.name);
     if (el.type === "checkbox") el.checked = !!v;
     else if (LISTAS.includes(el.name)) el.value = (v || []).join("\n");
     else el.value = v ?? "";
   });
+  document.querySelectorAll(".chipbox").forEach(pintarChips);
 }
+
+// Chips: la lista vive en el <textarea hidden> del mismo campo (una por línea), que es lo que se guarda.
+const chipCampo = (box) => $(`#form-perfil textarea[name="${box.dataset.for}"]`);
+const chipValores = (box) => chipCampo(box).value.split("\n").map((x) => x.trim()).filter(Boolean);
+function pintarChips(box) {
+  const vals = chipValores(box);
+  box.querySelector(".list-chips").innerHTML = vals.map((x, i) =>
+    `<span class="chip">${esc(x)}<button type="button" data-quitar="${i}" aria-label="Quitar ${esc(x)}">×</button></span>`).join("")
+    || `<span class="vacio">Todavía no hay ninguno.</span>`;
+}
+function agregarChips(box, texto) {
+  const nuevos = texto.split(/[;\n]/).map((x) => x.trim()).filter(Boolean);
+  if (!nuevos.length) return;
+  const vals = chipValores(box);
+  nuevos.forEach((x) => { if (!vals.some((v) => v.toLowerCase() === x.toLowerCase())) vals.push(x); });
+  chipCampo(box).value = vals.join("\n");
+  pintarChips(box);
+}
+document.querySelectorAll(".chipbox").forEach((box) => {
+  box.innerHTML = `<div class="add"><input id="chip-${box.dataset.for}" placeholder="${esc(box.dataset.placeholder)}">
+    <button type="button" class="btn lime">Añadir</button></div><div class="list-chips"></div>`;
+  const input = box.querySelector("input");
+  const agregar = () => { agregarChips(box, input.value); input.value = ""; input.focus(); };
+  box.querySelector(".add button").addEventListener("click", agregar);
+  input.addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter") { ev.preventDefault(); agregar(); }
+    else if (ev.key === "Backspace" && !input.value) {  // borrar el último chip con el campo vacío
+      const vals = chipValores(box); vals.pop(); chipCampo(box).value = vals.join("\n"); pintarChips(box);
+    }
+  });
+  box.querySelector(".list-chips").addEventListener("click", (ev) => {
+    const b = ev.target.closest("[data-quitar]");
+    if (!b) return;
+    const vals = chipValores(box); vals.splice(+b.dataset.quitar, 1);
+    chipCampo(box).value = vals.join("\n"); pintarChips(box);
+  });
+  pintarChips(box);
+});
+
+// Asistente: un paso visible a la vez, con barra de progreso y saltos directos a cualquier paso.
+const PASOS = [...document.querySelectorAll("#form-perfil .step")];
+let paso = 0;
+function irAPaso(i) {
+  paso = Math.max(0, Math.min(PASOS.length - 1, i));
+  PASOS.forEach((s, j) => s.classList.toggle("on", j === paso));
+  $("#wz-paso").textContent = `Paso ${paso + 1} de ${PASOS.length}`;
+  $("#wz-titulo").textContent = PASOS[paso].dataset.titulo;
+  $("#wz-bar").style.width = `${((paso + 1) / PASOS.length) * 100}%`;
+  $("#wz-steps").innerHTML = PASOS.map((s, j) => `<li><button type="button" data-paso="${j}"
+      class="${j < paso ? "hecho" : j === paso ? "actual" : ""}" ${j === paso ? 'aria-current="step"' : ""}>
+      <i>${j < paso ? "✓" : j + 1}</i>${esc(s.dataset.corto)}</button></li>`).join("");
+  $("#wz-prev").disabled = paso === 0;
+  $("#wz-next").hidden = paso === PASOS.length - 1;
+  $("#wz-next").textContent = paso < PASOS.length - 1 ? `Siguiente: ${PASOS[paso + 1].dataset.corto}` : "";
+}
+$("#wz-steps").addEventListener("click", (ev) => { const b = ev.target.closest("[data-paso]"); if (b) irAPaso(+b.dataset.paso); });
+$("#wz-prev").addEventListener("click", () => irAPaso(paso - 1));
+$("#wz-next").addEventListener("click", () => irAPaso(paso + 1));
+// Enter en un campo de texto avanza de paso en vez de lanzar la búsqueda.
+$("#form-perfil").addEventListener("keydown", (ev) => {
+  if (ev.key !== "Enter" || ev.target.tagName !== "INPUT" || ev.target.closest(".chipbox")) return;
+  ev.preventDefault();
+  if (paso < PASOS.length - 1) irAPaso(paso + 1);
+});
+irAPaso(0);
 
 function datosPerfil() {
   const f = $("#form-perfil"), out = {};
+  // Un chip escrito pero sin pulsar Enter también cuenta.
+  document.querySelectorAll(".chipbox").forEach((box) => { const i = box.querySelector("input"); agregarChips(box, i.value); i.value = ""; });
   f.querySelectorAll("input, select, textarea").forEach((el) => {
-    if (el.name === "industrias") return;
+    if (!el.name || el.name === "industrias") return;
     let v = el.type === "checkbox" ? el.checked : el.value.trim();
     if (LISTAS.includes(el.name)) v = v.split(/\n|;/).map((x) => x.trim()).filter(Boolean);
     const [a, b] = el.name.split(".");
