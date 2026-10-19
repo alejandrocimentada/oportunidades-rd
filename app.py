@@ -21,18 +21,30 @@ from flask import Flask, abort, jsonify, render_template, request, send_file  # 
 
 from oportunidades import NOMBRE, config, ia, perfil as pf, redaccion  # noqa: E402
 from oportunidades.contactos import contactos  # noqa: E402
-from oportunidades.db import ESTADOS, ESTADOS_CON_DOCUMENTOS, DatosError  # noqa: E402
+from oportunidades.db import ESTADOS, ESTADOS_CON_DOCUMENTOS, INDUSTRIAS, DatosError  # noqa: E402
 from oportunidades.exportar import exportar  # noqa: E402
+from oportunidades.busqueda import Busqueda, BusquedaEnCurso  # noqa: E402
 from oportunidades.servicio import abrir_store  # noqa: E402
 
 HOST, PUERTO = "127.0.0.1", 8765
 HOSTS_PERMITIDOS = {"localhost", "127.0.0.1"}
 
 
-def crear_app(demo: bool = False) -> Flask:
+# Campos del perfil que la página «Mi perfil» puede cambiar (las 8 preguntas).
+CAMPOS_PERFIL = {
+    **dict.fromkeys(["nombre", "titular", "roles_objetivo", "habilidades", "experiencia", "anos_experiencia",
+                     "idiomas", "ubicacion", "industrias"]),
+    "preferencias": {"dias", "modalidad", "dias_remotos", "salario_minimo_dop", "salario_flexible_startups"},
+    "enlaces": {"portafolio", "github", "linkedin"},
+    "ia": {"proveedor", "modelo"},
+}
+
+
+def crear_app(demo: bool = False, busqueda: Busqueda | None = None) -> Flask:
     app = Flask(__name__, template_folder=str(ROOT / "templates"), static_folder=str(ROOT / "static"))
     app.json.ensure_ascii = False
     app.config["DEMO"] = demo
+    busqueda = busqueda or Busqueda()
 
     @app.before_request
     def solo_local():
@@ -55,7 +67,7 @@ def crear_app(demo: bool = False) -> Flask:
 
     @app.get("/")
     def inicio():
-        return render_template("index.html", nombre=NOMBRE, estados=ESTADOS)
+        return render_template("index.html", nombre=NOMBRE, estados=ESTADOS, industrias=INDUSTRIAS)
 
     @app.get("/api/resumen")
     def api_resumen():
@@ -113,6 +125,44 @@ def crear_app(demo: bool = False) -> Flask:
             paths = redaccion.generar(s, perfil, vid, tipos, body.get("idioma") or None)
         origen = ia.proveedor(perfil) if ia.disponible(perfil) else "plantilla"
         return jsonify({t: redaccion.leer(p) for t, p in paths.items()} | {"origen": origen})
+
+    @app.errorhandler(pf.PerfilError)
+    def perfil_error(exc):
+        return jsonify(error=str(exc)), 400
+
+    @app.get("/api/perfil")
+    def api_perfil():
+        return jsonify(perfil=pf.cargar(), existe=pf.existe())
+
+    @app.post("/api/perfil")
+    def api_guardar_perfil():
+        body = request.get_json() or {}
+        data = pf.cargar()
+        for clave, sub in CAMPOS_PERFIL.items():
+            if clave not in body:
+                continue
+            if sub is None:
+                data[clave] = body[clave]
+            elif isinstance(body[clave], dict):
+                data[clave].update({k: v for k, v in body[clave].items() if k in sub})
+        pf.guardar(data)
+        return jsonify(perfil=pf.cargar(), existe=True)
+
+    @app.get("/api/buscar")
+    def api_estado_busqueda():
+        return jsonify(busqueda.estado())
+
+    @app.post("/api/buscar")
+    def api_buscar():
+        if app.config.get("DEMO"):
+            return jsonify(error="La búsqueda no está disponible con los datos de demostración."), 400
+        if not pf.existe():
+            return jsonify(error="Primero guarda tu perfil."), 400
+        try:
+            busqueda.iniciar()
+        except BusquedaEnCurso as exc:
+            return jsonify(error=str(exc)), 409
+        return jsonify(busqueda.estado())
 
     @app.get("/api/empresas")
     def api_empresas():

@@ -136,7 +136,10 @@ Files land in `data/documentos/<id>-.../`. Remind the user: nothing is sent auto
 
 ## 7. Dashboard and spreadsheet
 
-- `python app.py` opens http://localhost:8765 (local only): Resumen, Tablero (drag cards to change
+- `python app.py` opens http://localhost:8765 (local only). It starts on **Mi perfil** (the 8 profile
+  questions as a form) until a profile and a first search exist; **Guardar y buscar** saves the profile and
+  crawls the saved companies in the background with live progress. If the user prefers the form, point them
+  there instead of asking the questions in chat. Other tabs: Resumen, Tablero (drag cards to change
   status), Vacantes (filters), Empresas (roles + LinkedIn search links) and a detail panel with copy
   buttons. `python app.py --demo` after `python scripts/demo.py` shows fake sample data.
 - `data/oportunidades.xlsx` (Resumen, Empresas, Vacantes, Seguimiento) is regenerated after every

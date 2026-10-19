@@ -220,6 +220,85 @@ $("#drawer-close").addEventListener("click", cerrar);
 $("#scrim").addEventListener("click", cerrar);
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrar(); });
 
+// -- mi perfil (las 8 preguntas) y búsqueda -------------------------------------------
+const LISTAS = ["roles_objetivo", "habilidades", "idiomas"];
+const leer = (obj, ruta) => ruta.split(".").reduce((o, k) => (o ?? {})[k], obj);
+
+function llenarPerfil(perfil) {
+  const f = $("#form-perfil");
+  f.querySelectorAll("input, select, textarea").forEach((el) => {
+    if (el.name === "industrias") { el.checked = (perfil.industrias || []).includes(el.value); return; }
+    const v = leer(perfil, el.name);
+    if (el.type === "checkbox") el.checked = !!v;
+    else if (LISTAS.includes(el.name)) el.value = (v || []).join("\n");
+    else el.value = v ?? "";
+  });
+}
+
+function datosPerfil() {
+  const f = $("#form-perfil"), out = {};
+  f.querySelectorAll("input, select, textarea").forEach((el) => {
+    if (el.name === "industrias") return;
+    let v = el.type === "checkbox" ? el.checked : el.value.trim();
+    if (LISTAS.includes(el.name)) v = v.split(/\n|;/).map((x) => x.trim()).filter(Boolean);
+    const [a, b] = el.name.split(".");
+    if (b) (out[a] ??= {})[b] = v; else out[a] = v;
+  });
+  out.industrias = [...f.querySelectorAll("input[name=industrias]:checked")].map((el) => el.value);
+  return out;
+}
+
+async function guardarPerfil() {
+  const r = await api("/api/perfil", datosPerfil());
+  llenarPerfil(r.perfil);
+  return r;
+}
+
+function pintarBusqueda(b) {
+  const caja = $("#progreso");
+  caja.hidden = !b.corriendo && !b.resultado && !b.error && !b.registro.length;
+  const pct = b.total ? Math.round((100 * b.hechas) / b.total) : 0;
+  $("#prog-bar").style.width = `${b.corriendo ? Math.max(pct, 3) : 100}%`;
+  $("#prog-texto").textContent = b.corriendo ? `· ${b.hechas} de ${b.total} empresas`
+    : b.error ? "· con error" : b.resultado ? `· ${b.resultado.encontradas} vacantes, ${b.resultado.nuevas} nuevas` : "";
+  $("#prog-log").textContent = (b.error ? b.error + "\n\n" : "") + b.registro.join("\n");
+  $("#prog-log").scrollTop = $("#prog-log").scrollHeight;
+  $("#btn-buscar").disabled = b.corriendo;
+  $("#btn-buscar").textContent = b.corriendo ? "Buscando…" : "Guardar y buscar";
+}
+
+async function seguirBusqueda() {
+  const b = await api("/api/buscar");
+  pintarBusqueda(b);
+  if (b.corriendo) { setTimeout(seguirBusqueda, 1500); return; }
+  if (b.resultado) {
+    await cargar();
+    toast(`Listo: ${b.resultado.encontradas} vacantes (${b.resultado.nuevas} nuevas)`);
+    $("#f-estado").value = ""; pintarVacantes(); mostrar("vacantes");
+  }
+}
+
+$("#btn-guardar").addEventListener("click", async () => {
+  try { await guardarPerfil(); toast("Perfil guardado"); cargar(); } catch (e) { toast(e.message); }
+});
+$("#form-perfil").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  try {
+    await guardarPerfil();
+    pintarBusqueda(await api("/api/buscar", {}));
+    seguirBusqueda();
+  } catch (e) { toast(e.message); }
+});
+
+async function cargarPerfil() {
+  const [{ perfil }, b] = await Promise.all([api("/api/perfil"), api("/api/buscar")]);
+  llenarPerfil(perfil);
+  pintarBusqueda(b);
+  if (b.corriendo) seguirBusqueda();
+  const con = state.empresas.filter((e) => e.url_empleos).length;
+  $("#buscar-info").textContent = `Se revisarán ${con} páginas de empleo de ${state.empresas.length} empresas guardadas.`;
+}
+
 // -- carga ----------------------------------------------------------------------------
 async function cargar() {
   const [resumen, vacantes, empresas] = await Promise.all([api("/api/resumen"), api("/api/vacantes"), api("/api/empresas")]);
@@ -232,7 +311,13 @@ async function cargar() {
 
 // Enlaces directos: #tablero, #vacantes, #empresas, #vacante-12
 const hash = location.hash.slice(1);
-if (["resumen", "tablero", "vacantes", "empresas"].includes(hash)) mostrar(hash);
+if (["perfil", "resumen", "tablero", "vacantes", "empresas"].includes(hash)) mostrar(hash);
 else { try { const v = localStorage.getItem("vista"); if (v) mostrar(v); } catch (_) { /* sin almacenamiento */ } }
-cargar().then(() => { const m = hash.match(/^vacante-(\d+)$/); if (m) { mostrar("tablero"); abrir(+m[1]); } })
+cargar().then(() => {
+  const m = hash.match(/^vacante-(\d+)$/);
+  if (m) { mostrar("tablero"); abrir(+m[1]); }
+  // Página de inicio: sin perfil o sin ninguna búsqueda todavía, empieza en «Mi perfil».
+  else if (!hash && (!state.resumen.perfil_existe || !state.resumen.novedades.corrida)) mostrar("perfil");
+  return cargarPerfil();
+})
   .catch((e) => toast(e.message));

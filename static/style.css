@@ -144,6 +144,38 @@ textarea[readonly] { background: #fafbfa; }
          padding: 9px 16px; border-radius: 10px; transition: transform .2s; z-index: 30; }
 .toast.show { transform: translateX(-50%); }
 
+/* Mi perfil */
+.intro { max-width: 760px; margin: 4px 0 18px; }
+.intro h1 { font-size: 24px; margin: 0 0 6px; }
+.intro p { color: var(--muted); margin: 0; }
+.pform { max-width: 900px; display: grid; gap: 14px; }
+.pform fieldset { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px 16px; margin: 0;
+                  display: grid; gap: 10px; }
+.pform legend { font-weight: 700; padding: 0 6px; display: flex; align-items: center; gap: 8px; }
+.pform legend i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft);
+                  color: var(--accent-ink); display: grid; place-items: center; font-size: 12px; }
+.pform label { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--muted); font-weight: 600; flex: 1; }
+.pform label.short { max-width: 200px; }
+.pform label.check { flex-direction: row; align-items: center; gap: 8px; font-weight: 400; color: var(--ink); }
+.pform input:not([type=checkbox]), .pform select, .pform textarea { padding: 7px 10px; border: 1px solid var(--line);
+                  border-radius: 8px; background: #fff; font-weight: 400; color: var(--ink); width: 100%; }
+.pform textarea { resize: vertical; }
+.pform .row { display: flex; gap: 12px; flex-wrap: wrap; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips label { flex: 0 0 auto; }
+.chips input { position: absolute; opacity: 0; pointer-events: none; }
+.chips span { display: inline-block; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+              color: var(--ink); font-weight: 500; background: #fff; }
+.chips input:checked + span { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
+.chips input:focus-visible + span { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.pactions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; position: sticky; bottom: 0;
+            background: var(--bg); padding: 10px 0; }
+.progreso { max-width: 900px; margin-top: 16px; }
+.progreso .bar { height: 8px; background: #edf0ee; border-radius: 99px; overflow: hidden; }
+.progreso .bar div { height: 100%; width: 0; background: var(--accent); transition: width .4s; }
+.progreso pre { font-family: var(--mono); font-size: 12px; max-height: 280px; overflow: auto; white-space: pre-wrap;
+                margin: 10px 0 0; color: var(--muted); }
+
 @media (max-width: 1100px) {
   .tiles { grid-template-columns: repeat(3, 1fr); }
   .grid2 { grid-template-columns: 1fr; }

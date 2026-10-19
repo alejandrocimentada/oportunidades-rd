@@ -11,6 +11,7 @@
 <header class="top">
   <div class="brand"><span class="mark">✓</span><b>{{ nombre }}</b></div>
   <nav class="tabs" role="tablist">
+    <button data-view="perfil">Mi perfil</button>
     <button data-view="resumen" class="on">Resumen</button>
     <button data-view="tablero">Tablero</button>
     <button data-view="vacantes">Vacantes</button>
@@ -20,6 +21,76 @@
 </header>
 
 <main>
+  <section id="view-perfil" class="view">
+    <div class="intro">
+      <h1>Cuéntanos qué buscas</h1>
+      <p>Llena tu perfil y pulsa <b>Guardar y buscar</b>: revisamos las páginas de empleo de tus empresas y puntuamos
+        cada vacante contra lo que escribas aquí. Tu perfil se guarda solo en esta computadora.
+        La búsqueda únicamente <b>lee</b> páginas públicas: no envía nada ni aplica por ti.</p>
+    </div>
+    <form id="form-perfil" class="pform" autocomplete="off">
+      <fieldset><legend><i>1</i> ¿Qué roles buscas?</legend>
+        <label>Un rol por línea<textarea name="roles_objetivo" rows="4" placeholder="AI Integration Specialist&#10;Automation Engineer"></textarea></label>
+      </fieldset>
+      <fieldset><legend><i>2</i> Habilidades y experiencia</legend>
+        <label>Habilidades y herramientas (una por línea)<textarea name="habilidades" rows="5" placeholder="Python&#10;SQL&#10;SAP"></textarea></label>
+        <label class="short">Años de experiencia<input name="anos_experiencia" type="number" min="0" max="50"></label>
+        <label>Resumen de tu experiencia (2-3 frases)<textarea name="experiencia" rows="4"></textarea></label>
+      </fieldset>
+      <fieldset><legend><i>3</i> Idiomas</legend>
+        <label>Uno por línea, con nivel<textarea name="idiomas" rows="2" placeholder="Español (nativo)&#10;Inglés (C1)"></textarea></label>
+      </fieldset>
+      <fieldset><legend><i>4</i> Dónde y cómo quieres trabajar</legend>
+        <div class="row">
+          <label>Ciudad<input name="ubicacion" placeholder="Santo Domingo"></label>
+          <label>Modalidad<select name="preferencias.modalidad"><option value="presencial">Presencial</option>
+            <option value="hibrido">Híbrido</option><option value="remoto">Remoto</option></select></label>
+          <label class="short">Días remotos<input name="preferencias.dias_remotos" type="number" min="0" max="5"></label>
+        </div>
+        <label>Días y horario<input name="preferencias.dias" placeholder="lunes a viernes"></label>
+      </fieldset>
+      <fieldset><legend><i>5</i> Salario</legend>
+        <label class="short">Mínimo mensual (RD$)<input name="preferencias.salario_minimo_dop" type="number" min="0" step="1000"></label>
+        <label class="check"><input name="preferencias.salario_flexible_startups" type="checkbox">
+          En startups, un salario menor (con equity o variable) es «a conversar», no una alerta</label>
+      </fieldset>
+      <fieldset><legend><i>6</i> Tu nombre y enlaces</legend>
+        <div class="row">
+          <label>Nombre (como va en las cartas)<input name="nombre"></label>
+          <label>Titular profesional<input name="titular"></label>
+        </div>
+        <div class="row">
+          <label>GitHub<input name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
+          <label>LinkedIn<input name="enlaces.linkedin" type="url" placeholder="https://www.linkedin.com/in/…"></label>
+          <label>Portafolio<input name="enlaces.portafolio" type="url" placeholder="déjalo vacío si aún no está en línea"></label>
+        </div>
+      </fieldset>
+      <fieldset><legend><i>7</i> Industrias que más te interesan</legend>
+        <div class="chips">{% for i in industrias %}<label><input type="checkbox" name="industrias" value="{{ i }}"><span>{{ i }}</span></label>{% endfor %}</div>
+      </fieldset>
+      <fieldset><legend><i>8</i> ¿Quién puntúa y redacta?</legend>
+        <div class="row">
+          <label>Proveedor<select name="ia.proveedor">
+            <option value="agente">Tu agente (Claude Code), sin clave</option>
+            <option value="claude">Claude, con tu ANTHROPIC_API_KEY</option>
+            <option value="openai">OpenAI, con tu OPENAI_API_KEY</option>
+            <option value="ninguno">Ninguno (solo reglas locales)</option></select></label>
+          <label>Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
+        </div>
+      </fieldset>
+      <div class="pactions">
+        <button type="button" class="btn ghost" id="btn-guardar">Guardar</button>
+        <button type="submit" class="btn" id="btn-buscar">Guardar y buscar</button>
+        <span class="sub" id="buscar-info"></span>
+      </div>
+    </form>
+    <div class="card progreso" id="progreso" hidden>
+      <h2>Búsqueda <small id="prog-texto"></small></h2>
+      <div class="bar"><div id="prog-bar"></div></div>
+      <pre id="prog-log"></pre>
+    </div>
+  </section>
+
   <section id="view-resumen" class="view on">
     <div id="aviso-perfil" class="banner" hidden>
       Todavía no tienes perfil. Pídele a tu agente: <i>«Configura Oportunidades RD»</i>, o corre

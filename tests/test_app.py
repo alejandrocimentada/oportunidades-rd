@@ -54,3 +54,34 @@ def test_descarga_excel(client):
 def test_la_interfaz_escapa_el_texto():
     js = (tablero.ROOT / "static" / "app.js").read_text(encoding="utf-8")
     assert "const esc =" in js and "safeUrl" in js
+
+
+def test_perfil_desde_la_pagina(client):
+    r = client.get("/api/perfil").get_json()
+    assert r["existe"] is False and r["perfil"]["ia"]["proveedor"] == "agente"
+    body = {"nombre": "Ana", "roles_objetivo": ["AI Engineer", "Automation"], "anos_experiencia": "3",
+            "preferencias": {"modalidad": "remoto", "salario_minimo_dop": "90000", "salario_flexible_startups": True,
+                             "inventado": "x"},
+            "industrias": ["banca"], "ia": {"proveedor": "agente"}, "ruta_secreta": "no"}
+    p = client.post("/api/perfil", json=body).get_json()["perfil"]
+    assert p["nombre"] == "Ana" and p["roles_objetivo"] == ["AI Engineer", "Automation"] and p["anos_experiencia"] == 3
+    assert p["preferencias"]["salario_flexible_startups"] is True and "inventado" not in p["preferencias"]
+    assert "ruta_secreta" not in p and client.get("/api/perfil").get_json()["existe"] is True
+    assert client.post("/api/perfil", json={"preferencias": {"modalidad": "a veces"}}).status_code == 400
+
+
+def test_buscar_desde_la_pagina(store, web_y_fetcher):
+    from conftest import fixture
+    from oportunidades.busqueda import Busqueda
+    store.add_empresa("Empresa Ejemplo", "banca", url_empleos="https://empresa-ejemplo.do/empleos")
+    _, fetcher, _ = web_y_fetcher({"https://empresa-ejemplo.do/empleos": fixture("careers_plain.html")})
+    busqueda = Busqueda(lambda: fetcher)
+    c = tablero.crear_app(busqueda=busqueda).test_client()
+    assert c.post("/api/buscar", json={}).status_code == 400  # sin perfil, no busca
+    c.post("/api/perfil", json={"roles_objetivo": ["Analista de datos"]})
+    assert c.post("/api/buscar", json={}).status_code == 200
+    busqueda._hilo.join(10)
+    e = c.get("/api/buscar").get_json()
+    assert not e["corriendo"] and not e["error"] and e["resultado"]["encontradas"] >= 1
+    assert e["hechas"] == e["total"] == 1 and e["registro"][-1] == "Listo."
+    assert c.get("/api/vacantes").get_json()  # las vacantes quedaron guardadas
