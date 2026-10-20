@@ -76,3 +76,16 @@ def test_successfactors_lee_la_pagina_de_busqueda_publica(store, perfil, web_y_f
     assert [v["titulo"] for v in vacs] == ["Analista de Automatización de Procesos", "Ingeniero de Datos"]
     assert vacs[0]["ubicacion"] == "Santo Domingo, DO"
     assert vacs[0]["url"].startswith("https://empleos.banco-ejemplo.do/job/")
+
+
+def test_portada_sin_vacantes_sigue_el_enlace_a_la_lista(store, perfil, web_y_fetcher):
+    portada = """<html><body><h1>Trabaja con nosotros</h1><p>Somos un gran equipo.</p>
+      <a href="/en/careers/vacancies">View All Vacancies (Opens in a new tab)</a></body></html>"""
+    lista = """<html><body><ul><li><a href="/en/careers/vacancies/9-demand-planner">Demand Planner</a>
+      <span class="location">Caucedo, DO</span></li></ul></body></html>"""
+    assert ex.enlace_ver_todas(portada, "https://puerto-ejemplo.do/en/careers") == "https://puerto-ejemplo.do/en/careers/vacancies"
+    _, fetcher, _ = web_y_fetcher({"https://puerto-ejemplo.do/en/careers": portada,
+                                   "https://puerto-ejemplo.do/en/careers/vacancies": lista})
+    store.add_empresa(nombre="Puerto Ejemplo", industria="logistica", url_empleos="https://puerto-ejemplo.do/en/careers")
+    servicio.rastrear(store, perfil, fetcher, detalles=False, puntuar_nuevas=False, log=lambda *_: None)
+    assert [(v["titulo"], v["ubicacion"]) for v in store.vacantes()] == [("Demand Planner", "Caucedo, DO")]

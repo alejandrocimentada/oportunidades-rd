@@ -363,6 +363,23 @@ def extraer_html(html: str, base_url: str) -> list[Vacante]:
     return out
 
 
+_TEXTO_VER_TODAS = re.compile(
+    r"((ver|view|see|explore|explora|buscar|search)\b.*\b(vacan|jobs?|opportunit|oportunidad|openings|puestos|empleos|posiciones)|"
+    r"^aplica( aqu[ií])?$|puestos disponibles|vacantes disponibles|all (jobs|vacancies|openings))", re.I)
+
+
+def enlace_ver_todas(html: str, base_url: str) -> str:
+    """En una portada sin vacantes, el enlace a la lista completa («View All Vacancies», «Aplica aquí»), o ""."""
+    soup = BeautifulSoup(html or "", "html.parser")
+    for a in soup.find_all("a", href=True):
+        texto = limpiar_espacios(a.get_text(" "))
+        href = urljoin(base_url, a["href"].strip())
+        if (texto and len(texto) <= 80 and _TEXTO_VER_TODAS.search(texto)
+                and urlsplit(href).scheme in ("http", "https") and href.rstrip("/") != base_url.rstrip("/")):
+            return href
+    return ""
+
+
 def busqueda_successfactors(html: str, url: str) -> str:
     """Los sitios de empleo de SAP SuccessFactors arman la portada con JavaScript, pero tienen una página de
     búsqueda pública que lista las vacantes en HTML. Devuelve esa URL, o "" si no es un sitio así."""

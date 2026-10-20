@@ -8,7 +8,8 @@ from . import ajuste, ia, perfil as perfil_mod
 from .crawler import Bloqueado, Fetcher, Prohibido
 from .db import Store, ahora
 from .exportar import exportar_seguro
-from .extraer import ATS, busqueda_successfactors, detectar_ats, extraer, parse_feed, texto_detalle
+from .extraer import (ATS, busqueda_successfactors, detectar_ats, enlace_ver_todas, extraer, parse_feed,
+                      texto_detalle)
 from .texto import es_portal_bloqueado, idioma, limpiar_espacios
 
 MAX_DETALLES = 10  # páginas de detalle por empresa (para leer la descripción)
@@ -80,6 +81,20 @@ def _vacantes_de_empresa(fetcher: Fetcher, emp: dict, detalles: bool) -> tuple[l
             if alterna:  # SuccessFactors: la portada es JavaScript; su página de búsqueda es HTML público
                 r2 = fetcher.get(alterna)
                 res = extraer(r2.texto, alterna, r2.status, r2.url_final)
+            lista = enlace_ver_todas(html, resp.url_final or url) if res.estado == "sin vacantes" else ""
+            if lista:  # la portada no tiene vacantes pero enlaza a la lista completa: se sigue una vez
+                if es_portal_bloqueado(lista):
+                    return [], "revisar manualmente", f"La lista de vacantes está en un portal de empleo: {lista}", ""
+                try:
+                    r3 = fetcher.get(lista)
+                except Prohibido:
+                    return [], "revisar manualmente", f"robots.txt no permite leer la lista de vacantes: {lista}", ""
+                ats = detectar_ats(r3.url_final or lista, r3.texto)
+                if ats:
+                    return _desde_ats(fetcher, ats)
+                res = extraer(r3.texto, lista, r3.status, r3.url_final)
+                if res.estado != "ok":
+                    res.motivo = f"{res.motivo} (lista: {lista})"
             if res.estado != "ok":
                 return [], res.estado, res.motivo, ""
             vacs = res.vacantes
