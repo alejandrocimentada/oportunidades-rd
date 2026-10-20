@@ -1,0 +1,303 @@
+{
+  "_nota": "Mapa local (sin IA) de áreas de interés → habilidades y roles sugeridos. Lo usan oportunidades/sugerencias.py y static/sugerencias.js. 'palabras' detecta el área en lo que estudiaste o en tu trabajo (sin tildes, al inicio de una palabra). Los 'habilidades' de cada rol suben su puesto si ya las tienes.",
+  "areas": [
+    {
+      "area": "tecnología",
+      "descripcion": "Programación, sistemas, soporte, redes, IA",
+      "palabras": ["sistemas", "software", "informatic", "computacion", "programador", "programacion", "desarrollador",
+                   "desarrollo de software", "tecnologia", "redes de computadoras", "redes informaticas", "administracion de redes", "networking", "soporte tecnico", "help desk", "telematica",
+                   "ciberseguridad", "inteligencia artificial", "telecomunicacion"],
+      "habilidades": ["Python", "SQL", "JavaScript", "Git", "APIs", "IA generativa (LLM)", "Soporte técnico", "Redes",
+                      "Nube (AWS / Azure)", "Linux"],
+      "roles": [
+        {"rol": "Desarrollador de software", "razon": "Construyes y mejoras las aplicaciones que usa la empresa.",
+         "habilidades": ["Python", "JavaScript", "Git", "APIs"]},
+        {"rol": "Especialista en integración de IA", "razon": "Conectas herramientas de IA con los procesos del negocio.",
+         "habilidades": ["IA generativa (LLM)", "APIs", "Python"]},
+        {"rol": "Técnico de soporte (help desk)", "razon": "Una buena puerta de entrada al área de tecnología.",
+         "habilidades": ["Soporte técnico", "Redes"]},
+        {"rol": "Administrador de sistemas y redes", "razon": "Mantienes los servidores, redes y equipos funcionando.",
+         "habilidades": ["Redes", "Linux", "Nube (AWS / Azure)"]},
+        {"rol": "Analista de sistemas", "razon": "Traduces lo que necesita el negocio a soluciones de tecnología.",
+         "habilidades": ["SQL", "APIs"]}
+      ]
+    },
+    {
+      "area": "datos y análisis",
+      "descripcion": "Reportes, tableros, estadística, BI",
+      "palabras": ["datos", "analisis de datos", "estadistic", "inteligencia de negocios", "business intelligence",
+                   "power bi", "reportes", "ciencia de datos", "actuari", "matematic", "economia", "economista"],
+      "habilidades": ["Excel", "SQL", "Power BI", "Python", "Visualización de datos", "Estadística", "Google Sheets",
+                      "Tableau"],
+      "roles": [
+        {"rol": "Analista de datos", "razon": "Conviertes datos en respuestas para decidir mejor.",
+         "habilidades": ["Excel", "SQL", "Power BI", "Python"]},
+        {"rol": "Analista de inteligencia de negocios (BI)", "razon": "Construyes los tableros que la gerencia revisa cada semana.",
+         "habilidades": ["Power BI", "SQL", "Visualización de datos", "Tableau"]},
+        {"rol": "Analista de reportes", "razon": "Automatizas y ordenas los reportes del negocio.",
+         "habilidades": ["Excel", "Power BI", "Google Sheets"]},
+        {"rol": "Científico de datos junior", "razon": "Usas estadística y programación para predecir y explicar.",
+         "habilidades": ["Python", "Estadística", "SQL"]}
+      ]
+    },
+    {
+      "area": "finanzas y contabilidad",
+      "descripcion": "Contabilidad, impuestos, banca, auditoría",
+      "palabras": ["contab", "contador", "finanz", "auditor", "banca", "bancari", "banco", "impuesto", "tributari",
+                   "tesoreri", "credito", "cobros", "facturacion", "seguros", "economia"],
+      "habilidades": ["Excel", "Contabilidad general", "Conciliaciones bancarias", "Impuestos (DGII)",
+                      "Facturación electrónica", "Presupuestos", "Análisis financiero", "QuickBooks o ERP contable"],
+      "roles": [
+        {"rol": "Contador", "razon": "Llevas la contabilidad y los impuestos de la empresa al día.",
+         "habilidades": ["Contabilidad general", "Impuestos (DGII)", "Conciliaciones bancarias"]},
+        {"rol": "Auxiliar contable", "razon": "Un buen primer paso en contabilidad, con tareas claras.",
+         "habilidades": ["Contabilidad general", "Excel", "Facturación electrónica"]},
+        {"rol": "Analista financiero", "razon": "Analizas números y presupuestos para orientar decisiones.",
+         "habilidades": ["Excel", "Análisis financiero", "Presupuestos"]},
+        {"rol": "Auditor interno", "razon": "Revisas que los procesos y los números estén en orden.",
+         "habilidades": ["Contabilidad general", "Excel"]},
+        {"rol": "Analista de crédito y cobros", "razon": "Evalúas clientes y das seguimiento a los pagos.",
+         "habilidades": ["Análisis financiero", "Excel"]}
+      ]
+    },
+    {
+      "area": "logística y cadena de suministro",
+      "descripcion": "Inventario, compras, almacén, transporte",
+      "palabras": ["logistic", "inventario", "almacen", "bodega", "compras", "cadena de suministro", "supply chain",
+                   "despacho", "transporte", "distribucion", "distribuidora", "planificacion de demanda", "aduana",
+                   "importacion", "exportacion"],
+      "habilidades": ["Gestión de inventario", "Compras", "Planificación de demanda", "Excel", "ERP (SAP u otro)",
+                      "Gestión de almacén", "Importación y aduanas", "Transporte y rutas"],
+      "roles": [
+        {"rol": "Analista de inventario", "razon": "Cuidas que haya lo necesario, sin exceso ni faltantes.",
+         "habilidades": ["Gestión de inventario", "Excel", "ERP (SAP u otro)"]},
+        {"rol": "Analista de compras", "razon": "Negocias con suplidores y compras a tiempo.",
+         "habilidades": ["Compras", "Excel", "ERP (SAP u otro)"]},
+        {"rol": "Planificador de demanda", "razon": "Anticipas cuánto se va a vender para planificar mejor.",
+         "habilidades": ["Planificación de demanda", "Excel", "ERP (SAP u otro)"]},
+        {"rol": "Supervisor de almacén", "razon": "Organizas el almacén y al equipo que lo opera.",
+         "habilidades": ["Gestión de almacén", "Gestión de inventario"]},
+        {"rol": "Coordinador de logística", "razon": "Coordinas despachos, rutas y entregas.",
+         "habilidades": ["Transporte y rutas", "Importación y aduanas"]}
+      ]
+    },
+    {
+      "area": "operaciones y procesos",
+      "descripcion": "Mejora continua, calidad, proyectos, automatización",
+      "palabras": ["operacion", "procesos", "mejora continua", "calidad", "lean", "six sigma", "industrial",
+                   "productividad", "proyectos", "administracion de empresas", "automatizacion"],
+      "habilidades": ["Mapeo de procesos", "Mejora continua (Lean)", "Gestión de proyectos", "Indicadores (KPI)",
+                      "Power Automate", "Excel", "Gestión de calidad", "ERP (SAP u otro)"],
+      "roles": [
+        {"rol": "Analista de procesos", "razon": "Encuentras cómo hacer el trabajo más simple y medible.",
+         "habilidades": ["Mapeo de procesos", "Indicadores (KPI)", "Excel"]},
+        {"rol": "Especialista en automatización de procesos", "razon": "Quitas tareas repetitivas con herramientas de automatización.",
+         "habilidades": ["Power Automate", "Mapeo de procesos", "Python"]},
+        {"rol": "Especialista en mejora continua", "razon": "Lideras proyectos para reducir errores y desperdicio.",
+         "habilidades": ["Mejora continua (Lean)", "Indicadores (KPI)"]},
+        {"rol": "Coordinador de operaciones", "razon": "Te aseguras de que el día a día funcione bien.",
+         "habilidades": ["Indicadores (KPI)", "Gestión de calidad"]},
+        {"rol": "Gestor de proyectos", "razon": "Llevas proyectos de inicio a fin, con fechas y presupuesto.",
+         "habilidades": ["Gestión de proyectos"]}
+      ]
+    },
+    {
+      "area": "ventas",
+      "descripcion": "Ventas, cuentas clave, comercial",
+      "palabras": ["venta", "vendedor", "comercial", "ejecutivo de cuentas", "desarrollo de negocios", "tienda", "retail",
+                   "representante de ventas", "asesor comercial"],
+      "habilidades": ["Negociación", "Prospección de clientes", "CRM (Salesforce, HubSpot)", "Cierre de ventas",
+                      "Presentaciones", "Atención al cliente", "Excel"],
+      "roles": [
+        {"rol": "Ejecutivo de ventas", "razon": "Consigues y cuidas clientes, con metas claras.",
+         "habilidades": ["Negociación", "Prospección de clientes", "Cierre de ventas"]},
+        {"rol": "Gerente de cuentas clave", "razon": "Haces crecer la relación con los clientes más grandes.",
+         "habilidades": ["Negociación", "Presentaciones", "CRM (Salesforce, HubSpot)"]},
+        {"rol": "Asesor comercial", "razon": "Orientas a cada cliente hacia lo que de verdad necesita.",
+         "habilidades": ["Atención al cliente", "Cierre de ventas"]},
+        {"rol": "Analista comercial", "razon": "Analizas las ventas para encontrar dónde crecer.",
+         "habilidades": ["Excel", "CRM (Salesforce, HubSpot)"]}
+      ]
+    },
+    {
+      "area": "marketing",
+      "descripcion": "Marketing digital, redes sociales, contenido, marca",
+      "palabras": ["marketing", "mercadeo", "mercadotecnia", "publicidad", "comunicacion", "comunicador",
+                   "redes sociales", "community", "contenido", "periodis", "relaciones publicas", "marca"],
+      "habilidades": ["Marketing digital", "Redes sociales", "Redacción de contenido", "Publicidad en Meta y Google Ads",
+                      "Google Analytics", "Canva", "SEO", "Email marketing"],
+      "roles": [
+        {"rol": "Especialista en marketing digital", "razon": "Atraes clientes con campañas en línea medibles.",
+         "habilidades": ["Marketing digital", "Publicidad en Meta y Google Ads", "Google Analytics"]},
+        {"rol": "Community manager", "razon": "Le das voz a la marca en redes sociales.",
+         "habilidades": ["Redes sociales", "Redacción de contenido", "Canva"]},
+        {"rol": "Creador de contenido (copywriter)", "razon": "Escribes lo que hace que la gente se interese.",
+         "habilidades": ["Redacción de contenido", "SEO"]},
+        {"rol": "Analista de mercadeo", "razon": "Mides qué funciona y qué no en cada campaña.",
+         "habilidades": ["Google Analytics", "Email marketing"]}
+      ]
+    },
+    {
+      "area": "diseño",
+      "descripcion": "Diseño gráfico, UX/UI, multimedia",
+      "palabras": ["diseno", "disenador", "grafic", "experiencia de usuario", "ux", "ilustracion", "multimedia",
+                   "audiovisual", "fotografia", "arquitectura", "interiores"],
+      "habilidades": ["Figma", "Diseño gráfico", "Adobe Photoshop", "Adobe Illustrator", "Diseño UX", "Prototipado",
+                      "Canva", "Edición de video"],
+      "roles": [
+        {"rol": "Diseñador gráfico", "razon": "Creas la imagen visual de marcas, piezas y campañas.",
+         "habilidades": ["Diseño gráfico", "Adobe Photoshop", "Adobe Illustrator", "Canva"]},
+        {"rol": "Diseñador UX/UI", "razon": "Diseñas apps y páginas fáciles de usar.",
+         "habilidades": ["Figma", "Diseño UX", "Prototipado"]},
+        {"rol": "Diseñador de producto digital", "razon": "Diseñas productos digitales de punta a punta.",
+         "habilidades": ["Figma", "Prototipado", "Diseño UX"]},
+        {"rol": "Editor de video y multimedia", "razon": "Cuentas historias con video y animación.",
+         "habilidades": ["Edición de video", "Adobe Photoshop"]}
+      ]
+    },
+    {
+      "area": "recursos humanos",
+      "descripcion": "Reclutamiento, nómina, capacitación",
+      "palabras": ["recursos humanos", "rrhh", "gestion humana", "talento", "reclutamiento", "seleccion de personal",
+                   "nomina", "psicolog", "capacitacion", "relaciones laborales"],
+      "habilidades": ["Reclutamiento y selección", "Entrevistas", "Nómina", "Código de Trabajo", "Capacitación",
+                      "Clima organizacional", "Gestión del desempeño", "Excel"],
+      "roles": [
+        {"rol": "Analista de reclutamiento", "razon": "Encuentras a las personas indicadas para cada puesto.",
+         "habilidades": ["Reclutamiento y selección", "Entrevistas"]},
+        {"rol": "Analista de nómina", "razon": "Te aseguras de que todos cobren bien y a tiempo.",
+         "habilidades": ["Nómina", "Código de Trabajo", "Excel"]},
+        {"rol": "Generalista de recursos humanos", "razon": "Acompañas a los empleados de la entrada a la salida.",
+         "habilidades": ["Código de Trabajo", "Clima organizacional", "Gestión del desempeño"]},
+        {"rol": "Especialista en capacitación", "razon": "Diseñas y das entrenamientos para el equipo.",
+         "habilidades": ["Capacitación"]}
+      ]
+    },
+    {
+      "area": "salud",
+      "descripcion": "Enfermería, medicina, farmacia, laboratorio",
+      "palabras": ["medicina", "medico", "enfermer", "salud", "clinic", "hospital", "farmac", "bioanalis", "laboratorio clinico",
+                   "odontolog", "nutricion", "fisioterap", "terapia"],
+      "habilidades": ["Atención al paciente", "Primeros auxilios", "Historia clínica", "Bioseguridad", "Farmacología",
+                      "Manejo de expedientes", "Educación al paciente"],
+      "roles": [
+        {"rol": "Enfermera o enfermero", "razon": "Cuidas a los pacientes en clínicas y hospitales.",
+         "habilidades": ["Atención al paciente", "Primeros auxilios", "Bioseguridad"]},
+        {"rol": "Médico general", "razon": "Atiendes consultas y das seguimiento a los pacientes.",
+         "habilidades": ["Historia clínica", "Atención al paciente"]},
+        {"rol": "Farmacéutico", "razon": "Orientas sobre medicamentos y manejas la farmacia.",
+         "habilidades": ["Farmacología", "Educación al paciente"]},
+        {"rol": "Bioanalista", "razon": "Haces los análisis de laboratorio que guían el diagnóstico.",
+         "habilidades": ["Bioseguridad"]},
+        {"rol": "Representante médico", "razon": "Presentas productos de salud a médicos y farmacias.",
+         "habilidades": ["Farmacología", "Educación al paciente"]}
+      ]
+    },
+    {
+      "area": "educación",
+      "descripcion": "Docencia, tutoría, formación",
+      "palabras": ["educacion", "docente", "profesor", "maestro", "maestra", "pedagog", "ensenanza", "tutor", "orientador", "licenciatura en educacion"],
+      "habilidades": ["Planificación de clases", "Manejo de grupo", "Evaluación de aprendizajes",
+                      "Herramientas digitales educativas", "Diseño curricular", "Comunicación oral"],
+      "roles": [
+        {"rol": "Docente", "razon": "Enseñas y acompañas a tus estudiantes.",
+         "habilidades": ["Planificación de clases", "Manejo de grupo", "Evaluación de aprendizajes"]},
+        {"rol": "Tutor o instructor", "razon": "Enseñas en grupos pequeños o cursos cortos.",
+         "habilidades": ["Comunicación oral", "Herramientas digitales educativas"]},
+        {"rol": "Diseñador instruccional", "razon": "Creas cursos y materiales, también en línea.",
+         "habilidades": ["Diseño curricular", "Herramientas digitales educativas"]},
+        {"rol": "Coordinador académico", "razon": "Organizas programas, horarios y docentes.",
+         "habilidades": ["Diseño curricular", "Planificación de clases"]}
+      ]
+    },
+    {
+      "area": "servicio al cliente",
+      "descripcion": "Atención, call center, experiencia del cliente",
+      "palabras": ["servicio al cliente", "atencion al cliente", "call center", "centro de contacto", "cajer",
+                   "recepcion", "soporte al cliente", "customer service"],
+      "habilidades": ["Atención al cliente", "Comunicación", "Manejo de quejas", "Resolución de problemas", "CRM",
+                      "Atención telefónica"],
+      "roles": [
+        {"rol": "Agente de servicio al cliente", "razon": "Resuelves dudas y problemas de los clientes.",
+         "habilidades": ["Atención al cliente", "Comunicación", "Atención telefónica"]},
+        {"rol": "Agente bilingüe de call center", "razon": "Muy buscado en RD si hablas inglés.",
+         "habilidades": ["Atención telefónica", "Comunicación"]},
+        {"rol": "Supervisor de servicio al cliente", "razon": "Guías a un equipo de atención y sus metas.",
+         "habilidades": ["Manejo de quejas", "Resolución de problemas"]},
+        {"rol": "Especialista en experiencia del cliente", "razon": "Mejoras cada contacto del cliente con la empresa.",
+         "habilidades": ["CRM", "Resolución de problemas"]}
+      ]
+    },
+    {
+      "area": "legal",
+      "descripcion": "Derecho, contratos, cumplimiento",
+      "palabras": ["derecho", "abogad", "legal", "juridic", "notari", "cumplimiento", "compliance", "contratos"],
+      "habilidades": ["Redacción de contratos", "Derecho laboral", "Derecho comercial", "Cumplimiento regulatorio",
+                      "Investigación jurídica", "Litigio"],
+      "roles": [
+        {"rol": "Abogado corporativo", "razon": "Asesoras a la empresa en contratos y decisiones.",
+         "habilidades": ["Redacción de contratos", "Derecho comercial"]},
+        {"rol": "Oficial de cumplimiento", "razon": "Muy pedido en banca y seguros: cuidas que se cumpla la ley.",
+         "habilidades": ["Cumplimiento regulatorio"]},
+        {"rol": "Asistente legal", "razon": "Apoyas al equipo legal con documentos e investigación.",
+         "habilidades": ["Investigación jurídica", "Redacción de contratos"]},
+        {"rol": "Abogado laboral", "razon": "Te especializas en relaciones de trabajo.",
+         "habilidades": ["Derecho laboral", "Litigio"]}
+      ]
+    },
+    {
+      "area": "manufactura",
+      "descripcion": "Producción, calidad, mantenimiento, zonas francas",
+      "palabras": ["manufactura", "produccion", "planta", "zona franca", "ensamblaje", "mantenimiento", "mecanic",
+                   "electric", "electromecanic", "operario", "quimic", "control de calidad"],
+      "habilidades": ["Control de calidad", "Buenas prácticas de manufactura (BPM)", "Mantenimiento",
+                      "Seguridad industrial", "Lean manufacturing", "Planificación de producción", "Lectura de planos"],
+      "roles": [
+        {"rol": "Supervisor de producción", "razon": "Diriges una línea de producción y su equipo.",
+         "habilidades": ["Planificación de producción", "Seguridad industrial", "Lean manufacturing"]},
+        {"rol": "Técnico de control de calidad", "razon": "Revisas que cada producto salga como debe.",
+         "habilidades": ["Control de calidad", "Buenas prácticas de manufactura (BPM)"]},
+        {"rol": "Técnico de mantenimiento", "razon": "Mantienes las máquinas funcionando.",
+         "habilidades": ["Mantenimiento", "Lectura de planos", "Seguridad industrial"]},
+        {"rol": "Planificador de producción", "razon": "Decides qué se produce, cuándo y cuánto.",
+         "habilidades": ["Planificación de producción"]},
+        {"rol": "Ingeniero de procesos", "razon": "Mejoras cómo se fabrica en la planta.",
+         "habilidades": ["Lean manufacturing", "Control de calidad"]}
+      ]
+    },
+    {
+      "area": "turismo y hotelería",
+      "descripcion": "Hoteles, eventos, viajes, alimentos y bebidas",
+      "palabras": ["turismo", "turistic", "hotel", "hosteleria", "gastronom", "cocina", "chef", "restaurante",
+                   "resort", "agencia de viajes", "eventos", "bartender", "camarer", "front desk"],
+      "habilidades": ["Atención al huésped", "Reservas (Opera u otro PMS)", "Gestión de eventos", "Alimentos y bebidas",
+                      "Ventas de paquetes turísticos", "Atención al cliente"],
+      "roles": [
+        {"rol": "Recepcionista de hotel", "razon": "Eres la primera cara del hotel para cada huésped.",
+         "habilidades": ["Atención al huésped", "Reservas (Opera u otro PMS)"]},
+        {"rol": "Coordinador de eventos", "razon": "Organizas bodas, congresos y eventos de principio a fin.",
+         "habilidades": ["Gestión de eventos"]},
+        {"rol": "Agente de reservas", "razon": "Vendes y organizas estadías y paquetes.",
+         "habilidades": ["Reservas (Opera u otro PMS)", "Ventas de paquetes turísticos"]},
+        {"rol": "Supervisor de alimentos y bebidas", "razon": "Diriges restaurantes y bares de un hotel.",
+         "habilidades": ["Alimentos y bebidas", "Atención al huésped"]},
+        {"rol": "Agente de viajes", "razon": "Armas viajes a la medida de cada cliente.",
+         "habilidades": ["Ventas de paquetes turísticos", "Atención al cliente"]}
+      ]
+    }
+  ],
+  "industrias_antiguas": {
+    "banca": ["finanzas y contabilidad"],
+    "seguros": ["finanzas y contabilidad"],
+    "telecomunicaciones": ["tecnología"],
+    "retail/distribución": ["ventas", "logística y cadena de suministro"],
+    "zona franca/manufactura": ["manufactura"],
+    "logística": ["logística y cadena de suministro"],
+    "turismo": ["turismo y hotelería"],
+    "tecnología/consultoría": ["tecnología"],
+    "gobierno-tech": ["tecnología"],
+    "salud": ["salud"],
+    "energía": ["operaciones y procesos"],
+    "otra": []
+  }
+}

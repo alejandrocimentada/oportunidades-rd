@@ -9,14 +9,20 @@ Uso:
     python scripts/perfil.py set ia.proveedor claude      # agente | claude | openai | ninguno
     python scripts/perfil.py importar mi-perfil.yaml      # cargar un YAML completo
     python scripts/perfil.py ejemplo                      # copiar profile.example.yaml como punto de partida
+    python scripts/perfil.py sugerir                      # habilidades y roles sugeridos (sin IA, mapa local)
+    python scripts/perfil.py sugerencias --archivo s.json # guardar las sugerencias refinadas por el agente
+    python scripts/perfil.py sugerencias --borrar         # quitarlas
+
+Formato de s.json: {"habilidades": ["..."], "roles": [{"rol": "...", "razon": "una línea"}]}
 """
 from __future__ import annotations
 
 import argparse
+import json
 
 from _comun import ROOT, imprimir_json, salir_error
 
-from oportunidades import config, perfil as pf
+from oportunidades import config, perfil as pf, sugerencias as sg
 
 
 def main(argv=None) -> int:
@@ -30,6 +36,11 @@ def main(argv=None) -> int:
     i = sub.add_parser("importar")
     i.add_argument("archivo")
     sub.add_parser("ejemplo")
+    sub.add_parser("sugerir")
+    s = sub.add_parser("sugerencias")
+    grupo = s.add_mutually_exclusive_group(required=True)
+    grupo.add_argument("--archivo")
+    grupo.add_argument("--borrar", action="store_true")
     args = ap.parse_args(argv)
     try:
         path = config.profile_path()
@@ -56,7 +67,19 @@ def main(argv=None) -> int:
                 salir_error(f"Ya existe un perfil en {path}; no lo sobrescribo.")
             pf.guardar(pf.importar(ROOT / "profile.example.yaml"))
             print(f"Copiado el perfil de ejemplo a {path}. Cámbialo con 'set' o edita el archivo.")
-    except (pf.PerfilError, config.ConfigError, OSError) as exc:
+        elif args.cmd == "sugerir":
+            imprimir_json(sg.sugerir(pf.cargar()))
+        elif args.cmd == "sugerencias":
+            data = pf.cargar()
+            if args.borrar:
+                data["sugerencias"] = {}
+            else:
+                with open(args.archivo, encoding="utf-8") as fh:
+                    data["sugerencias"] = json.load(fh)
+            pf.guardar(data)
+            s = pf.cargar()["sugerencias"]
+            print(f"Sugerencias del agente: {len(s['habilidades'])} habilidades y {len(s['roles'])} roles en {path}")
+    except (pf.PerfilError, config.ConfigError, OSError, json.JSONDecodeError) as exc:
         salir_error(str(exc))
     return 0
 

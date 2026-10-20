@@ -1,6 +1,7 @@
-"""Perfil del usuario: roles, habilidades, experiencia, preferencias y proveedor de IA.
+"""Perfil del usuario: intereses, experiencia, habilidades, roles, preferencias y proveedor de IA.
 
 Se guarda en ~/.config/oportunidades-rd/profile.yaml (ver config.profile_path), nunca en el repo.
+Los perfiles anteriores a la v1.1 (con «industrias» y sin «intereses») se migran al cargarlos.
 """
 from __future__ import annotations
 
@@ -12,15 +13,15 @@ from pathlib import Path
 
 import yaml
 
-from . import config
+from . import config, sugerencias as sg
 
 PROVEEDORES = {"agente", "claude", "openai", "ninguno"}
 MODALIDADES = {"presencial", "hibrido", "remoto"}
 
 # Campos de texto libre o listas que se pueden cambiar con `perfil.py set`.
-LISTAS = {"roles_objetivo", "habilidades", "industrias", "idiomas"}
+LISTAS = {"intereses", "roles_objetivo", "habilidades", "industrias", "idiomas"}
 ESCALARES = {
-    "nombre", "titular", "experiencia", "anos_experiencia", "ubicacion",
+    "nombre", "titular", "intereses_otra", "estudios", "puesto_actual", "experiencia", "anos_experiencia", "ubicacion",
     "preferencias.dias", "preferencias.modalidad", "preferencias.dias_remotos",
     "preferencias.salario_minimo_dop", "preferencias.salario_flexible_startups", "enlaces.portafolio", "enlaces.github",
     "enlaces.linkedin", "ia.proveedor", "ia.modelo",
@@ -31,10 +32,15 @@ def plantilla() -> dict:
     return {
         "nombre": "",
         "titular": "",
-        "roles_objetivo": [],
-        "habilidades": [],
-        "experiencia": "",
+        # Áreas de oportunidades/sugerencias.json (paso 1); lo que no está en la lista va en intereses_otra.
+        "intereses": [],
+        "intereses_otra": "",
+        "estudios": "",
+        "puesto_actual": "",  # último puesto o el actual
         "anos_experiencia": 0,
+        "experiencia": "",  # resumen opcional de 2-3 frases (se usa en las cartas)
+        "habilidades": [],
+        "roles_objetivo": [],
         "idiomas": [],
         "ubicacion": "Santo Domingo",
         "preferencias": {
@@ -46,8 +52,10 @@ def plantilla() -> dict:
             "salario_flexible_startups": False,
         },
         "enlaces": {"portafolio": "", "github": "", "linkedin": ""},
-        "industrias": [],
+        "industrias": [],  # sectores preferidos (opcional; antes era un paso del asistente)
         "ia": {"proveedor": "agente", "modelo": ""},
+        # Sugerencias refinadas por el agente (perfil.py sugerencias): el tablero las muestra primero.
+        "sugerencias": {"habilidades": [], "roles": []},
         "actualizado": "",
     }
 
@@ -77,8 +85,27 @@ def cargar(path: Path | None = None) -> dict:
         raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         if not isinstance(raw, dict):
             raise PerfilError(f"{path} no tiene un perfil válido.")
-        data = _merge(data, raw)
+        data = _merge(data, migrar(raw))
     return validar(data)
+
+
+def migrar(raw: dict) -> dict:
+    """Perfil anterior a la v1.1 (sin la clave «intereses»): deduce las áreas de sus antiguas «industrias».
+
+    Solo cuando falta la clave: si el usuario ya guardó con el asistente nuevo y vació sus intereses, se respeta.
+    """
+    if "intereses" in raw or not raw.get("industrias"):
+        return raw
+    industrias = raw["industrias"]
+    if isinstance(industrias, str):
+        industrias = industrias.split(";")
+    equivalencias = sg.cargar_mapa()["industrias_antiguas"]
+    intereses = []
+    for industria in industrias:
+        for area in equivalencias.get(str(industria).strip().lower(), []):
+            if area not in intereses:
+                intereses.append(area)
+    return {**raw, "intereses": intereses}
 
 
 def validar(data: dict) -> dict:
@@ -87,6 +114,10 @@ def validar(data: dict) -> dict:
         if isinstance(valor, str):
             valor = [x.strip() for x in valor.split(";") if x.strip()]
         data[campo] = [str(x).strip() for x in valor if str(x).strip()]
+    data["intereses"] = _areas(data["intereses"])
+    data["sugerencias"] = _sugerencias(data.get("sugerencias"))
+    for campo in ("intereses_otra", "estudios", "puesto_actual", "experiencia"):
+        data[campo] = str(data.get(campo) or "").strip()
     prov = str(data["ia"].get("proveedor") or "agente").lower()
     if prov not in PROVEEDORES:
         raise PerfilError(f"ia.proveedor debe ser uno de: {', '.join(sorted(PROVEEDORES))}")
@@ -102,6 +133,32 @@ def validar(data: dict) -> dict:
         str(flex).strip().lower() in ("true", "1", "si", "sí", "yes") if isinstance(flex, str) else bool(flex))
     data["anos_experiencia"] = _entero(data.get("anos_experiencia"), "anos_experiencia")
     return data
+
+
+def _areas(valores: list[str]) -> list[str]:
+    """Cada interés debe ser un área del mapa (sin importar tildes ni mayúsculas); se guarda con su nombre oficial."""
+    oficiales = {sg.normalizar(a): a for a in sg.areas()}
+    out = []
+    for v in valores:
+        area = oficiales.get(sg.normalizar(v))
+        if not area:
+            raise PerfilError(f"Área desconocida: «{v}». Usa: {', '.join(sg.areas())}. "
+                              "Si no está en la lista, escríbela en intereses_otra.")
+        if area not in out:
+            out.append(area)
+    return out
+
+
+def _sugerencias(valor) -> dict:
+    valor = valor if isinstance(valor, dict) else {}
+    habilidades = [str(h).strip() for h in valor.get("habilidades") or [] if str(h).strip()]
+    roles = []
+    for r in valor.get("roles") or []:
+        r = {"rol": r} if isinstance(r, str) else r
+        if not isinstance(r, dict) or not str(r.get("rol") or "").strip():
+            raise PerfilError("Cada rol sugerido necesita «rol» (y opcionalmente «razon»).")
+        roles.append({"rol": str(r["rol"]).strip(), "razon": str(r.get("razon") or "").strip()})
+    return {"habilidades": habilidades, "roles": roles}
 
 
 def _entero(valor, nombre: str) -> int:
@@ -145,15 +202,17 @@ def importar(origen: Path, data: dict | None = None) -> dict:
     raw = yaml.safe_load(Path(origen).read_text(encoding="utf-8")) or {}
     if not isinstance(raw, dict):
         raise PerfilError(f"{origen} no es un perfil YAML válido.")
-    return validar(_merge(data or plantilla(), raw))
+    return validar(_merge(data or plantilla(), migrar(raw)))
 
 
 def faltantes(data: dict) -> list[str]:
     """Campos importantes que siguen vacíos (para que el agente pregunte)."""
     out = []
-    for campo in ("roles_objetivo", "habilidades", "experiencia", "idiomas", "industrias"):
-        if not data.get(campo):
+    for campo in ("intereses", "habilidades", "roles_objetivo", "idiomas"):
+        if not data.get(campo) and not (campo == "intereses" and data.get("intereses_otra")):
             out.append(campo)
+    if not (data.get("estudios") or data.get("puesto_actual") or data.get("experiencia")):
+        out.append("estudios / puesto_actual")
     if not data["preferencias"].get("salario_minimo_dop"):
         out.append("preferencias.salario_minimo_dop")
     return out

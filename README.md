@@ -9,8 +9,9 @@
 **Oportunidades RD** es un "skill" (un paquete de instrucciones y herramientas) que se instala en
 tu asistente de IA, como Claude Code. Le dices *"busca empresas en RD para mi perfil"* y:
 
-1. **Te conoce**: la primera vez te hace unas preguntas (qué buscas, qué sabes hacer, tu experiencia,
-   idiomas, cómo quieres trabajar, tus industrias) y guarda tu perfil en tu computadora.
+1. **Te conoce**: la primera vez eliges qué áreas te interesan y cuentas qué estudiaste y dónde
+   trabajas; te sugiere habilidades y roles (cada uno con su porqué) y tú eliges. Luego idiomas, cómo
+   quieres trabajar y salario. Tu perfil se guarda en tu computadora.
 2. **Descubre empresas con presencia verificada en RD**: multinacionales con operaciones aquí
    (oficinas, hubs regionales, centros de servicios compartidos, plantas de zona franca), grupos
    locales grandes, empresas locales en crecimiento y empresas de tecnología o startups que operan
@@ -34,7 +35,7 @@ tu asistente de IA, como Claude Code. Le dices *"busca empresas en RD para mi pe
 ## ¿Para quién es?
 
 Para cualquier persona que busca empleo en la República Dominicana, en cualquier área: la búsqueda
-se hace a partir de **tu** perfil (roles, habilidades, experiencia, industrias y preferencias).
+se hace a partir de **tu** perfil (intereses, experiencia, habilidades, roles y preferencias).
 No necesitas saber programar: el asistente de IA hace la parte técnica.
 
 > [!IMPORTANT]
@@ -72,8 +73,8 @@ No necesitas saber programar: el asistente de IA hace la parte técnica.
 
    </details>
 
-2. **Llena tu perfil**: en la conversación, o en la pestaña **Mi perfil** del tablero (ocho preguntas
-   cortas). Si no sabes algo, di "no sé" y sigue. Se guarda en `~/.config/oportunidades-rd/profile.yaml`,
+2. **Llena tu perfil**: en la conversación, o en la pestaña **Mi perfil** del tablero (ocho pasos
+   cortos: intereses, experiencia, habilidades y roles sugeridos, idiomas, dónde, salario y nombre). Si no sabes algo, di "no sé" y sigue. Se guarda en `~/.config/oportunidades-rd/profile.yaml`,
    fuera de la carpeta del proyecto.
 
 3. **Pídele lo que necesites**, con tus palabras:
@@ -90,7 +91,8 @@ No necesitas saber programar: el asistente de IA hace la parte técnica.
 Pídele al asistente *"abre el tablero"*, o escribe `python app.py` en la carpeta del proyecto.
 Se abre en tu navegador en <http://localhost:8765> (solo tu computadora puede verlo).
 
-- **Mi perfil**: las ocho preguntas, paso a paso.
+- **Mi perfil**: ocho pasos. Las habilidades y los roles se sugieren a partir de tus intereses y tu
+  experiencia, sin IA (con un mapa local); si tu agente está trabajando, puede afinarlas para ti.
 - **Resumen**: cuántas empresas hay en cada estado, las últimas descubiertas, contactos de esta
   semana, próximos seguimientos y vacantes abiertas del último rastreo.
 - **Tablero**: una columna por estado. **Arrastra una empresa** para cambiarla de estado.

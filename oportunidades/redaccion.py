@@ -75,6 +75,20 @@ def _prompt(perfil: dict, empresa: dict, tipo: str, idioma: str, rol: str | None
             "\n\nEMPRESA:\n" + json.dumps(datos, ensure_ascii=False, indent=2))
 
 
+def experiencia(perfil: dict, idioma: str) -> str:
+    """El resumen del perfil; si está vacío (es opcional), una frase con el puesto, los años y los estudios."""
+    if perfil.get("experiencia"):
+        return perfil["experiencia"]
+    puesto, estudios, anos = perfil.get("puesto_actual"), perfil.get("estudios"), perfil.get("anos_experiencia")
+    if idioma == "en":
+        partes = [f"My most recent role is {puesto}" + (f", with {anos} years of experience." if anos else ".")
+                  if puesto else "", f"I studied {estudios}." if estudios else ""]
+    else:
+        partes = [f"Mi experiencia más reciente es como {puesto}" + (f", con {anos} años de experiencia." if anos else ".")
+                  if puesto else "", f"Estudié {estudios}." if estudios else ""]
+    return " ".join(p for p in partes if p)
+
+
 def plantilla(perfil: dict, empresa: dict, tipo: str, idioma: str, rol: str | None = None) -> str:
     """Borrador básico sin IA. Edítalo antes de usarlo."""
     nombre = perfil.get("nombre") or ("[Tu nombre]" if idioma == "es" else "[Your name]")
@@ -94,7 +108,7 @@ def plantilla(perfil: dict, empresa: dict, tipo: str, idioma: str, rol: str | No
                     + f" Would you have 15 minutes for a short conversation?\n\nThank you,\n{nombre}")
         cuerpo = [f"Santo Domingo, {dt.date.today():%d/%m/%Y}", "", "Dear Hiring Team,", "",
                   f"I am writing to express my interest in joining {area} at {emp}{foco}.",
-                  perfil.get("experiencia", ""), ""]
+                  experiencia(perfil, "en"), ""]
         if razones:
             cuerpo += [f"Why {emp}:"] + [f"- {r}." for r in razones] + [""]
         cuerpo += [f"My main skills include {habilidades}. I would welcome a conversation about current or future "
@@ -112,7 +126,7 @@ def plantilla(perfil: dict, empresa: dict, tipo: str, idioma: str, rol: str | No
                     + f" ¿Tendría 15 minutos para conversar brevemente?\n\nGracias,\n{nombre}")
         cuerpo = [f"Santo Domingo, {dt.date.today():%d/%m/%Y}", "", "Estimado equipo:", "",
                   f"Les escribo para expresar mi interés en formar parte {del_area} en {emp}{foco}.",
-                  perfil.get("experiencia", ""), ""]
+                  experiencia(perfil, "es"), ""]
         if razones:
             cuerpo += [f"Por qué me interesa {emp}:"] + [f"- {r}." for r in razones] + [""]
         cuerpo += [f"Entre mis habilidades principales están {habilidades}. Me encantaría conversar sobre "

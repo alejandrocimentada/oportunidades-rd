@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT))
 
 from flask import Flask, abort, jsonify, render_template, request, send_file  # noqa: E402
 
-from oportunidades import NOMBRE, __version__, config, ia, perfil as pf, redaccion  # noqa: E402
+from oportunidades import NOMBRE, __version__, config, ia, perfil as pf, redaccion, sugerencias  # noqa: E402
 from oportunidades.contactos import contactos, url_linkedin_empresa  # noqa: E402
 from oportunidades.db import ESTADOS, ESTADOS_CON_DOCUMENTOS, INDUSTRIAS, TIPOS_EMPRESA, DatosError  # noqa: E402
 from oportunidades.exportar import exportar  # noqa: E402
@@ -31,10 +31,10 @@ HOSTS_PERMITIDOS = {"localhost", "127.0.0.1"}
 REPO = "https://github.com/alejandrocimentada/oportunidades-rd"
 
 
-# Campos del perfil que la página «Mi perfil» puede cambiar (las 8 preguntas).
+# Campos del perfil que la página «Mi perfil» puede cambiar (los 8 pasos).
 CAMPOS_PERFIL = {
-    **dict.fromkeys(["nombre", "titular", "roles_objetivo", "habilidades", "experiencia", "anos_experiencia",
-                     "idiomas", "ubicacion", "industrias"]),
+    **dict.fromkeys(["nombre", "titular", "intereses", "intereses_otra", "estudios", "puesto_actual", "roles_objetivo",
+                     "habilidades", "experiencia", "anos_experiencia", "idiomas", "ubicacion"]),
     "preferencias": {"dias", "modalidad", "dias_remotos", "salario_minimo_dop", "salario_flexible_startups"},
     "enlaces": {"portafolio", "github", "linkedin"},
     "ia": {"proveedor", "modelo"},
@@ -44,7 +44,7 @@ CAMPOS_PERFIL = {
 def datos_pagina(publica: bool = False) -> dict:
     """Variables de templates/index.html. `publica` = la demo estática de GitHub Pages (scripts/construir_demo.py)."""
     return dict(nombre=NOMBRE, version=__version__, estados=ESTADOS, industrias=INDUSTRIAS, tipos=TIPOS_EMPRESA,
-                publica=publica, repo=REPO)
+                publica=publica, repo=REPO, mapa=sugerencias.cargar_mapa())
 
 
 def crear_app(demo: bool = False, busqueda: Busqueda | None = None) -> Flask:

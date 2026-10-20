@@ -1,25 +1,35 @@
 # Perfil de EJEMPLO con datos inventados. El tuyo vive en ~/.config/oportunidades-rd/profile.yaml
-# (nunca en esta carpeta). Créalo con el agente o con: python scripts/perfil.py ejemplo
+# (nunca en esta carpeta). Créalo en el tablero (Mi perfil), con el agente o con: python scripts/perfil.py ejemplo
 nombre: Ana Ejemplo Pérez
 titular: Me enfoco en integrar IA en procesos de negocio
-roles_objetivo:
-  - AI Integration Specialist
-  - Ingeniero de IA aplicada
-  - Especialista en automatización
-  - Analista de datos
+# Paso 1: áreas de oportunidades/sugerencias.json (python scripts/perfil.py sugerir muestra lo que sugieren)
+intereses:
+  - tecnología
+  - datos y análisis
+  - operaciones y procesos
+intereses_otra: ''
+# Paso 2
+estudios: Licenciatura en Informática
+puesto_actual: Analista de reportes en una empresa de distribución
+anos_experiencia: 3
+experiencia: >-
+  Tres años automatizando reportes y procesos en una empresa de distribución; construí un asistente
+  interno con IA para consultar inventario y un tablero de ventas en Power BI.
+# Pasos 3 y 4: elegidos entre las sugerencias, más los propios (RAG)
 habilidades:
   - Python
   - SQL
   - Power BI
   - Power Automate
-  - LLM
+  - IA generativa (LLM)
   - RAG
   - APIs
   - Excel
-experiencia: >-
-  Tres años automatizando reportes y procesos en una empresa de distribución; construí un asistente
-  interno con IA para consultar inventario y un tablero de ventas en Power BI.
-anos_experiencia: 3
+roles_objetivo:
+  - Especialista en integración de IA
+  - Especialista en automatización de procesos
+  - Analista de datos
+  - Analista de inteligencia de negocios (BI)
 idiomas:
   - Español (nativo)
   - Inglés (C1)
@@ -33,12 +43,6 @@ enlaces:
   portafolio: https://ejemplo.dev
   github: https://github.com/ana-ejemplo
   linkedin: ''
-industrias:
-  - banca
-  - telecomunicaciones
-  - retail/distribución
-  - logística
-  - tecnología/consultoría
 ia:
   proveedor: agente         # agente | claude | openai | ninguno
   modelo: ''                # vacío = modelo por defecto del proveedor

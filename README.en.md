@@ -11,7 +11,8 @@ you install in your AI assistant, such as Claude Code. Tell it *"find companies 
 profile"* and it:
 
 1. **Gets to know you**: the first time it asks a few questions (what you're looking for, your
-   skills, experience, languages, how you want to work, your industries) and saves your profile.
+   skills, experience, languages, how you want to work) and saves your profile. It suggests skills and
+   roles from your interests and experience, each with a reason, and you pick.
 2. **Discovers companies with a verified presence in the DR**: multinationals with operations there
    (offices, regional hubs, shared-service centers, free-zone plants), large local groups,
    fast-growing local companies, and tech companies or startups operating or hiring in the DR.
@@ -38,7 +39,7 @@ The app's interface is in Spanish.
 ## Who is it for?
 
 Anyone looking for work in the Dominican Republic, in any field: the search starts from **your**
-profile (roles, skills, experience, industries and preferences). You don't need to know how to
+profile (interests, experience, skills, roles and preferences). You don't need to know how to
 code: the AI assistant handles the technical part.
 
 > [!IMPORTANT]
@@ -72,7 +73,7 @@ code: the AI assistant handles the technical part.
    </details>
 
 2. **Fill in your profile**: in the conversation, or in the dashboard's **Mi perfil** tab (eight
-   short questions). It's saved in `~/.config/oportunidades-rd/profile.yaml`, outside the project folder.
+   short steps, with suggested skills and roles). It's saved in `~/.config/oportunidades-rd/profile.yaml`, outside the project folder.
 
 3. **Ask for what you need**, in your own words:
 
@@ -88,7 +89,8 @@ code: the AI assistant handles the technical part.
 Ask the assistant to *"open the dashboard"*, or run `python app.py` in the project folder. It opens
 at <http://localhost:8765> (only your computer can see it).
 
-- **Mi perfil**: the eight profile questions, step by step.
+- **Mi perfil**: eight steps. Skills and roles are suggested from your interests and experience, without
+  AI (a local map); when your agent is running, it can refine them for you.
 - **Resumen**: companies per status, the latest discovered, contacts this week, upcoming follow-ups
   and open postings from the last check.
 - **Tablero**: one column per status; **drag a company** to change it.

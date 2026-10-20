@@ -1,6 +1,6 @@
 [project]
 name = "oportunidades-rd"
-version = "1.0.0"
+version = "1.1.0"
 description = "Agente de búsqueda de empleo para la República Dominicana"
 requires-python = ">=3.10"
 license = { text = "MIT" }

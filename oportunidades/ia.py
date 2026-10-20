@@ -76,6 +76,7 @@ def completar(perfil: dict, sistema: str, usuario: str, llamadas: dict | None = 
 
 def perfil_para_ia(perfil: dict) -> dict:
     """Solo lo necesario para redactar (sin rutas ni configuración)."""
-    claves = ["nombre", "titular", "roles_objetivo", "habilidades", "experiencia", "anos_experiencia",
-              "idiomas", "ubicacion", "preferencias", "enlaces", "industrias"]
+    claves = ["nombre", "titular", "intereses", "intereses_otra", "estudios", "puesto_actual", "roles_objetivo",
+              "habilidades", "experiencia", "anos_experiencia", "idiomas", "ubicacion", "preferencias", "enlaces",
+              "industrias"]
     return {k: perfil.get(k) for k in claves}

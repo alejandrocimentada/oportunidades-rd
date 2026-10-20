@@ -298,20 +298,24 @@ $("#drawer-close").addEventListener("click", cerrar);
 $("#scrim").addEventListener("click", cerrar);
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrar(); });
 
-// -- mi perfil (las 8 preguntas) y revisión de vacantes -------------------------------
+// -- mi perfil (8 pasos) y revisión de vacantes ---------------------------------------
 const LISTAS = ["roles_objetivo", "habilidades", "idiomas"];
 const leer = (obj, ruta) => ruta.split(".").reduce((o, k) => (o ?? {})[k], obj);
+let sugerenciasAgente = {};  // las que el agente refinó (perfil.sugerencias); van primero
 
 function llenarPerfil(perfil) {
   const f = $("#form-perfil");
   f.querySelectorAll("input, select, textarea").forEach((el) => {
     if (!el.name) return;
-    if (el.name === "industrias") { el.checked = (perfil.industrias || []).includes(el.value); return; }
+    if (el.name === "intereses") { el.checked = (perfil.intereses || []).includes(el.value); return; }
     const v = leer(perfil, el.name);
     if (el.type === "checkbox") el.checked = !!v;
     else if (LISTAS.includes(el.name)) el.value = (v || []).join("\n");
     else el.value = v ?? "";
   });
+  $("#interes-otra").checked = !!perfil.intereses_otra;
+  $("#otra-lbl").hidden = !perfil.intereses_otra;
+  sugerenciasAgente = perfil.sugerencias || {};
   document.querySelectorAll(".chipbox").forEach(pintarChips);
 }
 
@@ -323,6 +327,7 @@ function pintarChips(box) {
   box.querySelector(".list-chips").innerHTML = vals.map((x, i) =>
     `<span class="chip">${esc(x)}<button type="button" data-quitar="${i}" aria-label="Quitar ${esc(x)}">×</button></span>`).join("")
     || `<span class="vacio">Todavía no hay ninguno.</span>`;
+  pintarSugerencias();
 }
 function agregarChips(box, texto) {
   const nuevos = texto.split(/[;\n]/).map((x) => x.trim()).filter(Boolean);
@@ -371,6 +376,7 @@ function irAPaso(i) {
   $("#wz-next").hidden = paso === PASOS.length - 1;
   $("#btn-buscar").hidden = paso !== PASOS.length - 1;  // la revisión se lanza desde el último paso
   $("#wz-next").textContent = paso < PASOS.length - 1 ? "Continuar" : "";
+  pintarSugerencias();
 }
 $("#wz-steps").addEventListener("click", (ev) => { const b = ev.target.closest("[data-paso]"); if (b) irAPaso(+b.dataset.paso); });
 $("#wz-prev").addEventListener("click", () => irAPaso(paso - 1));
@@ -383,19 +389,69 @@ $("#form-perfil").addEventListener("keydown", (ev) => {
 });
 irAPaso(0);
 
-function datosPerfil() {
+// -- sugerencias de habilidades y roles (sin IA: static/sugerencias.js + mapa local) --
+// Declaradas como function: el asistente pinta las sugerencias desde que carga la página.
+function igual(a, b) { return Sugerencias.normalizar(a) === Sugerencias.normalizar(b); }
+function alternar(campo, valor) {
+  const box = $(`.chipbox[data-for="${campo}"]`), vals = chipValores(box);
+  const i = vals.findIndex((v) => igual(v, valor));
+  if (i >= 0) vals.splice(i, 1); else vals.push(valor);
+  chipCampo(box).value = vals.join("\n");
+  pintarChips(box);
+}
+function deAgente(s) { return s.origen === "agente" ? ' <span class="tag">tu agente</span>' : ""; }
+function pintarSugerencias() {
+  if (!$("#sug-roles")) return;
+  const perfil = { ...perfilDelFormulario(), sugerencias: sugerenciasAgente };
+  const s = Sugerencias.sugerir(perfil, window.SUGERENCIAS);
+  const tengo = (campo) => chipValores($(`.chipbox[data-for="${campo}"]`));
+  const vacio = `<p class="hint">Elige tus áreas en el <button type="button" class="linkbtn" data-paso-ir="0">paso 1</button>
+    o cuenta tu experiencia en el <button type="button" class="linkbtn" data-paso-ir="1">paso 2</button> para ver sugerencias.</p>`;
+  const habs = tengo("habilidades");
+  $("#sug-habilidades").innerHTML = s.habilidades.length ? `<p class="sug-t">Sugeridas para ti · toca para añadir o quitar</p>
+    <div class="sug-chips">${s.habilidades.map((h) => {
+      const on = habs.some((x) => igual(x, h.nombre));
+      return `<button type="button" class="sug-chip" aria-pressed="${on}" data-alternar="habilidades" data-valor="${esc(h.nombre)}">
+        ${on ? "✓" : "+"} ${esc(h.nombre)}${deAgente(h)}</button>`;
+    }).join("")}</div>` : vacio;
+  const roles = tengo("roles_objetivo");
+  $("#sug-roles").innerHTML = s.roles.length ? `<p class="sug-t">Según tus intereses, experiencia y habilidades · toca para elegir</p>
+    <div class="sug-roles">${s.roles.map((r) => {
+      const on = roles.some((x) => igual(x, r.rol));
+      return `<button type="button" class="sug-rol" aria-pressed="${on}" data-alternar="roles_objetivo" data-valor="${esc(r.rol)}">
+        <i aria-hidden="true">${on ? "✓" : "+"}</i><span><b>${esc(r.rol)}${deAgente(r)}</b><small>${esc(r.razon)}</small></span></button>`;
+    }).join("")}</div>` : vacio;
+}
+$("#form-perfil").addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-alternar]");
+  if (b) alternar(b.dataset.alternar, b.dataset.valor);
+  const ir = ev.target.closest("[data-paso-ir]");
+  if (ir) irAPaso(+ir.dataset.pasoIr);
+});
+$("#interes-otra").addEventListener("change", (ev) => {
+  $("#otra-lbl").hidden = !ev.target.checked;
+  if (ev.target.checked) $("#otra-lbl input").focus(); else $("#otra-lbl input").value = "";
+});
+
+// Lo que hay en el formulario ahora, sin tocarlo (para las sugerencias y para guardar).
+function perfilDelFormulario() {
   const f = $("#form-perfil"), out = {};
-  // Un chip escrito pero sin pulsar Enter también cuenta.
-  document.querySelectorAll(".chipbox").forEach((box) => { const i = box.querySelector("input"); agregarChips(box, i.value); i.value = ""; });
   f.querySelectorAll("input, select, textarea").forEach((el) => {
-    if (!el.name || el.name === "industrias") return;
+    if (!el.name || el.name === "intereses") return;
     let v = el.type === "checkbox" ? el.checked : el.value.trim();
     if (LISTAS.includes(el.name)) v = v.split(/\n|;/).map((x) => x.trim()).filter(Boolean);
     const [a, b] = el.name.split(".");
     if (b) (out[a] ??= {})[b] = v; else out[a] = v;
   });
-  out.industrias = [...f.querySelectorAll("input[name=industrias]:checked")].map((el) => el.value);
+  out.intereses = [...f.querySelectorAll("input[name=intereses]:checked")].map((el) => el.value);
+  if (!$("#interes-otra").checked) out.intereses_otra = "";
   return out;
+}
+
+function datosPerfil() {
+  // Un chip escrito pero sin pulsar Enter también cuenta.
+  document.querySelectorAll(".chipbox").forEach((box) => { const i = box.querySelector("input"); agregarChips(box, i.value); i.value = ""; });
+  return perfilDelFormulario();
 }
 
 async function guardarPerfil() {

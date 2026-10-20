@@ -43,35 +43,58 @@ If port 8765 is busy, the dashboard is probably already running: just give the l
 ## 1. First run: build the profile
 
 Run `python scripts/perfil.py show`. Exit code 2 means there is no profile yet. Either point the user
-to the dashboard's **Mi perfil** tab (`python app.py`), or ask these in one or two short messages
-(accept "no sé" and move on):
+to the dashboard's **Mi perfil** tab (`python app.py`), or ask these questions (the same 8 steps as the
+dashboard's wizard) in one or two short messages, accepting "no sé" and moving on:
 
-1. What roles are you looking for?
-2. Main skills and tools? Years of experience, and a 2-3 sentence summary of your experience.
-3. Languages and level.
-4. Where do you live / where can you work? Monday–Friday? Remote or hybrid days?
-5. Minimum monthly salary in DOP (and whether startups may offer a different package).
-6. Name as it should appear on letters, a one-line headline, and links (portfolio, GitHub, LinkedIn).
-7. Industries you're most interested in.
-8. Who writes drafts: you (the agent, default `agente`), `claude` or `openai` with their own API key, or `ninguno`.
+1. **Interests**: which areas they'd like to work in. Offer the list from `python scripts/perfil.py sugerir`'s
+   map (tecnología, datos y análisis, finanzas y contabilidad, logística y cadena de suministro, operaciones y
+   procesos, ventas, marketing, diseño, recursos humanos, salud, educación, servicio al cliente, legal,
+   manufactura, turismo y hotelería); anything else goes in `intereses_otra`.
+2. **Experience**: what they studied, their last or current job, years of experience, and (optional) a
+   2-3 sentence summary.
+3. **Skills**: run `python scripts/perfil.py sugerir` and offer its `habilidades`; they pick and add their own.
+4. **Roles**: offer the suggested `roles` with their one-line `razon`; they pick, remove or add their own.
+5. Languages and level.
+6. Where they live / can work, Monday–Friday?, remote or hybrid days.
+7. Minimum monthly salary in DOP (and whether startups may offer a different package).
+8. Name as it should appear on letters, a one-line headline, and links (LinkedIn, portfolio, GitHub).
+   Drafting defaults to you (`ia.proveedor agente`); only change it if they ask for `claude`, `openai` or `ninguno`.
 
 Save each answer (lists are separated by `;`):
 
 ```
+python scripts/perfil.py set intereses "salud; educación"    ;  set intereses_otra "deportes"
+python scripts/perfil.py set estudios "Licenciatura en Enfermería"
+python scripts/perfil.py set puesto_actual "Enfermera en una clínica"   ;  set anos_experiencia 3
+python scripts/perfil.py set experiencia "..."               # optional summary, used in letters
+python scripts/perfil.py set habilidades "Habilidad 1; Habilidad 2"
 python scripts/perfil.py set roles_objetivo "Rol 1; Rol 2"
-python scripts/perfil.py set habilidades "Herramienta 1; Herramienta 2"
-python scripts/perfil.py set experiencia "..."      ;  set anos_experiencia 3
 python scripts/perfil.py set idiomas "Español (nativo); Inglés (C1)"
 python scripts/perfil.py set ubicacion "Santo Domingo"
 python scripts/perfil.py set preferencias.modalidad hibrido   # presencial | hibrido | remoto
 python scripts/perfil.py set preferencias.dias_remotos 2   ;  set preferencias.dias "lunes a viernes"
 python scripts/perfil.py set preferencias.salario_minimo_dop 100000
 python scripts/perfil.py set preferencias.salario_flexible_startups true
-python scripts/perfil.py set enlaces.portafolio https://...   (also enlaces.github, enlaces.linkedin)
 python scripts/perfil.py set nombre "..."   ;  set titular "one-line professional headline"
-python scripts/perfil.py set industrias "banca; logística"
+python scripts/perfil.py set enlaces.linkedin https://...   (also enlaces.portafolio, enlaces.github)
 python scripts/perfil.py set ia.proveedor agente      # agente | claude | openai | ninguno
 ```
+
+**Refine the suggestions (optional, recommended).** The built-in suggestions come from a generic local
+map (`oportunidades/sugerencias.json`, no AI). With the profile in hand you can do better: skills and roles
+specific to *their* experience (e.g. "Analista de cuentas por pagar" for someone who did payables, not just
+"Contador"), each with a one-line reason grounded in what they told you. Write a JSON file and save it:
+
+```
+python scripts/perfil.py sugerencias --archivo s.json   # {"habilidades": ["..."], "roles": [{"rol": "...", "razon": "..."}]}
+python scripts/perfil.py sugerencias --borrar            # back to the built-in ones
+```
+
+The dashboard shows yours first, tagged «tu agente». Don't put them in `roles_objetivo` yourself: the
+user picks.
+
+Profiles from before v1.1 (with `industrias` and no `intereses`) are migrated automatically when loaded;
+`industrias` is kept as an optional list of preferred sectors.
 
 Then `show` again and confirm in one line. The script refuses to save the profile inside this folder.
 
@@ -84,7 +107,8 @@ one person or field.
 1. **Derive what to look for** from the profile: the functions their experience and skills fit
    (e.g. a demand planner with SAP → supply chain / planning, ERP / SAP, BI; a nurse → hospitals,
    clinics, health insurers, medical-device plants; a developer → tech companies, banks' digital
-   teams, nearshore/outsourcing firms), their target roles, their industries, and their preferences
+   teams, nearshore/outsourcing firms), their interests (`intereses`, `intereses_otra`), what they
+   studied and their last job, their target roles, any preferred `industrias`, and their preferences
    (city, modality, schedule, language).
 2. **Search broadly**, in Spanish and English, for companies operating in the DR in those areas:
    - multinationals with DR operations: offices, regional hubs, shared-service / BPO centers,

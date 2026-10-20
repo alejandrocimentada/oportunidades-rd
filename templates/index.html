@@ -56,23 +56,43 @@
     <section id="view-perfil" class="view">
       <div class="wz-head">
         <span class="eyebrow" id="wz-paso">Paso 1 de 8</span>
-        <h2 id="wz-titulo">¿Qué roles buscas?</h2>
+        <h2 id="wz-titulo">¿Qué te interesa?</h2>
         <ol class="wz-steps" id="wz-steps" aria-label="Pasos"></ol>
       </div>
 
       <form id="form-perfil" class="wizard" autocomplete="off" novalidate>
-        <fieldset class="step" data-titulo="¿Qué roles buscas?" data-corto="Roles"><legend>Roles</legend>
-          <label class="lbl" for="chip-roles_objetivo">Roles de interés</label>
-          <div class="chipbox" data-for="roles_objetivo" data-placeholder="ej. Analista de datos, Contador, Diseñador UX, Supervisor de logística…"></div>
-          <textarea name="roles_objetivo" hidden></textarea>
+        <fieldset class="step" data-titulo="¿Qué te interesa?" data-corto="Intereses"><legend>Áreas de interés</legend>
+          <p class="hint">Elige todas las áreas donde te gustaría trabajar. Con esto te sugerimos habilidades y roles.</p>
+          <div class="areas">
+            {% for a in mapa.areas %}<label class="area"><input type="checkbox" name="intereses" value="{{ a.area }}">
+              <span><b>{{ a.area|capitalize }}</b><small>{{ a.descripcion }}</small></span></label>
+            {% endfor %}<label class="area"><input type="checkbox" id="interes-otra">
+              <span><b>Otra</b><small>Escríbela tú</small></span></label>
+          </div>
+          <label class="lbl" id="otra-lbl" hidden>¿Cuál otra área?<input name="intereses_otra" placeholder="ej. agricultura, deportes, bienes raíces"></label>
         </fieldset>
 
-        <fieldset class="step" data-titulo="Habilidades y experiencia" data-corto="Habilidades"><legend>Habilidades y experiencia</legend>
-          <label class="lbl" for="chip-habilidades">Habilidades principales</label>
+        <fieldset class="step" data-titulo="Tu experiencia" data-corto="Experiencia"><legend>Tu experiencia</legend>
+          <label class="lbl">¿Qué estudiaste?<input name="estudios" placeholder="ej. Contabilidad, Bachillerato técnico en informática, Enfermería"></label>
+          <div class="row">
+            <label class="lbl">Tu último trabajo o el actual<input name="puesto_actual" placeholder="ej. Cajera en un supermercado"></label>
+            <label class="lbl short">Años de experiencia<input name="anos_experiencia" type="number" min="0" max="50"></label>
+          </div>
+          <label class="lbl">Algo más sobre tu experiencia (opcional, 2-3 frases; se usa en tus cartas)<textarea name="experiencia" rows="3"></textarea></label>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="Tus habilidades" data-corto="Habilidades"><legend>Tus habilidades</legend>
+          <div class="sug" id="sug-habilidades" aria-live="polite"></div>
+          <label class="lbl" for="chip-habilidades">Tus habilidades (añade las tuyas)</label>
           <div class="chipbox" data-for="habilidades" data-placeholder="ej. Excel, contabilidad, Figma, atención al cliente…"></div>
           <textarea name="habilidades" hidden></textarea>
-          <label class="lbl short">Años de experiencia<input name="anos_experiencia" type="number" min="0" max="50"></label>
-          <label class="lbl">Resumen de tu experiencia (2-3 frases)<textarea name="experiencia" rows="4"></textarea></label>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="Roles sugeridos" data-corto="Roles"><legend>Roles sugeridos</legend>
+          <div class="sug" id="sug-roles" aria-live="polite"></div>
+          <label class="lbl" for="chip-roles_objetivo">Roles que buscas (añade los tuyos)</label>
+          <div class="chipbox" data-for="roles_objetivo" data-placeholder="ej. Analista de datos, Contador, Diseñador UX, Supervisor de logística…"></div>
+          <textarea name="roles_objetivo" hidden></textarea>
         </fieldset>
 
         <fieldset class="step" data-titulo="¿Qué idiomas hablas?" data-corto="Idiomas"><legend>Idiomas</legend>
@@ -100,28 +120,24 @@
         <fieldset class="step" data-titulo="Tu nombre y enlaces" data-corto="Nombre"><legend>Tu nombre y enlaces</legend>
           <div class="row">
             <label class="lbl">Nombre (como va en las cartas)<input name="nombre"></label>
-            <label class="lbl">Titular profesional<input name="titular"></label>
+            <label class="lbl">Titular profesional<input name="titular" placeholder="ej. Contadora con 5 años en auditoría"></label>
           </div>
           <div class="row">
-            <label class="lbl">GitHub<input name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
             <label class="lbl">LinkedIn<input name="enlaces.linkedin" type="url" placeholder="https://www.linkedin.com/in/…"></label>
+            <label class="lbl">GitHub (si aplica)<input name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
           </div>
           <label class="lbl">Portafolio<input name="enlaces.portafolio" type="url" placeholder="déjalo vacío si aún no está en línea"></label>
-        </fieldset>
-
-        <fieldset class="step" data-titulo="Industrias que más te interesan" data-corto="Industrias"><legend>Industrias</legend>
-          <div class="chips">{% for i in industrias %}<label><input type="checkbox" name="industrias" value="{{ i }}"><span>{{ i }}</span></label>{% endfor %}</div>
-        </fieldset>
-
-        <fieldset class="step" data-titulo="¿Quién redacta tus mensajes y cartas?" data-corto="IA"><legend>¿Quién redacta?</legend>
-          <div class="row">
-            <label class="lbl">Proveedor<select name="ia.proveedor">
-              <option value="agente">Tu agente (Claude Code), sin clave</option>
-              <option value="claude">Claude, con tu ANTHROPIC_API_KEY</option>
-              <option value="openai">OpenAI, con tu OPENAI_API_KEY</option>
-              <option value="ninguno">Ninguno (plantillas básicas)</option></select></label>
-            <label class="lbl">Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
-          </div>
+          <details class="avanzado">
+            <summary>Opciones avanzadas: ¿quién redacta tus mensajes y cartas?</summary>
+            <div class="row">
+              <label class="lbl">Proveedor<select name="ia.proveedor">
+                <option value="agente">Tu agente (Claude Code), sin clave</option>
+                <option value="claude">Claude, con tu ANTHROPIC_API_KEY</option>
+                <option value="openai">OpenAI, con tu OPENAI_API_KEY</option>
+                <option value="ninguno">Ninguno (plantillas básicas)</option></select></label>
+              <label class="lbl">Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
+            </div>
+          </details>
           <p class="hint" id="buscar-info"></p>
         </fieldset>
 
@@ -222,7 +238,7 @@
   <h2>Encuentra dónde podrías trabajar, aunque no haya vacantes publicadas.</h2>
   <div class="feat">
     <span>01</span><b>Perfil por pasos</b>
-    <p>Define tus roles, habilidades, experiencia, idiomas, preferencias e industrias en ocho preguntas cortas. Tu perfil se queda en tu computadora.</p>
+    <p>Elige lo que te interesa y cuenta tu experiencia: te sugiere habilidades y roles, cada uno con su porqué. Ocho pasos cortos; tu perfil se queda en tu computadora.</p>
   </div>
   <div class="feat">
     <span>02</span><b>Empresas que encajan contigo</b>
@@ -299,7 +315,8 @@
 </aside>
 <div class="scrim" id="scrim"></div>
 
-<script>window.ESTADOS = {{ estados|tojson }};</script>
+<script>window.ESTADOS = {{ estados|tojson }}; window.SUGERENCIAS = {{ mapa|tojson }};</script>
+<script src="{{ 'sugerencias.js' if publica else url_for('static', filename='sugerencias.js') }}"></script>
 {% if publica %}<script src="demo-datos.js"></script>{% endif %}
 <script src="{{ 'app.js' if publica else url_for('static', filename='app.js') }}"></script>
 </body>
