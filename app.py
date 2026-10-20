@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT))
 
 from flask import Flask, abort, jsonify, render_template, request, send_file  # noqa: E402
 
-from oportunidades import NOMBRE, config, ia, perfil as pf, redaccion  # noqa: E402
+from oportunidades import NOMBRE, __version__, config, ia, perfil as pf, redaccion  # noqa: E402
 from oportunidades.contactos import contactos  # noqa: E402
 from oportunidades.db import ESTADOS, ESTADOS_CON_DOCUMENTOS, INDUSTRIAS, DatosError  # noqa: E402
 from oportunidades.exportar import exportar  # noqa: E402
@@ -67,7 +67,7 @@ def crear_app(demo: bool = False, busqueda: Busqueda | None = None) -> Flask:
 
     @app.get("/")
     def inicio():
-        return render_template("index.html", nombre=NOMBRE, estados=ESTADOS, industrias=INDUSTRIAS)
+        return render_template("index.html", nombre=NOMBRE, version=__version__, estados=ESTADOS, industrias=INDUSTRIAS)
 
     @app.get("/api/resumen")
     def api_resumen():

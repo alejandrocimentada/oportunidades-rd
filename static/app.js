@@ -41,6 +41,11 @@ function mostrar(view) {
   try { localStorage.setItem("vista", view); } catch (_) { /* sin almacenamiento */ }
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => mostrar(b.dataset.view)));
+// «Llenar mi perfil» y otros botones con data-ir: abre esa vista y sube a la ventana de la app.
+document.querySelectorAll("[data-ir]").forEach((b) => b.addEventListener("click", () => {
+  mostrar(b.dataset.ir);
+  $("#app").scrollIntoView({ behavior: "smooth", block: "start" });
+}));
 
 // -- resumen --------------------------------------------------------------------------
 function pintarResumen() {

@@ -20,6 +20,9 @@
     <span>{{ nombre }}</span>
   </a>
   <nav class="topnav">
+    <a href="#funciones" class="opt">Funciones</a>
+    <a href="#app" class="opt">Vista previa</a>
+    <a href="#agente" class="opt">Agente IA</a>
     <a href="/api/excel">Descargar Excel ↗</a>
   </nav>
 </header>
@@ -30,7 +33,7 @@
   <span class="hero-note">Procesamiento local · solo lee páginas públicas · nada se envía solo</span>
 </section>
 
-<section class="window">
+<section class="window" id="app">
   <div class="titlebar">
     <div class="dots"><i></i><i></i><i></i><span>oportunidades-rd / mi-busqueda</span></div>
     <nav class="tabs" role="tablist" aria-label="Secciones">
@@ -195,6 +198,46 @@
   <div class="winfoot" role="radiogroup" aria-label="Tema">
     <label><input type="radio" name="tema" value="claro" checked> <span>Modo claro</span></label>
     <label><input type="radio" name="tema" value="oscuro"> <span>Modo oscuro</span></label>
+  </div>
+</section>
+
+<section class="features" id="funciones">
+  <h2>Organiza tu búsqueda de empleo sin fricción.</h2>
+  <div class="feat">
+    <span>01</span><b>Perfil por pasos</b>
+    <p>Define tus roles, habilidades, idiomas, salario e industrias en ocho preguntas cortas, una a la vez. Tu perfil se queda en esta computadora.</p>
+  </div>
+  <div class="feat">
+    <span>02</span><b>Tablero kanban de estado</b>
+    <p>Mira en qué etapa va cada vacante, de «Nuevo» y «Me interesa» a entrevistas y ofertas, y muévela arrastrando la tarjeta.</p>
+  </div>
+  <div class="feat">
+    <span>03</span><b>Ajuste y textos con IA</b>
+    <p>Cada vacante recibe un ajuste de 0 a 100 con razones, alertas y lo que te falta. Para las que te interesan, prepara un mensaje y una carta que copias y envías tú: nada se envía solo.</p>
+  </div>
+</section>
+
+<section class="agent" id="agente">
+  <div>
+    <h3>Pídele a tu agente que busque y puntúe vacantes.</h3>
+    <p>Oportunidades RD trae comandos y una skill para Claude Code: tu agente revisa las páginas de empleo de tus empresas, respeta robots.txt y puntúa cada vacante contra tu perfil.</p>
+  </div>
+  <div class="term">
+    <span>// Desde la carpeta del proyecto, en la terminal:</span>
+    <code>python scripts/rastrear.py</code>
+  </div>
+</section>
+
+<section class="start">
+  <h2>Empieza a ordenar tu búsqueda</h2>
+  <p>Llena tu perfil, busca en las páginas de empleo de tus empresas y descarga todo en Excel cuando quieras.</p>
+  <div class="start-btns">
+    <button type="button" class="btn pill-btn" data-ir="perfil">Llenar mi perfil</button>
+    <a class="btn pill-btn" href="/api/excel">Descargar Excel</a>
+  </div>
+  <div class="start-meta">
+    <span>Versión {{ version }} · Sin inicio de sesión · Funciona en tu computadora</span>
+    <a href="#funciones">Cómo funciona</a>
   </div>
 </section>
 
