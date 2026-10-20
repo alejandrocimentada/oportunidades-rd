@@ -8,7 +8,7 @@ from . import ajuste, ia, perfil as perfil_mod
 from .crawler import Bloqueado, Fetcher, Prohibido
 from .db import Store, ahora
 from .exportar import exportar_seguro
-from .extraer import ATS, detectar_ats, extraer, parse_feed, texto_detalle
+from .extraer import ATS, busqueda_successfactors, detectar_ats, extraer, parse_feed, texto_detalle
 from .texto import es_portal_bloqueado, idioma, limpiar_espacios
 
 MAX_DETALLES = 10  # páginas de detalle por empresa (para leer la descripción)
@@ -76,6 +76,10 @@ def _vacantes_de_empresa(fetcher: Fetcher, emp: dict, detalles: bool) -> tuple[l
         ats = detectar_ats(resp.url_final or url, html)
         if not ats:
             res = extraer(html, url, resp.status, resp.url_final)
+            alterna = busqueda_successfactors(html, resp.url_final or url) if res.estado != "ok" else ""
+            if alterna:  # SuccessFactors: la portada es JavaScript; su página de búsqueda es HTML público
+                r2 = fetcher.get(alterna)
+                res = extraer(r2.texto, alterna, r2.status, r2.url_final)
             if res.estado != "ok":
                 return [], res.estado, res.motivo, ""
             vacs = res.vacantes

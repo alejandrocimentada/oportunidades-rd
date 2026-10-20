@@ -56,7 +56,8 @@ _PATRONES_ATS = [
     ("workable", re.compile(r"([A-Za-z0-9_-]+)\.workable\.com", re.I)),
     ("smartrecruiters", re.compile(r"(?:careers|jobs)\.smartrecruiters\.com/([A-Za-z0-9_-]+)", re.I)),
     ("smartrecruiters", re.compile(r"api\.smartrecruiters\.com/v1/companies/([A-Za-z0-9_-]+)", re.I)),
-    ("teamtailor", re.compile(r"([A-Za-z0-9_-]+)\.teamtailor\.com", re.I)),
+    # Teamtailor puede llevar región: empresa.na.teamtailor.com → la cuenta es "empresa.na".
+    ("teamtailor", re.compile(r"([A-Za-z0-9_-]+(?:\.(?:na|eu))?)\.teamtailor\.com", re.I)),
     ("bamboohr", re.compile(r"([A-Za-z0-9_-]+)\.bamboohr\.com", re.I)),
 ]
 _CUENTAS_INVALIDAS = {"www", "api", "apply", "jobs", "careers", "app", "assets", "embed", "cdn", "static",
@@ -241,10 +242,11 @@ def diagnosticar(html: str, status: int = 200, url_final: str = "") -> str:
         return "La página pide iniciar sesión."
     if _SENALES_ANTIBOT.search(html or "") and len(soup.get_text(" ").split()) < 300:
         return "La página tiene una protección anti-bots (no se intenta saltar)."
+    scripts_externos = len(soup.find_all("script", src=True))  # casi sin texto + muchos scripts = app de JavaScript
     for t in soup(["script", "style", "noscript", "template"]):
         t.decompose()
     visible = soup.get_text(" ").split()
-    if len(visible) < 40 and (_SENALES_JS.search(html or "") or
+    if len(visible) < 40 and (_SENALES_JS.search(html or "") or scripts_externos >= 3 or
                               re.search(r'id=["\'](root|app|__next|__nuxt)["\']', html or "")):
         return "La página necesita JavaScript para mostrar las vacantes."
     return ""
@@ -261,7 +263,12 @@ _CLASES_FECHA = re.compile(r"(date|fecha|posted|publicad)", re.I)
 _TITULOS_NAVEGACION = re.compile(
     r"^(ver (m[aá]s|todas?|detalles?)|aplicar|apply( now)?|leer m[aá]s|more|see all|view all|empleos?|"
     r"vacantes?|careers?|jobs?|carreras?|inicio|home|trabaja con nosotros|[0-9]+|siguiente|anterior|next|"
-    r"previous|«|»|→|←)$", re.I)
+    r"previous|«|»|→|←|ver (las |todas las |nuestras )?(vacantes|ofertas|empleos|posiciones|oportunidades)( disponibles)?|"
+    r"(conoce|descubre) (nuestras|las) (vacantes|oportunidades))$", re.I)
+# Postulación general («Envía tu CV»): no es una vacante concreta.
+_POSTULACION_GENERAL = re.compile(
+    r"^\W*((env[ií]a(nos)?|enviar|sube|deja(nos)?|comparte) (tu|su) (cv|curr[ií]cul[ou]m|hoja de vida)|"
+    r"postulaci[oó]n (general|espont[aá]nea)|candidatura espont[aá]nea|general application|open application)", re.I)
 
 
 def _jsonld(soup: BeautifulSoup, base: str) -> list[Vacante]:
@@ -291,15 +298,18 @@ def _jsonld(soup: BeautifulSoup, base: str) -> list[Vacante]:
 
 
 def _contenedor(a):
-    """El elemento 'tarjeta' que rodea un enlace de vacante (li, article, tr, div con clase de vacante)."""
-    nodo = a
+    """El elemento 'tarjeta' que rodea un enlace de vacante. Se prefiere una fila o tarjeta (li, article, tr):
+    un <span class="jobTitle"> también 'parece' de vacante, pero el lugar y la fecha están en la fila."""
+    nodo, por_clase = a, None
     for _ in range(5):
         nodo = nodo.parent
         if nodo is None or nodo.name in ("body", "html"):
-            return a.parent
-        if nodo.name in ("li", "article", "tr") or _CLASES_VACANTE.search(" ".join(nodo.get("class", []))):
+            break
+        if nodo.name in ("li", "article", "tr"):
             return nodo
-    return a.parent
+        if por_clase is None and _CLASES_VACANTE.search(" ".join(nodo.get("class", []))):
+            por_clase = nodo
+    return por_clase or a.parent
 
 
 def _texto_por_clase(nodo, patron) -> str:
@@ -338,7 +348,7 @@ def extraer_html(html: str, base_url: str) -> list[Vacante]:
         h = a.find(["h2", "h3", "h4", "strong"]) or (cont.find(["h2", "h3", "h4"]) if cont else None)
         titulo = limpiar_espacios((h or a).get_text(" "))
         if (not titulo or len(titulo) < 4 or len(titulo) > 140 or _TITULOS_NAVEGACION.match(titulo)
-                or href in vistos):
+                or _POSTULACION_GENERAL.search(titulo) or href in vistos):
             continue
         if urlsplit(href).hostname and urlsplit(href).hostname != base_host and not _PALABRAS_VACANTE.search(href):
             continue
@@ -347,6 +357,15 @@ def extraer_html(html: str, base_url: str) -> list[Vacante]:
                            fecha=_fecha(_texto_por_clase(cont, _CLASES_FECHA)) or
                            _texto_por_clase(cont, _CLASES_FECHA)))
     return out
+
+
+def busqueda_successfactors(html: str, url: str) -> str:
+    """Los sitios de empleo de SAP SuccessFactors arman la portada con JavaScript, pero tienen una página de
+    búsqueda pública que lista las vacantes en HTML. Devuelve esa URL, o "" si no es un sitio así."""
+    if not re.search(r"/platform/js/j2w/|sapsf\.com", html or ""):
+        return ""
+    p = urlsplit(url)
+    return f"{p.scheme}://{p.netloc}/search/?q=&sortColumn=referencedate&sortDirection=desc"
 
 
 def texto_detalle(html: str) -> str:

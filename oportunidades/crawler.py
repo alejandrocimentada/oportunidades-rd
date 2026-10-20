@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -49,13 +50,33 @@ class Bloqueado(Exception):
 Transporte = Callable[[str, dict], Respuesta]
 
 
+_CHARSET = re.compile(rb"""charset\s*=\s*["']?([A-Za-z0-9_.:-]+)""", re.I)
+
+
+def decodificar(contenido: bytes, content_type: str = "") -> str:
+    """Texto de una respuesta. Sin charset en la cabecera, no se asume ISO-8859-1 (lo que hace requests y
+    rompe los acentos): se mira el <meta charset> de la página, luego se prueba UTF-8 y por último cp1252."""
+    candidatos = []
+    m = _CHARSET.search(content_type.encode("latin-1", "ignore"))
+    if m:
+        candidatos.append(m.group(1).decode())
+    m = _CHARSET.search(contenido[:4096])
+    if m:
+        candidatos.append(m.group(1).decode())
+    for cs in candidatos + ["utf-8"]:
+        try:
+            return contenido.decode(cs)
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return contenido.decode("cp1252", errors="replace")
+
+
 def transporte_requests(url: str, headers: dict) -> Respuesta:
     import requests
 
     r = requests.get(url, headers=headers, timeout=TIMEOUT, allow_redirects=True)
-    r.encoding = r.encoding or r.apparent_encoding
-    return Respuesta(url=url, status=r.status_code, texto=r.text,
-                     content_type=r.headers.get("Content-Type", ""), url_final=r.url)
+    ct = r.headers.get("Content-Type", "")
+    return Respuesta(url=url, status=r.status_code, texto=decodificar(r.content, ct), content_type=ct, url_final=r.url)
 
 
 @dataclass
