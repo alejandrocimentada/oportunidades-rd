@@ -359,7 +359,7 @@ document.querySelectorAll(".chipbox").forEach((box) => {
   pintarChips(box);
 });
 
-// -- buscador de habilidades (paso 3): índice local de ESCO, funciona sin conexión ----
+// -- buscador de habilidades (paso 3): índice local (ESCO + habilidades curadas), funciona sin conexión ----
 // Se carga una sola vez, al abrir los pasos 3 o 4; mientras tanto el campo acepta texto libre.
 function cargarEsco() {
   cargarEsco.p ??= fetch(window.RUTA_ESCO).then((r) => (r.ok ? r.json() : null))
@@ -396,10 +396,14 @@ function acPintar() {
   if (!q || document.activeElement !== acInput) { acCerrar(); return; }
   acItems = Sugerencias.buscarHabilidades(q, ESCO);
   acSel = Math.min(acSel, acItems.length);
-  const opciones = acItems.map((r, i) => `<li role="option" id="ac-op-${i}" data-i="${i}">
-      <b>${resaltar(mayus(r.es), q)}</b><small>${esc(r.en)}${r.sinonimo ? ` · también «${resaltar(r.sinonimo, q)}»` : ""}</small></li>`);
+  // El nombre en español y, debajo y en pequeño, el inglés solo si es distinto (y el sinónimo que coincidió).
+  const opciones = acItems.map((r, i) => {
+    const debajo = [Sugerencias.normalizar(r.en) !== Sugerencias.normalizar(r.es) ? resaltar(r.en, q) : "",
+      r.sinonimo ? `también «${resaltar(r.sinonimo, q)}»` : ""].filter(Boolean).join(" · ");
+    return `<li role="option" id="ac-op-${i}" data-i="${i}"><b>${resaltar(mayus(r.es), q)}</b>${debajo ? `<small>${debajo}</small>` : ""}</li>`;
+  });
   if (!ESCO) opciones.push('<li class="ac-nota" aria-disabled="true">Cargando el buscador de habilidades…</li>');
-  else if (q.length >= 2 && !acItems.length) opciones.push('<li class="ac-nota" aria-disabled="true">No está en ESCO: puedes añadirla igual.</li>');
+  else if (q.length >= 2 && !acItems.length) opciones.push('<li class="ac-nota" aria-disabled="true">No está en la lista: puedes añadirla igual.</li>');
   opciones.push(`<li role="option" id="ac-op-${acItems.length}" data-i="${acItems.length}" class="ac-libre">Añadir «${esc(q)}» tal cual</li>`);
   acLista.innerHTML = opciones.join("");
   acLista.hidden = false;

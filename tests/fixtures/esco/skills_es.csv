@@ -1,13 +1,19 @@
 ﻿conceptType,conceptUri,skillType,reuseLevel,preferredLabel,altLabels,hiddenLabels,status,modifiedDate,scopeNote,definition,inScheme,description
 KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/excel,skill/competence,cross-sector,usar software de hojas de cálculo,"Excel
 hojas de cálculo",,released,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/sql,skill/competence,cross-sector,SQL,lenguaje de consulta estructurado,,released,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/python,skill/competence,cross-sector,Python (programación informática),Python,,released,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/estad,skill/competence,cross-sector,estadística,,,released,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/conta,skill/competence,cross-sector,contabilidad,teneduría de libros,,released,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/impuestos,skill/competence,cross-sector,aplicar la legislación tributaria,,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/sql,knowledge,cross-sector,SQL,lenguaje de consulta estructurado,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/python,knowledge,cross-sector,Python (programación informática),Python,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/estad,knowledge,cross-sector,estadística,,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/conta,knowledge,cross-sector,contabilidad,teneduría de libros,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/impuestos,skill/competence,sector-specific,aplicar la legislación tributaria,,,released,2025-12-10,,,,descripción
 KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/pacientes,skill/competence,cross-sector,atender a pacientes,cuidado del paciente,,released,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/diseno,skill/competence,cross-sector,diseño gráfico,diseñar gráficos,,released,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/ingles,skill/competence,cross-sector,inglés,,,released,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/viejo,skill/competence,cross-sector,habilidad obsoleta,,,obsolete,2025-12-10,,,,descripción
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/visual,skill/competence,cross-sector,técnicas de presentación visual,visualización de datos,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/diseno,knowledge,cross-sector,diseño gráfico,diseñar gráficos,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/ingles,knowledge,transversal,inglés,,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/viejo,knowledge,cross-sector,habilidad obsoleta,,,obsolete,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/visual,knowledge,cross-sector,técnicas de presentación visual,visualización de datos,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/larga,knowledge,cross-sector,principios de la gestión de la cadena de suministro,,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/sinuso,knowledge,cross-sector,historia del arte,,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/maas,knowledge,sector-specific,movilidad como servicio,,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/asist,knowledge,sector-specific,asistencia sanitaria,,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/equipo,skill/competence,transversal,trabajar en equipo,,,released,2025-12-10,,,,descripción
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/quitada,skill/competence,transversal,respetar las directrices de la organización,,,released,2025-12-10,,,,descripción

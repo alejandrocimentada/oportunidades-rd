@@ -1,0 +1,1991 @@
+{
+ "_nota": "Competencias de ESCO (skill/competence, reuseLevel transversal o cross-sector, usadas por 40 o más ocupaciones) reescritas como nombres cortos de habilidad, al estilo de un perfil profesional. La clave es el URI de ESCO, así que las ocupaciones siguen enlazadas. «quitar»: no sirve como habilidad de perfil. Varias competencias pueden compartir nombre: se unen en una sola habilidad. Lo usa scripts/construir_esco.py.",
+ "competencias": {
+  "http://data.europa.eu/esco/skill/415abd43-e8e5-4643-b5da-5f11307af57a": {
+   "esco": "utilizar distintos métodos de comunicación",
+   "esco_en": "use different communication channels",
+   "es": "Comunicación",
+   "en": "Communication"
+  },
+  "http://data.europa.eu/esco/skill/03b9b491-fc9b-4868-914a-bf7cd47b5041": {
+   "esco": "crear soluciones para problemas",
+   "esco_en": "create solutions to problems",
+   "es": "Resolución de problemas",
+   "en": "Problem solving"
+  },
+  "http://data.europa.eu/esco/skill/339ac029-066a-4985-9f9d-b3d7c8fea0bb": {
+   "esco": "gestionar recursos humanos",
+   "esco_en": "manage staff",
+   "es": "Gestión de personal",
+   "en": "Staff management"
+  },
+  "http://data.europa.eu/esco/skill/ccfbdaad-b91d-4bfe-bd0e-d30b33587f19": {
+   "esco": "llevar registro de la evolución de los trabajos",
+   "esco_en": "keep records of work progress",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/21c5790c-0930-4d74-b3b0-84caf5af12ea": {
+   "esco": "gestionar presupuestos",
+   "esco_en": "manage budgets",
+   "es": "Gestión de presupuestos",
+   "en": "Budget management"
+  },
+  "http://data.europa.eu/esco/skill/d15ce60f-ddab-41ce-ba56-398451b77b60": {
+   "esco": "tener competencias informáticas",
+   "esco_en": "have computer literacy",
+   "es": "Informática básica",
+   "en": "Computer literacy"
+  },
+  "http://data.europa.eu/esco/skill/334e3e49-fb02-4051-809a-f06adfdc1c40": {
+   "esco": "resolver problemas operativos",
+   "esco_en": "troubleshoot",
+   "es": "Solución de incidencias",
+   "en": "Troubleshooting"
+  },
+  "http://data.europa.eu/esco/skill/2de4572a-4724-4f76-afc2-72a568a264ac": {
+   "esco": "Hablar diferentes idiomas",
+   "esco_en": "speak different languages",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/cd5efa8c-e44d-4cbc-91c6-796018dbed68": {
+   "esco": "gestionar proyectos",
+   "esco_en": "perform project management",
+   "es": "Gestión de proyectos",
+   "en": "Project management"
+  },
+  "http://data.europa.eu/esco/skill/e54ff029-1ce9-447d-a5b2-eb7283a23e6e": {
+   "esco": "capacitar a empleados",
+   "esco_en": "train employees",
+   "es": "Capacitación de personal",
+   "en": "Employee training"
+  },
+  "http://data.europa.eu/esco/skill/f14ff4b7-be1e-4b55-b39b-520005f8a97e": {
+   "esco": "comunicarse con los jefes y directivos",
+   "esco_en": "liaise with managers",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/aa238394-8126-4ada-be2f-9dfe065cf314": {
+   "esco": "respetar las directrices de la organización",
+   "esco_en": "adhere to organisational guidelines",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/465ff64a-1271-4064-8ed1-e969cb68d8b4": {
+   "esco": "someter productos a ensayo",
+   "esco_en": "perform test run",
+   "es": "Pruebas de producto",
+   "en": "Product testing"
+  },
+  "http://data.europa.eu/esco/skill/6122d586-5978-431f-8e7a-96e61fc1f3fc": {
+   "esco": "utilizar equipos de protección adecuados",
+   "esco_en": "wear appropriate protective gear",
+   "es": "Equipo de protección personal (EPP)",
+   "en": "Personal protective equipment (PPE)"
+  },
+  "http://data.europa.eu/esco/skill/1a3660c2-011c-4e96-9b1d-529afc305428": {
+   "esco": "inspeccionar la calidad de los productos",
+   "esco_en": "inspect quality of products",
+   "es": "Control de calidad",
+   "en": "Quality control"
+  },
+  "http://data.europa.eu/esco/skill/bf5d77ad-e18c-48d8-83f0-bc79c011c74a": {
+   "esco": "desarrollar una red profesional",
+   "esco_en": "develop professional network",
+   "es": "Networking",
+   "en": "Networking"
+  },
+  "http://data.europa.eu/esco/skill/918f5211-b99f-4b29-9a34-6e475583ef55": {
+   "esco": "preparar informes sobre asuntos relacionados con el trabajo",
+   "esco_en": "write work-related reports",
+   "es": "Redacción de informes",
+   "en": "Report writing"
+  },
+  "http://data.europa.eu/esco/skill/4fabca9a-7435-4f33-b1da-3cdb00340fdc": {
+   "esco": "llevar a cabo investigaciones científicas",
+   "esco_en": "perform scientific research",
+   "es": "Investigación científica",
+   "en": "Scientific research"
+  },
+  "http://data.europa.eu/esco/skill/0da516ee-e70e-4384-be13-f5ff80be8127": {
+   "esco": "comunicarse con los clientes",
+   "esco_en": "communicate with customers",
+   "es": "Comunicación con clientes",
+   "en": "Customer communication"
+  },
+  "http://data.europa.eu/esco/skill/156f8c5b-894a-4ccc-a70e-37a2726f3f00": {
+   "esco": "trabajar de forma ergonómica",
+   "esco_en": "work ergonomically",
+   "es": "Ergonomía",
+   "en": "Ergonomics"
+  },
+  "http://data.europa.eu/esco/skill/a8d24a95-47b3-4f88-92e7-06600bcd3612": {
+   "esco": "gestionar el desarrollo profesional personal",
+   "esco_en": "manage personal professional development",
+   "es": "Desarrollo profesional",
+   "en": "Professional development"
+  },
+  "http://data.europa.eu/esco/skill/496932f1-0b6b-4f73-9432-d95c7ddcd43b": {
+   "esco": "contratar personal",
+   "esco_en": "recruit employees",
+   "es": "Reclutamiento",
+   "en": "Recruitment"
+  },
+  "http://data.europa.eu/esco/skill/91abe492-18be-4cce-93c7-0dca07072363": {
+   "esco": "cumplir plazos",
+   "esco_en": "meet deadlines",
+   "es": "Gestión del tiempo",
+   "en": "Time management"
+  },
+  "http://data.europa.eu/esco/skill/69f23426-9279-4fe6-a283-24c2aa4c855d": {
+   "esco": "garantizar la disponibilidad de los equipos",
+   "esco_en": "ensure equipment availability",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/68b6ef08-d823-489d-a95c-752ae6f6e6a7": {
+   "esco": "leer planos estándar",
+   "esco_en": "read standard blueprints",
+   "es": "Lectura de planos",
+   "en": "Blueprint reading"
+  },
+  "http://data.europa.eu/esco/skill/a17286c5-238d-4f0b-bc24-29e9121345de": {
+   "esco": "practicar la escucha activa",
+   "esco_en": "listen actively",
+   "es": "Escucha activa",
+   "en": "Active listening"
+  },
+  "http://data.europa.eu/esco/skill/dc72ad0a-c5dc-4abd-bc0d-ca43e82162e1": {
+   "esco": "desarrollar relaciones comerciales",
+   "esco_en": "build business relationships",
+   "es": "Relaciones comerciales",
+   "en": "Business relationships"
+  },
+  "http://data.europa.eu/esco/skill/dcc96a49-0bac-4a9c-8f8e-a32b4e47e6eb": {
+   "esco": "aplicar normas de salud y seguridad",
+   "esco_en": "apply health and safety standards",
+   "es": "Salud y seguridad ocupacional",
+   "en": "Occupational health and safety"
+  },
+  "http://data.europa.eu/esco/skill/d9818afc-1dec-4944-8c9c-e3ae8fad176d": {
+   "esco": "instalar el controlador de una máquina",
+   "esco_en": "set up the controller of a machine",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/328733a7-6d84-420d-a65c-2a8014fadc60": {
+   "esco": "registrar resultados de ensayos",
+   "esco_en": "record test data",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/7aa52bdc-9c56-4341-be65-e8e30f64403f": {
+   "esco": "controlar máquinas automáticas",
+   "esco_en": "monitor automated machines",
+   "es": "Operación de maquinaria",
+   "en": "Machine operation"
+  },
+  "http://data.europa.eu/esco/skill/9f34107c-8db0-4b00-84d8-3f64e400c80c": {
+   "esco": "consultar fuentes de documentación técnica",
+   "esco_en": "consult technical resources",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/c32ad607-0c4d-4e34-b73f-668298f7bf13": {
+   "esco": "aplicar capacidades de comunicación técnica",
+   "esco_en": "apply technical communication skills",
+   "es": "Comunicación técnica",
+   "en": "Technical communication"
+  },
+  "http://data.europa.eu/esco/skill/210827e3-3129-45a2-8683-70399f3f561f": {
+   "esco": "encargar suministros",
+   "esco_en": "order supplies",
+   "es": "Pedidos de suministros",
+   "en": "Supply ordering"
+  },
+  "http://data.europa.eu/esco/skill/d0f2f8a7-d935-4a6d-8e54-dcc3e5e2cbeb": {
+   "esco": "presentar informes",
+   "esco_en": "present reports",
+   "es": "Presentación de informes",
+   "en": "Report presentation"
+  },
+  "http://data.europa.eu/esco/skill/9df34bc3-25d4-4452-a896-4d19b94ef896": {
+   "esco": "mantener la administración personal",
+   "esco_en": "keep personal administration",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/b9bb1f03-15e2-4079-943e-7e483b21725b": {
+   "esco": "formular observaciones constructivas",
+   "esco_en": "give constructive feedback",
+   "es": "Retroalimentación constructiva",
+   "en": "Constructive feedback"
+  },
+  "http://data.europa.eu/esco/skill/42b23922-1c40-4dbe-9e0c-7a568dfdf06b": {
+   "esco": "modificar diseños técnicos",
+   "esco_en": "adjust engineering designs",
+   "es": "Diseño de ingeniería",
+   "en": "Engineering design"
+  },
+  "http://data.europa.eu/esco/skill/59eb177a-2f30-4943-8b30-5f87dd51a80d": {
+   "esco": "aplicar estrategias de enseñanza",
+   "esco_en": "apply teaching strategies",
+   "es": "Estrategias de enseñanza",
+   "en": "Teaching strategies"
+  },
+  "http://data.europa.eu/esco/skill/11f536f5-b0e2-46a6-95c1-bd765946604c": {
+   "esco": "garantizar la seguridad del alumnado",
+   "esco_en": "guarantee students' safety",
+   "es": "Seguridad escolar",
+   "en": "Student safety"
+  },
+  "http://data.europa.eu/esco/skill/6fe019dd-027f-45f3-b19c-d27f7ae00980": {
+   "esco": "evaluar al alumnado",
+   "esco_en": "assess students",
+   "es": "Evaluación de estudiantes",
+   "en": "Student assessment"
+  },
+  "http://data.europa.eu/esco/skill/1dd23dba-dd00-45ab-abf4-642902538317": {
+   "esco": "realizar un análisis de riesgo",
+   "esco_en": "perform risk analysis",
+   "es": "Análisis de riesgos",
+   "en": "Risk analysis"
+  },
+  "http://data.europa.eu/esco/skill/fe39d4db-4cb5-4299-bb9f-896c8fd6ab13": {
+   "esco": "realizar estudios de mercado",
+   "esco_en": "perform market research",
+   "es": "Estudios de mercado",
+   "en": "Market research"
+  },
+  "http://data.europa.eu/esco/skill/b34e2ba1-9080-48c9-9b42-ee9192a4d3f1": {
+   "esco": "utilizar programas de diseño asistido por ordenador",
+   "esco_en": "use CAD software",
+   "es": "Software CAD",
+   "en": "CAD software"
+  },
+  "http://data.europa.eu/esco/skill/75dfe1ee-5935-42ce-b820-697f827825c3": {
+   "esco": "mantener el servicio de atención a clientes",
+   "esco_en": "maintain customer service",
+   "es": "Atención al cliente",
+   "en": "Customer service"
+  },
+  "http://data.europa.eu/esco/skill/c3c2420c-ce9a-4371-8eed-1db479c3a562": {
+   "esco": "escribir publicaciones científicas",
+   "esco_en": "write scientific publications",
+   "es": "Redacción científica",
+   "en": "Scientific writing"
+  },
+  "http://data.europa.eu/esco/skill/d5e1e30e-44ab-4aba-abab-b8263e801b7a": {
+   "esco": "prestar asistencia en el aprendizaje del alumnado",
+   "esco_en": "assist students in their learning",
+   "es": "Apoyo al aprendizaje",
+   "en": "Learning support"
+  },
+  "http://data.europa.eu/esco/skill/089ee650-297e-4716-87d1-440743b70a0d": {
+   "esco": "garantizar el cumplimiento de la legislación ambiental",
+   "esco_en": "ensure compliance with environmental legislation",
+   "es": "Cumplimiento ambiental",
+   "en": "Environmental compliance"
+  },
+  "http://data.europa.eu/esco/skill/51754b8a-3e2c-4cc1-86e6-cf510d9c6fe4": {
+   "esco": "emplear equipos de protección individual",
+   "esco_en": "use personal protection equipment",
+   "es": "Equipo de protección personal (EPP)",
+   "en": "Personal protective equipment (PPE)"
+  },
+  "http://data.europa.eu/esco/skill/9ea652f6-accf-45bb-b9a8-590f06f7bd51": {
+   "esco": "alimentar máquinas",
+   "esco_en": "supply machine",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/2879a6f9-868b-40a1-a424-d50007ca8354": {
+   "esco": "registrar datos de producción para control de calidad",
+   "esco_en": "record production data for quality control",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/0ee94af1-b445-4973-9c3f-459fab250342": {
+   "esco": "aplicar la gestión de conflictos",
+   "esco_en": "apply conflict management",
+   "es": "Gestión de conflictos",
+   "en": "Conflict management"
+  },
+  "http://data.europa.eu/esco/skill/d39a5880-7d0a-4573-9f70-a75ff875bf83": {
+   "esco": "proporcionar materiales de clase",
+   "esco_en": "provide lesson materials",
+   "es": "Materiales didácticos",
+   "en": "Teaching materials"
+  },
+  "http://data.europa.eu/esco/skill/541561bc-510c-4a99-881c-2d8bf5a85462": {
+   "esco": "utilizar software de dibujo técnico",
+   "esco_en": "use technical drawing software",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/20f57a7f-b90e-4403-8c77-5ddd89b5835b": {
+   "esco": "preparar el contenido de una clase",
+   "esco_en": "prepare lesson content",
+   "es": "Planificación de clases",
+   "en": "Lesson planning"
+  },
+  "http://data.europa.eu/esco/skill/a584a638-a2c0-4b3c-bdf3-a64f87225be9": {
+   "esco": "preparar a las personas",
+   "esco_en": "mentor individuals",
+   "es": "Mentoría",
+   "en": "Mentoring"
+  },
+  "http://data.europa.eu/esco/skill/92721092-fe7c-4689-96bd-4f02385bc0e7": {
+   "esco": "gestionar contratos",
+   "esco_en": "manage contracts",
+   "es": "Gestión de contratos",
+   "en": "Contract management"
+  },
+  "http://data.europa.eu/esco/skill/b07daddc-8625-4360-946e-ad2b0e56ebf6": {
+   "esco": "interpretar planos de ingeniería",
+   "esco_en": "read engineering drawings",
+   "es": "Lectura de planos",
+   "en": "Blueprint reading"
+  },
+  "http://data.europa.eu/esco/skill/872a1632-f1db-4feb-bb27-0a6a359b7591": {
+   "esco": "promover la innovación abierta en la investigación",
+   "esco_en": "promote open innovation in research",
+   "es": "Innovación abierta",
+   "en": "Open innovation"
+  },
+  "http://data.europa.eu/esco/skill/08b04e53-ed25-41a2-9f90-0b9cd939ba3d": {
+   "esco": "gestionar datos de investigación",
+   "esco_en": "manage research data",
+   "es": "Gestión de datos de investigación",
+   "en": "Research data management"
+  },
+  "http://data.europa.eu/esco/skill/4134622c-c3fb-4a41-beb6-6d58ba5107db": {
+   "esco": "demostrar conocimientos especializados sobre una disciplina",
+   "esco_en": "demonstrate disciplinary expertise",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/d3eccb86-f02d-4950-bfbd-20b9510774a1": {
+   "esco": "aplicar técnicas organizativas",
+   "esco_en": "apply organisational techniques",
+   "es": "Organización",
+   "en": "Organizational skills"
+  },
+  "http://data.europa.eu/esco/skill/00b9a3aa-7070-4bb5-8020-f228a97cf42f": {
+   "esco": "redactar artículos científicos o académicos y documentos técnicos",
+   "esco_en": "draft scientific or academic papers and technical documentation",
+   "es": "Redacción científica",
+   "en": "Scientific writing"
+  },
+  "http://data.europa.eu/esco/skill/979cf728-896f-4f2c-8fa8-2698ca0d4930": {
+   "esco": "publicar investigaciones académicas",
+   "esco_en": "publish academic research",
+   "es": "Publicación académica",
+   "en": "Academic publishing"
+  },
+  "http://data.europa.eu/esco/skill/988f4ac3-a37c-4b0a-a40f-4e0e56b5919e": {
+   "esco": "promover la transferencia de conocimientos",
+   "esco_en": "promote the transfer of knowledge",
+   "es": "Transferencia de conocimiento",
+   "en": "Knowledge transfer"
+  },
+  "http://data.europa.eu/esco/skill/f7b071bf-4882-4cfc-ae0a-7e0e0ab94c61": {
+   "esco": "llevar a cabo investigaciones multidisciplinarias",
+   "esco_en": "conduct research across disciplines",
+   "es": "Investigación multidisciplinaria",
+   "en": "Interdisciplinary research"
+  },
+  "http://data.europa.eu/esco/skill/5f0082ab-2131-49b5-94d6-a1821daf57d6": {
+   "esco": "solicitar financiación para la investigación",
+   "esco_en": "apply for research funding",
+   "es": "Solicitud de financiamiento",
+   "en": "Grant writing"
+  },
+  "http://data.europa.eu/esco/skill/f715be1d-5fc4-49d3-82a5-0b8090d12849": {
+   "esco": "sintetizar información",
+   "esco_en": "synthesise information",
+   "es": "Síntesis de información",
+   "en": "Information synthesis"
+  },
+  "http://data.europa.eu/esco/skill/da930e2f-6047-4616-a598-bba8ecef3039": {
+   "esco": "gestionar publicaciones abiertas",
+   "esco_en": "manage open publications",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/4d39b27a-b34f-4c89-8d46-df844d42f728": {
+   "esco": "gestionar conocimientos para repercutir en las políticas",
+   "esco_en": "increase the impact of science on policy and society",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/39f67488-cfd3-4370-8d7e-da98163102d9": {
+   "esco": "evaluar actividades de investigación",
+   "esco_en": "evaluate research activities",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/4cd85845-f31c-4306-994d-e12d45114d83": {
+   "esco": "enseñar en contextos académicos o profesionales",
+   "esco_en": "teach in academic or vocational contexts",
+   "es": "Docencia",
+   "en": "Teaching"
+  },
+  "http://data.europa.eu/esco/skill/2b1e2927-3542-48da-9063-02925e7562c1": {
+   "esco": "difundir resultados entre la comunidad científica",
+   "esco_en": "disseminate results to the scientific community",
+   "es": "Divulgación científica",
+   "en": "Science communication"
+  },
+  "http://data.europa.eu/esco/skill/cc61f9e5-d4fc-470e-8606-1ce865ff8386": {
+   "esco": "crear una red profesional con investigadores y científicos",
+   "esco_en": "develop professional network with researchers and scientists",
+   "es": "Networking",
+   "en": "Networking"
+  },
+  "http://data.europa.eu/esco/skill/b363bb5f-2c79-40af-94da-33e06f9dee9f": {
+   "esco": "aplicar un aprendizaje mixto",
+   "esco_en": "apply blended learning",
+   "es": "Aprendizaje mixto",
+   "en": "Blended learning"
+  },
+  "http://data.europa.eu/esco/skill/833289fa-3646-4010-9d9e-93ba8c9ef2d8": {
+   "esco": "aplicar la ética de investigación y los principios de integridad científica a las actividades de investigación",
+   "esco_en": "apply research ethics and scientific integrity principles in research activities",
+   "es": "Ética de la investigación",
+   "en": "Research ethics"
+  },
+  "http://data.europa.eu/esco/skill/20a8fe89-d4eb-4698-8521-8881c13377e0": {
+   "esco": "Interactuar de manera profesional en entornos de investigación y profesionales",
+   "esco_en": "interact professionally in research and professional environments",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/fa642fc3-5cc5-41cf-8926-6617a8b976a7": {
+   "esco": "promover la participación del público en la investigación",
+   "esco_en": "promote the participation of citizens in scientific and research activities",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/5033c2fb-ec55-4b8e-b0a4-9379593f1e1c": {
+   "esco": "mantener el equipo",
+   "esco_en": "maintain equipment",
+   "es": "Mantenimiento de equipos",
+   "en": "Equipment maintenance"
+  },
+  "http://data.europa.eu/esco/skill/cd50d616-1f8b-481e-983f-68d2674ff82d": {
+   "esco": "integrar la dimensión de género en la investigació",
+   "esco_en": "integrate gender dimension in research",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/ff64e9fc-36dd-4035-872a-83aa41dc1ad9": {
+   "esco": "comunicar hallazgos científicos",
+   "esco_en": "communicate with a non-scientific audience",
+   "es": "Divulgación científica",
+   "en": "Science communication"
+  },
+  "http://data.europa.eu/esco/skill/9a58cd26-58eb-4a1c-b1b6-64037fe9cfa1": {
+   "esco": "pensar de manera abstracta",
+   "esco_en": "think abstractly",
+   "es": "Pensamiento abstracto",
+   "en": "Abstract thinking"
+  },
+  "http://data.europa.eu/esco/skill/4f5c1208-62fd-4e5a-a51e-306c06947e11": {
+   "esco": "gestionar datos localizables, accesibles, interoperables y reutilizables",
+   "esco_en": "manage findable accessible interoperable and reusable data",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/bcd2ce08-ba12-4d66-865f-f4ba36419707": {
+   "esco": "promover la inclusión",
+   "esco_en": "promote inclusion",
+   "es": "Diversidad e inclusión",
+   "en": "Diversity and inclusion"
+  },
+  "http://data.europa.eu/esco/skill/86df7af2-f9f3-4c06-a500-7f1fba9e78fe": {
+   "esco": "respetar procedimientos de salud y seguridad en la construcción",
+   "esco_en": "follow health and safety procedures in construction",
+   "es": "Seguridad en la construcción",
+   "en": "Construction safety"
+  },
+  "http://data.europa.eu/esco/skill/9d5521f9-44d7-4db4-b7ac-0ba7d389f44d": {
+   "esco": "comunicarse con los compañeros de trabajo",
+   "esco_en": "liaise with colleagues",
+   "es": "Trabajo en equipo",
+   "en": "Teamwork"
+  },
+  "http://data.europa.eu/esco/skill/b78f324d-e16c-43f8-97d2-50d3a7cd1fb3": {
+   "esco": "trabajar en entornos de aprendizaje virtual",
+   "esco_en": "work with virtual learning environments",
+   "es": "Entornos virtuales de aprendizaje",
+   "en": "Virtual learning environments"
+  },
+  "http://data.europa.eu/esco/skill/1d21f6ad-340f-45da-a0a3-4e83867f47a6": {
+   "esco": "prestar primeros auxilios",
+   "esco_en": "provide first aid",
+   "es": "Primeros auxilios",
+   "en": "First aid"
+  },
+  "http://data.europa.eu/esco/skill/cedd0710-62ae-4ff4-89ae-ac52375f86ec": {
+   "esco": "llevar una clase",
+   "esco_en": "perform classroom management",
+   "es": "Manejo de aula",
+   "en": "Classroom management"
+  },
+  "http://data.europa.eu/esco/skill/5ba1d5b9-3f8d-46ca-bf9f-2e9ca65d1350": {
+   "esco": "aplicar análisis de peligros y puntos de control crítico",
+   "esco_en": "apply HACCP",
+   "es": "HACCP",
+   "en": "HACCP"
+  },
+  "http://data.europa.eu/esco/skill/fafbb75f-ec35-4cc2-996a-20c85ef6c266": {
+   "esco": "seguir los procedimientos de seguridad al efectuar trabajos en altura",
+   "esco_en": "follow safety procedures when working at heights",
+   "es": "Trabajo en altura",
+   "en": "Working at heights"
+  },
+  "http://data.europa.eu/esco/skill/b9f16465-56a9-426b-a047-0f9f1f95ec92": {
+   "esco": "afrontar problemas con actitud crítica",
+   "esco_en": "address problems critically",
+   "es": "Pensamiento crítico",
+   "en": "Critical thinking"
+  },
+  "http://data.europa.eu/esco/skill/cffc3e97-e942-4b13-a2f3-0bf4910c06d3": {
+   "esco": "emplear documentación técnica",
+   "esco_en": "use technical documentation",
+   "es": "Documentación técnica",
+   "en": "Technical documentation"
+  },
+  "http://data.europa.eu/esco/skill/25e16679-a7d0-464d-916c-63210001bbab": {
+   "esco": "actuar de forma fiable",
+   "esco_en": "act reliably",
+   "es": "Confiabilidad",
+   "en": "Reliability"
+  },
+  "http://data.europa.eu/esco/skill/42c25baf-ccb3-47d9-a872-bb2ceb615538": {
+   "esco": "manejar herramientas de medición de precisión",
+   "esco_en": "operate precision measuring equipment",
+   "es": "Instrumentos de medición",
+   "en": "Measuring instruments"
+  },
+  "http://data.europa.eu/esco/skill/8a4e99e0-f259-4931-888f-604cfdc15b31": {
+   "esco": "realizar tareas de mantenimiento de máquinas",
+   "esco_en": "perform machine maintenance",
+   "es": "Mantenimiento de maquinaria",
+   "en": "Machine maintenance"
+  },
+  "http://data.europa.eu/esco/skill/faf8943c-72ff-4736-a587-25508695d6f0": {
+   "esco": "conservar la documentación financiera",
+   "esco_en": "maintain financial records",
+   "es": "Registros financieros",
+   "en": "Financial records"
+  },
+  "http://data.europa.eu/esco/skill/c5c51528-ccfc-4c53-b409-c200aaa44222": {
+   "esco": "actuar de enlace con los ingenieros",
+   "esco_en": "liaise with engineers",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/a349fbfc-8b65-44f2-a112-761be2218cbc": {
+   "esco": "registrar materiales de fabricación defectuosos",
+   "esco_en": "report defective manufacturing materials",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/44e2c4c4-9fd2-42d4-a133-d81360ded4bc": {
+   "esco": "garantizar el cumplimiento de las normas de salud, seguridad e higiene",
+   "esco_en": "manage health and safety standards",
+   "es": "Salud y seguridad ocupacional",
+   "en": "Occupational health and safety"
+  },
+  "http://data.europa.eu/esco/skill/b32e593b-cc7f-4f38-bf50-e69431ec7ada": {
+   "esco": "enseñar a partir de la propia experiencia",
+   "esco_en": "demonstrate when teaching",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/1de6b87b-2c7d-49aa-bcc0-3b2ef75f064f": {
+   "esco": "resolver averías de equipos",
+   "esco_en": "resolve equipment malfunctions",
+   "es": "Reparación de equipos",
+   "en": "Equipment repair"
+  },
+  "http://data.europa.eu/esco/skill/e3ef4981-2cba-4b34-b273-728c3a33d04f": {
+   "esco": "aplicar estrategias de enseñanza interculturales",
+   "esco_en": "apply intercultural teaching strategies",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/7ff2c668-0e86-418a-a962-4958262ee337": {
+   "esco": "utilizar técnicas de comunicación",
+   "esco_en": "use communication techniques",
+   "es": "Comunicación",
+   "en": "Communication"
+  },
+  "http://data.europa.eu/esco/skill/c643e59b-d74c-4f44-b76e-6e1d96c05ec4": {
+   "esco": "utilizar equipamiento de seguridad en obras de construcción",
+   "esco_en": "use safety equipment in construction",
+   "es": "Seguridad en la construcción",
+   "en": "Construction safety"
+  },
+  "http://data.europa.eu/esco/skill/9601b2a8-68e4-4906-9306-a23679b8f0b0": {
+   "esco": "supervisar personal",
+   "esco_en": "supervise staff",
+   "es": "Supervisión de personal",
+   "en": "Staff supervision"
+  },
+  "http://data.europa.eu/esco/skill/fde186df-c9c4-49f5-b2a5-d66adc7c43a5": {
+   "esco": "negociar las condiciones de compra",
+   "esco_en": "negotiate buying conditions",
+   "es": "Negociación de compras",
+   "en": "Purchase negotiation"
+  },
+  "http://data.europa.eu/esco/skill/debb8d81-ed7f-447d-853a-5d107fda6fcf": {
+   "esco": "ofrecer a los clientes servicios de seguimiento",
+   "esco_en": "provide customer follow-up services",
+   "es": "Seguimiento a clientes",
+   "en": "Customer follow-up"
+  },
+  "http://data.europa.eu/esco/skill/31c69100-b612-4a61-8db5-fd314318854c": {
+   "esco": "ejecutar cálculos matemáticos analíticos",
+   "esco_en": "execute analytical mathematical calculations",
+   "es": "Cálculos matemáticos",
+   "en": "Mathematical calculations"
+  },
+  "http://data.europa.eu/esco/skill/23ac233d-84ad-4517-b0f5-8ca19ba2614e": {
+   "esco": "controlar los avances en el campo de especialidad",
+   "esco_en": "monitor developments in field of expertise",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/7530bc44-f09d-4dd2-8911-92b98333e442": {
+   "esco": "ayudar al alumnado con el equipo",
+   "esco_en": "assist students with equipment",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/b55f61a4-5f9e-4741-ba95-9ac04b64119b": {
+   "esco": "trabajar en entornos multiculturales en la atención sanitaria",
+   "esco_en": "work in a multicultural environment in health care",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/74374d09-7a54-4a05-ae78-d5940423de7c": {
+   "esco": "utilizar equipos de pruebas",
+   "esco_en": "use testing equipment",
+   "es": "Equipos de prueba",
+   "en": "Test equipment"
+  },
+  "http://data.europa.eu/esco/skill/09f159aa-2745-4ab0-a050-96722a2269b9": {
+   "esco": "prestar asistencia en la organización de eventos escolares",
+   "esco_en": "assist in the organisation of school events",
+   "es": "Organización de eventos",
+   "en": "Event planning"
+  },
+  "http://data.europa.eu/esco/skill/8c474534-707f-46f3-b356-810bbfe8b693": {
+   "esco": "asesorar sobre averías de máquinas",
+   "esco_en": "advise on machinery malfunctions",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/5dd01a1e-7ba0-4b7f-a76c-ed811c12bfde": {
+   "esco": "aplicar competencias matemáticas",
+   "esco_en": "apply numeracy skills",
+   "es": "Habilidad numérica",
+   "en": "Numeracy"
+  },
+  "http://data.europa.eu/esco/skill/13e2378e-0d10-450d-843a-b3592575826e": {
+   "esco": "elaborar estrategias de marketing",
+   "esco_en": "implement marketing strategies",
+   "es": "Estrategias de marketing",
+   "en": "Marketing strategy"
+  },
+  "http://data.europa.eu/esco/skill/b92758d4-4591-4df1-9ceb-f907aa71ebd9": {
+   "esco": "utilizar instrumentos de medición",
+   "esco_en": "use measurement instruments",
+   "es": "Instrumentos de medición",
+   "en": "Measuring instruments"
+  },
+  "http://data.europa.eu/esco/skill/28d715e3-3e5b-4fb6-8dd2-4be4919c8587": {
+   "esco": "gestionar reclamaciones de clientes",
+   "esco_en": "handle customer complaints",
+   "es": "Manejo de quejas",
+   "en": "Complaint handling"
+  },
+  "http://data.europa.eu/esco/skill/50f2d23c-b3fb-48a5-967b-14fd0a6dd205": {
+   "esco": "examinar materiales de construcción",
+   "esco_en": "inspect construction supplies",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/4c831013-9027-4ec6-83de-c5c19e68d083": {
+   "esco": "trabajar con máquinas de forma segura",
+   "esco_en": "work safely with machines",
+   "es": "Seguridad con maquinaria",
+   "en": "Machine safety"
+  },
+  "http://data.europa.eu/esco/skill/b7c8f418-08d5-45d6-b697-ab26c6ecbfb4": {
+   "esco": "garantizar la orientación al cliente",
+   "esco_en": "ensure client orientation",
+   "es": "Orientación al cliente",
+   "en": "Customer focus"
+  },
+  "http://data.europa.eu/esco/skill/9fcf9918-fdef-49c3-aedc-518eb1e7e1f5": {
+   "esco": "cumplir la legislación reguladora de la asistencia sanitaria",
+   "esco_en": "comply with legislation related to health care",
+   "es": "Normativa sanitaria",
+   "en": "Healthcare regulations"
+  },
+  "http://data.europa.eu/esco/skill/357e1729-e2a8-49f4-8b42-dc8b278320fa": {
+   "esco": "retirar piezas procesadas",
+   "esco_en": "remove processed workpiece",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/36fe44b2-af36-4467-9be8-601e64b3dbc7": {
+   "esco": "colaborar con el personal de apoyo educativo",
+   "esco_en": "liaise with educational support staff",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/c69587b4-05d3-45bb-b79b-9b85e6603fc2": {
+   "esco": "proporcionar experiencia técnica",
+   "esco_en": "provide technical expertise",
+   "es": "Asesoría técnica",
+   "en": "Technical consulting"
+  },
+  "http://data.europa.eu/esco/skill/85aa1871-db96-42f7-801f-c39f924de2d7": {
+   "esco": "planificar turnos de trabajo",
+   "esco_en": "plan shifts of employees",
+   "es": "Planificación de turnos",
+   "en": "Shift scheduling"
+  },
+  "http://data.europa.eu/esco/skill/2839f191-cd94-49a9-ac16-46018066b8b2": {
+   "esco": "crear vínculos con las autoridades locales",
+   "esco_en": "liaise with local authorities",
+   "es": "Relaciones gubernamentales",
+   "en": "Government relations"
+  },
+  "http://data.europa.eu/esco/skill/f54c10e4-630d-4e50-95e9-4e9e268e8f12": {
+   "esco": "aprobar un diseño técnico",
+   "esco_en": "approve engineering design",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/f5f5b244-6cea-4fbc-8a50-8f712791bc09": {
+   "esco": "respetar las normas internas de una empresa",
+   "esco_en": "follow company standards",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/4bbb309f-9162-49b9-93da-fb2c371e5c5f": {
+   "esco": "recoger muestras para análisis",
+   "esco_en": "collect samples for analysis",
+   "es": "Toma de muestras",
+   "en": "Sampling"
+  },
+  "http://data.europa.eu/esco/skill/43b13058-68d0-40c6-8031-caf5a7b7d20c": {
+   "esco": "llevar registros de tareas",
+   "esco_en": "keep task records",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/7a757fa5-9a6f-43ab-9e66-f8f4dba1ffcb": {
+   "esco": "utilizar software de fabricación asistida por ordenador",
+   "esco_en": "use CAM software",
+   "es": "Software CAM",
+   "en": "CAM software"
+  },
+  "http://data.europa.eu/esco/skill/bdcac0c8-b77a-4640-9eaf-c0cf3efd1e23": {
+   "esco": "tramitar pagos",
+   "esco_en": "process payments",
+   "es": "Procesamiento de pagos",
+   "en": "Payment processing"
+  },
+  "http://data.europa.eu/esco/skill/5d34adde-0b78-42b4-9d3d-69e9388d8398": {
+   "esco": "supervisar el control de calidad",
+   "esco_en": "oversee quality control",
+   "es": "Control de calidad",
+   "en": "Quality control"
+  },
+  "http://data.europa.eu/esco/skill/573d3f91-c81c-407e-a56d-0f3a63272b43": {
+   "esco": "adaptar la enseñanza a las capacidades del alumnado",
+   "esco_en": "adapt teaching to student's capabilities",
+   "es": "Educación diferenciada",
+   "en": "Differentiated instruction"
+  },
+  "http://data.europa.eu/esco/skill/f7e7ccb6-fadc-4c35-935d-e1040be40dfe": {
+   "esco": "gestionar operaciones financieras",
+   "esco_en": "handle financial transactions",
+   "es": "Transacciones financieras",
+   "en": "Financial transactions"
+  },
+  "http://data.europa.eu/esco/skill/f0699875-51da-48d2-bc92-54b0749baef1": {
+   "esco": "elaborar el programa del curso",
+   "esco_en": "develop course outline",
+   "es": "Diseño curricular",
+   "en": "Curriculum design"
+  },
+  "http://data.europa.eu/esco/skill/020b3c27-bae1-4b85-9d6f-eccee0f5ed99": {
+   "esco": "gestionar los suministros",
+   "esco_en": "manage supplies",
+   "es": "Gestión de suministros",
+   "en": "Supply management"
+  },
+  "http://data.europa.eu/esco/skill/1dae8445-12e5-423a-bb26-824010e299b9": {
+   "esco": "garantizar el cumplimiento de los requisitos legales",
+   "esco_en": "ensure compliance with legal requirements",
+   "es": "Cumplimiento normativo",
+   "en": "Regulatory compliance"
+  },
+  "http://data.europa.eu/esco/skill/81db5616-3c98-4317-a728-5dae08d44bd4": {
+   "esco": "entender la terminología comercial y financiera",
+   "esco_en": "comprehend financial business terminology",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/81a2db2c-7e55-44d0-9cd9-74c25147d7cd": {
+   "esco": "analizar datos experimentales",
+   "esco_en": "analyse test data",
+   "es": "Análisis de datos",
+   "en": "Data analysis"
+  },
+  "http://data.europa.eu/esco/skill/5de0599a-8fca-4cdd-a72d-f5d21af8eeb3": {
+   "esco": "seguir los cambios en el sector de la educación",
+   "esco_en": "monitor educational developments",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/a93011ca-e6ab-4182-8a05-4d4b282cff27": {
+   "esco": "comprobar la calidad de la materia prima",
+   "esco_en": "check quality of raw materials",
+   "es": "Control de calidad",
+   "en": "Quality control"
+  },
+  "http://data.europa.eu/esco/skill/89ba58e8-a67e-4d2b-ad42-6acab25c241b": {
+   "esco": "valorar comentarios de clientes",
+   "esco_en": "measure customer feedback",
+   "es": "Satisfacción del cliente",
+   "en": "Customer satisfaction"
+  },
+  "http://data.europa.eu/esco/skill/285cac9e-dad3-4b7b-848f-9bd2860ae345": {
+   "esco": "controlar calibradores",
+   "esco_en": "monitor gauge",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/ed57378a-2b27-4d80-8701-124e559cf17d": {
+   "esco": "colaborar con el personal docente",
+   "esco_en": "liaise with educational staff",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/7a34b3d9-bd3b-4f4e-a0f6-f97439901cb7": {
+   "esco": "aplicar métodos científicos",
+   "esco_en": "apply scientific methods",
+   "es": "Método científico",
+   "en": "Scientific method"
+  },
+  "http://data.europa.eu/esco/skill/0b917c3e-e49f-40d9-8f95-3bc8e9c06fd2": {
+   "esco": "hacer pruebas de laboratorio",
+   "esco_en": "perform laboratory tests",
+   "es": "Pruebas de laboratorio",
+   "en": "Laboratory testing"
+  },
+  "http://data.europa.eu/esco/skill/a34f4fd4-1aff-4941-82d5-542ac94f81c3": {
+   "esco": "seguir procedimientos higiénicos en el tratamiento de alimentos",
+   "esco_en": "follow hygienic procedures during food processing",
+   "es": "Higiene alimentaria",
+   "en": "Food hygiene"
+  },
+  "http://data.europa.eu/esco/skill/f1b5800e-b763-4740-9586-3fef30568e81": {
+   "esco": "analizar procesos de producción para introducir mejoras",
+   "esco_en": "analyse production processes for improvement",
+   "es": "Mejora de procesos",
+   "en": "Process improvement"
+  },
+  "http://data.europa.eu/esco/skill/31f01be9-7bbf-4afb-a647-bcd4931cfc8b": {
+   "esco": "retirar piezas defectuosas",
+   "esco_en": "remove inadequate workpieces",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/f7b5d916-52f0-4865-b6a6-e1a3b711cb5e": {
+   "esco": "realizar una planificación estratégica",
+   "esco_en": "implement strategic planning",
+   "es": "Planificación estratégica",
+   "en": "Strategic planning"
+  },
+  "http://data.europa.eu/esco/skill/4bdbd6db-7d75-40e7-b40e-5718e2982dfb": {
+   "esco": "gestionar el riesgo de las transacciones de comercio internacional",
+   "esco_en": "perform financial risk management in international trade",
+   "es": "Comercio internacional",
+   "en": "International trade"
+  },
+  "http://data.europa.eu/esco/skill/3d3ee5c3-4286-457f-9f76-1704011f7e11": {
+   "esco": "cumplir la normativa legal",
+   "esco_en": "comply with legal regulations",
+   "es": "Cumplimiento normativo",
+   "en": "Regulatory compliance"
+  },
+  "http://data.europa.eu/esco/skill/0b144726-21c2-46ed-8d13-c03d27f61604": {
+   "esco": "realizar varias tareas a la vez",
+   "esco_en": "perform multiple tasks at the same time",
+   "es": "Multitarea",
+   "en": "Multitasking"
+  },
+  "http://data.europa.eu/esco/skill/ab2bb44a-3956-4028-8715-8b70b1960b99": {
+   "esco": "levantar objetos pesados",
+   "esco_en": "lift heavy weights",
+   "es": "Carga de objetos pesados",
+   "en": "Heavy lifting"
+  },
+  "http://data.europa.eu/esco/skill/326809fc-238d-40c2-881e-40042f7f2f0d": {
+   "esco": "establecer relaciones de colaboración",
+   "esco_en": "establish collaborative relations",
+   "es": "Colaboración",
+   "en": "Collaboration"
+  },
+  "http://data.europa.eu/esco/skill/a8fe6eae-cfc1-4580-ad12-f325e8c2b21b": {
+   "esco": "elaborar listas de asistencia",
+   "esco_en": "keep records of attendance",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/293301db-be3c-4cba-b3ee-6cc9c55fd70a": {
+   "esco": "supervisar el funcionamiento del mercado internacional",
+   "esco_en": "monitor international market performance",
+   "es": "Comercio internacional",
+   "en": "International trade"
+  },
+  "http://data.europa.eu/esco/skill/cdd2b6cc-b4a9-42a0-824b-766f52176fd3": {
+   "esco": "redactar informes de inspección",
+   "esco_en": "write inspection reports",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/8316979b-df5a-4dc7-98ef-61ec6a10df84": {
+   "esco": "realizar investigaciones cuantitativas",
+   "esco_en": "conduct quantitative research",
+   "es": "Investigación cuantitativa",
+   "en": "Quantitative research"
+  },
+  "http://data.europa.eu/esco/skill/f30a7ea4-77dd-452c-8a2d-b06c12606a7f": {
+   "esco": "operar herramientas para soldadura",
+   "esco_en": "operate soldering equipment",
+   "es": "Soldadura con estaño",
+   "en": "Soldering"
+  },
+  "http://data.europa.eu/esco/skill/2fcd95a4-1f9a-41cf-95a9-4701bde476b4": {
+   "esco": "manejar equipos de soldadura",
+   "esco_en": "operate welding equipment",
+   "es": "Soldadura",
+   "en": "Welding"
+  },
+  "http://data.europa.eu/esco/skill/2b92a5b2-6758-4ee3-9fb4-b6387a55cc8f": {
+   "esco": "realizar un análisis de datos",
+   "esco_en": "perform data analysis",
+   "es": "Análisis de datos",
+   "en": "Data analysis"
+  },
+  "http://data.europa.eu/esco/skill/382c11ed-20d5-4ae7-b60e-15fec527fa6c": {
+   "esco": "aplicar métodos de análisis estadísticos",
+   "esco_en": "apply statistical analysis techniques",
+   "es": "Análisis estadístico",
+   "en": "Statistical analysis"
+  },
+  "http://data.europa.eu/esco/skill/44da96fe-26a3-4a32-9a0f-c49614bb7298": {
+   "esco": "gestionar las relaciones del alumnado",
+   "esco_en": "manage student relationships",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/996243ee-543f-4c36-a31a-e0f2403c0c5d": {
+   "esco": "relacionarse empáticamente",
+   "esco_en": "relate empathetically",
+   "es": "Empatía",
+   "en": "Empathy"
+  },
+  "http://data.europa.eu/esco/skill/7f7756fc-d89d-41d5-93ef-85991603f4ad": {
+   "esco": "gestionar el riesgo financiero",
+   "esco_en": "manage financial risk",
+   "es": "Gestión de riesgos financieros",
+   "en": "Financial risk management"
+  },
+  "http://data.europa.eu/esco/skill/40fa39b5-0f69-432a-b5ea-b01b5d98649a": {
+   "esco": "eliminar residuos peligrosos",
+   "esco_en": "dispose of hazardous waste",
+   "es": "Manejo de residuos peligrosos",
+   "en": "Hazardous waste management"
+  },
+  "http://data.europa.eu/esco/skill/eb8babfb-ab91-4937-a032-6a79f82e9b7f": {
+   "esco": "analizar el riesgo financiero",
+   "esco_en": "analyse financial risk",
+   "es": "Gestión de riesgos financieros",
+   "en": "Financial risk management"
+  },
+  "http://data.europa.eu/esco/skill/fa465db3-56e8-4b5d-a781-e2a313a4ed2d": {
+   "esco": "realizar investigaciones cualitativas",
+   "esco_en": "conduct qualitative research",
+   "es": "Investigación cualitativa",
+   "en": "Qualitative research"
+  },
+  "http://data.europa.eu/esco/skill/ebfe7b18-1fad-463f-9509-8ef1a5736045": {
+   "esco": "prestar los servicios de una forma flexible",
+   "esco_en": "perform services in a flexible manner",
+   "es": "Flexibilidad",
+   "en": "Flexibility"
+  },
+  "http://data.europa.eu/esco/skill/bacbfc27-4b5d-47de-8bfd-af5fa27562a2": {
+   "esco": "diseñar prototipos",
+   "esco_en": "design prototypes",
+   "es": "Prototipado",
+   "en": "Prototyping"
+  },
+  "http://data.europa.eu/esco/skill/79c36c91-28a5-44b7-ab9b-7093b2d4b21e": {
+   "esco": "asesorar sobre asuntos financieros",
+   "esco_en": "advise on financial matters",
+   "es": "Asesoría financiera",
+   "en": "Financial advisory"
+  },
+  "http://data.europa.eu/esco/skill/292549e6-08ec-456c-b008-eba7a0a68428": {
+   "esco": "analizar tendencias en el mercado financiero",
+   "esco_en": "analyse market financial trends",
+   "es": "Análisis de mercados financieros",
+   "en": "Financial market analysis"
+  },
+  "http://data.europa.eu/esco/skill/bb663409-5c88-4e3a-bc16-01aa1c8ce171": {
+   "esco": "planificar procedimientos sobre salud y seguridad",
+   "esco_en": "plan health and safety procedures",
+   "es": "Salud y seguridad ocupacional",
+   "en": "Occupational health and safety"
+  },
+  "http://data.europa.eu/esco/skill/11747665-0e98-4f27-bd0d-536862cd5746": {
+   "esco": "identificar proveedores",
+   "esco_en": "identify suppliers",
+   "es": "Búsqueda de proveedores",
+   "en": "Supplier sourcing"
+  },
+  "http://data.europa.eu/esco/skill/28ca2f0b-9fb2-487a-9f10-9688e5191ec4": {
+   "esco": "trabajar en comunidades",
+   "esco_en": "work within communities",
+   "es": "Trabajo comunitario",
+   "en": "Community work"
+  },
+  "http://data.europa.eu/esco/skill/644209ac-8452-4e81-959a-2b10050023cc": {
+   "esco": "promover el cambio social",
+   "esco_en": "promote social change",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/2206af0c-3deb-48c5-a544-b9983d347da3": {
+   "esco": "responder a solicitudes de presupuesto",
+   "esco_en": "answer requests for quotation",
+   "es": "Elaboración de cotizaciones",
+   "en": "Quoting"
+  },
+  "http://data.europa.eu/esco/skill/87cadd76-4e3a-47e5-b66d-559fbc1e8993": {
+   "esco": "responder a consultas",
+   "esco_en": "respond to enquiries",
+   "es": "Atención de consultas",
+   "en": "Handling inquiries"
+  },
+  "http://data.europa.eu/esco/skill/bbd57056-80e0-45bb-a2c1-658ed99a1251": {
+   "esco": "realizar pruebas de rendimiento",
+   "esco_en": "conduct performance tests",
+   "es": "Pruebas de rendimiento",
+   "en": "Performance testing"
+  },
+  "http://data.europa.eu/esco/skill/9e9a4209-c7cf-4f6e-973e-dc2ffadccc74": {
+   "esco": "llevar a cabo procesos de adquisición",
+   "esco_en": "perform procurement processes",
+   "es": "Compras",
+   "en": "Procurement"
+  },
+  "http://data.europa.eu/esco/skill/54d68400-9da3-4077-a7ee-52e68b390ef6": {
+   "esco": "seguir instrucciones escritas",
+   "esco_en": "follow written instructions",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/2f0a426f-3b95-455b-a872-ef6dee168114": {
+   "esco": "recopilar material del curso",
+   "esco_en": "compile course material",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/0ff99f51-40d9-42f1-a1ec-377b2bb5e15f": {
+   "esco": "observar la legislación relevante sobre salud seguridad higiene y otros relativa a las comidas",
+   "esco_en": "comply with food safety and hygiene",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/9f10e94b-a43d-4772-9f60-24e9bbbdedb7": {
+   "esco": "maximizar los ingresos por ventas",
+   "esco_en": "maximise sales revenues",
+   "es": "Ventas",
+   "en": "Sales"
+  },
+  "http://data.europa.eu/esco/skill/8d202e22-85e9-47b1-a1e0-3296d17244cd": {
+   "esco": "mantener la confidencialidad",
+   "esco_en": "observe confidentiality",
+   "es": "Confidencialidad",
+   "en": "Confidentiality"
+  },
+  "http://data.europa.eu/esco/skill/933e7ccf-5d56-46ba-aca4-857f826a6b3a": {
+   "esco": "gestionar citas",
+   "esco_en": "administer appointments",
+   "es": "Gestión de citas",
+   "en": "Appointment scheduling"
+  },
+  "http://data.europa.eu/esco/skill/171eee55-19b9-46d6-aded-33193ba8ccf1": {
+   "esco": "estudiar los niveles de venta de los productos",
+   "esco_en": "study sales levels of products",
+   "es": "Análisis de ventas",
+   "en": "Sales analysis"
+  },
+  "http://data.europa.eu/esco/skill/de2f0ce8-f8d6-48c5-a213-4d065251cecf": {
+   "esco": "comunicarse por teléfono",
+   "esco_en": "communicate by telephone",
+   "es": "Atención telefónica",
+   "en": "Telephone communication"
+  },
+  "http://data.europa.eu/esco/skill/48b68726-0fd6-4e03-a5eb-82236516ee7a": {
+   "esco": "ofrecer un informe de análisis coste-beneficio",
+   "esco_en": "provide cost benefit analysis reports",
+   "es": "Análisis costo-beneficio",
+   "en": "Cost-benefit analysis"
+  },
+  "http://data.europa.eu/esco/skill/71ae4f64-6505-4b6f-91b9-5acfa5721798": {
+   "esco": "obtener información financiera",
+   "esco_en": "obtain financial information",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/e95058a6-e139-42e7-a470-72038a606649": {
+   "esco": "evaluar la viabilidad financiera",
+   "esco_en": "assess financial viability",
+   "es": "Análisis de viabilidad",
+   "en": "Feasibility analysis"
+  },
+  "http://data.europa.eu/esco/skill/8a98707e-b2ee-48fe-9f36-e47e3555ecf7": {
+   "esco": "evaluar el trabajo de los empleados",
+   "esco_en": "evaluate employees work",
+   "es": "Evaluación del desempeño",
+   "en": "Performance evaluation"
+  },
+  "http://data.europa.eu/esco/skill/7110bf9f-b245-4adc-9159-5081013fd64d": {
+   "esco": "comunicarse en la asistencia sanitaria",
+   "esco_en": "communicate in healthcare",
+   "es": "Comunicación en salud",
+   "en": "Healthcare communication"
+  },
+  "http://data.europa.eu/esco/skill/ee1d5734-89b8-4519-81f1-733a6b4f8df8": {
+   "esco": "supervisar la prestación de servicios",
+   "esco_en": "monitor customer service",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/fc511e12-fe90-40a0-bec8-227abb5e4255": {
+   "esco": "seguir instrucciones verbales",
+   "esco_en": "follow verbal instructions",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/0e1fe34b-f4e7-4642-8c8b-5a05ac3438e5": {
+   "esco": "gestionar el calendario de tareas",
+   "esco_en": "manage schedule of tasks",
+   "es": "Gestión de agenda",
+   "en": "Schedule management"
+  },
+  "http://data.europa.eu/esco/skill/7d23c508-c007-4221-bb84-0c9a479b8ea6": {
+   "esco": "demostrar una conciencia intercultural",
+   "esco_en": "show intercultural awareness",
+   "es": "Competencia intercultural",
+   "en": "Intercultural competence"
+  },
+  "http://data.europa.eu/esco/skill/2a82241a-216e-44d8-bb50-6b9a0ef82084": {
+   "esco": "conducir un vehículo",
+   "esco_en": "drive vehicles",
+   "es": "Conducción de vehículos",
+   "en": "Driving"
+  },
+  "http://data.europa.eu/esco/skill/f632251a-4078-4546-b19f-7ef528d08325": {
+   "esco": "utilizar herramientas informáticas",
+   "esco_en": "use IT tools",
+   "es": "Informática básica",
+   "en": "Computer literacy"
+  },
+  "http://data.europa.eu/esco/skill/76395873-7fe2-4f9a-b4b6-9932f8cbd0b4": {
+   "esco": "seguir las directrices clínicas",
+   "esco_en": "follow clinical guidelines",
+   "es": "Guías clínicas",
+   "en": "Clinical guidelines"
+  },
+  "http://data.europa.eu/esco/skill/56ff27ef-2565-45bf-a70c-f06d78d2a480": {
+   "esco": "preparar un plan financiero",
+   "esco_en": "create a financial plan",
+   "es": "Planificación financiera",
+   "en": "Financial planning"
+  },
+  "http://data.europa.eu/esco/skill/c65795f8-69cc-47e0-9ba0-427671c965e6": {
+   "esco": "informar sobre desarrollo social",
+   "esco_en": "report on social development",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/2475cd27-8d6c-4318-a364-21395b23acba": {
+   "esco": "empatizar con el usuario de la asistencia sanitaria",
+   "esco_en": "empathise with the healthcare user",
+   "es": "Empatía",
+   "en": "Empathy"
+  },
+  "http://data.europa.eu/esco/skill/e8828961-9e8e-471f-bd24-0673a7e844ef": {
+   "esco": "comunicarse con los usuarios de los servicios sociales",
+   "esco_en": "communicate with social service users",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/5592ab32-4e7a-4cda-8e64-ca36d5de8a10": {
+   "esco": "adaptarse a situaciones de cambio",
+   "esco_en": "adapt to changing situations",
+   "es": "Adaptabilidad",
+   "en": "Adaptability"
+  },
+  "http://data.europa.eu/esco/skill/e921279a-1a7e-4900-9720-bde93ae3e70e": {
+   "esco": "preparar prototipos de producción",
+   "esco_en": "prepare production prototypes",
+   "es": "Prototipado",
+   "en": "Prototyping"
+  },
+  "http://data.europa.eu/esco/skill/a4d46d86-9de5-4734-881c-5b2059b9fccf": {
+   "esco": "gestionar situaciones de crisis social",
+   "esco_en": "manage social crisis",
+   "es": "Intervención en crisis",
+   "en": "Crisis intervention"
+  },
+  "http://data.europa.eu/esco/skill/efe5d94c-2249-4a50-8c44-6e77331c698d": {
+   "esco": "aplicar medidas de prevención de robos",
+   "esco_en": "manage theft prevention",
+   "es": "Prevención de pérdidas",
+   "en": "Loss prevention"
+  },
+  "http://data.europa.eu/esco/skill/0ee7b0d6-db98-4785-9948-f2ef415d155a": {
+   "esco": "redactar propuestas de investigación",
+   "esco_en": "write research proposals",
+   "es": "Redacción de propuestas",
+   "en": "Proposal writing"
+  },
+  "http://data.europa.eu/esco/skill/60b2dd49-c677-4f47-816e-aff3b577e113": {
+   "esco": "proporcionar educación en salud",
+   "esco_en": "provide health education",
+   "es": "Educación para la salud",
+   "en": "Health education"
+  },
+  "http://data.europa.eu/esco/skill/aafbb139-02c6-4f35-bc62-ff73faf97d6d": {
+   "esco": "interpretar planos en 3D",
+   "esco_en": "interpret 3D plans",
+   "es": "Lectura de planos",
+   "en": "Blueprint reading"
+  },
+  "http://data.europa.eu/esco/skill/233be639-bdb5-4099-ab40-96d537d6c1f3": {
+   "esco": "garantizar el cumplimiento de la legislación en materia de seguridad",
+   "esco_en": "ensure compliance with safety legislation",
+   "es": "Salud y seguridad ocupacional",
+   "en": "Occupational health and safety"
+  },
+  "http://data.europa.eu/esco/skill/574bf430-50a1-4734-9719-a823e7d80b10": {
+   "esco": "comunicarse de forma profesional con colegas en otros campos",
+   "esco_en": "communicate professionally with colleagues in other fields",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/cafc2723-c308-4058-9921-61306b5de924": {
+   "esco": "unir componentes",
+   "esco_en": "fasten components",
+   "es": "Ensamblaje",
+   "en": "Assembly"
+  },
+  "http://data.europa.eu/esco/skill/b73035a9-bf06-412c-9796-db579f85995c": {
+   "esco": "trabajar atendiendo a la propia seguridad",
+   "esco_en": "work with respect for own safety",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/c8f14c32-7f24-41bb-9e8f-b24d6fd3ca86": {
+   "esco": "seguir el programa de producción",
+   "esco_en": "follow production schedule",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/5598739b-6718-4cff-8402-91d7f65b1505": {
+   "esco": "mantener la limpieza de la zona de trabajo",
+   "esco_en": "maintain work area cleanliness",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/386774ac-fe5b-431a-b485-9aec0bf5c09e": {
+   "esco": "mantener el equipo eléctrico",
+   "esco_en": "maintain electrical equipment",
+   "es": "Mantenimiento eléctrico",
+   "en": "Electrical maintenance"
+  },
+  "http://data.europa.eu/esco/skill/0a43729f-2a79-4dae-9faa-95520daae79f": {
+   "esco": "aplicar las políticas de la empresa",
+   "esco_en": "apply company policies",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/cd195aad-29dd-43f5-a5be-e6994d83215b": {
+   "esco": "realizar cursos de desarrollo profesional continuo en el ámbito del trabajo social",
+   "esco_en": "undertake continuous professional development in social work",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/09d6ed43-95a1-4492-8bd7-d01039285afa": {
+   "esco": "proporcionar orientación social a los usuarios de los servicios sociales",
+   "esco_en": "provide social counselling",
+   "es": "Orientación social",
+   "en": "Social counseling"
+  },
+  "http://data.europa.eu/esco/skill/5e9de344-2bea-40dc-8410-f940121330e4": {
+   "esco": "mantener buenas relaciones con los organismos gubernamentales",
+   "esco_en": "maintain relationships with government agencies",
+   "es": "Relaciones gubernamentales",
+   "en": "Government relations"
+  },
+  "http://data.europa.eu/esco/skill/e3211ab2-18b5-49b4-90de-d395f3be2378": {
+   "esco": "ejecutar instrucciones de trabajo",
+   "esco_en": "execute working instructions",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/7ee872de-db39-4ae3-8e19-75d1a2cdf697": {
+   "esco": "desarrollar un plan de estudios de aprendizaje",
+   "esco_en": "develop learning curriculum",
+   "es": "Diseño curricular",
+   "en": "Curriculum design"
+  },
+  "http://data.europa.eu/esco/skill/5d9dd44a-81f8-4710-bd4d-af27ec5c2139": {
+   "esco": "calcular materiales necesarios para construcción",
+   "esco_en": "calculate needs for construction supplies",
+   "es": "Cálculo de materiales de construcción",
+   "en": "Construction material estimation"
+  },
+  "http://data.europa.eu/esco/skill/bc401d18-9bea-4300-90fd-22bfa286bd77": {
+   "esco": "aplicar principios operativos socialmente justos",
+   "esco_en": "apply socially just working principles",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/f78d5c04-a440-4068-90c2-fab03409a911": {
+   "esco": "supervisar la ejecución de políticas públicas",
+   "esco_en": "manage government policy implementation",
+   "es": "Políticas públicas",
+   "en": "Public policy"
+  },
+  "http://data.europa.eu/esco/skill/2a2fa8e8-aaf3-4abf-a60b-af6415f1c6d4": {
+   "esco": "procurar el crecimiento de la empresa",
+   "esco_en": "strive for company growth",
+   "es": "Desarrollo de negocios",
+   "en": "Business development"
+  },
+  "http://data.europa.eu/esco/skill/51a26193-9abe-4bce-9108-f50835be1c35": {
+   "esco": "manipular productos químicos de limpieza",
+   "esco_en": "handle chemical cleaning agents",
+   "es": "Productos químicos de limpieza",
+   "en": "Cleaning chemicals"
+  },
+  "http://data.europa.eu/esco/skill/fbdfc3bf-56a0-4454-a17d-2f513fe57b53": {
+   "esco": "gestionar el estrés en el lugar de trabajo",
+   "esco_en": "manage stress in the work place",
+   "es": "Manejo del estrés",
+   "en": "Stress management"
+  },
+  "http://data.europa.eu/esco/skill/3edfcb2b-2d0e-4673-87ce-f55c37eb5fca": {
+   "esco": "controlar el cumplimiento de normas de calidad de fabricación",
+   "esco_en": "monitor manufacturing quality standards",
+   "es": "Control de calidad",
+   "en": "Quality control"
+  },
+  "http://data.europa.eu/esco/skill/1f5148bb-1eb0-473d-a312-50e4ed24159f": {
+   "esco": "aportar las herramientas adecuadas a las máquinas",
+   "esco_en": "supply machine with appropriate tools",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/c65aa043-98da-4136-9877-494e72d9e4cf": {
+   "esco": "relacionarse con los usuarios de la asistencia sanitaria",
+   "esco_en": "interact with healthcare users",
+   "es": "Atención al paciente",
+   "en": "Patient care"
+  },
+  "http://data.europa.eu/esco/skill/c544a9f3-5945-4b54-afed-de0697852817": {
+   "esco": "informar de los resultados de los análisis",
+   "esco_en": "report analysis results",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/c927ec6e-9082-4b22-afd3-0c4e219eaf73": {
+   "esco": "garantizar el mantenimiento de los equipos",
+   "esco_en": "ensure equipment maintenance",
+   "es": "Mantenimiento de equipos",
+   "en": "Equipment maintenance"
+  },
+  "http://data.europa.eu/esco/skill/d9e5349e-8791-49c2-8ba4-839fdd1606c2": {
+   "esco": "definir los requisitos técnicos",
+   "esco_en": "define technical requirements",
+   "es": "Definición de requisitos",
+   "en": "Requirements definition"
+  },
+  "http://data.europa.eu/esco/skill/a0e23745-6ba4-45e2-9510-df6e71ed1230": {
+   "esco": "aplicar conocimientos sobre el comportamiento humano",
+   "esco_en": "apply knowledge of human behaviour",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/8ebb2c0a-0baa-43bf-95cf-094047c57427": {
+   "esco": "mantener un sistema administrativo profesional",
+   "esco_en": "maintain professional administration",
+   "es": "Gestión administrativa",
+   "en": "Office administration"
+  },
+  "http://data.europa.eu/esco/skill/d207a30b-2f80-4138-9b77-f88d549b8768": {
+   "esco": "identificar nuevas oportunidades comerciales",
+   "esco_en": "identify new business opportunities",
+   "es": "Desarrollo de negocios",
+   "en": "Business development"
+  },
+  "http://data.europa.eu/esco/skill/9f1bd2a4-91af-4b60-aeb3-0fe1f4434966": {
+   "esco": "encargar materiales de construcción",
+   "esco_en": "order construction supplies",
+   "es": "Pedidos de suministros",
+   "en": "Supply ordering"
+  },
+  "http://data.europa.eu/esco/skill/5f97fac8-2001-4b81-ae8b-22f9062d921a": {
+   "esco": "detectar peligros en el lugar de trabajo",
+   "esco_en": "identify hazards in the workplace",
+   "es": "Identificación de peligros",
+   "en": "Hazard identification"
+  },
+  "http://data.europa.eu/esco/skill/5133ed7b-0785-4c28-825d-1dcf518c4b5b": {
+   "esco": "alinear componentes",
+   "esco_en": "align components",
+   "es": "Ensamblaje",
+   "en": "Assembly"
+  },
+  "http://data.europa.eu/esco/skill/b1fd9eda-3d2e-48ef-9c1d-0ba318e3c7e6": {
+   "esco": "supervisar el trabajo",
+   "esco_en": "supervise work",
+   "es": "Supervisión de personal",
+   "en": "Staff supervision"
+  },
+  "http://data.europa.eu/esco/skill/194c05ed-253c-485a-8bf0-0c8de1aaafda": {
+   "esco": "seguir un calendario de trabajo",
+   "esco_en": "follow work schedule",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/5a42eaf5-93bb-4bca-8ebd-4d78e96e4929": {
+   "esco": "mantener la disciplina entre el alumnado",
+   "esco_en": "maintain students' discipline",
+   "es": "Manejo de aula",
+   "en": "Classroom management"
+  },
+  "http://data.europa.eu/esco/skill/188048ff-18bf-43c4-a1a0-7adb6e68f421": {
+   "esco": "controlar las operaciones de las máquinas",
+   "esco_en": "monitor machine operations",
+   "es": "Operación de maquinaria",
+   "en": "Machine operation"
+  },
+  "http://data.europa.eu/esco/skill/371d57e6-cc5f-4fc0-9c0c-58feb595cc5b": {
+   "esco": "someter productos a pruebas",
+   "esco_en": "perform product testing",
+   "es": "Pruebas de producto",
+   "en": "Product testing"
+  },
+  "http://data.europa.eu/esco/skill/c0fc7d2d-d013-40d7-bc58-75cf3771153f": {
+   "esco": "realizar reparaciones menores en equipos",
+   "esco_en": "perform minor repairs to equipment",
+   "es": "Reparación de equipos",
+   "en": "Equipment repair"
+  },
+  "http://data.europa.eu/esco/skill/be727774-46d7-43d7-aee9-1a51b5cd8c71": {
+   "esco": "realizar predicciones estadísticas",
+   "esco_en": "carry out statistical forecasts",
+   "es": "Pronósticos",
+   "en": "Forecasting"
+  },
+  "http://data.europa.eu/esco/skill/f5dd06b8-5d17-4932-9d03-957d0c4f5051": {
+   "esco": "realizar planificación de recursos",
+   "esco_en": "perform resource planning",
+   "es": "Planificación de recursos",
+   "en": "Resource planning"
+  },
+  "http://data.europa.eu/esco/skill/64b0515c-98b0-4cfd-8791-2f0a74e0ca37": {
+   "esco": "preparar a jóvenes para la edad adulta",
+   "esco_en": "prepare youths for adulthood",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/5c98825f-146d-4d35-97cf-207b2afd9ae2": {
+   "esco": "diseñar planos técnicos",
+   "esco_en": "create technical plans",
+   "es": "Dibujo técnico",
+   "en": "Technical drawing"
+  },
+  "http://data.europa.eu/esco/skill/1f1d2ff8-c4c1-45cc-9812-6a7ee84a73cb": {
+   "esco": "dirigir un equipo",
+   "esco_en": "lead a team",
+   "es": "Liderazgo de equipos",
+   "en": "Team leadership"
+  },
+  "http://data.europa.eu/esco/skill/8a43795b-bb38-4f29-91df-a6c92ad4643c": {
+   "esco": "analizar el rendimiento financiero de una empresa",
+   "esco_en": "analyse financial performance of a company",
+   "es": "Análisis financiero",
+   "en": "Financial analysis"
+  },
+  "http://data.europa.eu/esco/skill/bf942c60-8539-4951-83ee-63f770da1cb8": {
+   "esco": "programar un controlador de CNC",
+   "esco_en": "program a CNC controller",
+   "es": "Programación CNC",
+   "en": "CNC programming"
+  },
+  "http://data.europa.eu/esco/skill/4a874516-eb34-4dc1-833d-864c5a448db2": {
+   "esco": "ayudar a los niños y jóvenes a mantener actitudes positivas",
+   "esco_en": "support the positiveness of youths",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/1973c966-f236-40c9-b2d4-5d71a89019be": {
+   "esco": "utilizar software de hojas de cálculo",
+   "esco_en": "use spreadsheets software",
+   "es": "Hojas de cálculo",
+   "en": "Spreadsheets"
+  },
+  "http://data.europa.eu/esco/skill/e724205b-6b9a-45b4-b629-cd32a6c80b4f": {
+   "esco": "utilizar idiomas extranjeros en la asistencia sanitaria",
+   "esco_en": "use foreign languages in patient care",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/485cdafb-3c7f-4104-ab1c-773e6131a39a": {
+   "esco": "realizar investigaciones académicas",
+   "esco_en": "conduct scholarly research",
+   "es": "Investigación académica",
+   "en": "Academic research"
+  },
+  "http://data.europa.eu/esco/skill/fd88851f-4d1d-4de8-aee1-4464c3012969": {
+   "esco": "proporcionar orientación profesional",
+   "esco_en": "provide career counselling",
+   "es": "Orientación vocacional",
+   "en": "Career counseling"
+  },
+  "http://data.europa.eu/esco/skill/98a0c718-40b1-4a4f-a366-b8155f238d9b": {
+   "esco": "promover la protección de la juventud",
+   "esco_en": "promote the safeguarding of young people",
+   "es": "Protección de menores",
+   "en": "Child safeguarding"
+  },
+  "http://data.europa.eu/esco/skill/4a112f96-72c1-47f3-aa61-4b34ea415701": {
+   "esco": "obtener las licencias pertinentes",
+   "esco_en": "obtain relevant licenses",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/51e79cb4-fab3-404c-88f3-cd4a1bd5879e": {
+   "esco": "abordar situaciones que requieren asistencia de emergencia",
+   "esco_en": "deal with emergency care situations",
+   "es": "Atención de emergencias",
+   "en": "Emergency care"
+  },
+  "http://data.europa.eu/esco/skill/a99c6783-50c0-4f7a-99df-bf93429ef6dc": {
+   "esco": "utilizar herramientas de precisión",
+   "esco_en": "use precision tools",
+   "es": "Herramientas de precisión",
+   "en": "Precision tools"
+  },
+  "http://data.europa.eu/esco/skill/4f060129-8b75-4d58-a8dd-515bd8fef349": {
+   "esco": "realizar informes estadísticos y financieros",
+   "esco_en": "develop financial statistics reports",
+   "es": "Informes financieros",
+   "en": "Financial reporting"
+  },
+  "http://data.europa.eu/esco/skill/0f0698e7-04e4-4bf7-9af2-e3191147525a": {
+   "esco": "optimizar los parámetros del proceso de producción",
+   "esco_en": "optimise production processes parameters",
+   "es": "Mejora de procesos",
+   "en": "Process improvement"
+  },
+  "http://data.europa.eu/esco/skill/cde1ed83-8527-4ad1-9d26-7d8ccb2e8b03": {
+   "esco": "ocuparse de las emergencias veterinarias",
+   "esco_en": "handle veterinary emergencies",
+   "es": "Emergencias veterinarias",
+   "en": "Veterinary emergencies"
+  },
+  "http://data.europa.eu/esco/skill/2806b5cb-964b-4148-84aa-7efdbeffe9e3": {
+   "esco": "involucrar a usuarios y cuidadores en la planificación sanitaria",
+   "esco_en": "involve service users and carers in care planning",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/5f1d1319-7954-4a9b-90c7-57668e3a0d4b": {
+   "esco": "interpretar estados financieros",
+   "esco_en": "interpret financial statements",
+   "es": "Análisis de estados financieros",
+   "en": "Financial statement analysis"
+  },
+  "http://data.europa.eu/esco/skill/efc5534d-3631-4564-a7b0-f6ae558f3c03": {
+   "esco": "garantizar el cumplimiento de las especificaciones",
+   "esco_en": "ensure conformity to specifications",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/049c8caf-dd12-45fc-9bfa-b64051f32a19": {
+   "esco": "afrontar los cambios en la asistencia sanitaria",
+   "esco_en": "respond to changing situations in health care",
+   "es": "Adaptabilidad",
+   "en": "Adaptability"
+  },
+  "http://data.europa.eu/esco/skill/3399cde5-6d0d-48a5-a7ac-53706648f283": {
+   "esco": "acompañar al alumnado a un viaje de estudios",
+   "esco_en": "escort students on a field trip",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/c842be42-81b3-40f2-904c-ea8790ac88bd": {
+   "esco": "negociar acuerdos con proveedores",
+   "esco_en": "negotiate supplier arrangements",
+   "es": "Negociación con proveedores",
+   "en": "Supplier negotiation"
+  },
+  "http://data.europa.eu/esco/skill/a4fd17bf-6309-47c5-b7fa-ae5560673acf": {
+   "esco": "identificar amenazas para la seguridad",
+   "esco_en": "identify security threats",
+   "es": "Detección de amenazas",
+   "en": "Threat detection"
+  },
+  "http://data.europa.eu/esco/skill/4d614c92-0c48-4a11-a5ed-416b34fd50d2": {
+   "esco": "gestionar la información sobre los usuarios de la asistencia sanitaria",
+   "esco_en": "manage healthcare users' data",
+   "es": "Registros médicos",
+   "en": "Medical records"
+  },
+  "http://data.europa.eu/esco/skill/e541c69c-ea80-4b17-87cb-4001d0b9d303": {
+   "esco": "evaluar el impacto ambiental",
+   "esco_en": "assess environmental impact",
+   "es": "Evaluación de impacto ambiental",
+   "en": "Environmental impact assessment"
+  },
+  "http://data.europa.eu/esco/skill/667cbbaf-f377-46d8-8f2d-1f6d8a55d74a": {
+   "esco": "empaquetar mercancías",
+   "esco_en": "pack goods",
+   "es": "Empaque de mercancías",
+   "en": "Packing"
+  },
+  "http://data.europa.eu/esco/skill/4f4ca760-970a-4839-9ce2-ab85ed66772e": {
+   "esco": "eliminar residuos de corte",
+   "esco_en": "dispose of cutting waste material",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/1dea2f3a-857c-4fc3-b1f8-d5f2015c46a9": {
+   "esco": "dar instrucciones al personal",
+   "esco_en": "give instructions to staff",
+   "es": "Delegación",
+   "en": "Delegation"
+  },
+  "http://data.europa.eu/esco/skill/082967d4-b94c-4305-aa13-35a6aa8c5c7c": {
+   "esco": "cooperar con los compañeros de trabajo",
+   "esco_en": "cooperate with colleagues",
+   "es": "Trabajo en equipo",
+   "en": "Teamwork"
+  },
+  "http://data.europa.eu/esco/skill/62d34066-f07a-4437-914b-0548ba8bbe59": {
+   "esco": "controlar máquinas transportadoras",
+   "esco_en": "monitor conveyor belt",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/e1f5c539-7c93-49ee-917d-a24e0d887686": {
+   "esco": "control de gastos",
+   "esco_en": "control of expenses",
+   "es": "Control de gastos",
+   "en": "Expense control"
+  },
+  "http://data.europa.eu/esco/skill/96ae5ab6-d696-4d4f-be1c-d02e722c6f55": {
+   "esco": "aplicar reglas gramaticales y ortográficas",
+   "esco_en": "apply grammar and spelling rules",
+   "es": "Ortografía y gramática",
+   "en": "Grammar and spelling"
+  },
+  "http://data.europa.eu/esco/skill/36e9c099-614e-44f1-ab0a-5e6fda4a0763": {
+   "esco": "realizar inspecciones",
+   "esco_en": "undertake inspections",
+   "es": "Inspecciones",
+   "en": "Inspections"
+  },
+  "http://data.europa.eu/esco/skill/c3d61bcf-e698-4d39-8db1-388284dbfc74": {
+   "esco": "operar equipos de elevación",
+   "esco_en": "operate lifting equipment",
+   "es": "Equipos de elevación",
+   "en": "Lifting equipment"
+  },
+  "http://data.europa.eu/esco/skill/0256f6b0-f4a9-4c5e-9cfd-96d58a2a70fe": {
+   "esco": "operar el equipo de radio",
+   "esco_en": "operate radio equipment",
+   "es": "Radiocomunicación",
+   "en": "Radio communication"
+  },
+  "http://data.europa.eu/esco/skill/cb1a2fbf-242d-4a4e-a466-588378f124c1": {
+   "esco": "manejar herramientas de medición científica",
+   "esco_en": "operate scientific measuring equipment",
+   "es": "Instrumentos de medición",
+   "en": "Measuring instruments"
+  },
+  "http://data.europa.eu/esco/skill/d93f9e29-9740-4231-8486-13d377b99f05": {
+   "esco": "establecer una relación terapéutica colaborativa",
+   "esco_en": "develop a collaborative therapeutic relationship",
+   "es": "Relación terapéutica",
+   "en": "Therapeutic relationship"
+  },
+  "http://data.europa.eu/esco/skill/6dce7757-c416-4cec-bd2e-9f2319438c48": {
+   "esco": "desenvolverse bien en entornos de riesgo",
+   "esco_en": "be at ease in unsafe environments",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/5da3c765-10a3-49eb-934c-ec401ceb1a34": {
+   "esco": "analizar planes de empresa",
+   "esco_en": "analyse business plans",
+   "es": "Análisis de planes de negocio",
+   "en": "Business plan analysis"
+  },
+  "http://data.europa.eu/esco/skill/26a6e6d2-1c9a-4d7e-8c04-5ba16d1f53da": {
+   "esco": "recibir a huéspedes",
+   "esco_en": "greet guests",
+   "es": "Recepción de huéspedes",
+   "en": "Guest reception"
+  },
+  "http://data.europa.eu/esco/skill/987a848a-01ec-4938-9f31-1af1c7bef651": {
+   "esco": "mantener equipos de pruebas",
+   "esco_en": "maintain test equipment",
+   "es": "Equipos de prueba",
+   "en": "Test equipment"
+  },
+  "http://data.europa.eu/esco/skill/0c944316-12f6-4949-a156-a03dbaae790f": {
+   "esco": "limpiar el área de trabajo",
+   "esco_en": "ensure sanitation",
+   "es": "Higiene y saneamiento",
+   "en": "Sanitation"
+  },
+  "http://data.europa.eu/esco/skill/561c2525-5bd8-4d86-8f45-820f4be7db93": {
+   "esco": "informar sobre resultados de pruebas",
+   "esco_en": "report test findings",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/6c870993-9341-438b-91c0-c7fe4f96d8f5": {
+   "esco": "aplicar pensamiento estratégico",
+   "esco_en": "apply strategic thinking",
+   "es": "Pensamiento estratégico",
+   "en": "Strategic thinking"
+  },
+  "http://data.europa.eu/esco/skill/941364b9-1375-4add-9889-d67bae99bc8c": {
+   "esco": "redactar informes técnicos",
+   "esco_en": "write technical reports",
+   "es": "Redacción técnica",
+   "en": "Technical writing"
+  },
+  "http://data.europa.eu/esco/skill/65a3a184-7d11-4db9-9b85-281961d1514b": {
+   "esco": "realizar controles periódicos de maquinaria",
+   "esco_en": "conduct routine machinery checks",
+   "es": "Mantenimiento de maquinaria",
+   "en": "Machine maintenance"
+  },
+  "http://data.europa.eu/esco/skill/d6179c4b-ff5a-4bbb-a3c8-e0acf0de1f56": {
+   "esco": "prestar asistencia en investigaciones científicas",
+   "esco_en": "assist scientific research",
+   "es": "Investigación científica",
+   "en": "Scientific research"
+  },
+  "http://data.europa.eu/esco/skill/3172f001-a4dd-4e7e-9f74-9707b2e7c6e1": {
+   "esco": "interpretar mapas",
+   "esco_en": "read maps",
+   "es": "Lectura de mapas",
+   "en": "Map reading"
+  },
+  "http://data.europa.eu/esco/skill/7287dff1-7420-4d24-939a-5f4eb15b752b": {
+   "esco": "consultar fuentes de información",
+   "esco_en": "consult information sources",
+   "es": "Búsqueda de información",
+   "en": "Information research"
+  },
+  "http://data.europa.eu/esco/skill/dbdd03ec-f64f-4916-8a86-cc71d765cc20": {
+   "esco": "asesorar sobre actos legislativos",
+   "esco_en": "advise on legislative acts",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/87af00b5-30fa-41c8-bfa5-357f22c8d589": {
+   "esco": "reemplazar componentes defectuosos",
+   "esco_en": "replace defect components",
+   "es": "Reparación de equipos",
+   "en": "Equipment repair"
+  },
+  "http://data.europa.eu/esco/skill/be7c80ee-0b7a-455c-8928-055cfa65076c": {
+   "esco": "reaccionar a sucesos en entornos críticos por motivos de urgencia",
+   "esco_en": "react to events in time-critical environments",
+   "es": "Trabajo bajo presión",
+   "en": "Working under pressure"
+  },
+  "http://data.europa.eu/esco/skill/25a7fc25-f2fc-4bfd-9999-943c03d53372": {
+   "esco": "proteger los intereses del cliente",
+   "esco_en": "protect client interests",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/435efc22-0dcb-487c-b9c4-d4860b6d4c52": {
+   "esco": "organizar las instalaciones de almacenamiento",
+   "esco_en": "organise storage facilities",
+   "es": "Gestión de almacenes",
+   "en": "Warehouse management"
+  },
+  "http://data.europa.eu/esco/skill/182915aa-3470-433a-9b12-347511befcde": {
+   "esco": "llevar registros de las intervenciones de mantenimiento",
+   "esco_en": "maintain records of maintenance interventions",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/2feeef46-05cf-445c-9ca1-c96a30e10106": {
+   "esco": "interpretar planos de montaje",
+   "esco_en": "read assembly drawings",
+   "es": "Lectura de planos",
+   "en": "Blueprint reading"
+  },
+  "http://data.europa.eu/esco/skill/f9d70f2a-c3f0-475d-ac55-dc2e2ba856e8": {
+   "esco": "dirigir las inspecciones",
+   "esco_en": "lead inspections",
+   "es": "Inspecciones",
+   "en": "Inspections"
+  },
+  "http://data.europa.eu/esco/skill/01c03003-516d-43c6-8477-45c472413521": {
+   "esco": "asesorar sobre materiales de construcción",
+   "esco_en": "advise on construction materials",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/a65fb963-6faf-47b2-a3d9-c4e5e4d833c5": {
+   "esco": "apoyar el bienestar de los niños",
+   "esco_en": "support children's wellbeing",
+   "es": "Bienestar infantil",
+   "en": "Child welfare"
+  },
+  "http://data.europa.eu/esco/skill/87ebb1d4-3aab-4257-b2bd-7b7f2008eea2": {
+   "esco": "aplicar una capa protectora",
+   "esco_en": "apply a protective layer",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/88de5ff4-310a-4f4f-9b47-349eb5589902": {
+   "esco": "traducir conceptos artísticos en diseños técnicos",
+   "esco_en": "translate artistic concepts to technical designs",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/8abdc43c-2bfd-417c-97c2-27fcdaf53171": {
+   "esco": "sensibilizar sobre el medioambiente",
+   "esco_en": "promote environmental awareness",
+   "es": "Educación ambiental",
+   "en": "Environmental awareness"
+  },
+  "http://data.europa.eu/esco/skill/41a3240f-58ba-44e2-a688-edeb21ea5c16": {
+   "esco": "realizar análisis de control de calidad",
+   "esco_en": "conduct quality control analysis",
+   "es": "Control de calidad",
+   "en": "Quality control"
+  },
+  "http://data.europa.eu/esco/skill/f2d57f41-43b4-4f5b-8100-3df5c21eda50": {
+   "esco": "procesar datos",
+   "esco_en": "process data",
+   "es": "Procesamiento de datos",
+   "en": "Data processing"
+  },
+  "http://data.europa.eu/esco/skill/99fc129e-360c-4174-9553-5c666a64a395": {
+   "esco": "preparar informes científicos",
+   "esco_en": "prepare scientific reports",
+   "es": "Redacción científica",
+   "en": "Scientific writing"
+  },
+  "http://data.europa.eu/esco/skill/906c9e66-bdee-4f8e-93d7-88d9fcf39a0a": {
+   "esco": "organizar reuniones",
+   "esco_en": "fix meetings",
+   "es": "Organización de reuniones",
+   "en": "Meeting planning"
+  },
+  "http://data.europa.eu/esco/skill/e2e15494-65b9-4af5-8b86-53fb51e7e022": {
+   "esco": "gestionar cuentas",
+   "esco_en": "manage accounts",
+   "es": "Gestión de cuentas",
+   "en": "Account management"
+  },
+  "http://data.europa.eu/esco/skill/b6b2e665-1085-4f4d-9973-e979721815d7": {
+   "esco": "ayudar a clientes con necesidades especiales",
+   "esco_en": "assist clients with special needs",
+   "es": "Atención a personas con discapacidad",
+   "en": "Disability support"
+  },
+  "http://data.europa.eu/esco/skill/d10030a4-f49c-4125-8646-6b091efe5089": {
+   "esco": "vigilar el bienestar de los animales",
+   "esco_en": "monitor the welfare of animals",
+   "es": "Bienestar animal",
+   "en": "Animal welfare"
+  },
+  "http://data.europa.eu/esco/skill/5bf7f85a-b080-4b27-8ddc-9f62af4643f5": {
+   "esco": "utilizar herramientas eléctricas",
+   "esco_en": "use power tools",
+   "es": "Herramientas eléctricas",
+   "en": "Power tools"
+  },
+  "http://data.europa.eu/esco/skill/ab986bc4-df92-4351-9ac1-aa75af943cf7": {
+   "esco": "realizar tareas administrativas",
+   "esco_en": "perform clerical duties",
+   "es": "Gestión administrativa",
+   "en": "Office administration"
+  },
+  "http://data.europa.eu/esco/skill/0959a14b-9743-4d71-93ba-a1fefa56e5ae": {
+   "esco": "preparar la documentación comercial para las exportaciones e importaciones",
+   "esco_en": "create import-export commercial documentation",
+   "es": "Documentación de comercio exterior",
+   "en": "Import-export documentation"
+  },
+  "http://data.europa.eu/esco/skill/97fb21db-a4e5-4b03-af21-03b9d510d872": {
+   "esco": "operar sistemas de posicionamiento global",
+   "esco_en": "operate GPS systems",
+   "es": "GPS",
+   "en": "GPS"
+  },
+  "http://data.europa.eu/esco/skill/efda73b4-5212-40a7-b2f8-d2f754ffdf2b": {
+   "esco": "mantenerse informado de las novedades en un sector determinado",
+   "esco_en": "keep up with trends",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/c2241f73-9151-4817-96b2-b9a6aae4c9e9": {
+   "esco": "llevar a cabo controles de equipos de plantas de producción",
+   "esco_en": "carry out checks of production plant equipment",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/910becaf-d07b-455a-a363-0bf9430afb51": {
+   "esco": "limpiar equipos",
+   "esco_en": "clean equipment",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/8a753714-9a19-4418-9b37-77e79d72c705": {
+   "esco": "integrar productos nuevos en la cadena de fabricación",
+   "esco_en": "integrate new products in manufacturing",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/0b5aaee4-c948-4853-bf8d-b9cd6c4917ee": {
+   "esco": "informar a los responsables de la formulación de políticas sobre los desafíos en materia sanitaria",
+   "esco_en": "inform policy makers on health-related challenges",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/637ca2e2-0624-48b1-be6e-9ff4580344ac": {
+   "esco": "corregir textos",
+   "esco_en": "proofread text",
+   "es": "Corrección de textos",
+   "en": "Proofreading"
+  },
+  "http://data.europa.eu/esco/skill/66baba7d-178e-4c51-935f-03a9049ff2f6": {
+   "esco": "comunicarse con profesionales del sector bancario",
+   "esco_en": "communicate with banking professionals",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/b216d9a2-7d4e-4312-8d05-e375f4ab44d8": {
+   "esco": "asegurar la cooperación entre departamentos",
+   "esco_en": "ensure cross-department cooperation",
+   "es": "Colaboración",
+   "en": "Collaboration"
+  },
+  "http://data.europa.eu/esco/skill/136596a4-00b5-4ed3-bb6e-717198c1ccbe": {
+   "esco": "aplicar técnicas de soldadura",
+   "esco_en": "apply soldering techniques",
+   "es": "Soldadura con estaño",
+   "en": "Soldering"
+  },
+  "http://data.europa.eu/esco/skill/ff862044-d49e-4417-bf65-1ae2c0a47e5a": {
+   "esco": "analizar informes escritos relacionados con el trabajo",
+   "esco_en": "analyse work-related written reports",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/52f6fca4-1ab6-4588-983d-15a278148961": {
+   "esco": "administrar la logística multimodal",
+   "esco_en": "administer multi-modal logistics",
+   "es": "Logística multimodal",
+   "en": "Multimodal logistics"
+  },
+  "http://data.europa.eu/esco/skill/e9160feb-109a-41eb-9604-9f898c710d0f": {
+   "esco": "supervisar actividades extraescolares",
+   "esco_en": "oversee extra-curricular activities",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/95760903-58e9-4194-842a-a24e0af43074": {
+   "esco": "presentar reclamaciones a las compañías de seguro",
+   "esco_en": "file claims with insurance companies",
+   "es": "Reclamaciones de seguros",
+   "en": "Insurance claims"
+  },
+  "http://data.europa.eu/esco/skill/e58a3832-4e13-458e-8efd-bfa251eed702": {
+   "esco": "mantener las comunicaciones operativas",
+   "esco_en": "maintain operational communications",
+   "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/28cb374e-6261-4133-8371-f9a5470145da": {
+   "esco": "manejar carretillas elevadoras",
+   "esco_en": "operate forklift",
+   "es": "Montacargas",
+   "en": "Forklift operation"
+  },
+  "http://data.europa.eu/esco/skill/52797dce-911c-4e6d-b0cb-491f6469014f": {
+   "esco": "instalar equipos eléctricos y electrónicos",
+   "esco_en": "install electrical and electronic equipment",
+   "es": "Instalaciones eléctricas",
+   "en": "Electrical installation"
+  },
+  "http://data.europa.eu/esco/skill/8c4c49d4-9708-433f-8ca7-bf2c5211ee49": {
+   "esco": "desarrollar ideas creativas",
+   "esco_en": "develop creative ideas",
+   "es": "Creatividad",
+   "en": "Creativity"
+  },
+  "http://data.europa.eu/esco/skill/4b973dcf-3ffc-4c70-b84a-8360e63db7cd": {
+   "esco": "asistir a ensayos",
+   "esco_en": "attend rehearsals",
+   "quitar": true
+  }
+ }
+}

@@ -10,7 +10,8 @@ experiencia, habilidades y roles. Sale una lista ordenada de habilidades y de ro
   Dentro de cada área, primero los roles que usan más habilidades que ya tiene.
 - ESCO (clasificación europea de ocupaciones y habilidades) suma un turno más: ocupaciones parecidas a su
   puesto o que piden 2 o más de sus habilidades, y las habilidades esenciales de esas ocupaciones y de los roles
-  que eligió. También da el buscador de habilidades del paso 3 (buscar_habilidades).
+  que eligió. También da el buscador de habilidades del paso 3 (buscar_habilidades), sobre una lista de nombres
+  cortos: parte de ESCO, competencias de ESCO reescritas y herramientas curadas (ver scripts/construir_esco.py).
 - Si el agente refinó las sugerencias (perfil["sugerencias"]), esas van primero.
 - El tablero usa la misma lógica en static/sugerencias.js; tests/test_sugerencias.py y tests/test_esco.py
   comprueban que ambas den exactamente lo mismo.
@@ -31,6 +32,8 @@ MAX_RESULTADOS = 8  # del buscador
 PESOS = {"interes": 3, "puesto_actual": 3, "estudios": 2, "otros": 1}
 FUERTE = 2  # puntos mínimos para que un área entre en los primeros turnos
 MIN_ETIQUETA_OCUPACION = 5  # nombres de ocupación más cortos no se buscan dentro del puesto
+# Palabras que no cuentan como inicio de palabra en el buscador: «as» no debe encontrar «work as a team».
+VACIAS = frozenset("a al an and as at by con de del e el en for in la las los o of on or para por the to u un una y with".split())
 
 
 @functools.lru_cache(maxsize=1)
@@ -99,7 +102,7 @@ def _razon(rol: dict, fuentes: list[str], ya: list[str], perfil: dict) -> str:
 # -- ESCO: índice, buscador y ocupaciones -------------------------------------------------------
 def preparar_esco(datos: dict) -> dict:
     """Normaliza una vez las etiquetas del índice (esco.json) para buscar rápido."""
-    hn = [[normalizar(es), normalizar(en), [normalizar(s) for s in sinonimos]] for es, en, sinonimos in datos["h"]]
+    hn = [[normalizar(es), normalizar(en), [normalizar(s) for s in sinonimos]] for es, en, sinonimos, *_ in datos["h"]]
     por_nombre = {}
     for i, (es, en, sinonimos) in enumerate(hn):
         for n in (es, en, *sinonimos):
@@ -130,33 +133,41 @@ def _repetido(partes: list[str], nombre: str, aceptados: list[tuple[str, list[st
             or any(f" {p} " in f" {nombre} " for _, ps in aceptados for p in ps))
 
 
+def _nivel(nombre: str, consulta: str) -> int:
+    """0: igual; 1: el nombre empieza por lo escrito; 2: otra palabra del nombre empieza por lo escrito (sin contar
+    «de», «as», etc.); -1: no coincide. Nunca a mitad de palabra: «ual» no encuentra «manual»."""
+    if nombre == consulta:
+        return 0
+    if nombre.startswith(consulta):
+        return 1
+    palabras = nombre.split(" ")
+    return 2 if any(p not in VACIAS and " ".join(palabras[j:]).startswith(consulta)
+                    for j, p in enumerate(palabras) if j) else -1
+
+
 def buscar_habilidades(consulta: str, esco: dict | None = None, n: int = MAX_RESULTADOS) -> list[dict]:
-    """Autocompletar en español, inglés o sinónimos, sin tildes. Orden: exacta, empieza por las palabras completas,
-    contiene todas las palabras completas, empieza por lo escrito, todas las palabras como inicio de palabra
-    («excel» prefiere «MS Excel» a «excelencia»). Desempata la más corta y luego la más usada."""
+    """Autocompletar desde 2 letras, en español, inglés o sinónimos, sin tildes. Orden: igual a lo escrito, empieza
+    por lo escrito, una palabra empieza por lo escrito; dentro de cada grupo, primero los nombres y luego los
+    sinónimos, y de la más usada a la menos (el índice ya viene así: por número de ocupaciones de ESCO)."""
     esco = esco or cargar_esco()
     q = normalizar(consulta)
     if not esco or len(q) < 2:
         return []
-    consultas = [(v, v.split(" ")) for v in _variantes(q, esco)]
+    consultas = _variantes(q, esco)
     mejores = []
     for i, (es, en, sinonimos) in enumerate(esco["hn"]):
         mejor = None
         for k, t in enumerate((es, en, *sinonimos)):
-            if not t:
-                continue
-            for v, palabras in consultas:
-                nivel = (0 if t == v else 1 if t.startswith(f"{v} ") else 2 if all(f" {p} " in f" {t} " for p in palabras)
-                         else 3 if t.startswith(v) else 4 if all(f" {p}" in f" {t}" for p in palabras) else -1)
-                if nivel >= 0:
-                    clave = (nivel, 0 if k < 2 else 1, len(esco["h"][i][0]), i, k)
-                    mejor = min(mejor, clave) if mejor else clave
+            for v in consultas:
+                nivel = _nivel(t, v) if t else -1
+                if nivel >= 0 and (mejor is None or (nivel, k) < mejor):
+                    mejor = (nivel, k)
         if mejor:
-            mejores.append(mejor)
+            mejores.append((mejor[0], mejor[1] >= 2, i, mejor[1]))
     mejores.sort()
     out = []
-    for _, _, _, i, k in mejores[:n]:
-        es, en, sinonimos = esco["h"][i]
+    for _, _, i, k in mejores[:n]:
+        es, en, sinonimos = esco["h"][i][:3]
         out.append({"es": es, "en": en, "sinonimo": sinonimos[k - 2] if k >= 2 else ""})
     return out
 

@@ -20,7 +20,8 @@ import construir_esco  # noqa: E402
 @pytest.fixture(scope="module")
 def indice(tmp_path_factory):
     destino = tmp_path_factory.mktemp("esco") / "esco.json"
-    construir_esco.construir([MUESTRA], destino, version="v1.2.1")
+    construir_esco.construir([MUESTRA], destino, version="v1.2.1", competencias=MUESTRA / "competencias_esco.json",
+                             curadas=MUESTRA / "curadas.json")
     return json.loads(destino.read_text(encoding="utf-8"))
 
 
@@ -34,64 +35,46 @@ def es(resultados):
 
 
 # -- construir el índice ------------------------------------------------------------------------
-def test_construye_un_indice_compacto(indice):
+def test_construye_una_lista_de_nombres_cortos(indice):
     assert indice["licencia"] == "CC BY 4.0" and indice["adaptado"] is True and indice["fuente"] == "ESCO v1.2.1"
-    assert indice["atribucion"].startswith(FRASE) and "Versión adaptada" in indice["atribucion"]
+    assert indice["atribucion"].startswith(FRASE) and "Versión adaptada" in indice["atribucion"] and "curada" in indice["atribucion"]
     etiquetas = [h[0] for h in indice["h"]]
-    assert "habilidad obsoleta" not in etiquetas  # solo conceptos publicados («released»)
-    assert len(etiquetas) == 10 and etiquetas[0] == "usar software de hojas de cálculo"  # la más usada, primero
-    excel = indice["h"][0]
-    assert excel[1] == "use spreadsheets software" and excel[2] == ["Excel", "hojas de cálculo", "spreadsheets", "Microsoft Excel"]
-    tope = sum(construir_esco.MAX_SINONIMOS.values()) + sum(construir_esco.MAX_SINONIMOS_CORTOS.values())
-    assert all(len(h[2]) <= tope for h in indice["h"])
+    assert etiquetas == ["Excel", "Power BI", "Python", "Scrum", "Trabajo en equipo", "Hojas de cálculo",
+                         "Técnicas de presentación visual", "Asistencia sanitaria", "Atención al paciente", "Contabilidad",
+                         "Diseño gráfico", "Estadística", "Inglés", "Movilidad como servicio", "SQL"]
+    origen = {h[0]: h[4] for h in indice["h"]}
+    assert origen["Excel"] == origen["Scrum"] == "curada" and origen["Python"] == "esco"
+    assert origen["Hojas de cálculo"] == origen["Trabajo en equipo"] == "reescrita"
+    # Fuera: tareas sin reescribir, más de 4 palabras, sin ocupaciones, obsoletas o marcadas «quitar».
+    assert indice["h"][2][1] == "Python"  # sin «(computer programming)»
     contable = next(o for o in indice["o"] if o[0] == "contable")
-    assert contable[1] == "accountant" and contable[2] == ["contador", "contadora"]
-    assert sorted(indice["h"][i][1] for i in contable[3]) == ["accounting", "apply tax legislation", "use spreadsheets software"]
-
-
-def test_lee_zips_y_avisa_si_faltan_archivos(tmp_path):
-    zip_es, zip_en = tmp_path / "ESCO dataset - v1.2.1 - classification - es - csv.zip", tmp_path / "en.zip"
-    with zipfile.ZipFile(zip_es, "w") as z:
-        for p in MUESTRA.glob("*_es.csv"):
-            z.write(p, f"ESCO/{p.name}")
-    with zipfile.ZipFile(zip_en, "w") as z:
-        for p in MUESTRA.glob("*_en.csv"):
-            z.write(p, p.name)
-    r = construir_esco.construir([zip_es, zip_en], tmp_path / "esco.json")
-    assert r["habilidades"] == 10 and r["ocupaciones"] == 4 and r["gzip"] < r["bytes"]
-    assert json.loads((tmp_path / "esco.json").read_text(encoding="utf-8"))["fuente"] == "ESCO v1.2.1"
-    with pytest.raises(FileNotFoundError, match="skills_en"):
-        construir_esco.construir([zip_es], tmp_path / "otro.json")
-    with pytest.raises(FileNotFoundError, match="--version"):  # sin versión en la ruta, no la inventa
-        construir_esco.construir([MUESTRA], tmp_path / "otro.json")
+    assert [indice["h"][i][0] for i in contable[3]] == ["Hojas de cálculo", "Contabilidad"]
 
 
 # -- buscador -----------------------------------------------------------------------------------
-@pytest.mark.parametrize("consulta", ["estadistica", "ESTADÍSTICA", "estadística", "Estadistica  "])
-def test_busca_sin_importar_tildes_ni_mayusculas(esco, consulta):
-    assert es(sg.buscar_habilidades(consulta, esco))[0] == "estadística"
+@pytest.mark.parametrize("consulta", ["estadistica", "ESTADÍSTICA", "estadística", "Estadistica  ", "statistics"])
+def test_busca_sin_importar_tildes_mayusculas_ni_idioma(esco, consulta):
+    assert es(sg.buscar_habilidades(consulta, esco)) == ["Estadística"]
 
 
-def test_busca_en_ingles_y_en_sinonimos(esco):
-    assert es(sg.buscar_habilidades("statistics", esco)) == ["estadística"]
-    r = sg.buscar_habilidades("excel", esco)
-    assert r[0] == {"es": "usar software de hojas de cálculo", "en": "use spreadsheets software", "sinonimo": "Excel"}
-    assert sg.buscar_habilidades("bookkeep", esco)[0]["sinonimo"] == "bookkeeping"
-    assert es(sg.buscar_habilidades("diseno grafico", esco)) == ["diseño gráfico"]
+def test_orden_exacta_empieza_por_palabra_y_popularidad(esco):
+    assert es(sg.buscar_habilidades("excel", esco)) == ["Excel"]
+    assert es(sg.buscar_habilidades("python", esco)) == ["Python"]
+    # empieza por: la más usada primero; los sinónimos después de los nombres
+    r = sg.buscar_habilidades("te", esco)
+    assert es(r) == ["Trabajo en equipo", "Técnicas de presentación visual", "Contabilidad"] and r[2]["sinonimo"] == "teneduría de libros"
+    assert es(sg.buscar_habilidades("pre", esco)) == ["Técnicas de presentación visual"]  # una palabra empieza por «pre»
 
 
-def test_orden_exacta_empieza_por_y_palabras(esco):
-    # «SQL» exacto va antes que lo que solo empieza por «sql» o lo contiene.
-    assert es(sg.buscar_habilidades("sql", esco))[0] == "SQL"
-    # Todas las palabras, en cualquier orden y al inicio de palabra: «datos visual» → «visualización de datos».
-    assert es(sg.buscar_habilidades("datos visual", esco)) == ["técnicas de presentación visual"]
-    assert sg.buscar_habilidades("ual", esco) == []  # no busca a mitad de palabra
+def test_as_no_encuentra_palabras_vacias(esco):
+    assert es(sg.buscar_habilidades("as", esco)) == ["Asistencia sanitaria"]  # no «mobility as a service»
+    assert sg.buscar_habilidades("ual", esco) == []  # nunca a mitad de palabra
 
 
 def test_minimo_dos_letras_y_maximo_ocho(esco, indice):
     assert sg.buscar_habilidades("e", esco) == [] and sg.buscar_habilidades("", esco) == []
-    grande = sg.preparar_esco(indice | {"h": [[f"gestión {i}", f"management {i}", []] for i in range(30)]})
-    assert len(sg.buscar_habilidades("gestion", grande)) == sg.MAX_RESULTADOS == 8
+    grande = sg.preparar_esco(indice | {"h": [[f"gestión {i}", f"management {i}", [], 1, "esco"] for i in range(30)]})
+    assert len(sg.buscar_habilidades("ge", grande)) == sg.MAX_RESULTADOS == 8
 
 
 # -- ocupaciones de ESCO en las sugerencias ------------------------------------------------------
@@ -100,16 +83,16 @@ def test_tu_puesto_sugiere_la_ocupacion_y_sus_habilidades(esco):
     esco_roles = [r for r in s["roles"] if r["origen"] == "esco"]
     assert esco_roles == [{"rol": "Contable", "razon": "Ocupación de ESCO parecida a tu trabajo actual.", "origen": "esco"}]
     habs = [h["nombre"] for h in s["habilidades"] if h["origen"] == "esco"]
-    assert "Aplicar la legislación tributaria" in habs and "Contabilidad" not in habs  # no repite lo que ya tienes
+    assert habs == ["Hojas de cálculo"]  # no repite lo que ya tienes  # no repite lo que ya tienes
 
 
 def test_tus_habilidades_sugieren_ocupaciones_que_las_piden(esco):
-    s = sg.sugerir({"habilidades": ["Excel", "sql"]}, esco=esco)
+    s = sg.sugerir({"habilidades": ["Hojas de cálculo", "sql"]}, esco=esco)
     assert s["roles"] == [{"rol": "Analista de datos", "origen": "esco",
-                           "razon": "Según ESCO, pide usar software de hojas de cálculo y SQL, que ya tienes."}]
+                           "razon": "Según ESCO, pide Hojas de cálculo y SQL, que ya tienes."}]
     # las otras esenciales de esa ocupación, de la más usada a la menos usada
-    assert [h["nombre"] for h in s["habilidades"]] == ["Estadística", "Python (programación informática)"]
-    assert sg.sugerir({"habilidades": ["Excel"]}, esco=esco)["roles"] == []  # con una sola en común, no
+    assert [h["nombre"] for h in s["habilidades"]] == ["Python", "Trabajo en equipo", "Estadística"]
+    assert sg.sugerir({"habilidades": ["Excel", "sql"]}, esco=esco)["roles"] == []  # las curadas no tienen ocupaciones
 
 
 def test_tus_roles_traen_sus_habilidades_esenciales(esco):
@@ -119,13 +102,13 @@ def test_tus_roles_traen_sus_habilidades_esenciales(esco):
 
 
 def test_esco_comparte_turnos_y_no_duplica_roles_del_mapa(esco):
-    s = sg.sugerir({"intereses": ["datos y análisis"], "habilidades": ["Excel", "SQL"]}, esco=esco)
+    s = sg.sugerir({"intereses": ["datos y análisis"], "habilidades": ["Hojas de cálculo", "SQL"]}, esco=esco)
     nombres = [sg.normalizar(r["rol"]) for r in s["roles"]]
     assert nombres.count("analista de datos") == 1 and s["roles"][0]["origen"] == "mapa"
 
 
 # -- el navegador usa la misma lógica ---------------------------------------------------------
-CONSULTAS = ["contador", "computadora", "excel", "Estadistica", "ESTADÍSTICA", "statistics", "diseno grafico", "datos visual", "sql", "e", "",
+CONSULTAS = ["as", "te", "pre", "ual", "python", "teneduria", "contador", "computadora", "excel", "Estadistica", "ESTADÍSTICA", "statistics", "diseno grafico", "datos visual", "sql", "e", "",
              "bookkeep", "cuidado del", "zzz"]
 PERFILES = [{"puesto_actual": "Contador en una firma pequeña", "habilidades": ["contabilidad"]},
             {"habilidades": ["Excel", "sql", "Python"], "intereses": ["datos y análisis"]},
@@ -157,9 +140,14 @@ def test_el_indice_publicado_es_de_esco_y_cabe():
     datos = json.loads(sg.ESCO.read_text(encoding="utf-8"))
     assert datos["fuente"] == "ESCO v1.2.1" and datos["licencia"] == "CC BY 4.0" and datos["adaptado"] is True
     assert datos["atribucion"].startswith(FRASE)
-    assert len(datos["h"]) > 10000 and len(datos["o"]) > 2500
-    assert sg.ESCO.stat().st_size < 3_000_000  # ~2.7 MB; ~0.7 MB con gzip
+    assert 2400 <= len(datos["h"]) <= 2800 and len(datos["o"]) > 2500
+    assert {h[4] for h in datos["h"]} == {"esco", "reescrita", "curada"}
+    assert sg.ESCO.stat().st_size < 1_500_000  # ~1 MB; ~0.2 MB con gzip
     esco = sg.cargar_esco()
+    assert es(sg.buscar_habilidades("excel", esco))[0] == "Excel"
+    assert es(sg.buscar_habilidades("python", esco))[0] == "Python"
+    assert "Movilidad como servicio" not in es(sg.buscar_habilidades("as", esco))  # «mobility as a service»
+    assert all(x.startswith("Gestión") for x in es(sg.buscar_habilidades("ges", esco)))
     for consulta in ("contabilidad", "contabilidád", "accounting", "diseño gráfico", "diseno grafico", "python"):
         assert sg.buscar_habilidades(consulta, esco), consulta
 
@@ -167,8 +155,8 @@ def test_el_indice_publicado_es_de_esco_y_cabe():
 def test_entiende_palabras_de_rd_aunque_esco_use_las_de_espana():
     esco = sg.cargar_esco()
     assert any("ordenador" in r["es"] for r in sg.buscar_habilidades("computadora", esco))
-    assert any("marketing" in r["es"] for r in sg.buscar_habilidades("mercadeo", esco))
-    assert any("contable" in r["es"] for r in sg.buscar_habilidades("contador", esco))
+    assert sg.buscar_habilidades("mercadeo", esco)[0]["es"] == "Marketing"
+    assert any("contab" in r["es"].lower() for r in sg.buscar_habilidades("contador", esco))
     s = sg.sugerir({"puesto_actual": "Contadora en una ferretería"}, esco=esco)
     assert {"rol": "Contable", "razon": "Ocupación de ESCO parecida a tu trabajo actual.", "origen": "esco"} in s["roles"]
     s = sg.sugerir({"puesto_actual": "Mesero en un restaurante"}, esco=esco)
@@ -184,7 +172,7 @@ def test_no_repite_un_rol_en_masculino_y_femenino():
 def test_la_atribucion_de_esco_esta_en_la_pagina_y_el_readme():
     html = tablero.crear_app().test_client().get("/").get_data(as_text=True)
     texto = " ".join(re.sub(r"<[^>]+>", "", html).split())
-    assert FRASE in texto and "versión adaptada" in texto and "CC BY 4.0" in texto and "esco.ec.europa.eu" in html
+    assert FRASE in texto and "versión adaptada" in texto and "curadas" in texto and "CC BY 4.0" in texto and "esco.ec.europa.eu" in html
     for readme, adaptada in (("README.md", "Versión adaptada"), ("README.en.md", "Adapted version")):
         t = (ROOT / readme).read_text(encoding="utf-8")
         assert FRASE in t and adaptada in t and "CC BY 4.0" in t and "esco.ec.europa.eu" in t

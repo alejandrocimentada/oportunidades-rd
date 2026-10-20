@@ -10,6 +10,8 @@
   const PESOS = { interes: 3, puesto_actual: 3, estudios: 2, otros: 1 };
   const FUERTE = 2;  // puntos mínimos para que un área entre en los primeros turnos
   const MIN_ETIQUETA_OCUPACION = 5;
+  // Palabras que no cuentan como inicio de palabra en el buscador: «as» no debe encontrar «work as a team».
+  const VACIAS = new Set("a al an and as at by con de del e el en for in la las los o of on or para por the to u un una y with".split(" "));
 
   // Minúsculas, sin tildes y sin signos: «Diseño UX/UI» → «diseno ux ui».
   const normalizar = (t) => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
@@ -66,31 +68,35 @@
   const repetido = (ps, nombre, aceptados) => aceptados.some(([n]) => ps.some((p) => ` ${n} `.includes(` ${p} `)))
     || aceptados.some(([, pa]) => pa.some((p) => ` ${nombre} `.includes(` ${p} `)));
 
-  // Autocompletar en español, inglés o sinónimos, sin tildes. Orden: exacta, empieza por las palabras completas,
-  // contiene todas las palabras completas, empieza por lo escrito, todas las palabras como inicio de palabra
-  // («excel» prefiere «MS Excel» a «excelencia»). Desempata la más corta y luego la más usada.
+  // 0: igual; 1: el nombre empieza por lo escrito; 2: otra palabra del nombre empieza por lo escrito (sin contar
+  // «de», «as», etc.); -1: no coincide. Nunca a mitad de palabra: «ual» no encuentra «manual».
+  function nivel(nombre, consulta) {
+    if (nombre === consulta) return 0;
+    if (nombre.startsWith(consulta)) return 1;
+    const palabras = nombre.split(" ");
+    return palabras.some((p, j) => j > 0 && !VACIAS.has(p) && palabras.slice(j).join(" ").startsWith(consulta)) ? 2 : -1;
+  }
+
+  // Autocompletar desde 2 letras, en español, inglés o sinónimos, sin tildes. Orden: igual a lo escrito, empieza
+  // por lo escrito, una palabra empieza por lo escrito; dentro de cada grupo, primero los nombres y luego los
+  // sinónimos, y de la más usada a la menos (el índice ya viene así: por número de ocupaciones de ESCO).
   function buscarHabilidades(consulta, esco, n = MAX_RESULTADOS) {
     const q = normalizar(consulta);
     if (!esco || q.length < 2) return [];
-    const consultas = variantes(q, esco).map((v) => [v, v.split(" ")]);
+    const consultas = variantes(q, esco);
     const mejores = [];
     esco.hn.forEach(([es, en, sinonimos], i) => {
       let mejor = null;
       [es, en, ...sinonimos].forEach((t, k) => {
-        if (!t) return;
-        for (const [v, palabras] of consultas) {
-          const nivel = t === v ? 0 : t.startsWith(`${v} `) ? 1 : palabras.every((p) => ` ${t} `.includes(` ${p} `)) ? 2
-            : t.startsWith(v) ? 3 : palabras.every((p) => ` ${t}`.includes(` ${p}`)) ? 4 : -1;
-          if (nivel >= 0) {
-            const clave = [nivel, k < 2 ? 0 : 1, esco.h[i][0].length, i, k];
-            if (!mejor || comparar(clave, mejor) < 0) mejor = clave;
-          }
+        for (const v of consultas) {
+          const nv = t ? nivel(t, v) : -1;
+          if (nv >= 0 && (!mejor || comparar([nv, k], mejor) < 0)) mejor = [nv, k];
         }
       });
-      if (mejor) mejores.push(mejor);
+      if (mejor) mejores.push([mejor[0], mejor[1] >= 2 ? 1 : 0, i, mejor[1]]);
     });
     mejores.sort(comparar);
-    return mejores.slice(0, n).map(([, , , i, k]) => {
+    return mejores.slice(0, n).map(([, , i, k]) => {
       const [es, en, sinonimos] = esco.h[i];
       return { es, en, sinonimo: k >= 2 ? sinonimos[k - 2] : "" };
     });

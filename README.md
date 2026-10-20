@@ -333,10 +333,18 @@ El buscador de habilidades del paso 3 y parte de las sugerencias de habilidades 
 de la **Comisión Europea** (<https://esco.ec.europa.eu/es>), versión v1.2.1, con licencia
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es).
 
-- **Versión adaptada:** `static/esco.json` no es ESCO completo, sino un índice reducido hecho con `scripts/construir_esco.py` a partir
-  de los CSV oficiales en español e inglés: por habilidad, su nombre en ambos idiomas y hasta 4
-  sinónimos (los cortos, como «MS Excel», y pocas frases largas); por ocupación, sus nombres y hasta 15
-  habilidades esenciales. Solo conceptos publicados. Los CSV originales (~95 MB) no se suben al repositorio.
+- **Versión adaptada:** `static/esco.json` no es ESCO completo. Lo hace `scripts/construir_esco.py` a partir de los
+  CSV oficiales en español e inglés (solo conceptos publicados), con una lista de habilidades al estilo de un perfil
+  profesional, nombres cortos en vez de frases de tareas:
+  - **Subconjunto de ESCO:** los conocimientos («knowledge») de hasta 4 palabras que usa alguna ocupación, sin
+    sufijos como «(programación informática)».
+  - **Nombres reescritos:** las competencias transversales más usadas (40 o más ocupaciones), reescritas como
+    nombre corto en `scripts/habilidades/competencias_esco.json` («gestionar proyectos» → «Gestión de proyectos»);
+    las que no sirven como habilidad de perfil se quitan. Conservan su URI de ESCO.
+  - **Habilidades curadas, que no son de ESCO:** herramientas y métodos actuales (Excel, Power BI, Salesforce, Scrum,
+    ChatGPT…) y habilidades blandas, en `scripts/habilidades/curadas.json`; en el índice van marcadas `curada`.
+  - Por ocupación, sus nombres y hasta 15 habilidades esenciales de esta lista. Los CSV originales (~95 MB) no se
+    suben al repositorio.
 - La Comisión Europea no respalda este proyecto. Según el aviso de copyright de ESCO, parte de su
   jerarquía de habilidades se basa en O\*NET OnLine (USDOL/ETA, CC BY 4.0) y en otras fuentes;
   este índice no incluye esa jerarquía, solo los nombres de las habilidades.

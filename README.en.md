@@ -184,10 +184,18 @@ classification of Skills, Competences, Qualifications and Occupations, by the **
 (<https://esco.ec.europa.eu/en>), version v1.2.1, licensed under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
-- **Adapted version:** `static/esco.json` is not the full ESCO but a reduced index built by `scripts/construir_esco.py` from the
-  official Spanish and English CSV files: for each skill, its label in both languages and up to 4
-  synonyms (short ones such as "MS Excel", and few long phrases); for each occupation, its labels and up to
-  15 essential skills. Released concepts only. The original CSV files (~95 MB) are not in the repository.
+- **Adapted version:** `static/esco.json` is not the full ESCO. `scripts/construir_esco.py` builds it from the
+  official Spanish and English CSV files (released concepts only), as a profile-style skills list: short names
+  instead of task sentences:
+  - **ESCO subset:** "knowledge" skills of up to 4 words used by at least one occupation, without suffixes such as
+    "(computer programming)".
+  - **Rewritten labels:** the most used transversal competences (40+ occupations), rewritten as short names in
+    `scripts/habilidades/competencias_esco.json` ("perform project management" → "Project management"); those that
+    don't work as a profile skill are dropped. They keep their ESCO URI.
+  - **Curated skills, not from ESCO:** current tools and methods (Excel, Power BI, Salesforce, Scrum, ChatGPT…) and
+    soft skills, in `scripts/habilidades/curadas.json`; marked `curada` in the index.
+  - For each occupation, its labels and up to 15 essential skills from this list. The original CSV files (~95 MB)
+    are not in the repository.
 - The European Commission does not endorse this project. Per ESCO's copyright notice, part of its
   skills hierarchy is based on O\*NET OnLine (USDOL/ETA, CC BY 4.0) and other sources; this index
   does not include that hierarchy, only skill labels.

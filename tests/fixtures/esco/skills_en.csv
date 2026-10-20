@@ -1,13 +1,19 @@
 ﻿conceptType,conceptUri,skillType,reuseLevel,preferredLabel,altLabels,hiddenLabels,status,modifiedDate,scopeNote,definition,inScheme,description
 KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/excel,skill/competence,cross-sector,use spreadsheets software,"spreadsheets
 Microsoft Excel",,released,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/sql,skill/competence,cross-sector,SQL,structured query language,,released,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/python,skill/competence,cross-sector,Python (computer programming),,,released,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/estad,skill/competence,cross-sector,statistics,,,released,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/conta,skill/competence,cross-sector,accounting,bookkeeping,,released,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/impuestos,skill/competence,cross-sector,apply tax legislation,tax law,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/sql,knowledge,cross-sector,SQL,SEQUEL,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/python,knowledge,cross-sector,Python (computer programming),Pyston,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/estad,knowledge,cross-sector,statistics,,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/conta,knowledge,cross-sector,accounting,bookkeeping,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/impuestos,skill/competence,sector-specific,apply tax legislation,tax law,,released,2025-12-10,,,,description
 KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/pacientes,skill/competence,cross-sector,care for patients,patient care,,released,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/diseno,skill/competence,cross-sector,graphic design,design graphics,,released,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/ingles,skill/competence,cross-sector,English,,,released,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/viejo,skill/competence,cross-sector,obsolete skill,,,obsolete,2025-12-10,,,,description
-KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/visual,skill/competence,cross-sector,visual presentation techniques,data visualisation,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/diseno,knowledge,cross-sector,graphic design,design graphics,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/ingles,knowledge,transversal,English,,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/viejo,knowledge,cross-sector,obsolete skill,,,obsolete,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/visual,knowledge,cross-sector,visual presentation techniques,data visualisation,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/larga,knowledge,cross-sector,supply chain management principles,,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/sinuso,knowledge,cross-sector,art history,,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/maas,knowledge,sector-specific,mobility as a service,,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/asist,knowledge,sector-specific,health care,,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/equipo,skill/competence,transversal,work in teams,,,released,2025-12-10,,,,description
+KnowledgeSkillCompetence,http://data.europa.eu/esco/skill/quitada,skill/competence,transversal,adhere to organisational guidelines,,,released,2025-12-10,,,,description
