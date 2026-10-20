@@ -113,13 +113,19 @@ def _version(origenes: list[Path], version: str | None) -> str:
     raise FileNotFoundError("No sé qué versión de ESCO es: indícala con --version (por ejemplo, --version v1.2.1).")
 
 
-def limpiar(etiqueta: str) -> str:
-    """Quita el sufijo descriptivo entre paréntesis: «Python (programación informática)» → «Python».
-    Las siglas se quedan: «Reglamento general de protección de datos (RGPD)»."""
+def separar(etiqueta: str) -> tuple[str, str]:
+    """Nombre sin el paréntesis final, y la sigla si lo era: «Python (programación informática)» → («Python», ""),
+    «Reglamento general de protección de datos (RGPD)» → («Reglamento general de protección de datos», «RGPD»)."""
     m = re.fullmatch(r"(.+?)\s*\(([^()]*)\)", etiqueta.strip())
-    if m and (" " in m.group(2) or m.group(2) == m.group(2).lower()):
-        return m.group(1).strip()
-    return etiqueta.strip()
+    if not m:
+        return etiqueta.strip(), ""
+    sufijo = m.group(2).strip()
+    return m.group(1).strip(), (sufijo if " " not in sufijo and sufijo != sufijo.lower() else "")
+
+
+def limpiar(etiqueta: str) -> str:
+    """Sin paréntesis: los nombres de la lista no los llevan (la sigla queda como sinónimo, ver separar)."""
+    return separar(etiqueta)[0]
 
 
 def _palabras(etiqueta: str) -> int:
@@ -178,7 +184,7 @@ def construir(origenes: list[Path], destino: Path = DESTINO, version: str | None
     lista = _Lista()
     for u, c in reescritas.items():
         if u in hab_es and usan.get(u) and not c.get("quitar"):
-            lista.agregar(c["es"], c["en"], uris={u})
+            lista.agregar(c["es"], c["en"], c.get("sinonimos", ()), uris={u})
     for g in grupos:
         for es, en, *resto in g["habilidades"]:  # [es, en], con [sinónimos] y {"esco_equivalente": URI} opcionales
             sinonimos = next((x for x in resto if isinstance(x, list)), ())
@@ -188,7 +194,8 @@ def construir(origenes: list[Path], destino: Path = DESTINO, version: str | None
         es = limpiar(f["preferredLabel"])
         if f.get("skillType") == "knowledge" and usan.get(u) and _palabras(es) <= MAX_PALABRAS:
             en = limpiar((hab_en.get(u) or {}).get("preferredLabel", ""))
-            sinonimos = [limpiar(s) for s in _alternativas(f) if len(limpiar(s)) <= MAX_LARGO_SINONIMO][:MAX_SINONIMOS]
+            siglas = [s for s in (separar(f["preferredLabel"])[1], separar((hab_en.get(u) or {}).get("preferredLabel", ""))[1]) if s]
+            sinonimos = siglas + [limpiar(s) for s in _alternativas(f) if len(limpiar(s)) <= MAX_LARGO_SINONIMO][:MAX_SINONIMOS]
             lista.agregar(_mayuscula(es), en, sinonimos, uris={u}, esco=nombre_esco(u))
     faltan = [u for u, f in hab_es.items() if u not in reescritas and f.get("skillType") == "skill/competence"
               and f.get("reuseLevel") in ("transversal", "cross-sector") and len(usan.get(u, ())) >= MIN_OCUPACIONES_COMPETENCIA]

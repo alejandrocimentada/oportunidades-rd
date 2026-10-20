@@ -1,5 +1,5 @@
 {
- "_nota": "Habilidades curadas por Oportunidades RD (NO son de ESCO): herramientas y métodos modernos que ESCO no tiene, y habilidades blandas comunes. Cada una: [español, inglés] o [español, inglés, [sinónimos]], y opcionalmente {\"esco_equivalente\": URI} al final: la habilidad de ESCO más parecida (Excel → hojas de cálculo), solo cuando es clara; al buscar ocupaciones, tener la curada cuenta como tener esa habilidad de ESCO. «popularidad» ordena el buscador frente a las de ESCO (allí es el número de ocupaciones que la usan). Si una coincide con una habilidad de ESCO, se unen: queda este nombre y los enlaces de ESCO. Lo usa scripts/construir_esco.py.",
+ "_nota": "Habilidades curadas por Oportunidades RD (NO son de ESCO): herramientas y métodos modernos que ESCO no tiene, y habilidades blandas comunes. Sin paréntesis en los nombres: la sigla va como sinónimo. Cada una: [español, inglés] o [español, inglés, [sinónimos]], y opcionalmente {\"esco_equivalente\": URI} al final: la habilidad de ESCO más parecida (Excel → hojas de cálculo), solo cuando es clara; al buscar ocupaciones, tener la curada cuenta como tener esa habilidad de ESCO. «popularidad» ordena el buscador frente a las de ESCO (allí es el número de ocupaciones que la usan). Si una coincide con una habilidad de ESCO, se unen: queda este nombre y los enlaces de ESCO. Lo usa scripts/construir_esco.py.",
  "grupos": [
   {"grupo": "Ofimática y datos", "popularidad": 200, "habilidades": [
    ["Excel", "Excel", ["Microsoft Excel", "MS Excel"], {"esco_equivalente": "http://data.europa.eu/esco/skill/1973c966-f236-40c9-b2d4-5d71a89019be"}],
@@ -66,7 +66,7 @@
    ["Odoo", "Odoo", {"esco_equivalente": "http://data.europa.eu/esco/skill/f0393af3-bcd9-41af-a36e-0cfb83b60081"}],
    ["QuickBooks", "QuickBooks"],
    ["Xero", "Xero"],
-   ["CRM", "CRM", ["Gestión de clientes (CRM)"]],
+   ["CRM", "CRM", ["Gestión de clientes"]],
    ["ERP", "ERP", ["Sistemas ERP"]],
    ["Zendesk", "Zendesk", {"esco_equivalente": "http://data.europa.eu/esco/skill/6430eb0d-c6de-46b7-a7fc-3dd2e8e62a69"}],
    ["Freshdesk", "Freshdesk", {"esco_equivalente": "http://data.europa.eu/esco/skill/6430eb0d-c6de-46b7-a7fc-3dd2e8e62a69"}],
@@ -187,7 +187,7 @@
    ["Prompt engineering", "Prompt engineering", ["Ingeniería de prompts"]],
    ["Automatización con IA", "AI automation"],
    ["IA generativa", "Generative AI", ["Inteligencia artificial generativa", "GenAI"]],
-   ["Modelos de lenguaje (LLM)", "Large language models (LLM)", ["LLM"]],
+   ["Modelos de lenguaje", "Large language models", ["LLM"]],
    ["Agentes de IA", "AI agents"],
    ["Midjourney", "Midjourney"],
    ["Zapier", "Zapier"],
@@ -231,7 +231,7 @@
    ["APIs REST", "REST APIs", ["API REST"]],
    ["Desarrollo web", "Web development", {"esco_equivalente": "http://data.europa.eu/esco/skill/69bbd53f-fbb0-4476-b4b2-ef7844464e28"}],
    ["Desarrollo móvil", "Mobile development", ["Desarrollo de apps"]],
-   ["Pruebas de software (QA)", "Software testing (QA)", ["QA", "Testing"]],
+   ["Pruebas de software", "Software testing", ["QA", "Testing"]],
    ["Selenium", "Selenium", {"esco_equivalente": "http://data.europa.eu/esco/skill/85f46538-ae70-498a-bfbc-b8ddafe96c7d"}],
    ["Soporte técnico", "Technical support", ["Soporte TI"]],
    ["Mesa de ayuda", "Help desk", ["Help desk"], {"esco_equivalente": "http://data.europa.eu/esco/skill/c2296e2e-5fef-4f24-a24f-e5b3792268be"}],
@@ -256,7 +256,7 @@
    ["Tesorería", "Treasury"],
    ["Cobranza", "Collections", ["Gestión de cobros"]],
    ["Análisis de crédito", "Credit analysis"],
-   ["Prevención de lavado de activos", "Anti-money laundering (AML)", ["AML", "PLA"]],
+   ["Prevención de lavado de activos", "Anti-money laundering", ["AML", "PLA"]],
    ["Auditoría interna", "Internal audit", {"esco_equivalente": "http://data.europa.eu/esco/skill/6a536b36-c5c7-4d10-bf67-a4fb0f8549b2"}],
    ["Control interno", "Internal control"],
    ["Gestión documental", "Document management", ["Archivo"]],
@@ -279,7 +279,7 @@
    ["Experiencia del cliente", "Customer experience", ["CX"]],
    ["Ventas al detalle", "Retail sales", ["Retail"], {"esco_equivalente": "http://data.europa.eu/esco/skill/9f10e94b-a43d-4772-9f60-24e9bbbdedb7"}],
    ["Manejo de caja", "Cash handling", ["Cajero"]],
-   ["Punto de venta (POS)", "Point of sale (POS)", ["POS"], {"esco_equivalente": "http://data.europa.eu/esco/skill/0cb013af-6dd9-4fb2-b34e-63dda1a5cf82"}],
+   ["Punto de venta", "Point of sale", ["POS"], {"esco_equivalente": "http://data.europa.eu/esco/skill/0cb013af-6dd9-4fb2-b34e-63dda1a5cf82"}],
    ["Visual merchandising", "Visual merchandising", ["Merchandising"]]
   ]},
   {"grupo": "Habilidades blandas", "popularidad": 250, "habilidades": [
@@ -324,6 +324,7 @@
    ["Barista", "Barista"],
    ["Coctelería", "Bartending", ["Bartender"]],
    ["Hotelería", "Hospitality"],
+   ["Sistemas de reservas", "Reservation systems", ["Opera", "PMS"]],
    ["Turismo", "Tourism"],
    ["Recepción", "Front desk", ["Recepcionista"]],
    ["Secretariado", "Secretarial skills", ["Asistencia administrativa"], {"esco_equivalente": "http://data.europa.eu/esco/skill/ab986bc4-df92-4351-9ac1-aa75af943cf7"}],

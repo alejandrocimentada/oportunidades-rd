@@ -1,5 +1,5 @@
 {
- "_nota": "Competencias de ESCO (skill/competence, reuseLevel transversal o cross-sector, usadas por 40 o más ocupaciones) reescritas como nombres cortos de habilidad, al estilo de un perfil profesional. La clave es el URI de ESCO, así que las ocupaciones siguen enlazadas. «quitar»: no sirve como habilidad de perfil. Varias competencias pueden compartir nombre: se unen en una sola habilidad. También hay algunas habilidades de ESCO de otro tipo, con nombre corto, para que las curadas puedan apuntar a ellas con «esco_equivalente» (p. ej. «CRM» para Salesforce). Lo usa scripts/construir_esco.py.",
+ "_nota": "Competencias de ESCO (skill/competence, reuseLevel transversal o cross-sector, usadas por 40 o más ocupaciones) reescritas como nombres cortos de habilidad, al estilo de un perfil profesional. La clave es el URI de ESCO, así que las ocupaciones siguen enlazadas. «quitar»: no sirve como habilidad de perfil. «sinonimos» (opcional): otros nombres, como la sigla. Varias competencias pueden compartir nombre: se unen en una sola habilidad. También hay algunas habilidades de ESCO de otro tipo, con nombre corto, para que las curadas puedan apuntar a ellas con «esco_equivalente» (p. ej. «CRM» para Salesforce). Lo usa scripts/construir_esco.py.",
  "competencias": {
   "http://data.europa.eu/esco/skill/415abd43-e8e5-4643-b5da-5f11307af57a": {
    "esco": "utilizar distintos métodos de comunicación",
@@ -78,8 +78,9 @@
   "http://data.europa.eu/esco/skill/6122d586-5978-431f-8e7a-96e61fc1f3fc": {
    "esco": "utilizar equipos de protección adecuados",
    "esco_en": "wear appropriate protective gear",
-   "es": "Equipo de protección personal (EPP)",
-   "en": "Personal protective equipment (PPE)"
+   "es": "Equipo de protección personal",
+   "en": "Personal protective equipment",
+   "sinonimos": ["EPP", "PPE"]
   },
   "http://data.europa.eu/esco/skill/1a3660c2-011c-4e96-9b1d-529afc305428": {
    "esco": "inspeccionar la calidad de los productos",
@@ -283,8 +284,9 @@
   "http://data.europa.eu/esco/skill/51754b8a-3e2c-4cc1-86e6-cf510d9c6fe4": {
    "esco": "emplear equipos de protección individual",
    "esco_en": "use personal protection equipment",
-   "es": "Equipo de protección personal (EPP)",
-   "en": "Personal protective equipment (PPE)"
+   "es": "Equipo de protección personal",
+   "en": "Personal protective equipment",
+   "sinonimos": ["EPP", "PPE"]
   },
   "http://data.europa.eu/esco/skill/9ea652f6-accf-45bb-b9a8-590f06f7bd51": {
    "esco": "alimentar máquinas",
@@ -2158,8 +2160,9 @@
   "http://data.europa.eu/esco/skill/85f46538-ae70-498a-bfbc-b8ddafe96c7d": {
    "esco": "niveles de pruebas del software",
    "esco_en": "levels of software testing",
-   "es": "Pruebas de software (QA)",
-   "en": "Software testing (QA)"
+   "es": "Pruebas de software",
+   "en": "Software testing",
+   "sinonimos": ["QA"]
   },
   "http://data.europa.eu/esco/skill/fd33c66c-70c4-40e6-b87c-5495bd3bf26e": {
    "esco": "diseñar una interfaz de usuario",
@@ -2189,7 +2192,7 @@
    "esco": "modelado de información para la edificación",
    "esco_en": "building information modelling",
    "es": "BIM",
-   "en": "Building information modelling (BIM)"
+   "en": "Building information modelling"
   },
   "http://data.europa.eu/esco/skill/9d916d7c-89b3-4084-a6d9-e2b0b3091404": {
    "esco": "gestionar nóminas",

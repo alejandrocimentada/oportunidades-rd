@@ -172,6 +172,25 @@ def test_el_indice_publicado_es_de_esco_y_cabe():
         assert sg.buscar_habilidades(consulta, esco), consulta
 
 
+def test_ningun_nombre_de_habilidad_lleva_parentesis():
+    # «Punto de venta», con «POS» como sinónimo; si no, la razón queda «(por tu Punto de venta (POS))».
+    datos = json.loads(sg.ESCO.read_text(encoding="utf-8"))
+    assert [h[:3] for h in datos["h"] if "(" in h[0] + h[1] + "".join(h[2])] == []
+    punto = next(h for h in datos["h"] if h[0] == "Punto de venta")
+    assert punto[1] == "Point of sale" and "POS" in punto[2]
+    assert sg.buscar_habilidades("pos", sg.cargar_esco())[0] == {"es": "Punto de venta", "en": "Point of sale", "sinonimo": "POS"}
+    mapa = sg.cargar_mapa()
+    habilidades = [h for a in mapa["areas"] for h in a["habilidades"] + [x for r in a["roles"] for x in r["habilidades"]]]
+    assert [h for h in habilidades if "(" in h] == []
+
+
+def test_la_sigla_entre_parentesis_pasa_a_sinonimo():
+    assert construir_esco.separar("Reglamento general de protección de datos (RGPD)") == (
+        "Reglamento general de protección de datos", "RGPD")
+    assert construir_esco.separar("Python (programación informática)") == ("Python", "")
+    assert construir_esco.separar("Contabilidad") == ("Contabilidad", "")
+
+
 def test_las_curadas_cuentan_como_su_equivalente_de_esco():
     datos = json.loads(sg.ESCO.read_text(encoding="utf-8"))
     eq = {h[0]: datos["h"][h[5]][0] for h in datos["h"] if len(h) > 5}
