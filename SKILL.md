@@ -27,6 +27,19 @@ write in English; keep it simple, they may not be technical.
 - The user's data goes only to the AI provider they chose (`ia.proveedor`). In `agente` mode you do
   the research and writing; don't paste their profile into other services.
 
+## 0. Right after installing: open the dashboard
+
+When you have just installed this skill (or the user asks to "abre el panel / el tablero"):
+
+1. Install the requirements if needed: `python -m pip install -r requirements.txt`.
+2. Start the dashboard **in the background** (it keeps running; don't wait for it to exit):
+   `python app.py`. It serves http://localhost:8765 and opens it in the browser by itself. If the
+   browser doesn't open (or you started it with `--no-abrir`), give the user that link.
+3. Tell the user in one or two lines: the panel is open; they can fill **Mi perfil** there (8 short
+   steps) or answer your questions here; then they can ask you «Busca empresas en RD para mi perfil».
+
+If port 8765 is busy, the dashboard is probably already running: just give the link.
+
 ## 1. First run: build the profile
 
 Run `python scripts/perfil.py show`. Exit code 2 means there is no profile yet. Either point the user

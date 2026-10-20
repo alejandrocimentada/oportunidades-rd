@@ -4,11 +4,15 @@
 Uso:
     python scripts/demo.py          # crea o reemplaza data/demo/
     python app.py --demo            # abre el tablero con esos datos
+
+Las empresas encajan con el perfil de ejemplo (profile.example.yaml, «Ana Ejemplo»). La demo pública
+(scripts/construir_demo.py) usa estos mismos datos.
 """
 from __future__ import annotations
 
 import os
 import shutil
+from pathlib import Path
 
 from _comun import ROOT
 
@@ -31,62 +35,106 @@ def _empresa(nombre, tipo, industria, presencia, equipos, roles, razones, alerta
 EMPRESAS = [
     _empresa("Distribuidora del Caribe (demo)", "grupo local", "retail/distribución",
              "Sede y centro de distribución en Santo Domingo.",
-             ["Supply chain / planificación de demanda", "BI y analítica", "Transformación digital"],
-             [("Supply Chain Analyst con enfoque en automatización", "Planificación de demanda con SAP y Excel."),
-              ("BI Analyst", "Tableros en Tableau y automatización de reportes.")],
-             ["Consumo masivo con mucha planificación manual.", "Usa SAP, que ya conoces.", "Equipo de BI en crecimiento."],
-             ["Algunos roles de supply chain son presenciales."], ["Gerente de Supply Chain", "Gerente de Analítica"],
-             "Me interesa"),
+             ["Automatización de procesos", "BI y analítica", "Transformación digital"],
+             [("Especialista en automatización", "3 años automatizando reportes y procesos en distribución."),
+              ("Analista de datos", "Tableros de ventas en Power BI con SQL.")],
+             ["Es la misma industria en la que ya trabajas.", "Usa Power BI y Power Automate.",
+              "Equipo de transformación digital en crecimiento."],
+             ["Algunos roles son presenciales en el centro de distribución."],
+             ["Gerente de Transformación Digital", "Talent Acquisition"], "Me interesa"),
     _empresa("Servicios Globales RD (demo)", "multinacional", "tecnología/consultoría",
              "Centro de servicios compartidos para Latinoamérica en Santo Domingo.",
-             ["Automatización de procesos (RPA)", "ERP / SAP"],
-             [("Automation Specialist", "Automatizas procesos con Python y APIs."),
-              ("SAP Functional Analyst", "Experiencia de usuario avanzado en SAP.")],
+             ["Automatización de procesos (RPA)", "IA aplicada"],
+             [("Automation Specialist", "Automatizas procesos con Python y Power Automate."),
+              ("AI Integration Specialist", "Construiste un asistente interno con IA para consultar inventario.")],
              ["Centro con procesos en inglés y español.", "Programa activo de automatización.", "Modalidad híbrida."],
-             ["Pide inglés avanzado para todas las posiciones."], ["Talent Acquisition", "Gerente de Automatización"],
+             ["Las reuniones con clientes son en inglés."], ["Talent Acquisition", "Gerente de Automatización"],
              "Contacté"),
     _empresa("Banco Quisqueya Digital (demo)", "grupo local", "banca",
              "Oficinas principales en Santo Domingo.",
              ["Transformación digital / innovación", "Datos y analítica"],
-             [("Digital Transformation Specialist", "Integras herramientas con APIs y automatizas tareas.")],
+             [("AI Integration Specialist", "Integras LLM, RAG y APIs en procesos de negocio."),
+              ("Analista de datos", "SQL y Power BI para reportes de gestión.")],
              ["Laboratorio de innovación propio.", "Integra pagos y APIs.", "Banca es una de tus industrias."],
              [], ["Gerente de Innovación", "Head of Data"], "Descubierta"),
-    _empresa("Zona Franca Norte Médica (demo)", "multinacional", "zona franca/manufactura",
-             "Planta de dispositivos médicos en zona franca.",
-             ["Planificación y supply chain", "Mejora continua"],
-             [("Demand Planner", "Tu experiencia directa como Demand Planner.")],
-             ["Planta grande con equipo de planificación local.", "Procesos medibles y regulados.", "Estabilidad."],
-             ["Mayormente presencial en planta.", "Algunos roles por turnos."], ["Gerente de Supply Chain"],
-             "Descubierta"),
+    _empresa("Telecom Antillas (demo)", "multinacional", "telecomunicaciones",
+             "Operación y centro de atención al cliente en Santo Domingo.",
+             ["Atención digital / chatbots", "Datos y analítica"],
+             [("Ingeniero de IA aplicada", "Tu asistente con IA y RAG es el tipo de proyecto que hacen."),
+              ("Analista de datos", "Automatizas reportes con Python y SQL.")],
+             ["Telecomunicaciones es una de tus industrias.", "Equipo local de canales digitales.",
+              "Dos días remotos por semana."],
+             ["Algunas vacantes piden Azure, que no está en tu perfil."], ["Gerente de Canales Digitales"],
+             "Entrevista"),
+    _empresa("LogiPuerto RD (demo)", "empresa local en crecimiento", "logística",
+             "Operador logístico con almacenes en Santo Domingo Este y Haina.",
+             ["Datos y analítica", "Mejora de procesos"],
+             [("Analista de datos", "Tableros en Power BI y reportes automatizados.")],
+             ["Logística es una de tus industrias.", "Empresa en crecimiento, con mucho por automatizar.",
+              "Conoces la operación de distribución."],
+             ["Horario extendido en temporada alta."], ["Gerente de Operaciones"], "Aplicado"),
+    _empresa("Nube Taína Labs (demo)", "tecnología/startup", "tecnología/consultoría",
+             "Startup con oficina en Santo Domingo que hace software para pymes.",
+             ["Producto / IA", "Integraciones"],
+             [("AI Integration Specialist", "LLM, RAG y APIs en un producto real.")],
+             ["Producto con IA desde el primer día.", "Equipo pequeño: mucho aprendizaje.", "Trabajo remoto."],
+             ["El salario publicado está por debajo de tu mínimo."], ["Fundador / CTO"], "Descubierta"),
 ]
 
+# Estados intermedios por los que pasa cada empresa (el historial muestra una fecha en cada paso).
+CAMINOS = {
+    "Me interesa": ["Me interesa"],
+    "Contacté": ["Me interesa", "Investigando", "Contacté"],
+    "Aplicado": ["Me interesa", "Aplicado"],
+    "Entrevista": ["Me interesa", "Investigando", "Aplicado", "Entrevista"],
+}
+VACANTES = {
+    "Distribuidora del Caribe (demo)": ["Analista de Automatización (demo)", "Analista de Planificación (demo)"],
+    "Telecom Antillas (demo)": ["Ingeniero de IA Conversacional (demo)"],
+}
+MANUAL = ("Nube Taína Labs (demo)", "abrir manualmente", "La página de empleos necesita JavaScript.")
 
-def main() -> int:
-    os.environ["OPORTUNIDADES_RD_DATA"] = str(DEMO_DIR)
-    if DEMO_DIR.exists():
-        shutil.rmtree(DEMO_DIR)
+
+def crear_datos(destino: Path = DEMO_DIR) -> Path:
+    """Crea (o reemplaza) la base de demostración en `destino` y devuelve la ruta del Excel."""
+    os.environ["OPORTUNIDADES_RD_DATA"] = str(destino)
+    if destino.exists():
+        shutil.rmtree(destino)
     from oportunidades import config, perfil as pf, redaccion
     from oportunidades.db import Store
     from oportunidades.exportar import exportar
 
     perfil = pf.importar(config.ROOT / "profile.example.yaml")
-    caminos = {"Me interesa": ["Me interesa"], "Contacté": ["Me interesa", "Investigando", "Contacté"]}
     with Store() as s:
+        ids = {}
         for estado, data in EMPRESAS:
             e, _ = s.guardar_empresa(data)
-            for paso in caminos.get(estado, []):
+            ids[e["nombre"]] = e["id"]
+            for paso in CAMINOS.get(estado, []):
                 s.cambiar_estado(e["id"], paso)
             if estado != "Descubierta":
                 redaccion.generar(s, perfil, e["id"])
         corrida = s.iniciar_corrida()
-        primera = s.get_empresa(1)
-        s.upsert_vacante("Analista de Planificación (demo)", primera["id"], ubicacion="Santo Domingo",
-                         url=f"{primera['url_empleos']}/1", corrida_id=corrida)
         s.conn.execute("UPDATE empresas SET estado_rastreo = 'sin vacantes'")
-        s.conn.execute("UPDATE empresas SET estado_rastreo = 'ok' WHERE id = ?", (primera["id"],))
-        s.terminar_corrida(corrida, {"manuales": [], "ya_no_aparecen": []})
-        print(f"Datos de demostración en {DEMO_DIR}")
-        print(f"Excel: {exportar(s)}")
+        for nombre, titulos in VACANTES.items():
+            e = s.get_empresa(ids[nombre])
+            for i, titulo in enumerate(titulos, 1):
+                s.upsert_vacante(titulo, e["id"], ubicacion="Santo Domingo", url=f"{e['url_empleos']}/{i}",
+                                 corrida_id=corrida)
+            s.conn.execute("UPDATE empresas SET estado_rastreo = 'ok' WHERE id = ?", (e["id"],))
+        nombre, estado, motivo = MANUAL
+        manual = s.get_empresa(ids[nombre])
+        s.conn.execute("UPDATE empresas SET estado_rastreo = ?, nota_rastreo = ? WHERE id = ?",
+                       (estado, motivo, manual["id"]))
+        s.terminar_corrida(corrida, {"ya_no_aparecen": [], "manuales": [
+            {"empresa": nombre, "estado": estado, "motivo": motivo, "enlace": manual["url_empleos"]}]})
+        return exportar(s)
+
+
+def main() -> int:
+    xlsx = crear_datos()
+    print(f"Datos de demostración en {DEMO_DIR}")
+    print(f"Excel: {xlsx}")
     print("Abre el tablero con: python app.py --demo")
     return 0
 

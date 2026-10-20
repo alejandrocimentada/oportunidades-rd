@@ -28,6 +28,7 @@ from oportunidades.servicio import abrir_store  # noqa: E402
 
 HOST, PUERTO = "127.0.0.1", 8765
 HOSTS_PERMITIDOS = {"localhost", "127.0.0.1"}
+REPO = "https://github.com/alejandrocimentada/oportunidades-rd"
 
 
 # Campos del perfil que la página «Mi perfil» puede cambiar (las 8 preguntas).
@@ -38,6 +39,12 @@ CAMPOS_PERFIL = {
     "enlaces": {"portafolio", "github", "linkedin"},
     "ia": {"proveedor", "modelo"},
 }
+
+
+def datos_pagina(publica: bool = False) -> dict:
+    """Variables de templates/index.html. `publica` = la demo estática de GitHub Pages (scripts/construir_demo.py)."""
+    return dict(nombre=NOMBRE, version=__version__, estados=ESTADOS, industrias=INDUSTRIAS, tipos=TIPOS_EMPRESA,
+                publica=publica, repo=REPO)
 
 
 def crear_app(demo: bool = False, busqueda: Busqueda | None = None) -> Flask:
@@ -67,8 +74,7 @@ def crear_app(demo: bool = False, busqueda: Busqueda | None = None) -> Flask:
 
     @app.get("/")
     def inicio():
-        return render_template("index.html", nombre=NOMBRE, version=__version__, estados=ESTADOS,
-                               industrias=INDUSTRIAS, tipos=TIPOS_EMPRESA)
+        return render_template("index.html", **datos_pagina())
 
     @app.get("/api/resumen")
     def api_resumen():

@@ -55,7 +55,7 @@ code: the AI assistant handles the technical part.
 1. **Ask your AI assistant to install it.** If you use Claude Code or another AI agent, paste:
 
    ```text
-   Install the oportunidades-rd skill from https://github.com/alejandrocimentada/oportunidades-rd
+   Install the oportunidades-rd skill from https://github.com/alejandrocimentada/oportunidades-rd and open the dashboard for me.
    ```
 
    <details>
@@ -130,6 +130,10 @@ python app.py                                          # 7. dashboard at http://
 The JSON format for companies (one object or a list) is documented in [`README.md`](README.md) and
 [`SKILL.md`](SKILL.md). Without `fuentes_presencia` holding a valid link, a company **is not saved**.
 To try it without your data: `python scripts/demo.py`, then `python app.py --demo`.
+
+Public demo (GitHub Pages): `python scripts/construir_demo.py` writes a static copy of the dashboard with made-up
+data to `docs/` (no server, nothing is saved). Re-run it after changing `templates/` or `static/`; on GitHub,
+Settings → Pages → branch `master`, folder `/docs`.
 
 ### How postings are checked
 

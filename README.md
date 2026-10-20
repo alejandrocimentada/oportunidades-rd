@@ -53,7 +53,7 @@ No necesitas saber programar: el asistente de IA hace la parte técnica.
    (un asistente que puede trabajar con archivos en tu computadora), copia y pega este mensaje:
 
    ```text
-   Instala el skill oportunidades-rd desde https://github.com/alejandrocimentada/oportunidades-rd
+   Instala el skill oportunidades-rd desde https://github.com/alejandrocimentada/oportunidades-rd y ábreme el panel.
    ```
 
    <details>
@@ -235,6 +235,10 @@ Sin `fuentes_presencia` con un enlace válido, la empresa **no se guarda**. Volv
 nombre actualiza los campos que traiga.
 
 Para probar sin tus datos: `python scripts/demo.py` y luego `python app.py --demo` (usa `data/demo/`).
+
+Demo pública (GitHub Pages): `python scripts/construir_demo.py` escribe en `docs/` una copia estática del tablero
+con datos inventados (sin servidor, no guarda nada). Vuelve a ejecutarlo cuando cambies `templates/` o `static/`;
+en GitHub, Settings → Pages → rama `master`, carpeta `/docs`.
 
 ### Comandos
 

@@ -23,7 +23,16 @@ const ICONO_OK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy
 
 let state = { empresas: [], vacantes: [], resumen: null, abierta: null };
 
+// Demo pública (GitHub Pages, scripts/construir_demo.py): no hay servidor. Las lecturas salen de
+// window.DEMO (datos inventados) y nada se guarda.
+const DEMO = window.DEMO;
+const AVISO_DEMO = "Es una demo: no se guarda nada. Instala el skill para usarlo con tu perfil.";
+
 async function api(path, body) {
+  if (DEMO) {
+    if (body !== undefined || !(path in DEMO)) throw new Error(AVISO_DEMO);
+    return JSON.parse(JSON.stringify(DEMO[path]));
+  }
   const opts = body === undefined ? {} : { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
   const r = await fetch(path, opts);
   const data = await r.json().catch(() => ({}));
@@ -36,7 +45,7 @@ function toast(msg) {
   t.innerHTML = `${ICONO_OK}<span>${esc(msg)}</span>`;
   t.classList.add("show");
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => t.classList.remove("show"), 2200);
+  toast._t = setTimeout(() => t.classList.remove("show"), Math.max(2200, msg.length * 50));  // los avisos largos duran más
 }
 
 // -- navegación -----------------------------------------------------------------------
@@ -132,7 +141,10 @@ async function cambiarEstado(id, estado) {
     toast(`«${e.nombre}» → ${estado}`);
     await cargar();
     if (state.abierta === id) abrir(id);
-  } catch (err) { toast(err.message); }
+  } catch (err) {
+    toast(err.message);
+    if (state.abierta === id) $("#d-estado").value = e.estado;  // no se guardó: el selector vuelve al estado real
+  }
 }
 
 // -- empresas -------------------------------------------------------------------------
@@ -418,6 +430,13 @@ async function cargarPerfil() {
     ? `Con «Guardar y revisar vacantes» se revisan ${con} páginas de empleo de tus ${state.empresas.length} empresas.`
     : "Para descubrir empresas donde podrías trabajar, pídele a tu agente: «Busca empresas en RD para mi perfil».";
 }
+
+// Botones «Copiar» fuera de la app (p. ej. el mensaje para instalar en la demo pública).
+document.querySelectorAll("[data-copiar]").forEach((b) => b.addEventListener("click", async () => {
+  const el = $(b.dataset.copiar);
+  try { await navigator.clipboard.writeText(el.textContent.trim()); toast("Copiado"); }
+  catch (_) { getSelection().selectAllChildren(el); toast("Selecciónalo y cópialo"); }
+}));
 
 // -- tema claro / oscuro (se recuerda en este navegador) ------------------------------
 function ponerTema(t) {

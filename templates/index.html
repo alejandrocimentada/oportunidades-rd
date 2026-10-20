@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ nombre }}</title>
+<title>{{ nombre }}{% if publica %} · demo{% endif %}</title>
+{% if publica %}<meta name="description" content="Lugares donde podrías trabajar en República Dominicana, según tu perfil. Demo con datos inventados; instálalo con tu agente de IA para usarlo con tu perfil.">{% endif %}
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%231A1A1E'/%3E%3Crect x='9' y='12' width='14' height='10' rx='2' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M13 12v-2h6v2' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
 <script>try { if (localStorage.getItem("tema") === "oscuro") document.documentElement.dataset.theme = "dark"; } catch (_) {}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ 'style.css' if publica else url_for('static', filename='style.css') }}">
 </head>
 <body>
 <div class="toast" id="toast" role="status"></div>
@@ -22,8 +23,13 @@
   <nav class="topnav">
     <a href="#funciones" class="opt">Funciones</a>
     <a href="#app" class="opt">Vista previa</a>
+    {% if publica %}
+    <a href="#instalar">Instalar</a>
+    <a href="{{ repo }}" target="_blank" rel="noopener">GitHub ↗</a>
+    {% else %}
     <a href="#agente" class="opt">Agente IA</a>
     <a href="/api/excel">Descargar Excel ↗</a>
+    {% endif %}
   </nav>
 </header>
 
@@ -44,6 +50,7 @@
       <button data-view="vacantes">Vacantes</button>
     </nav>
   </div>
+  {% if publica %}<a class="demo-tag" href="#instalar"><b>Demo</b> — instala el skill para usarlo con tu perfil.</a>{% endif %}
 
   <main class="win-body">
     <section id="view-perfil" class="view">
@@ -215,7 +222,7 @@
   <h2>Encuentra dónde podrías trabajar, aunque no haya vacantes publicadas.</h2>
   <div class="feat">
     <span>01</span><b>Perfil por pasos</b>
-    <p>Define tus roles, habilidades, experiencia, idiomas, preferencias e industrias en ocho preguntas cortas. Tu perfil se queda en esta computadora.</p>
+    <p>Define tus roles, habilidades, experiencia, idiomas, preferencias e industrias en ocho preguntas cortas. Tu perfil se queda en tu computadora.</p>
   </div>
   <div class="feat">
     <span>02</span><b>Empresas que encajan contigo</b>
@@ -227,6 +234,23 @@
   </div>
 </section>
 
+{% if publica %}
+<section class="install" id="instalar">
+  <h2>Instálalo con tu agente</h2>
+  <ol class="install-steps">
+    <li><span>01</span><b>Ten un agente de IA y Python</b>
+      <p>Claude Code u otro agente compatible con skills, y Python 3.10 o superior en tu computadora.</p></li>
+    <li><span>02</span><b>Copia este mensaje en tu agente</b>
+      <div class="term copy">
+        <code id="msg-instalar">Instala el skill oportunidades-rd desde {{ repo }} y ábreme el panel.</code>
+        <button type="button" class="btn small" data-copiar="#msg-instalar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button>
+      </div></li>
+    <li><span>03</span><b>Tu agente hace el resto</b>
+      <p>Instala todo y abre tu panel local en tu computadora. Tú llenas tu perfil y le pides: <i>«Busca empresas en RD para mi perfil.»</i></p></li>
+  </ol>
+  <p class="install-note">No necesitas clave de API: la parte de IA la hace tu agente, con tu propio plan. Tus datos se quedan en tu computadora.</p>
+</section>
+{% else %}
 <section class="agent" id="agente">
   <div>
     <h3>Pídele a tu agente que busque empresas para tu perfil.</h3>
@@ -237,14 +261,23 @@
     <code>Busca empresas en RD para mi perfil</code>
   </div>
 </section>
+{% endif %}
 
 <section class="start">
   <h2>Empieza a ordenar tu búsqueda</h2>
+  {% if publica %}
+  <p>Instálalo con tu agente, llena tu perfil y deja que descubra empresas para ti. Mira cómo queda el Excel con el ejemplo.</p>
+  <div class="start-btns">
+    <a class="btn pill-btn" href="#instalar">Instálalo con tu agente</a>
+    <a class="btn pill-btn ghost" href="oportunidades-demo.xlsx" download>Descargar Excel de ejemplo</a>
+  </div>
+  {% else %}
   <p>Llena tu perfil, deja que tu agente descubra empresas y descarga todo en Excel cuando quieras.</p>
   <div class="start-btns">
     <button type="button" class="btn pill-btn" data-ir="perfil">Llenar mi perfil</button>
     <a class="btn pill-btn" href="/api/excel">Descargar Excel</a>
   </div>
+  {% endif %}
   <div class="start-meta">
     <span>Versión {{ version }} · Sin inicio de sesión · Funciona en tu computadora</span>
     <a href="#funciones">Cómo funciona</a>
@@ -253,7 +286,11 @@
 
 <footer class="foot-page">
   <span>{{ nombre }} · búsqueda de empleo local</span>
+  {% if publica %}
+  <span>Demo con datos inventados · <a href="{{ repo }}" target="_blank" rel="noopener">Código en GitHub</a></span>
+  {% else %}
   <span>Privacidad: tu perfil se queda en esta computadora</span>
+  {% endif %}
 </footer>
 
 <aside class="drawer" id="drawer" aria-hidden="true">
@@ -263,6 +300,7 @@
 <div class="scrim" id="scrim"></div>
 
 <script>window.ESTADOS = {{ estados|tojson }};</script>
-<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% if publica %}<script src="demo-datos.js"></script>{% endif %}
+<script src="{{ 'app.js' if publica else url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oportunidades RD · demo</title>
+<meta name="description" content="Lugares donde podrías trabajar en República Dominicana, según tu perfil. Demo con datos inventados; instálalo con tu agente de IA para usarlo con tu perfil.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%231A1A1E'/%3E%3Crect x='9' y='12' width='14' height='10' rx='2' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M13 12v-2h6v2' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+<script>try { if (localStorage.getItem("tema") === "oscuro") document.documentElement.dataset.theme = "dark"; } catch (_) {}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="toast" id="toast" role="status"></div>
+
+<header class="top">
+  <a class="brand" href="#">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
+    <span>Oportunidades RD</span>
+  </a>
+  <nav class="topnav">
+    <a href="#funciones" class="opt">Funciones</a>
+    <a href="#app" class="opt">Vista previa</a>
+    
+    <a href="#instalar">Instalar</a>
+    <a href="https://github.com/alejandrocimentada/oportunidades-rd" target="_blank" rel="noopener">GitHub ↗</a>
+    
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Oportunidades RD</h1>
+  <p>Lugares donde podrías trabajar en República Dominicana, según tu perfil.</p>
+  <span class="hero-note">Procesamiento local · solo lee páginas públicas · nada se envía solo</span>
+</section>
+
+<section class="window" id="app">
+  <div class="titlebar">
+    <div class="dots"><i></i><i></i><i></i><span>oportunidades-rd / mi-busqueda</span></div>
+    <nav class="tabs" role="tablist" aria-label="Secciones">
+      <button data-view="perfil">Mi perfil</button>
+      <button data-view="resumen" class="on">Resumen</button>
+      <button data-view="tablero">Tablero</button>
+      <button data-view="empresas">Empresas</button>
+      <button data-view="vacantes">Vacantes</button>
+    </nav>
+  </div>
+  <a class="demo-tag" href="#instalar"><b>Demo</b> — instala el skill para usarlo con tu perfil.</a>
+
+  <main class="win-body">
+    <section id="view-perfil" class="view">
+      <div class="wz-head">
+        <span class="eyebrow" id="wz-paso">Paso 1 de 8</span>
+        <h2 id="wz-titulo">¿Qué roles buscas?</h2>
+        <ol class="wz-steps" id="wz-steps" aria-label="Pasos"></ol>
+      </div>
+
+      <form id="form-perfil" class="wizard" autocomplete="off" novalidate>
+        <fieldset class="step" data-titulo="¿Qué roles buscas?" data-corto="Roles"><legend>Roles</legend>
+          <label class="lbl" for="chip-roles_objetivo">Roles de interés</label>
+          <div class="chipbox" data-for="roles_objetivo" data-placeholder="ej. AI Integration Specialist, Solutions Engineer…"></div>
+          <textarea name="roles_objetivo" hidden></textarea>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="Habilidades y experiencia" data-corto="Habilidades"><legend>Habilidades y experiencia</legend>
+          <label class="lbl" for="chip-habilidades">Habilidades principales</label>
+          <div class="chipbox" data-for="habilidades" data-placeholder="ej. Python, SAP, Tableau…"></div>
+          <textarea name="habilidades" hidden></textarea>
+          <label class="lbl short">Años de experiencia<input name="anos_experiencia" type="number" min="0" max="50"></label>
+          <label class="lbl">Resumen de tu experiencia (2-3 frases)<textarea name="experiencia" rows="4"></textarea></label>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="¿Qué idiomas hablas?" data-corto="Idiomas"><legend>Idiomas</legend>
+          <label class="lbl" for="chip-idiomas">Idiomas, con nivel</label>
+          <div class="chipbox" data-for="idiomas" data-placeholder="ej. Inglés (C1)"></div>
+          <textarea name="idiomas" hidden></textarea>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="Dónde y cómo quieres trabajar" data-corto="Dónde"><legend>Dónde y cómo quieres trabajar</legend>
+          <div class="row">
+            <label class="lbl">Ciudad<input name="ubicacion" placeholder="Santo Domingo"></label>
+            <label class="lbl">Modalidad<select name="preferencias.modalidad"><option value="presencial">Presencial</option>
+              <option value="hibrido">Híbrido</option><option value="remoto">Remoto</option></select></label>
+            <label class="lbl short">Días remotos<input name="preferencias.dias_remotos" type="number" min="0" max="5"></label>
+          </div>
+          <label class="lbl">Días y horario<input name="preferencias.dias" placeholder="lunes a viernes"></label>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="Salario" data-corto="Salario"><legend>Salario</legend>
+          <label class="lbl short">Mínimo mensual (RD$)<input name="preferencias.salario_minimo_dop" type="number" min="0" step="1000"></label>
+          <label class="check"><input name="preferencias.salario_flexible_startups" type="checkbox">
+            <span>En startups, un salario menor (con equity o variable) es «a conversar», no una alerta</span></label>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="Tu nombre y enlaces" data-corto="Nombre"><legend>Tu nombre y enlaces</legend>
+          <div class="row">
+            <label class="lbl">Nombre (como va en las cartas)<input name="nombre"></label>
+            <label class="lbl">Titular profesional<input name="titular"></label>
+          </div>
+          <div class="row">
+            <label class="lbl">GitHub<input name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
+            <label class="lbl">LinkedIn<input name="enlaces.linkedin" type="url" placeholder="https://www.linkedin.com/in/…"></label>
+          </div>
+          <label class="lbl">Portafolio<input name="enlaces.portafolio" type="url" placeholder="déjalo vacío si aún no está en línea"></label>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="Industrias que más te interesan" data-corto="Industrias"><legend>Industrias</legend>
+          <div class="chips"><label><input type="checkbox" name="industrias" value="banca"><span>banca</span></label><label><input type="checkbox" name="industrias" value="telecomunicaciones"><span>telecomunicaciones</span></label><label><input type="checkbox" name="industrias" value="retail/distribución"><span>retail/distribución</span></label><label><input type="checkbox" name="industrias" value="seguros"><span>seguros</span></label><label><input type="checkbox" name="industrias" value="zona franca/manufactura"><span>zona franca/manufactura</span></label><label><input type="checkbox" name="industrias" value="logística"><span>logística</span></label><label><input type="checkbox" name="industrias" value="turismo"><span>turismo</span></label><label><input type="checkbox" name="industrias" value="tecnología/consultoría"><span>tecnología/consultoría</span></label><label><input type="checkbox" name="industrias" value="gobierno-tech"><span>gobierno-tech</span></label><label><input type="checkbox" name="industrias" value="salud"><span>salud</span></label><label><input type="checkbox" name="industrias" value="energía"><span>energía</span></label><label><input type="checkbox" name="industrias" value="otra"><span>otra</span></label></div>
+        </fieldset>
+
+        <fieldset class="step" data-titulo="¿Quién redacta tus mensajes y cartas?" data-corto="IA"><legend>¿Quién redacta?</legend>
+          <div class="row">
+            <label class="lbl">Proveedor<select name="ia.proveedor">
+              <option value="agente">Tu agente (Claude Code), sin clave</option>
+              <option value="claude">Claude, con tu ANTHROPIC_API_KEY</option>
+              <option value="openai">OpenAI, con tu OPENAI_API_KEY</option>
+              <option value="ninguno">Ninguno (plantillas básicas)</option></select></label>
+            <label class="lbl">Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
+          </div>
+          <p class="hint" id="buscar-info"></p>
+        </fieldset>
+
+        <div class="pactions">
+          <span class="muted" id="wz-pct">Progreso: 13%</span>
+          <div class="bar" aria-hidden="true"><div id="wz-bar"></div></div>
+          <span class="grow"></span>
+          <button type="button" class="btn ghost" id="wz-prev">Anterior</button>
+          <button type="button" class="btn ghost" id="btn-guardar">Guardar</button>
+          <button type="button" class="btn" id="wz-next">Guardar y continuar</button>
+          <button type="submit" class="btn" id="btn-buscar">Guardar y revisar vacantes</button>
+        </div>
+      </form>
+
+      <div class="card progreso" id="progreso" hidden>
+        <h4>Revisión de vacantes <small id="prog-texto"></small></h4>
+        <div class="bar"><div id="prog-bar"></div></div>
+        <pre id="prog-log"></pre>
+      </div>
+    </section>
+
+    <section id="view-resumen" class="view on">
+      <div class="head">
+        <h2>Resumen</h2>
+        <p>Empresas descubiertas, en qué va cada una y lo que toca hacer esta semana.</p>
+      </div>
+      <div id="aviso-perfil" class="banner" hidden>
+        Todavía no tienes perfil. Llénalo en <b>Mi perfil</b> o pídele a tu agente: <i>«Configura Oportunidades RD»</i>.
+      </div>
+      <div id="aviso-empresas" class="banner" hidden>
+        Todavía no hay empresas. Pídele a tu agente: <i>«Busca empresas en RD para mi perfil»</i>.
+      </div>
+      <div class="tiles" id="tiles"></div>
+      <div class="pipeline" id="pipeline"></div>
+      <div class="grid2">
+        <div class="card">
+          <h4>Empresas descubiertas</h4>
+          <ul class="list" id="recientes"></ul>
+          <h4 class="mt">Vacantes abiertas <small id="nov-fecha"></small></h4>
+          <ul class="list" id="novedades"></ul>
+        </div>
+        <div class="card">
+          <h4>Próximos seguimientos</h4>
+          <ul class="list" id="seguimientos"></ul>
+          <h4 class="mt">Revisar tú en el navegador</h4>
+          <ul class="list" id="manuales"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-tablero" class="view">
+      <div class="head">
+        <h2>Tablero</h2>
+        <p>Arrastra una empresa para cambiar su estado. Haz clic para ver el detalle.</p>
+      </div>
+      <div class="board" id="board"></div>
+    </section>
+
+    <section id="view-empresas" class="view">
+      <div class="head">
+        <h2>Empresas</h2>
+        <p>Con presencia verificada en RD. Para contactar se sugieren <b>roles</b>, no personas: el enlace abre una búsqueda en LinkedIn con tu sesión.</p>
+      </div>
+      <div class="filters">
+        <label>Buscar <input id="f-texto" type="search" placeholder="empresa, equipo o rol"></label>
+        <label>Estado <select id="f-estado"><option value="">Todos</option><option>Descubierta</option><option>Me interesa</option><option>Investigando</option><option>Contacté</option><option>Aplicado</option><option>Entrevista</option><option>Oferta</option><option>Descartada</option></select></label>
+        <label>Tipo <select id="f-tipo"><option value="">Todos</option><option>multinacional</option><option>grupo local</option><option>empresa local en crecimiento</option><option>tecnología/startup</option><option>otra</option></select></label>
+        <label>Industria <select id="f-industria"><option value="">Todas</option><option>banca</option><option>telecomunicaciones</option><option>retail/distribución</option><option>seguros</option><option>zona franca/manufactura</option><option>logística</option><option>turismo</option><option>tecnología/consultoría</option><option>gobierno-tech</option><option>salud</option><option>energía</option><option>otra</option></select></label>
+        <label class="check"><input id="f-con-vacantes" type="checkbox"> Solo con vacantes abiertas</label>
+      </div>
+      <div class="companies" id="companies"></div>
+    </section>
+
+    <section id="view-vacantes" class="view">
+      <div class="head">
+        <h2>Vacantes</h2>
+        <p>Comprobación secundaria: las vacantes publicadas que el rastreador encontró en las páginas de empleo de tus empresas.</p>
+      </div>
+      <div class="filters">
+        <label>Buscar <input id="v-texto" type="search" placeholder="puesto o empresa"></label>
+        <label>Empresa <select id="v-empresa"><option value="">Todas</option></select></label>
+        <label class="check"><input id="v-activas" type="checkbox" checked> Solo activas</label>
+      </div>
+      <table class="tbl" id="tbl-vacantes">
+        <thead><tr><th>Puesto</th><th>Encontrada</th><th><span class="sr">Acciones</span></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <div class="winfoot" role="radiogroup" aria-label="Tema">
+    <label><input type="radio" name="tema" value="claro" checked> <span>Modo claro</span></label>
+    <label><input type="radio" name="tema" value="oscuro"> <span>Modo oscuro</span></label>
+  </div>
+</section>
+
+<section class="features" id="funciones">
+  <h2>Encuentra dónde podrías trabajar, aunque no haya vacantes publicadas.</h2>
+  <div class="feat">
+    <span>01</span><b>Perfil por pasos</b>
+    <p>Define tus roles, habilidades, experiencia, idiomas, preferencias e industrias en ocho preguntas cortas. Tu perfil se queda en tu computadora.</p>
+  </div>
+  <div class="feat">
+    <span>02</span><b>Empresas que encajan contigo</b>
+    <p>Empresas con presencia verificada en RD, con los equipos que encajan con tu perfil, roles probables con su razón, evidencia, señales de alerta y cómo postular.</p>
+  </div>
+  <div class="feat">
+    <span>03</span><b>Seguimiento y textos a tu medida</b>
+    <p>Mueve cada empresa de «Descubierta» a «Oferta» con fechas y notas. Para las que te interesan, prepara un mensaje y una carta que copias y envías tú: nada se envía solo.</p>
+  </div>
+</section>
+
+
+<section class="install" id="instalar">
+  <h2>Instálalo con tu agente</h2>
+  <ol class="install-steps">
+    <li><span>01</span><b>Ten un agente de IA y Python</b>
+      <p>Claude Code u otro agente compatible con skills, y Python 3.10 o superior en tu computadora.</p></li>
+    <li><span>02</span><b>Copia este mensaje en tu agente</b>
+      <div class="term copy">
+        <code id="msg-instalar">Instala el skill oportunidades-rd desde https://github.com/alejandrocimentada/oportunidades-rd y ábreme el panel.</code>
+        <button type="button" class="btn small" data-copiar="#msg-instalar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button>
+      </div></li>
+    <li><span>03</span><b>Tu agente hace el resto</b>
+      <p>Instala todo y abre tu panel local en tu computadora. Tú llenas tu perfil y le pides: <i>«Busca empresas en RD para mi perfil.»</i></p></li>
+  </ol>
+  <p class="install-note">No necesitas clave de API: la parte de IA la hace tu agente, con tu propio plan. Tus datos se quedan en tu computadora.</p>
+</section>
+
+
+<section class="start">
+  <h2>Empieza a ordenar tu búsqueda</h2>
+  
+  <p>Instálalo con tu agente, llena tu perfil y deja que descubra empresas para ti. Mira cómo queda el Excel con el ejemplo.</p>
+  <div class="start-btns">
+    <a class="btn pill-btn" href="#instalar">Instálalo con tu agente</a>
+    <a class="btn pill-btn ghost" href="oportunidades-demo.xlsx" download>Descargar Excel de ejemplo</a>
+  </div>
+  
+  <div class="start-meta">
+    <span>Versión 0.1.0 · Sin inicio de sesión · Funciona en tu computadora</span>
+    <a href="#funciones">Cómo funciona</a>
+  </div>
+</section>
+
+<footer class="foot-page">
+  <span>Oportunidades RD · búsqueda de empleo local</span>
+  
+  <span>Demo con datos inventados · <a href="https://github.com/alejandrocimentada/oportunidades-rd" target="_blank" rel="noopener">Código en GitHub</a></span>
+  
+</footer>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <button class="close" id="drawer-close" aria-label="Cerrar">×</button>
+  <div id="drawer-body"></div>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<script>window.ESTADOS = ["Descubierta", "Me interesa", "Investigando", "Contacté", "Aplicado", "Entrevista", "Oferta", "Descartada"];</script>
+<script src="demo-datos.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
