@@ -268,7 +268,8 @@ _TITULOS_NAVEGACION = re.compile(
     # Nombres de área sueltos: enlaces a categorías («Engineering», «Finanzas»), no a vacantes.
     r"engineering|finance|operations|people|commercial|technology|marketing|sales|legal|human resources|"
     r"ingenier[ií]a|finanzas|operaciones|tecnolog[ií]a|ventas|recursos humanos|comercial|log[ií]stica)$|"
-    r"^(ver|view|see|explore|explora) .+", re.I)  # «Ver prácticas y becas…», «View All Vacancies…»
+    r"^(ver|view|see|explore|explora) .+|"  # «Ver prácticas y becas…», «View All Vacancies…»
+    r"^(conoce|descubre) (m[aá]s|nuestra|nuestro|nuestras|nuestros)\b.*", re.I)  # «Conoce nuestra cultura»
 # Postulación general («Envía tu CV»): no es una vacante concreta.
 _POSTULACION_GENERAL = re.compile(
     r"^\W*((env[ií]a(nos)?|enviar|sube|deja(nos)?|comparte) (tu|su) (cv|curr[ií]cul[ou]m|hoja de vida)|"
@@ -373,9 +374,9 @@ def enlace_ver_todas(html: str, base_url: str) -> str:
     soup = BeautifulSoup(html or "", "html.parser")
     for a in soup.find_all("a", href=True):
         texto = limpiar_espacios(a.get_text(" "))
-        href = urljoin(base_url, a["href"].strip())
+        href = urljoin(base_url, a["href"].strip()).split("#")[0]  # un ancla en la misma página no es otra lista
         if (texto and len(texto) <= 80 and _TEXTO_VER_TODAS.search(texto)
-                and urlsplit(href).scheme in ("http", "https") and href.rstrip("/") != base_url.rstrip("/")):
+                and urlsplit(href).scheme in ("http", "https") and href.rstrip("/") != base_url.split("#")[0].rstrip("/")):
             return href
     return ""
 

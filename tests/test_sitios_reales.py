@@ -89,3 +89,10 @@ def test_portada_sin_vacantes_sigue_el_enlace_a_la_lista(store, perfil, web_y_fe
     store.add_empresa(nombre="Puerto Ejemplo", industria="logistica", url_empleos="https://puerto-ejemplo.do/en/careers")
     servicio.rastrear(store, perfil, fetcher, detalles=False, puntuar_nuevas=False, log=lambda *_: None)
     assert [(v["titulo"], v["ubicacion"]) for v in store.vacantes()] == [("Demand Planner", "Caucedo, DO")]
+
+
+def test_ancla_en_la_misma_pagina_no_cuenta_como_lista_y_cultura_no_es_vacante():
+    html = '<html><body><a href="#search-form-fields">View All of Our Available Opportunities</a></body></html>'
+    assert ex.enlace_ver_todas(html, "https://jobs.ejemplo.com/en") == ""
+    lista = '<html><body><div class="jobs"><a href="/empleos/">Conoce nuestra cultura</a></div></body></html>'
+    assert ex.extraer(lista, "https://ejemplo.do/empleos/puestos-disponibles/").vacantes == []
