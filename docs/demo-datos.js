@@ -1,4 +1,5 @@
 // Datos INVENTADOS para la demo pública. Generado por scripts/construir_demo.py; no lo edites a mano.
+window.DEMO_FECHA = "2026-10-20";
 window.DEMO = {
  "/api/resumen": {
   "con_documentos": [
@@ -21,9 +22,9 @@ window.DEMO = {
   ],
   "novedades": {
    "corrida": {
-    "fin": "2026-10-20T11:00:04",
+    "fin": "2026-10-20T11:26:55",
     "id": 1,
-    "inicio": "2026-10-20T11:00:04",
+    "inicio": "2026-10-20T11:26:55",
     "resumen": {
      "manuales": [
       {
@@ -56,10 +57,10 @@ window.DEMO = {
      "fuente": "rastreo",
      "id": 1,
      "idioma": "es",
-     "primera_vez": "2026-10-20T11:00:04",
+     "primera_vez": "2026-10-20T11:26:55",
      "titulo": "Analista de Automatización (demo)",
      "ubicacion": "Santo Domingo",
-     "ultima_vez": "2026-10-20T11:00:04",
+     "ultima_vez": "2026-10-20T11:26:55",
      "url": "https://distribuidoradelcaribe.example/empleos/1",
      "url_canonica": "https://distribuidoradelcaribe.example/empleos/1",
      "vista_corrida": 1
@@ -75,10 +76,10 @@ window.DEMO = {
      "fuente": "rastreo",
      "id": 2,
      "idioma": "es",
-     "primera_vez": "2026-10-20T11:00:04",
+     "primera_vez": "2026-10-20T11:26:55",
      "titulo": "Analista de Planificación (demo)",
      "ubicacion": "Santo Domingo",
-     "ultima_vez": "2026-10-20T11:00:04",
+     "ultima_vez": "2026-10-20T11:26:55",
      "url": "https://distribuidoradelcaribe.example/empleos/2",
      "url_canonica": "https://distribuidoradelcaribe.example/empleos/2",
      "vista_corrida": 1
@@ -94,10 +95,10 @@ window.DEMO = {
      "fuente": "rastreo",
      "id": 3,
      "idioma": "es",
-     "primera_vez": "2026-10-20T11:00:04",
+     "primera_vez": "2026-10-20T11:26:55",
      "titulo": "Ingeniero de IA Conversacional (demo)",
      "ubicacion": "Santo Domingo",
-     "ultima_vez": "2026-10-20T11:00:04",
+     "ultima_vez": "2026-10-20T11:26:55",
      "url": "https://telecomantillas.example/empleos/1",
      "url_canonica": "https://telecomantillas.example/empleos/1",
      "vista_corrida": 1
@@ -121,7 +122,7 @@ window.DEMO = {
    },
    "recientes": [
     {
-     "creado": "2026-10-20T11:00:04",
+     "creado": "2026-10-20T11:26:55",
      "estado": "Descubierta",
      "id": 6,
      "industria": "tecnología/consultoría",
@@ -130,7 +131,7 @@ window.DEMO = {
      "tipo": "tecnología/startup"
     },
     {
-     "creado": "2026-10-20T11:00:04",
+     "creado": "2026-10-20T11:26:55",
      "estado": "Aplicado",
      "id": 5,
      "industria": "logística",
@@ -139,7 +140,7 @@ window.DEMO = {
      "tipo": "empresa local en crecimiento"
     },
     {
-     "creado": "2026-10-20T11:00:04",
+     "creado": "2026-10-20T11:26:55",
      "estado": "Entrevista",
      "id": 4,
      "industria": "telecomunicaciones",
@@ -148,7 +149,7 @@ window.DEMO = {
      "tipo": "multinacional"
     },
     {
-     "creado": "2026-10-20T11:00:04",
+     "creado": "2026-10-20T11:26:55",
      "estado": "Descubierta",
      "id": 3,
      "industria": "banca",
@@ -157,7 +158,7 @@ window.DEMO = {
      "tipo": "grupo local"
     },
     {
-     "creado": "2026-10-20T11:00:04",
+     "creado": "2026-10-20T11:26:55",
      "estado": "Contacté",
      "id": 2,
      "industria": "tecnología/consultoría",
@@ -166,7 +167,7 @@ window.DEMO = {
      "tipo": "multinacional"
     },
     {
-     "creado": "2026-10-20T11:00:04",
+     "creado": "2026-10-20T11:26:55",
      "estado": "Me interesa",
      "id": 1,
      "industria": "retail/distribución",
@@ -200,9 +201,9 @@ window.DEMO = {
    ],
    "total_empresas": 6,
    "ultima_corrida": {
-    "fin": "2026-10-20T11:00:04",
+    "fin": "2026-10-20T11:26:55",
     "id": 1,
-    "inicio": "2026-10-20T11:00:04",
+    "inicio": "2026-10-20T11:26:55",
     "resumen": {
      "manuales": [
       {
@@ -232,13 +233,13 @@ window.DEMO = {
      "rol": "Head of Data"
     }
    ],
-   "creado": "2026-10-20T11:00:04",
+   "creado": "2026-10-20T11:26:55",
    "equipos": [
     "Transformación digital / innovación",
     "Datos y analítica"
    ],
    "estado": "Descubierta",
-   "estado_fecha": "2026-10-20T11:00:04",
+   "estado_fecha": "2026-10-20T11:26:55",
    "estado_rastreo": "sin vacantes",
    "evidencia": [
     {
@@ -301,13 +302,13 @@ window.DEMO = {
      "rol": "Fundador / CTO"
     }
    ],
-   "creado": "2026-10-20T11:00:04",
+   "creado": "2026-10-20T11:26:55",
    "equipos": [
     "Producto / IA",
     "Integraciones"
    ],
    "estado": "Descubierta",
-   "estado_fecha": "2026-10-20T11:00:04",
+   "estado_fecha": "2026-10-20T11:26:55",
    "estado_rastreo": "abrir manualmente",
    "evidencia": [
     {
@@ -369,14 +370,14 @@ window.DEMO = {
      "rol": "Talent Acquisition"
     }
    ],
-   "creado": "2026-10-20T11:00:04",
+   "creado": "2026-10-20T11:26:55",
    "equipos": [
     "Automatización de procesos",
     "BI y analítica",
     "Transformación digital"
    ],
    "estado": "Me interesa",
-   "estado_fecha": "2026-10-20T11:00:04",
+   "estado_fecha": "2026-10-20T11:26:55",
    "estado_rastreo": "ok",
    "evidencia": [
     {
@@ -443,13 +444,13 @@ window.DEMO = {
      "rol": "Gerente de Automatización"
     }
    ],
-   "creado": "2026-10-20T11:00:04",
+   "creado": "2026-10-20T11:26:55",
    "equipos": [
     "Automatización de procesos (RPA)",
     "IA aplicada"
    ],
    "estado": "Contacté",
-   "estado_fecha": "2026-10-20T11:00:04",
+   "estado_fecha": "2026-10-20T11:26:55",
    "estado_rastreo": "sin vacantes",
    "evidencia": [
     {
@@ -512,13 +513,13 @@ window.DEMO = {
      "rol": "Gerente de Operaciones"
     }
    ],
-   "creado": "2026-10-20T11:00:04",
+   "creado": "2026-10-20T11:26:55",
    "equipos": [
     "Datos y analítica",
     "Mejora de procesos"
    ],
    "estado": "Aplicado",
-   "estado_fecha": "2026-10-20T11:00:04",
+   "estado_fecha": "2026-10-20T11:26:55",
    "estado_rastreo": "sin vacantes",
    "evidencia": [
     {
@@ -576,13 +577,13 @@ window.DEMO = {
      "rol": "Gerente de Canales Digitales"
     }
    ],
-   "creado": "2026-10-20T11:00:04",
+   "creado": "2026-10-20T11:26:55",
    "equipos": [
     "Atención digital / chatbots",
     "Datos y analítica"
    ],
    "estado": "Entrevista",
-   "estado_fecha": "2026-10-20T11:00:04",
+   "estado_fecha": "2026-10-20T11:26:55",
    "estado_rastreo": "ok",
    "evidencia": [
     {
@@ -645,10 +646,10 @@ window.DEMO = {
    "fuente": "rastreo",
    "id": 3,
    "idioma": "es",
-   "primera_vez": "2026-10-20T11:00:04",
+   "primera_vez": "2026-10-20T11:26:55",
    "titulo": "Ingeniero de IA Conversacional (demo)",
    "ubicacion": "Santo Domingo",
-   "ultima_vez": "2026-10-20T11:00:04",
+   "ultima_vez": "2026-10-20T11:26:55",
    "url": "https://telecomantillas.example/empleos/1",
    "url_canonica": "https://telecomantillas.example/empleos/1",
    "vista_corrida": 1
@@ -663,10 +664,10 @@ window.DEMO = {
    "fuente": "rastreo",
    "id": 2,
    "idioma": "es",
-   "primera_vez": "2026-10-20T11:00:04",
+   "primera_vez": "2026-10-20T11:26:55",
    "titulo": "Analista de Planificación (demo)",
    "ubicacion": "Santo Domingo",
-   "ultima_vez": "2026-10-20T11:00:04",
+   "ultima_vez": "2026-10-20T11:26:55",
    "url": "https://distribuidoradelcaribe.example/empleos/2",
    "url_canonica": "https://distribuidoradelcaribe.example/empleos/2",
    "vista_corrida": 1
@@ -681,10 +682,10 @@ window.DEMO = {
    "fuente": "rastreo",
    "id": 1,
    "idioma": "es",
-   "primera_vez": "2026-10-20T11:00:04",
+   "primera_vez": "2026-10-20T11:26:55",
    "titulo": "Analista de Automatización (demo)",
    "ubicacion": "Santo Domingo",
-   "ultima_vez": "2026-10-20T11:00:04",
+   "ultima_vez": "2026-10-20T11:26:55",
    "url": "https://distribuidoradelcaribe.example/empleos/1",
    "url_canonica": "https://distribuidoradelcaribe.example/empleos/1",
    "vista_corrida": 1
@@ -766,13 +767,13 @@ window.DEMO = {
     "rol": "Head of Data"
    }
   ],
-  "creado": "2026-10-20T11:00:04",
+  "creado": "2026-10-20T11:26:55",
   "equipos": [
    "Transformación digital / innovación",
    "Datos y analítica"
   ],
   "estado": "Descubierta",
-  "estado_fecha": "2026-10-20T11:00:04",
+  "estado_fecha": "2026-10-20T11:26:55",
   "estado_rastreo": "sin vacantes",
   "evidencia": [
    {
@@ -792,7 +793,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 3,
     "empresa_nombre": "Banco Quisqueya Digital (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 7,
     "nota": "Presencia en RD verificada: https://bancoquisqueyadigital.example/republica-dominicana"
    }
@@ -849,13 +850,13 @@ window.DEMO = {
     "rol": "Fundador / CTO"
    }
   ],
-  "creado": "2026-10-20T11:00:04",
+  "creado": "2026-10-20T11:26:55",
   "equipos": [
    "Producto / IA",
    "Integraciones"
   ],
   "estado": "Descubierta",
-  "estado_fecha": "2026-10-20T11:00:04",
+  "estado_fecha": "2026-10-20T11:26:55",
   "estado_rastreo": "abrir manualmente",
   "evidencia": [
    {
@@ -875,7 +876,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 6,
     "empresa_nombre": "Nube Taína Labs (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 16,
     "nota": "Presencia en RD verificada: https://nubetaínalabs.example/republica-dominicana"
    }
@@ -931,14 +932,14 @@ window.DEMO = {
     "rol": "Talent Acquisition"
    }
   ],
-  "creado": "2026-10-20T11:00:04",
+  "creado": "2026-10-20T11:26:55",
   "equipos": [
    "Automatización de procesos",
    "BI y analítica",
    "Transformación digital"
   ],
   "estado": "Me interesa",
-  "estado_fecha": "2026-10-20T11:00:04",
+  "estado_fecha": "2026-10-20T11:26:55",
   "estado_rastreo": "ok",
   "evidencia": [
    {
@@ -958,7 +959,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 1,
     "empresa_nombre": "Distribuidora del Caribe (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 1,
     "nota": "Presencia en RD verificada: https://distribuidoradelcaribe.example/republica-dominicana"
    },
@@ -967,7 +968,7 @@ window.DEMO = {
     "de_estado": "Descubierta",
     "empresa_id": 1,
     "empresa_nombre": "Distribuidora del Caribe (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 2,
     "nota": ""
    }
@@ -987,10 +988,10 @@ window.DEMO = {
     "fuente": "rastreo",
     "id": 2,
     "idioma": "es",
-    "primera_vez": "2026-10-20T11:00:04",
+    "primera_vez": "2026-10-20T11:26:55",
     "titulo": "Analista de Planificación (demo)",
     "ubicacion": "Santo Domingo",
-    "ultima_vez": "2026-10-20T11:00:04",
+    "ultima_vez": "2026-10-20T11:26:55",
     "url": "https://distribuidoradelcaribe.example/empleos/2",
     "url_canonica": "https://distribuidoradelcaribe.example/empleos/2",
     "vista_corrida": 1
@@ -1005,10 +1006,10 @@ window.DEMO = {
     "fuente": "rastreo",
     "id": 1,
     "idioma": "es",
-    "primera_vez": "2026-10-20T11:00:04",
+    "primera_vez": "2026-10-20T11:26:55",
     "titulo": "Analista de Automatización (demo)",
     "ubicacion": "Santo Domingo",
-    "ultima_vez": "2026-10-20T11:00:04",
+    "ultima_vez": "2026-10-20T11:26:55",
     "url": "https://distribuidoradelcaribe.example/empleos/1",
     "url_canonica": "https://distribuidoradelcaribe.example/empleos/1",
     "vista_corrida": 1
@@ -1065,13 +1066,13 @@ window.DEMO = {
     "rol": "Gerente de Automatización"
    }
   ],
-  "creado": "2026-10-20T11:00:04",
+  "creado": "2026-10-20T11:26:55",
   "equipos": [
    "Automatización de procesos (RPA)",
    "IA aplicada"
   ],
   "estado": "Contacté",
-  "estado_fecha": "2026-10-20T11:00:04",
+  "estado_fecha": "2026-10-20T11:26:55",
   "estado_rastreo": "sin vacantes",
   "evidencia": [
    {
@@ -1091,7 +1092,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 2,
     "empresa_nombre": "Servicios Globales RD (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 3,
     "nota": "Presencia en RD verificada: https://serviciosglobalesrd.example/republica-dominicana"
    },
@@ -1100,7 +1101,7 @@ window.DEMO = {
     "de_estado": "Descubierta",
     "empresa_id": 2,
     "empresa_nombre": "Servicios Globales RD (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 4,
     "nota": ""
    },
@@ -1109,7 +1110,7 @@ window.DEMO = {
     "de_estado": "Me interesa",
     "empresa_id": 2,
     "empresa_nombre": "Servicios Globales RD (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 5,
     "nota": ""
    },
@@ -1118,7 +1119,7 @@ window.DEMO = {
     "de_estado": "Investigando",
     "empresa_id": 2,
     "empresa_nombre": "Servicios Globales RD (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 6,
     "nota": ""
    }
@@ -1175,13 +1176,13 @@ window.DEMO = {
     "rol": "Gerente de Operaciones"
    }
   ],
-  "creado": "2026-10-20T11:00:04",
+  "creado": "2026-10-20T11:26:55",
   "equipos": [
    "Datos y analítica",
    "Mejora de procesos"
   ],
   "estado": "Aplicado",
-  "estado_fecha": "2026-10-20T11:00:04",
+  "estado_fecha": "2026-10-20T11:26:55",
   "estado_rastreo": "sin vacantes",
   "evidencia": [
    {
@@ -1201,7 +1202,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 5,
     "empresa_nombre": "LogiPuerto RD (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 13,
     "nota": "Presencia en RD verificada: https://logipuertord.example/republica-dominicana"
    },
@@ -1210,7 +1211,7 @@ window.DEMO = {
     "de_estado": "Descubierta",
     "empresa_id": 5,
     "empresa_nombre": "LogiPuerto RD (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 14,
     "nota": ""
    },
@@ -1219,7 +1220,7 @@ window.DEMO = {
     "de_estado": "Me interesa",
     "empresa_id": 5,
     "empresa_nombre": "LogiPuerto RD (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 15,
     "nota": ""
    }
@@ -1271,13 +1272,13 @@ window.DEMO = {
     "rol": "Gerente de Canales Digitales"
    }
   ],
-  "creado": "2026-10-20T11:00:04",
+  "creado": "2026-10-20T11:26:55",
   "equipos": [
    "Atención digital / chatbots",
    "Datos y analítica"
   ],
   "estado": "Entrevista",
-  "estado_fecha": "2026-10-20T11:00:04",
+  "estado_fecha": "2026-10-20T11:26:55",
   "estado_rastreo": "ok",
   "evidencia": [
    {
@@ -1297,7 +1298,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 8,
     "nota": "Presencia en RD verificada: https://telecomantillas.example/republica-dominicana"
    },
@@ -1306,7 +1307,7 @@ window.DEMO = {
     "de_estado": "Descubierta",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 9,
     "nota": ""
    },
@@ -1315,7 +1316,7 @@ window.DEMO = {
     "de_estado": "Me interesa",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 10,
     "nota": ""
    },
@@ -1324,7 +1325,7 @@ window.DEMO = {
     "de_estado": "Investigando",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 11,
     "nota": ""
    },
@@ -1333,7 +1334,7 @@ window.DEMO = {
     "de_estado": "Aplicado",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T11:00:04",
+    "fecha": "2026-10-20T11:26:55",
     "id": 12,
     "nota": ""
    }
@@ -1353,10 +1354,10 @@ window.DEMO = {
     "fuente": "rastreo",
     "id": 3,
     "idioma": "es",
-    "primera_vez": "2026-10-20T11:00:04",
+    "primera_vez": "2026-10-20T11:26:55",
     "titulo": "Ingeniero de IA Conversacional (demo)",
     "ubicacion": "Santo Domingo",
-    "ultima_vez": "2026-10-20T11:00:04",
+    "ultima_vez": "2026-10-20T11:26:55",
     "url": "https://telecomantillas.example/empleos/1",
     "url_canonica": "https://telecomantillas.example/empleos/1",
     "vista_corrida": 1

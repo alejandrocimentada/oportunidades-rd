@@ -48,8 +48,10 @@ def test_la_demo_es_estatica_y_solo_tiene_datos_inventados(demo):
     assert "Llenar mi perfil" not in html and 'href="oportunidades-demo.xlsx"' in html
 
 
-def test_cada_empresa_tiene_su_detalle(demo):
+def test_cada_empresa_tiene_su_detalle_y_la_fecha_de_construccion(demo):
+    import datetime as dt
     js = (demo / "demo-datos.js").read_text(encoding="utf-8")
+    assert f'window.DEMO_FECHA = "{dt.date.today().isoformat()}";' in js  # app.js mueve las fechas desde aquí
     for i in range(1, 7):
         assert f'"/api/empresas/{i}"' in js
 

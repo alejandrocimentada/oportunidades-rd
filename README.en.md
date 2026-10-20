@@ -133,7 +133,7 @@ To try it without your data: `python scripts/demo.py`, then `python app.py --dem
 
 Public demo (GitHub Pages): `python scripts/construir_demo.py` writes a static copy of the dashboard with made-up
 data to `docs/` (no server, nothing is saved). Re-run it after changing `templates/` or `static/`; on GitHub,
-Settings → Pages → branch `master`, folder `/docs`.
+Settings → Pages → branch `main`, folder `/docs`.
 
 ### How postings are checked
 

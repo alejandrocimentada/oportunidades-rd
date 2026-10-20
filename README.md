@@ -238,7 +238,7 @@ Para probar sin tus datos: `python scripts/demo.py` y luego `python app.py --dem
 
 Demo pública (GitHub Pages): `python scripts/construir_demo.py` escribe en `docs/` una copia estática del tablero
 con datos inventados (sin servidor, no guarda nada). Vuelve a ejecutarlo cuando cambies `templates/` o `static/`;
-en GitHub, Settings → Pages → rama `master`, carpeta `/docs`.
+en GitHub, Settings → Pages → rama `main`, carpeta `/docs`.
 
 ### Comandos
 

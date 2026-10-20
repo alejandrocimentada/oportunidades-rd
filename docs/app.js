@@ -25,7 +25,31 @@ let state = { empresas: [], vacantes: [], resumen: null, abierta: null };
 
 // Demo pública (GitHub Pages, scripts/construir_demo.py): no hay servidor. Las lecturas salen de
 // window.DEMO (datos inventados) y nada se guarda.
-const DEMO = window.DEMO;
+// La demo se construyó el día `desde`: todas sus fechas (AAAA-MM-DD… y DD/MM/AAAA en las cartas) se mueven
+// los días que hayan pasado, para que los seguimientos y el historial siempre se vean recientes.
+function fechasDesdeHoy(datos, desde) {
+  if (!datos || !desde) return datos;
+  const [a, m, d] = desde.split("-").map(Number);
+  const h = new Date();
+  const dias = Math.round((Date.UTC(h.getFullYear(), h.getMonth(), h.getDate()) - Date.UTC(a, m - 1, d)) / 864e5);
+  if (!dias) return datos;
+  const mover = (a, m, d) => new Date(Date.UTC(+a, m - 1, +d + dias));
+  const dos = (n) => String(n).padStart(2, "0");
+  const cambiar = (v) => {
+    if (typeof v === "string") {
+      return v.replace(/^(\d{4})-(\d{2})-(\d{2})(?=(T[\d:.]+)?$)/, (_, a, m, d) => mover(a, m, d).toISOString().slice(0, 10))
+        .replace(/\b(\d{2})\/(\d{2})\/(\d{4})\b/g, (_, d, m, a) => {
+          const t = mover(a, m, d);
+          return `${dos(t.getUTCDate())}/${dos(t.getUTCMonth() + 1)}/${t.getUTCFullYear()}`;
+        });
+    }
+    if (Array.isArray(v)) return v.map(cambiar);
+    if (v && typeof v === "object") return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, cambiar(x)]));
+    return v;
+  };
+  return cambiar(datos);
+}
+const DEMO = fechasDesdeHoy(window.DEMO, window.DEMO_FECHA);
 const AVISO_DEMO = "Es una demo: no se guarda nada. Instala el skill para usarlo con tu perfil.";
 
 async function api(path, body) {

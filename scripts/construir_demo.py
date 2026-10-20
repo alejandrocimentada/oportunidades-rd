@@ -13,6 +13,7 @@ demo-datos.js en lugar de llamar a la API, y no guarda nada.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import os
 import shutil
@@ -77,7 +78,9 @@ def construir(destino: Path = DESTINO) -> list[Path]:
         with web.test_request_context():
             html = render_template("index.html", **tablero.datos_pagina(publica=True))
 
+        # DEMO_FECHA: el día de la construcción. app.js mueve todas las fechas a partir de hoy al cargar la página.
         js = ("// Datos INVENTADOS para la demo pública. Generado por scripts/construir_demo.py; no lo edites a mano.\n"
+              f'window.DEMO_FECHA = "{dt.date.today().isoformat()}";\n'
               f"window.DEMO = {json.dumps(datos, ensure_ascii=False, indent=1)};\n")
         excel = tmp / "oportunidades-demo.xlsx"
         for texto in (js, html, _excel_sin_rutas(xlsx, excel, tmp / "data")):
@@ -103,7 +106,7 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     for p in construir(args.destino):
         print(p)
-    print("Abre index.html en esa carpeta para verla. En GitHub: Settings → Pages → rama master, carpeta /docs.")
+    print("Abre index.html en esa carpeta para verla. En GitHub: Settings → Pages → rama main, carpeta /docs.")
     return 0
 
 
