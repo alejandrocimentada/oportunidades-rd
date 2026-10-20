@@ -269,7 +269,21 @@ _TITULOS_NAVEGACION = re.compile(
     r"engineering|finance|operations|people|commercial|technology|marketing|sales|legal|human resources|"
     r"ingenier[ií]a|finanzas|operaciones|tecnolog[ií]a|ventas|recursos humanos|comercial|log[ií]stica)$|"
     r"^(ver|view|see|explore|explora) .+|"  # «Ver prácticas y becas…», «View All Vacancies…»
-    r"^(conoce|descubre) (m[aá]s|nuestra|nuestro|nuestras|nuestros)\b.*", re.I)  # «Conoce nuestra cultura»
+    r"^(conoce|descubre) (m[aá]s|nuestra|nuestro|nuestras|nuestros)\b.*|"  # «Conoce nuestra cultura»
+    r".*\b(learn more|read more|leer m[aá]s|saber m[aá]s)\b.*", re.I | re.S)  # tarjetas de artículos («… Learn More»)
+
+# Ubicaciones: las vacantes de sitios globales (p. ej. una multinacional con planta en zona franca) se quedan
+# solo si son en RD o remotas. Sin ubicación, se quedan.
+_EN_RD = re.compile(
+    r"(rep[uú]blica dominicana|dominican republic|\b(RD|DO|DOM)\b|santo domingo|distrito nacional|santiago|haina|"
+    r"san crist[oó]bal|caucedo|boca chica|punta cana|b[aá]varo|la romana|puerto plata|hig[uü]ey|la vega|moca|"
+    r"ban[ií]|barahona|azua|dajab[oó]n|\bmao\b|saman[aá]|nagua|bonao|cotu[ií]|san pedro de macor[ií]s|"
+    r"san francisco de macor[ií]s|hato mayor|el seibo|monte plata|jarabacoa|constanza|las am[eé]ricas)", re.I)
+_REMOTA = re.compile(r"(remot|remote|teletrabajo|anywhere|latam|latin america|am[eé]rica latina|work from home)", re.I)
+
+
+def fuera_de_rd(ubicacion: str) -> bool:
+    return bool(ubicacion) and not _EN_RD.search(ubicacion) and not _REMOTA.search(ubicacion)
 # Postulación general («Envía tu CV»): no es una vacante concreta.
 _POSTULACION_GENERAL = re.compile(
     r"^\W*((env[ií]a(nos)?|enviar|sube|deja(nos)?|comparte) (tu|su) (cv|curr[ií]cul[ou]m|hoja de vida)|"

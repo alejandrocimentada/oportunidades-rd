@@ -8,7 +8,7 @@ from . import ajuste, ia, perfil as perfil_mod
 from .crawler import Bloqueado, Fetcher, Prohibido
 from .db import Store, ahora
 from .exportar import exportar_seguro
-from .extraer import (ATS, busqueda_successfactors, detectar_ats, enlace_ver_todas, extraer, parse_feed,
+from .extraer import (ATS, busqueda_successfactors, detectar_ats, enlace_ver_todas, extraer, fuera_de_rd, parse_feed,
                       texto_detalle)
 from .texto import es_portal_bloqueado, idioma, limpiar_espacios
 
@@ -99,7 +99,7 @@ def _vacantes_de_empresa(fetcher: Fetcher, emp: dict, detalles: bool) -> tuple[l
                 return [], res.estado, res.motivo, ""
             vacs = res.vacantes
             if detalles:
-                for v in [v for v in vacs if not v.descripcion][:MAX_DETALLES]:
+                for v in [v for v in vacs if not v.descripcion and not fuera_de_rd(v.ubicacion)][:MAX_DETALLES]:
                     try:
                         d = fetcher.get(v.url)
                         if d.status < 400:
@@ -146,6 +146,12 @@ def rastrear(store: Store, perfil: dict, fetcher: Fetcher | None = None, solo: l
             vacs, estado, motivo, ats = [], "revisar manualmente", "Portal de empleo: usa scripts/pegar.py.", ""
         except Exception as exc:
             vacs, estado, motivo, ats = [], "error", f"No se pudo descargar: {exc}", ""
+        omitidas = sum(1 for v in vacs if fuera_de_rd(v.ubicacion))
+        if omitidas:
+            vacs = [v for v in vacs if not fuera_de_rd(v.ubicacion)]
+            motivo = f"{motivo} {omitidas} vacantes fuera de RD y no remotas, omitidas.".strip()
+            if not vacs and estado == "ok":
+                estado = "sin vacantes"
         inf = InformeEmpresa(emp["nombre"], estado, motivo, total=len(vacs), enlace=emp["url_empleos"])
         for v in vacs:
             vac, nueva = store.upsert_vacante(

@@ -96,3 +96,16 @@ def test_ancla_en_la_misma_pagina_no_cuenta_como_lista_y_cultura_no_es_vacante()
     assert ex.enlace_ver_todas(html, "https://jobs.ejemplo.com/en") == ""
     lista = '<html><body><div class="jobs"><a href="/empleos/">Conoce nuestra cultura</a></div></body></html>'
     assert ex.extraer(lista, "https://ejemplo.do/empleos/puestos-disponibles/").vacantes == []
+
+
+def test_vacantes_fuera_de_rd_y_no_remotas():
+    assert ex.fuera_de_rd("Deerfield, IL") and ex.fuera_de_rd("Monterrey, Monterrey, Nuevo León")
+    for lugar in ("", "Bajos de Haina, Provincia de San Cristóbal", "Santo Domingo, DO", "Remote - LATAM",
+                  "Bogotá · remoto", "Santa Cruz de Mao", "República Dominicana"):
+        assert not ex.fuera_de_rd(lugar), lugar
+
+
+def test_tarjeta_de_articulo_no_es_vacante():
+    html = """<html><body><div class="jobs"><a href="/careers/benefits">Employee Benefits Our comprehensive
+      benefits options reflect the value we place in our employees. Learn More March 28, 2024</a></div></body></html>"""
+    assert ex.extraer(html, "https://www.ejemplo.com/careers").vacantes == []
