@@ -30,6 +30,28 @@ def test_enlaces_de_navegacion_y_postulacion_general_no_son_vacantes():
     assert titulos == ["Analista de Automatización"]
 
 
+def test_categorias_y_enlaces_de_ver_todo_no_son_vacantes():
+    html = """<html><body><div class="jobs">
+      <a href="/en/careers/engineering">Engineering</a><a href="/en/careers/finance">Finance</a>
+      <a href="/en/careers/vacancies">View All Vacancies (Opens in a new tab)</a>
+      <a href="/empleos/puestos-disponibles/">Aplica aquí</a>
+      <a href="/empleos/puestos-disponibles/%20">Ver prácticas y becas disponibles</a>
+      <a href="/en/careers/123-planner">Demand Planner</a>
+      <a href="/en/careers/124">Verificador de Calidad</a>
+    </div></body></html>"""
+    titulos = [v.titulo for v in ex.extraer(html, "https://puerto-ejemplo.do/en/careers").vacantes]
+    assert titulos == ["Demand Planner", "Verificador de Calidad"]
+
+
+def test_postulacion_general_en_un_feed_de_ats():
+    rss = """<?xml version="1.0"?><rss version="2.0"><channel>
+      <item><title>Supervisor de Producción</title><link>https://x.na.teamtailor.com/jobs/1</link></item>
+      <item><title>Deja tu curriculum con nosotros - Postúlate en la localidad de tu interés</title>
+        <link>https://x.na.teamtailor.com/jobs/2</link></item></channel></rss>"""
+    vacs = ex.parse_feed(ex.feed_ats("teamtailor", "x.na"), rss)
+    assert [v.titulo for v in vacs] == ["Supervisor de Producción"]
+
+
 def test_teamtailor_con_region_en_el_subdominio():
     ats = ex.detectar_ats("https://cerveceria-nacional-dominicana.na.teamtailor.com/jobs")
     assert ats.cuenta == "cerveceria-nacional-dominicana.na"

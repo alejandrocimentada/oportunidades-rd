@@ -214,7 +214,7 @@ def parse_feed(ats: ATS, texto: str) -> list[Vacante]:
         "smartrecruiters": lambda t: parse_smartrecruiters(t, ats.cuenta),
         "bamboohr": lambda t: parse_bamboohr(t, ats.cuenta),
     }[ats.nombre]
-    return [v for v in parser(texto) if v.titulo]
+    return [v for v in parser(texto) if v.titulo and not _POSTULACION_GENERAL.search(v.titulo)]
 
 
 # -- páginas que no se pueden leer ---------------------------------------------------------
@@ -264,7 +264,11 @@ _TITULOS_NAVEGACION = re.compile(
     r"^(ver (m[aá]s|todas?|detalles?)|aplicar|apply( now)?|leer m[aá]s|more|see all|view all|empleos?|"
     r"vacantes?|careers?|jobs?|carreras?|inicio|home|trabaja con nosotros|[0-9]+|siguiente|anterior|next|"
     r"previous|«|»|→|←|ver (las |todas las |nuestras )?(vacantes|ofertas|empleos|posiciones|oportunidades)( disponibles)?|"
-    r"(conoce|descubre) (nuestras|las) (vacantes|oportunidades))$", re.I)
+    r"(conoce|descubre) (nuestras|las) (vacantes|oportunidades)|aplica( aqu[ií]| ya| ahora)?|"
+    # Nombres de área sueltos: enlaces a categorías («Engineering», «Finanzas»), no a vacantes.
+    r"engineering|finance|operations|people|commercial|technology|marketing|sales|legal|human resources|"
+    r"ingenier[ií]a|finanzas|operaciones|tecnolog[ií]a|ventas|recursos humanos|comercial|log[ií]stica)$|"
+    r"^(ver|view|see|explore|explora) .+", re.I)  # «Ver prácticas y becas…», «View All Vacancies…»
 # Postulación general («Envía tu CV»): no es una vacante concreta.
 _POSTULACION_GENERAL = re.compile(
     r"^\W*((env[ií]a(nos)?|enviar|sube|deja(nos)?|comparte) (tu|su) (cv|curr[ií]cul[ou]m|hoja de vida)|"
