@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Agrega una vacante que copiaste de LinkedIn, Computrabajo, Indeed u otro portal.
+"""Agrega una vacante que copiaste de LinkedIn, Computrabajo, Indeed u otro portal, como evidencia de
+que una empresa contrata en RD.
 
 Esos portales no se rastrean: tú copias el texto del anuncio y lo pegas aquí.
 
@@ -18,7 +19,7 @@ from pathlib import Path
 
 from _comun import salir_error
 
-from oportunidades import perfil as pf
+from oportunidades.db import DatosError
 from oportunidades.servicio import abrir_store, pegar
 
 
@@ -33,17 +34,10 @@ def main(argv=None) -> int:
     texto = Path(args.archivo).read_text(encoding="utf-8") if args.archivo else sys.stdin.read()
     with abrir_store() as store:
         try:
-            vac, nueva = pegar(store, pf.cargar(), texto, args.url, args.empresa, args.titulo, args.ubicacion)
-        except ValueError as exc:
+            vac, nueva = pegar(store, texto, args.url, args.empresa, args.titulo, args.ubicacion)
+        except (DatosError, ValueError) as exc:
             salir_error(str(exc))
-    print(("Agregada" if nueva else "Ya existía") + f": [{vac['id']}] {vac['titulo']} · {vac['empresa_nombre']}")
-    print(f"Ajuste: {vac['ajuste']} ({vac['puntuado_por']})")
-    for r in vac["por_que_encaja"]:
-        print(f"  + {r}")
-    for a in vac["alertas"]:
-        print(f"  ! {a}")
-    for f in vac["faltantes"]:
-        print(f"  - te falta: {f}")
+    print(("Agregada" if nueva else "Ya existía") + f": [{vac['id']}] {vac['titulo']} · {vac['empresa_nombre'] or '(sin empresa)'}")
     return 0
 
 

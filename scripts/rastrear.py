@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rastrea las páginas públicas de empleo de tus empresas y muestra las novedades.
+"""Revisa las páginas públicas de empleo de tus empresas: ¿hay vacantes abiertas? (comprobación secundaria)
 
 Educado: respeta robots.txt, 1 petición cada 3 s por sitio, caché de 24 h, User-Agent claro.
 Nunca entra a LinkedIn, Computrabajo, Indeed ni otros portales (para esos: scripts/pegar.py).
@@ -17,7 +17,6 @@ import argparse
 
 from _comun import imprimir_json, salir_error
 
-from oportunidades import perfil as pf
 from oportunidades.crawler import Fetcher
 from oportunidades.servicio import abrir_store, rastrear
 
@@ -31,14 +30,13 @@ def mostrar_novedades(nov: dict) -> None:
     if nov["nuevas"]:
         print(f"\n{len(nov['nuevas'])} vacantes nuevas:")
         for v in nov["nuevas"]:
-            print(f"  [{v['id']}] {v['ajuste'] if v['ajuste'] is not None else '–':>3}  {v['empresa_nombre']} · "
-                  f"{v['titulo']}  {v['url']}")
+            print(f"  [{v['id']}] {v['empresa_nombre']} · {v['titulo']}  {v['url']}")
     else:
         print("\nNo hay vacantes nuevas desde el rastreo anterior.")
     if nov["ya_no_aparecen"]:
         print(f"\n{len(nov['ya_no_aparecen'])} ya no aparecen en la página:")
         for v in nov["ya_no_aparecen"]:
-            print(f"  [{v['id']}] {v['empresa_nombre']} · {v['titulo']} ({v['estado']})")
+            print(f"  [{v['id']}] {v['empresa_nombre']} · {v['titulo']}")
     if nov["manuales"]:
         print("\nRevisa tú en el navegador:")
         for m in nov["manuales"]:
@@ -50,7 +48,6 @@ def main(argv=None) -> int:
     ap.add_argument("--empresa", action="append", help="nombre o id (repetible)")
     ap.add_argument("--sin-detalles", action="store_true")
     ap.add_argument("--sin-cache", action="store_true")
-    ap.add_argument("--sin-puntuar", action="store_true")
     ap.add_argument("--novedades", action="store_true")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
@@ -58,10 +55,10 @@ def main(argv=None) -> int:
         if args.novedades:
             nov = store.novedades()
         else:
-            if not pf.existe():
-                salir_error("Primero crea tu perfil (python scripts/perfil.py show).")
-            nov = rastrear(store, pf.cargar(), Fetcher(usar_cache=not args.sin_cache), solo=args.empresa,
-                           detalles=not args.sin_detalles, puntuar_nuevas=not args.sin_puntuar)
+            if not any(e["url_empleos"] for e in store.empresas()):
+                salir_error("Ninguna empresa guardada tiene página de empleos. Primero descubre empresas (SKILL.md).")
+            nov = rastrear(store, Fetcher(usar_cache=not args.sin_cache), solo=args.empresa,
+                           detalles=not args.sin_detalles)
         if args.json:
             imprimir_json(nov)
         else:

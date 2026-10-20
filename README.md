@@ -1,41 +1,51 @@
 **Español** · [English](README.en.md)
 
-![Oportunidades RD: encuentra empresas, revisa sus vacantes y prepara tu postulación](docs/banner.png)
+![Oportunidades RD](docs/banner.png)
 
-<p align="center"><strong>Un agente de IA que te ayuda a buscar empleo en la República Dominicana: encuentra empresas donde podrías trabajar, revisa sus páginas de empleo, te dice qué vacantes encajan contigo y por qué, y te prepara el mensaje y la carta. Todo en tu computadora, con un tablero y un Excel.</strong></p>
+<p align="center"><strong>Un agente de IA que te ayuda a encontrar dónde podrías trabajar en la República Dominicana según tu perfil, aunque esas empresas no tengan vacantes publicadas: qué equipos encajan contigo, qué roles probables hay para ti, cómo postular y a quién contactar. Todo en tu computadora, con un tablero y un Excel.</strong></p>
 
 ## ¿Qué es esto?
 
 **Oportunidades RD** es un "skill" (un paquete de instrucciones y herramientas) que se instala en
-tu asistente de IA, como Claude Code. Le dices *"búscame trabajo de IA en RD"* y:
+tu asistente de IA, como Claude Code. Le dices *"busca empresas en RD para mi perfil"* y:
 
-1. **Te conoce**: la primera vez te hace unas preguntas (qué buscas, qué sabes hacer, cuánto
-   quieres ganar) y guarda tu perfil en tu computadora.
-2. **Busca empresas**: banca, telecomunicaciones, distribución, seguros, zonas francas, logística,
-   turismo, tecnología, gobierno digital… Te dice por qué cada una podría interesarte, aunque no
-   tenga vacantes abiertas, y qué **cargos** contactar (por ejemplo "Head of Data").
-3. **Revisa sus páginas de empleo**, con educación: respeta las reglas de cada sitio, va despacio y
-   nunca entra a lugares con contraseña.
-4. **Te dice qué tan bien encaja cada vacante** (de 0 a 100), por qué, qué **señales de alerta**
-   tiene (pide 7 años de experiencia, es solo presencial, paga menos de tu mínimo…) y **qué te falta**.
-5. **Tú eliges.** Solo para las vacantes que marcas "Me interesa", prepara un **mensaje corto** para
-   LinkedIn o correo y una **carta de presentación**, en español o inglés según el anuncio.
-6. **Llevas el control** en un tablero en tu navegador y en un Excel: qué está nuevo, a qué
-   aplicaste, a quién contactaste, cuándo dar seguimiento.
+1. **Te conoce**: la primera vez te hace unas preguntas (qué buscas, qué sabes hacer, tu experiencia,
+   idiomas, cómo quieres trabajar, tus industrias) y guarda tu perfil en tu computadora.
+2. **Descubre empresas con presencia verificada en RD**: multinacionales con operaciones aquí
+   (oficinas, hubs regionales, centros de servicios compartidos, plantas de zona franca), grupos
+   locales grandes, empresas locales en crecimiento y empresas de tecnología o startups que operan
+   o contratan en RD. Cada una lleva **al menos una fuente** (sitio de la empresa, noticia,
+   directorio de zonas francas, registro oficial). Si no se puede verificar, no se agrega.
+3. **Explica por qué encaja contigo**, sin puntuaciones: qué **equipos** de esa empresa encajan con
+   tu perfil, qué **roles probables** hay para alguien como tú (con la razón), **evidencia** de que
+   esos equipos existen en RD (vacantes pasadas o actuales, páginas, noticias), las **3 razones
+   principales** y las **señales de alerta** (solo roles presenciales de planta, pide algo que no
+   tienes, sin modalidad híbrida…).
+4. **Te dice cómo postular**: portal de empleos (filtrado a RD si se puede), banco de talento o
+   postulación general, página de LinkedIn de la empresa y 2–3 **cargos** a contactar, cada uno con
+   un enlace de búsqueda de LinkedIn que abres tú.
+5. **Revisa si hay vacantes abiertas**, como comprobación secundaria: visita con educación sus
+   páginas de empleo y te dice "hay vacantes" o "no hay".
+6. **Tú eliges.** Solo para las empresas que marcas "Me interesa", prepara un **mensaje corto** y una
+   **carta de postulación general**, adaptados al equipo y al rol probable, con enlaces a tu trabajo.
+7. **Llevas el control** en un tablero y un Excel: Descubierta → Me interesa → Investigando →
+   Contacté → Aplicado → Entrevista → Oferta / Descartada, con fechas y notas.
 
 ## ¿Para quién es?
 
-Para quien busca empleo en la República Dominicana, sobre todo en IA, automatización y datos (puedes
-cambiar los roles en tu perfil). No necesitas saber programar: el asistente de IA hace la parte técnica.
+Para cualquier persona que busca empleo en la República Dominicana, en cualquier área: la búsqueda
+se hace a partir de **tu** perfil (roles, habilidades, experiencia, industrias y preferencias).
+No necesitas saber programar: el asistente de IA hace la parte técnica.
 
 > [!IMPORTANT]
-> **Todo queda en tu computadora.** Tu perfil, las empresas y las vacantes se guardan en archivos
-> locales. No hay cuenta ni servidor de Oportunidades RD.
+> **Todo queda en tu computadora.** Tu perfil y tus empresas se guardan en archivos locales.
+> No hay cuenta ni servidor de Oportunidades RD.
 > **Nada se envía solo.** El mensaje y la carta se guardan como archivos; tú los revisas y los envías.
-> **No entra a LinkedIn, Computrabajo ni Indeed.** Esas vacantes las copias y las pegas tú (ver abajo).
+> **No entra a LinkedIn, Computrabajo ni Indeed.** Si ves una vacante ahí, la copias y la pegas tú.
 > **No guarda datos de personas.** Para "a quién contactar" solo sugiere **cargos** y te da un
 > enlace de búsqueda de LinkedIn que abres tú, con tu cuenta.
-> **La puntuación es una ayuda, no una verdad.** Léela con criterio, sobre todo la heurística sin IA.
+> **Verifica antes de escribir.** La investigación la hace tu agente con búsquedas web: revisa las
+> fuentes de cada empresa.
 
 ## Cómo usarlo (la forma más fácil)
 
@@ -62,18 +72,17 @@ cambiar los roles en tu perfil). No necesitas saber programar: el asistente de I
 
    </details>
 
-2. **Responde unas preguntas la primera vez.** Por ejemplo: qué puestos buscas, tus habilidades y
-   años de experiencia, idiomas, si prefieres trabajar algunos días desde casa, tu salario mínimo
-   en pesos y tus enlaces (portafolio, GitHub). Si no sabes algo, di "no sé" y sigue.
-   Tus respuestas se guardan en `~/.config/oportunidades-rd/profile.yaml`, fuera de la carpeta del proyecto.
+2. **Llena tu perfil**: en la conversación, o en la pestaña **Mi perfil** del tablero (ocho preguntas
+   cortas). Si no sabes algo, di "no sé" y sigue. Se guarda en `~/.config/oportunidades-rd/profile.yaml`,
+   fuera de la carpeta del proyecto.
 
 3. **Pídele lo que necesites**, con tus palabras:
 
-   > Búscame empresas en RD donde pueda trabajar integrando IA.
-   > Revisa sus páginas de empleo y dime qué hay de nuevo.
-   > ¿Cuáles vacantes encajan mejor conmigo? ¿Qué me falta para la de TelcoX?
-   > Marca la 12 como "Me interesa" y prepárame el mensaje y la carta.
-   > Encontré esta vacante en LinkedIn: *(pegas el texto)*
+   > Busca empresas en RD para mi perfil.
+   > ¿Qué equipos de Empresa X encajan conmigo? ¿Qué me falta?
+   > Revisa si tienen vacantes abiertas.
+   > Marca Empresa X como "Me interesa" y prepárame el mensaje y la carta para el rol de BI Analyst.
+   > Pasa Empresa X a "Contacté": le escribí a Talent Acquisition.
    > Abre el tablero.
 
 ## El tablero
@@ -81,50 +90,46 @@ cambiar los roles en tu perfil). No necesitas saber programar: el asistente de I
 Pídele al asistente *"abre el tablero"*, o escribe `python app.py` en la carpeta del proyecto.
 Se abre en tu navegador en <http://localhost:8765> (solo tu computadora puede verlo).
 
-![Tablero de Oportunidades RD con datos de demostración](docs/captura-tablero.png)
+- **Mi perfil**: las ocho preguntas, paso a paso.
+- **Resumen**: cuántas empresas hay en cada estado, las últimas descubiertas, contactos de esta
+  semana, próximos seguimientos y vacantes abiertas del último rastreo.
+- **Tablero**: una columna por estado. **Arrastra una empresa** para cambiarla de estado.
+- **Empresas**: filtros por estado, tipo, industria y "solo con vacantes abiertas".
+- **Vacantes**: las vacantes publicadas que encontró el rastreador (comprobación secundaria).
+- **Detalle** de cada empresa: presencia en RD con sus fuentes, equipos, roles probables, evidencia,
+  por qué encaja, señales de alerta, cómo postular, a quién contactar, vacantes abiertas, el mensaje
+  y la carta con botón **Copiar**, tus notas y el historial con fechas.
 
-- **Resumen**: cuántas vacantes hay en cada estado, aplicaciones de esta semana, novedades del
-  último rastreo, próximos seguimientos y páginas que debes abrir tú.
-- **Tablero**: una columna por estado. **Arrastra una tarjeta** para cambiarla de estado.
-- **Vacantes**: lista con filtros por ajuste, empresa y estado.
-- **Empresas**: interés, página de empleos y los cargos a contactar con su búsqueda de LinkedIn.
-- **Detalle** de cada vacante: por qué encaja, señales de alerta, lo que te falta, el mensaje y la
-  carta con botón **Copiar**, tus notas y el historial con fechas.
-
-| Resumen | Detalle de una vacante |
-|---|---|
-| ![Resumen](docs/captura-resumen.png) | ![Detalle](docs/captura-detalle.png) |
-
-*(Las capturas usan empresas y vacantes inventadas.)*
+*(Las capturas de `docs/` son de una versión anterior y usan datos inventados.)*
 
 ## El Excel
 
 `data/oportunidades.xlsx` se actualiza solo después de cada cambio. Tiene cuatro hojas, con filtros,
-encabezados fijos y colores por estado: **Resumen**, **Empresas**, **Vacantes** y **Seguimiento**
-(cada cambio de estado con su fecha). También puedes bajarlo desde el botón *Descargar Excel* del tablero.
-Si lo tienes abierto en Excel mientras haces cambios, ciérralo para que se pueda actualizar.
+encabezados fijos y colores por estado: **Resumen**, **Empresas** (todo el análisis de cada una),
+**Vacantes** y **Seguimiento** (cada cambio de estado con su fecha). También puedes bajarlo desde el
+botón *Descargar Excel* del tablero. Si lo tienes abierto en Excel, ciérralo para que se pueda actualizar.
 
-## Estados de una vacante
+## Estados de una empresa
 
-**Nuevo** → **Me interesa** → **Aplicado** → **Contacté** → **Entrevista** → **Oferta**, o
-**Rechazado** / **Descartado**. Cada cambio guarda la fecha. Al pasar a *Aplicado*, *Contacté* o
-*Entrevista* se agenda un recordatorio de seguimiento (7, 5 y 3 días); puedes cambiarlo.
+**Descubierta** → **Me interesa** → **Investigando** → **Contacté** → **Aplicado** → **Entrevista** →
+**Oferta**, o **Descartada**. Cada cambio guarda la fecha y una nota opcional. Al pasar a *Contacté*,
+*Aplicado* o *Entrevista* se agenda un recordatorio de seguimiento (5, 7 y 3 días); puedes cambiarlo.
 
 ## Vacantes de LinkedIn, Computrabajo o Indeed
 
 Esos portales no se revisan automáticamente (sus reglas no lo permiten y piden iniciar sesión).
-Copia el texto del anuncio y pégalo en la conversación con tu asistente, con el enlace si lo
-tienes. El asistente lo guarda, revisa que no esté repetido y te da la puntuación.
+Si ves una vacante de una de tus empresas, copia el texto y pégalo en la conversación: se guarda como
+evidencia de que esa empresa contrata en RD.
 
 ## Glosario
 
-- **Vacante**: un puesto de trabajo publicado.
-- **Ajuste (0–100)**: qué tan bien encaja la vacante con tu perfil.
-- **Señales de alerta**: cosas que podrían no convenirte (experiencia que no tienes, solo presencial, salario bajo, anuncio vago).
+- **Presencia verificada**: hay al menos una fuente pública (enlace) de que la empresa opera en RD.
+- **Equipo que encaja**: un área de la empresa donde tu perfil sirve (p. ej. supply chain, BI, ERP/SAP).
+- **Rol probable**: un puesto que podría existir para alguien como tú en ese equipo, con su razón.
+- **Señales de alerta**: cosas que podrían no convenirte (solo presencial, turnos, requisitos que no tienes).
 - **Página de empleos**: la sección "Trabaja con nosotros" o "Careers" del sitio de una empresa.
-- **ATS**: el sistema que muchas empresas usan para publicar vacantes (Greenhouse, Lever, Workable…). Algunos tienen una lista pública que se puede leer de forma ordenada.
-- **robots.txt**: un archivo donde cada sitio web dice qué partes no deben revisar los programas. Oportunidades RD lo respeta.
-- **Rastreo**: cuando el programa visita las páginas de empleo para ver qué vacantes hay.
+- **ATS**: el sistema que muchas empresas usan para publicar vacantes (Greenhouse, Lever, Workable…).
+- **robots.txt**: un archivo donde cada sitio dice qué partes no deben revisar los programas. Se respeta.
 - **Seguimiento**: el recordatorio para volver a escribir si no te han respondido.
 
 ## Preguntas frecuentes
@@ -132,28 +137,24 @@ tienes. El asistente lo guarda, revisa que no esté repetido y te da la puntuaci
 **¿Me postula solo o envía mensajes por mí?**
 No. Prepara los textos; tú decides si los envías y a quién.
 
+**¿Por qué no hay una puntuación de 0 a 100?**
+Porque una cifra da una falsa precisión. En su lugar ves los equipos, los roles probables con su
+razón, la evidencia, tres razones y las señales de alerta, y decides tú.
+
 **¿Dónde están mis datos? ¿Quién los ve?**
 En tu computadora: el perfil en `~/.config/oportunidades-rd/` y lo demás en la carpeta `data/` del
-proyecto. Si eliges usar una IA con tu propia clave (Claude u OpenAI), tu perfil y el texto de la
-vacante se envían **solo** a ese proveedor para puntuar y redactar. Con la opción por defecto
-("agente"), el trabajo lo hace tu propio asistente. Con "ninguno", nada sale de tu computadora
-(salvo las visitas a las páginas de empleo).
+proyecto. La investigación de empresas la hace tu asistente con sus búsquedas web. Si eliges una IA
+con tu propia clave (Claude u OpenAI) para redactar, tu perfil y los datos de la empresa se envían
+**solo** a ese proveedor. Con "ninguno", los textos son plantillas que editas tú.
 
 **¿Cuesta dinero?**
 El proyecto es gratis. Tu asistente de IA puede tener costo según tu plan, y si usas una clave de
 API de Claude u OpenAI, pagas a ese proveedor según el uso.
 
 **¿Por qué una empresa dice "abrir manualmente" o "revisar manualmente"?**
-"Revisar manualmente" significa que el sitio pide que los programas no visiten esa página
-(robots.txt). "Abrir manualmente" significa que la página necesita JavaScript o iniciar sesión.
-En ambos casos te damos el enlace para que la abras tú en el navegador.
-
-**¿Por qué no aparece una vacante que veo en la página?**
-Algunas páginas cargan las vacantes de formas que el programa no sabe leer. Ábrela y pega la vacante
-en la conversación.
-
-**¿Necesito saber programar?**
-No, si usas un agente de IA como Claude Code. El agente se encarga de los comandos.
+Es sobre sus vacantes: "revisar manualmente" significa que el sitio pide que los programas no lo
+visiten (robots.txt); "abrir manualmente", que la página necesita JavaScript o iniciar sesión. En
+ambos casos tienes el enlace para abrirla tú.
 
 ---
 
@@ -162,7 +163,7 @@ No, si usas un agente de IA como Claude Code. El agente se encarga de los comand
 **oportunidades-rd** es una skill para agentes de IA (Claude Code, Codex y otros agentes
 compatibles con `SKILL.md`) más una pequeña aplicación en Python: scripts de línea de comandos,
 una base SQLite, un tablero Flask y exportación a Excel. El agente sigue [`SKILL.md`](SKILL.md):
-hace las búsquedas web para descubrir empresas y, en modo `agente`, puntúa y redacta él mismo.
+descubre y analiza empresas con búsquedas web y las guarda con `scripts/empresas.py guardar`.
 
 ### Instalación manual
 
@@ -195,26 +196,43 @@ cp -R oportunidades-rd/. ~/.codex/skills/oportunidades-rd/
 pip install -r ~/.codex/skills/oportunidades-rd/requirements.txt
 ```
 
-Opcional, para puntuar y redactar por API: `pip install anthropic` o `pip install openai`.
+Opcional, para redactar por API: `pip install anthropic` o `pip install openai`.
 
 ### Un recorrido completo, paso a paso
 
 ```bash
-python scripts/perfil.py show                      # 1. sin perfil → el agente pregunta y guarda con `set`
-python scripts/perfil.py set habilidades "Python; SQL; Power Automate; LLM"
-python scripts/empresas.py add --nombre "Empresa X" --industria banca \
-  --web https://x.com.do --empleos https://x.com.do/empleos \
-  --por-que "..." --interes 80 --rol "Head of Data" --rol "Gerente de Innovación"   # 2. el agente las descubre
-python scripts/rastrear.py                         # 3. rastreo educado + NOVEDADES
-python scripts/vacantes.py pendientes --json       # 4. (modo agente) el agente lee y puntúa…
-python scripts/vacantes.py guardar-puntuacion 12 --ajuste 78 --encaja "..." --encaja "..." --encaja "..." --alerta "..."
-python scripts/pegar.py --archivo vacante.txt --url https://... --empresa "Empresa X"   # 5. vacantes de portales
-python scripts/vacantes.py list --estado Nuevo --min 60                                # 6. tú eliges
-python scripts/vacantes.py estado 12 "Me interesa"
-python scripts/vacantes.py generar 12              # 7. mensaje + carta (o el agente: guardar-texto)
-python app.py                                      # 8. tablero en http://localhost:8765
-python scripts/vacantes.py estado 12 Aplicado --nota "Enviado por el portal"           # 9. seguimiento
+python scripts/perfil.py show                          # 1. sin perfil → el agente pregunta y guarda con `set`
+python scripts/empresas.py contexto --json             # 2. perfil + empresas ya guardadas (para no repetir)
+python scripts/empresas.py guardar --archivo empresas.json   # 3. el agente guarda lo que investigó
+python scripts/rastrear.py                             # 4. ¿hay vacantes abiertas? (secundario)
+python scripts/empresas.py list                        # 5. tú eliges
+python scripts/empresas.py estado "Empresa X" "Me interesa"
+python scripts/empresas.py generar "Empresa X" --rol "BI Analyst"   # 6. mensaje + carta (o el agente: guardar-texto)
+python app.py                                          # 7. tablero en http://localhost:8765
+python scripts/empresas.py estado "Empresa X" Contacté --nota "Escribí a Talent Acquisition"   # 8. seguimiento
 ```
+
+Formato de `empresas.json` (una empresa o una lista):
+
+```json
+{
+  "nombre": "Empresa X", "tipo": "multinacional", "industria": "zona franca/manufactura",
+  "sitio_web": "https://empresa-x.com",
+  "presencia_rd": "Planta en la Zona Franca de Haina.",
+  "fuentes_presencia": [{"titulo": "Directorio de zonas francas", "url": "https://..."}],
+  "equipos": ["Supply chain / planificación", "Mejora continua"],
+  "roles": [{"rol": "Demand Planner", "razon": "2.5 años como Demand Planner con SAP."}],
+  "evidencia": [{"texto": "Vacante de Planner publicada en 2026 en Haina", "url": "https://..."}],
+  "razones": ["…", "…", "…"], "alertas": ["Mayormente presencial en planta."],
+  "url_empleos": "https://empresa-x.com/careers", "portal_rd": "https://...?location=Dominican+Republic",
+  "talento": "https://...", "linkedin_empresa": "https://www.linkedin.com/company/empresa-x",
+  "roles_contacto": ["Gerente de Supply Chain", "Talent Acquisition"]
+}
+```
+
+Tipos: `multinacional`, `grupo local`, `empresa local en crecimiento`, `tecnología/startup`, `otra`.
+Sin `fuentes_presencia` con un enlace válido, la empresa **no se guarda**. Volver a guardar el mismo
+nombre actualiza los campos que traiga.
 
 Para probar sin tus datos: `python scripts/demo.py` y luego `python app.py --demo` (usa `data/demo/`).
 
@@ -223,91 +241,82 @@ Para probar sin tus datos: `python scripts/demo.py` y luego `python app.py --dem
 | Script | Para qué |
 |---|---|
 | `scripts/perfil.py show \| path \| set <clave> <valor> \| importar <yaml> \| ejemplo` | Perfil (listas separadas por `;`) |
-| `scripts/empresas.py add \| list \| show \| update \| remove \| industrias` | Empresas, interés y roles a contactar |
-| `scripts/rastrear.py [--empresa X] [--sin-detalles] [--sin-cache] [--novedades]` | Rastreo + novedades |
-| `scripts/pegar.py --archivo f.txt [--url] [--empresa] [--titulo]` | Vacante copiada de un portal (o por entrada estándar) |
-| `scripts/vacantes.py list \| show \| estado \| nota \| seguimiento \| historial` | Vacantes y seguimiento |
-| `scripts/vacantes.py puntuar [id \| --todas] \| pendientes \| guardar-puntuacion` | Puntuación |
-| `scripts/vacantes.py generar <id> [--tipo] [--idioma] \| guardar-texto` | Mensaje y carta |
+| `scripts/empresas.py contexto \| guardar --archivo \| list \| show \| update \| remove` | Empresas y su análisis |
+| `scripts/empresas.py estado \| nota \| seguimiento \| historial` | Seguimiento por empresa |
+| `scripts/empresas.py generar <empresa> [--tipo] [--idioma] [--rol] \| guardar-texto` | Mensaje y carta |
+| `scripts/rastrear.py [--empresa X] [--sin-detalles] [--sin-cache] [--novedades]` | ¿Hay vacantes abiertas? |
+| `scripts/vacantes.py list [--empresa X] [--activas] \| show <id>` | Vacantes encontradas |
+| `scripts/pegar.py --archivo f.txt [--url] [--empresa] [--titulo]` | Vacante copiada de un portal |
 | `scripts/exportar.py` | Forzar el Excel |
 | `app.py [--puerto 8765] [--no-abrir] [--demo]` | Tablero local |
 
-### Cómo rastrea
+### Cómo revisa las vacantes
 
-- **robots.txt**: se lee para cada sitio; si una página está prohibida no se descarga y la empresa
-  queda en "revisar manualmente". Un robots.txt que responde 401/403 se trata como "prohibido todo".
+- **robots.txt**: se lee para cada sitio; si una página está prohibida no se descarga ("revisar
+  manualmente"). Un robots.txt que responde 401/403 se trata como "prohibido todo".
 - **Ritmo**: máximo 1 petición cada 3 segundos por sitio. **Caché** de 24 h en `data/cache/`.
 - **User-Agent**: `OportunidadesRD/0.1 (busqueda personal de empleo; respeta robots.txt; +https://github.com/alejandrocimentada/oportunidades-rd)`.
-- **ATS públicos**: si la página de empleos es (o enlaza/incrusta) Greenhouse, Lever, Workable,
-  SmartRecruiters, Teamtailor o BambooHR, se usa su feed público (Greenhouse Job Board API, Lever
-  Postings API, widget de Workable, Posting API de SmartRecruiters, RSS de Teamtailor, lista de
-  BambooHR) en lugar del HTML.
-- **HTML**: primero datos estructurados `schema.org/JobPosting`; si no, enlaces que parecen
-  vacantes (título, ubicación, fecha). Abre hasta 10 páginas de detalle por empresa para la descripción.
+- **ATS públicos**: Greenhouse, Lever, Workable, SmartRecruiters, Teamtailor (también con región,
+  p. ej. `empresa.na.teamtailor.com`) y BambooHR por su feed público; SAP SuccessFactors por su página
+  pública de búsqueda.
+- **HTML**: datos `schema.org/JobPosting` o enlaces que parecen vacantes. Descarta navegación ("Ver
+  vacantes", "Aplica aquí"), postulaciones generales ("Envía tu CV") y categorías. Si la portada no
+  tiene vacantes pero enlaza a la lista completa, la sigue una vez. Omite vacantes con ubicación
+  explícita fuera de RD que no sean remotas.
 - **JavaScript, login, anti-bots, 401/403/429**: "abrir manualmente", con el enlace. No se intenta saltar nada.
 - **Portales bloqueados**: LinkedIn, Computrabajo, Indeed, Glassdoor, Bumeran y otros
-  (`oportunidades/texto.py`). Ni el rastreador ni `empresas.py` los aceptan.
-- **Novedades**: cada rastreo es una "corrida"; se listan las vacantes nuevas y las que ya no aparecen.
-- **Duplicados**: misma URL (sin parámetros de rastreo como `utm_*`) o misma empresa + título + ubicación.
+  (`oportunidades/texto.py`) nunca se rastrean (sí pueden guardarse como enlace en `portal_rd`).
 
-### Puntuación y redacción con IA
+### Redacción con IA
 
-`ia.proveedor` en el perfil: `agente` (por defecto: el agente puntúa y redacta), `claude`
+`ia.proveedor` en el perfil: `agente` (por defecto: el agente investiga y redacta), `claude`
 (`ANTHROPIC_API_KEY`, modelo por defecto `claude-sonnet-5-5`), `openai` (`OPENAI_API_KEY`, modelo por
-defecto `gpt-5`; cámbialo con `set ia.modelo`) o `ninguno`. Sin clave, o si la API falla, se usa una
-heurística local (roles, habilidades, ubicación/modalidad, años pedidos, salario, fines de semana,
-anuncio vago); su ajuste máximo es 95. A la API se envía solo el perfil (sin rutas ni configuración)
-y el texto de la vacante, y únicamente al proveedor elegido.
+defecto `gpt-5`; cámbialo con `set ia.modelo`) o `ninguno` (plantillas). A la API se envía solo el
+perfil (sin rutas ni configuración) y los datos de la empresa, y únicamente al proveedor elegido.
 
 ### Datos
 
 | Dónde | Qué |
 |---|---|
 | `~/.config/oportunidades-rd/profile.yaml` | Perfil (o `OPORTUNIDADES_RD_PROFILE`). El código se niega a guardarlo dentro del proyecto. |
-| `data/oportunidades.db` | SQLite: `empresas`, `vacantes`, `historial`, `corridas` (o `OPORTUNIDADES_RD_DATA`) |
+| `data/oportunidades.db` | SQLite: `empresas`, `historial`, `vacantes`, `corridas` (o `OPORTUNIDADES_RD_DATA`) |
 | `data/oportunidades.xlsx` | Excel regenerado tras cada cambio |
-| `data/documentos/<id>-…/` | `mensaje.md` y `carta.md` |
+| `data/documentos/<id>-<empresa>/` | `mensaje.md` y `carta.md` |
 | `data/cache/` | Páginas descargadas (24 h) |
 
 `data/` y `profile.yaml` están en `.gitignore`. Para contactos solo existe la columna
-`roles_contacto` (cargos); los roles que parecen un correo, un teléfono o un enlace se rechazan.
+`roles_contacto` (cargos); los roles que parecen un correo, un teléfono o un enlace se rechazan, y
+ningún enlace puede ser el perfil de LinkedIn de una persona. Una base de datos de la versión anterior
+(vacantes con puntuación) se respalda como `oportunidades.v1-<fecha>.db` y se empieza una nueva.
 
 ### Desarrollo y validación
 
 ```bash
 pip install -r requirements.txt pytest
-python -m pytest                       # 79 pruebas
+python -m pytest
 ```
 
-Las pruebas usan páginas guardadas en [`tests/fixtures/`](tests/fixtures/) (HTML simple, JSON-LD,
-página con Greenhouse incrustado, Lever, Workable, SmartRecruiters, Teamtailor, BambooHR, página
-solo-JavaScript, login, robots.txt que prohíbe y una vacante pegada) y nunca salen a internet.
-Cubren la extracción por formato, que se respete robots.txt, el ritmo de 3 s, la caché de 24 h, los
-portales bloqueados, duplicados, el flujo de estados con historial, las novedades entre corridas, el
-Excel, que el perfil nunca se guarde en el repo, que no existan campos de datos personales para
-contactos, la puntuación, la redacción (y que solo se llame al proveedor elegido) y el tablero
-(solo localhost, cambios solo en JSON). El banner se genera desde [`docs/banner.html`](docs/banner.html).
+Las pruebas usan páginas guardadas en [`tests/fixtures/`](tests/fixtures/) y nunca salen a internet.
+Cubren la validación de empresas (fuente de presencia obligatoria, enlaces, sin datos personales), el
+flujo de estados con historial y seguimientos, la redacción (adaptada al equipo y rol, solo al
+proveedor elegido), el Excel, el tablero (solo localhost, cambios solo en JSON), que el perfil nunca se
+guarde en el repo, y el rastreador (robots.txt, ritmo, caché, portales bloqueados, formatos y fallos
+vistos en sitios reales).
 
 ### Límites conocidos
 
-- **El descubrimiento de empresas depende del agente**: la calidad de la lista depende de su
-  búsqueda web. Revisa que la página de empleos sea la oficial.
-- **El HTML genérico es heurístico**: cada sitio es distinto; puede perder vacantes o tomar algún
-  enlace que no lo es. Las páginas que se arman con JavaScript no se leen (se marcan para abrirlas tú).
-- **Los feeds de los ATS** se basan en sus APIs públicas conocidas y pueden cambiar sin aviso.
-  SmartRecruiters y BambooHR no traen la descripción en la lista, así que esas vacantes se puntúan con menos información.
-- **La heurística es básica**: no entiende contexto (p. ej. "deseable" vs. "obligatorio"). Usa el
-  modo agente o una API para una evaluación mejor, y léela con criterio.
-- **El salario** solo se detecta si aparece en pesos (RD$ / DOP) o como monto mensual cerca de "salario".
+- **La calidad del descubrimiento depende del agente** y de su búsqueda web. Revisa las fuentes.
+- **Sin vacantes publicadas no significa sin oportunidades**: por eso el centro es la empresa y la
+  revisión de vacantes es secundaria.
+- **El HTML genérico es heurístico**: cada sitio es distinto; las páginas hechas con JavaScript (p. ej.
+  Oracle, Workday) se marcan para abrirlas tú.
 - **Un solo usuario, una computadora**: no hay sincronización ni cuentas.
-- **No se ha probado contra sitios reales de empresas dominicanas** en este repositorio; las pruebas
-  usan páginas de ejemplo.
 
 ## Aviso
 
 Proyecto independiente. No está afiliado a LinkedIn, Computrabajo, Indeed, Greenhouse, Lever,
-Workable, SmartRecruiters, Teamtailor, BambooHR, Anthropic ni OpenAI. Las empresas de las capturas
-y de los ejemplos son inventadas.
+Workable, SmartRecruiters, Teamtailor, BambooHR, SAP, Anthropic ni OpenAI. Las empresas de los
+ejemplos y de la demostración son inventadas.
 
 ## Licencia
 

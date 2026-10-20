@@ -74,3 +74,11 @@ def web_y_fetcher(tmp_path):
                     ahora=lambda: reloj.t, **kw)
         return web, f, reloj
     return crear
+
+
+def empresa(store, nombre="Banco Ejemplo", **campos):
+    """Agrega una empresa con una fuente de presencia en RD (obligatoria)."""
+    data = {"nombre": nombre, "industria": "banca",
+            "fuentes_presencia": [{"titulo": "Oficinas en Santo Domingo", "url": "https://ejemplo.do/contacto"}]}
+    data.update(campos)
+    return store.guardar_empresa(data)[0]

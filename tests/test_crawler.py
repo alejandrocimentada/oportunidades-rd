@@ -1,6 +1,6 @@
 import pytest
 
-from conftest import fixture
+from conftest import empresa, fixture
 from oportunidades import servicio
 from oportunidades.crawler import USER_AGENT, Bloqueado, Prohibido
 
@@ -66,11 +66,11 @@ def test_nunca_rastrea_portales_de_empleo(web_y_fetcher, url):
     assert web.pedidas == []
 
 
-def test_rastreo_completo_marca_robots_y_js_para_revisar(store, perfil, web_y_fetcher):
-    store.add_empresa("Prohibida SA", url_empleos=f"{SITIO}/empleos")
-    store.add_empresa("SPA SRL", url_empleos="https://spa-ejemplo.do/careers")
-    store.add_empresa("Distribuidora Ejemplo", url_empleos="https://distribuidora-ejemplo.do/empleos/")
-    store.add_empresa("Telco Ejemplo", url_empleos="https://telco-ejemplo.do/careers")
+def test_rastreo_completo_marca_robots_y_js_para_revisar(store, web_y_fetcher):
+    empresa(store, "Prohibida SA", url_empleos=f"{SITIO}/empleos")
+    empresa(store, "SPA SRL", url_empleos="https://spa-ejemplo.do/careers")
+    empresa(store, "Distribuidora Ejemplo", url_empleos="https://distribuidora-ejemplo.do/empleos/")
+    empresa(store, "Telco Ejemplo", url_empleos="https://telco-ejemplo.do/careers")
     web, f, _ = web_y_fetcher({
         f"{SITIO}/robots.txt": fixture("robots_disallow.txt"),
         "https://spa-ejemplo.do/careers": fixture("careers_js_only.html"),
@@ -79,26 +79,26 @@ def test_rastreo_completo_marca_robots_y_js_para_revisar(store, perfil, web_y_fe
         "https://telco-ejemplo.do/careers": fixture("careers_greenhouse.html"),
         "https://boards-api.greenhouse.io/v1/boards/telcoejemplo/jobs?content=true": fixture("greenhouse_jobs.json"),
     })
-    nov = servicio.rastrear(store, perfil, f, log=lambda *_: None)
+    nov = servicio.rastrear(store, f, log=lambda *_: None)
     estados = {e["nombre"]: e["estado_rastreo"] for e in store.empresas()}
     assert estados == {"Prohibida SA": "revisar manualmente", "SPA SRL": "abrir manualmente",
                        "Distribuidora Ejemplo": "ok", "Telco Ejemplo": "ok"}
     assert store.get_empresa("Telco Ejemplo")["ats"] == "greenhouse"
     assert f"{SITIO}/empleos" not in web.urls()
-    assert len(nov["nuevas"]) == 5 and all(v["ajuste"] is not None for v in nov["nuevas"])
+    assert len(nov["nuevas"]) == 5
     assert {m["empresa"] for m in nov["manuales"]} == {"Prohibida SA", "SPA SRL"}
     detalle = store.buscar_duplicado("Distribuidora Ejemplo", "Analista de Datos", "Santo Domingo")
     assert "SQL y Python" in detalle["descripcion"]
 
 
-def test_novedades_entre_corridas(store, perfil, web_y_fetcher):
-    store.add_empresa("Telco Ejemplo", url_empleos="https://telco-ejemplo.do/careers")
+def test_novedades_entre_corridas(store, web_y_fetcher):
+    empresa(store, "Telco Ejemplo", url_empleos="https://telco-ejemplo.do/careers")
     feed = "https://boards-api.greenhouse.io/v1/boards/telcoejemplo/jobs?content=true"
     web, f, reloj = web_y_fetcher({"https://telco-ejemplo.do/careers": fixture("careers_greenhouse.html"),
                                    feed: fixture("greenhouse_jobs.json")}, usar_cache=False)
-    primera = servicio.rastrear(store, perfil, f, log=lambda *_: None)
+    primera = servicio.rastrear(store, f, log=lambda *_: None)
     assert len(primera["nuevas"]) == 2
-    segunda = servicio.rastrear(store, perfil, f, log=lambda *_: None)
+    segunda = servicio.rastrear(store, f, log=lambda *_: None)
     assert segunda["nuevas"] == [] and segunda["ya_no_aparecen"] == []
     import json
     data = json.loads(fixture("greenhouse_jobs.json"))
@@ -106,7 +106,7 @@ def test_novedades_entre_corridas(store, perfil, web_y_fetcher):
                                         "https://job-boards.greenhouse.io/telcoejemplo/jobs/4003",
                                         "location": {"name": "Remote"}, "content": "RPA"}]
     web.paginas[feed] = (200, json.dumps(data))
-    tercera = servicio.rastrear(store, perfil, f, log=lambda *_: None)
+    tercera = servicio.rastrear(store, f, log=lambda *_: None)
     assert [v["titulo"] for v in tercera["nuevas"]] == ["Automation Analyst"]
     assert [v["titulo"] for v in tercera["ya_no_aparecen"]] == ["Senior Network Engineer"]
     assert store.novedades()["corrida"]["id"] == tercera["corrida"]["id"]

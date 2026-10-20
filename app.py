@@ -20,8 +20,8 @@ sys.path.insert(0, str(ROOT))
 from flask import Flask, abort, jsonify, render_template, request, send_file  # noqa: E402
 
 from oportunidades import NOMBRE, __version__, config, ia, perfil as pf, redaccion  # noqa: E402
-from oportunidades.contactos import contactos  # noqa: E402
-from oportunidades.db import ESTADOS, ESTADOS_CON_DOCUMENTOS, INDUSTRIAS, DatosError  # noqa: E402
+from oportunidades.contactos import contactos, url_linkedin_empresa  # noqa: E402
+from oportunidades.db import ESTADOS, ESTADOS_CON_DOCUMENTOS, INDUSTRIAS, TIPOS_EMPRESA, DatosError  # noqa: E402
 from oportunidades.exportar import exportar  # noqa: E402
 from oportunidades.busqueda import Busqueda, BusquedaEnCurso  # noqa: E402
 from oportunidades.servicio import abrir_store  # noqa: E402
@@ -67,64 +67,75 @@ def crear_app(demo: bool = False, busqueda: Busqueda | None = None) -> Flask:
 
     @app.get("/")
     def inicio():
-        return render_template("index.html", nombre=NOMBRE, version=__version__, estados=ESTADOS, industrias=INDUSTRIAS)
+        return render_template("index.html", nombre=NOMBRE, version=__version__, estados=ESTADOS,
+                               industrias=INDUSTRIAS, tipos=TIPOS_EMPRESA)
 
     @app.get("/api/resumen")
     def api_resumen():
         with abrir_store(False) as s:
             r = s.resumen()
             nov = s.novedades()
-        return jsonify(resumen=r, novedades=nov, perfil_existe=pf.existe() or app.config.get("DEMO", False), estados=ESTADOS,
-                       con_documentos=sorted(ESTADOS_CON_DOCUMENTOS))
+        return jsonify(resumen=r, novedades=nov, perfil_existe=pf.existe() or app.config.get("DEMO", False),
+                       estados=ESTADOS, con_documentos=sorted(ESTADOS_CON_DOCUMENTOS))
 
-    @app.get("/api/vacantes")
-    def api_vacantes():
-        min_aj = request.args.get("min", type=int)
+    @app.get("/api/empresas")
+    def api_empresas():
         with abrir_store(False) as s:
-            vacs = s.vacantes(request.args.get("estado") or None, min_aj, request.args.get("empresa") or None)
-        for v in vacs:
-            v.pop("descripcion", None)
-        return jsonify(vacs)
+            emps = s.empresas()
+        for e in emps:
+            e["contactos"] = contactos(e)
+            e["linkedin"] = url_linkedin_empresa(e)
+        return jsonify(emps)
 
-    @app.get("/api/vacantes/<int:vid>")
-    def api_vacante(vid: int):
+    @app.get("/api/empresas/<int:eid>")
+    def api_empresa(eid: int):
         with abrir_store(False) as s:
-            v = s.get_vacante(vid)
-            if not v:
+            e = s.get_empresa(eid)
+            if not e:
                 abort(404)
-            emp = s.get_empresa(v["empresa_id"]) if v["empresa_id"] else None
-            v["historial"] = s.historial(vid)
-        v["mensaje"] = redaccion.leer(v["mensaje_path"])
-        v["carta"] = redaccion.leer(v["carta_path"])
-        v["contactos"] = contactos(emp) if emp else []
-        v["empresa"] = emp
-        return jsonify(v)
+            e["historial"] = s.historial(eid)
+            e["lista_vacantes"] = s.vacantes(eid)
+        e["mensaje"] = redaccion.leer(e["mensaje_path"])
+        e["carta"] = redaccion.leer(e["carta_path"])
+        e["contactos"] = contactos(e)
+        e["linkedin"] = url_linkedin_empresa(e)
+        for v in e["lista_vacantes"]:
+            v.pop("descripcion", None)
+        return jsonify(e)
 
-    @app.post("/api/vacantes/<int:vid>/estado")
-    def api_estado(vid: int):
+    @app.post("/api/empresas/<int:eid>/estado")
+    def api_estado(eid: int):
         body = request.get_json()
         with abrir_store() as s:
-            return jsonify(s.cambiar_estado(vid, body.get("estado", ""), body.get("nota", "")))
+            return jsonify(s.cambiar_estado(eid, body.get("estado", ""), body.get("nota", "")))
 
-    @app.post("/api/vacantes/<int:vid>/nota")
-    def api_nota(vid: int):
+    @app.post("/api/empresas/<int:eid>/nota")
+    def api_nota(eid: int):
         with abrir_store() as s:
-            return jsonify(s.set_nota(vid, request.get_json().get("nota", "")))
+            return jsonify(s.set_nota(eid, request.get_json().get("nota", "")))
 
-    @app.post("/api/vacantes/<int:vid>/seguimiento")
-    def api_seguimiento(vid: int):
+    @app.post("/api/empresas/<int:eid>/seguimiento")
+    def api_seguimiento(eid: int):
         with abrir_store() as s:
-            return jsonify(s.set_seguimiento(vid, request.get_json().get("fecha", "")))
+            return jsonify(s.set_seguimiento(eid, request.get_json().get("fecha", "")))
 
-    @app.post("/api/vacantes/<int:vid>/generar")
-    def api_generar(vid: int):
+    @app.post("/api/empresas/<int:eid>/generar")
+    def api_generar(eid: int):
         body = request.get_json()
         tipos = (body["tipo"],) if body.get("tipo") in redaccion.TIPOS else redaccion.TIPOS
         perfil = pf.cargar()
         with abrir_store() as s:
-            paths = redaccion.generar(s, perfil, vid, tipos, body.get("idioma") or None)
+            paths = redaccion.generar(s, perfil, eid, tipos, body.get("idioma") or None, body.get("rol") or None)
         origen = ia.proveedor(perfil) if ia.disponible(perfil) else "plantilla"
         return jsonify({t: redaccion.leer(p) for t, p in paths.items()} | {"origen": origen})
+
+    @app.get("/api/vacantes")
+    def api_vacantes():
+        with abrir_store(False) as s:
+            vacs = s.vacantes(request.args.get("empresa") or None)
+        for v in vacs:
+            v.pop("descripcion", None)
+        return jsonify(vacs)
 
     @app.errorhandler(pf.PerfilError)
     def perfil_error(exc):
@@ -155,7 +166,7 @@ def crear_app(demo: bool = False, busqueda: Busqueda | None = None) -> Flask:
     @app.post("/api/buscar")
     def api_buscar():
         if app.config.get("DEMO"):
-            return jsonify(error="La búsqueda no está disponible con los datos de demostración."), 400
+            return jsonify(error="La revisión de vacantes no está disponible con los datos de demostración."), 400
         if not pf.existe():
             return jsonify(error="Primero guarda tu perfil."), 400
         try:
@@ -163,17 +174,6 @@ def crear_app(demo: bool = False, busqueda: Busqueda | None = None) -> Flask:
         except BusquedaEnCurso as exc:
             return jsonify(error=str(exc)), 409
         return jsonify(busqueda.estado())
-
-    @app.get("/api/empresas")
-    def api_empresas():
-        with abrir_store(False) as s:
-            emps = s.empresas()
-            conteo = {r["empresa_id"]: r["n"] for r in s.conn.execute(
-                "SELECT empresa_id, COUNT(*) n FROM vacantes WHERE activa = 1 GROUP BY empresa_id")}
-        for e in emps:
-            e["contactos"] = contactos(e)
-            e["vacantes_activas"] = conteo.get(e["id"], 0)
-        return jsonify(emps)
 
     @app.get("/api/excel")
     def api_excel():

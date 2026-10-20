@@ -10,7 +10,7 @@
   --warn-bg: #FFFBEB; --warn-line: #FDE68A; --warn-ink: #92400E;
   --talk-bg: #EFF4FF; --talk-line: #C7D7FE; --talk-ink: #1E3A8A;
   --gap-bg: #F9F9FB; --gap-line: #E5E5EA;
-  --s-nuevo: #F2F2F5; --s-interesa: #FEF3C7; --s-aplicado: #DBEAFE; --s-contacte: #EDE9FE;
+  --s-nuevo: #F2F2F5; --s-interesa: #FEF3C7; --s-investigando: #E0F2FE; --s-aplicado: #DBEAFE; --s-contacte: #EDE9FE;
   --s-entrevista: #D1FAE5; --s-oferta: #A7F3D0; --s-rechazado: #FEE2E2; --s-descartado: #E5E7EB;
   --serif: "Playfair Display", Georgia, serif;
   --sans: Inter, -apple-system, "Segoe UI", sans-serif;
@@ -30,7 +30,7 @@
   --warn-bg: rgba(245, 158, 11, .1); --warn-line: rgba(245, 158, 11, .35); --warn-ink: #FCD34D;
   --talk-bg: rgba(110, 143, 255, .12); --talk-line: rgba(110, 143, 255, .35); --talk-ink: #C7D7FE;
   --gap-bg: #17171B; --gap-line: #2A2A31;
-  --s-nuevo: #26262C; --s-interesa: rgba(245, 158, 11, .22); --s-aplicado: rgba(59, 130, 246, .25); --s-contacte: rgba(139, 92, 246, .25);
+  --s-nuevo: #26262C; --s-interesa: rgba(245, 158, 11, .22); --s-investigando: rgba(14, 165, 233, .22); --s-aplicado: rgba(59, 130, 246, .25); --s-contacte: rgba(139, 92, 246, .25);
   --s-entrevista: rgba(16, 185, 129, .22); --s-oferta: rgba(16, 185, 129, .4); --s-rechazado: rgba(239, 68, 68, .22); --s-descartado: #2A2A31;
   --shadow-win: 0 25px 50px -12px rgba(0, 0, 0, .6);
   color-scheme: dark;
@@ -196,9 +196,6 @@ textarea { line-height: 1.6; resize: vertical; }
 .company header .sub { font-size: 10px; }
 .company .count { font-size: 10px; background: var(--chip-bg); padding: 4px 8px; border-radius: 4px; white-space: nowrap; }
 .why { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
-.interes { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--faint); }
-.meter { height: 4px; border-radius: 99px; background: var(--chip-bg); overflow: hidden; flex: 1; max-width: 140px; }
-.meter i { display: block; height: 100%; background: var(--ink); border-radius: 99px; }
 .roles { display: flex; flex-wrap: wrap; gap: 6px; }
 .roles a { font-size: 10.5px; text-decoration: none; padding: 3px 8px; border-radius: 6px; background: var(--panel); border: 1px solid var(--line); }
 .roles a:hover { border-color: var(--faint); }
@@ -375,3 +372,19 @@ textarea { line-height: 1.6; resize: vertical; }
   .start > p { margin-left: auto; margin-right: auto; }
   .start-btns, .start-meta { justify-content: center; }
 }
+
+/* -- empresas: chips de equipos, roles probables, listas de enlaces ------------------ */
+.chip-s { font-size: 10.5px; padding: 3px 8px; border-radius: 6px; background: var(--panel); border: 1px solid var(--line); }
+.company { cursor: pointer; transition: border-color .15s; }
+.company:hover { border-color: var(--faint); }
+.links { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 12px; }
+.links a { color: var(--accent); text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+.mt-s { margin-top: 10px; }
+.p { margin: 0 0 6px; color: var(--text-2); line-height: 1.6; }
+.rolelist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rolelist li { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.rolelist b { display: block; font-size: 12px; }
+.rolelist span { display: block; color: var(--muted); font-size: 11.5px; line-height: 1.5; margin-top: 2px; }
+.d-rol { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 600; color: var(--text-2); margin-bottom: 4px; }
+.tbl td:last-child .btn { color: var(--btn-fg); }

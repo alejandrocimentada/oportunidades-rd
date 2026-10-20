@@ -1,16 +1,16 @@
-"""Operaciones completas que usan los scripts y el tablero: rastrear, puntuar, pegar."""
+"""Operaciones completas que usan los scripts y el tablero: rastrear vacantes (comprobación secundaria) y
+guardar vacantes pegadas de portales."""
 from __future__ import annotations
 
 import sys
 from dataclasses import dataclass, field
 
-from . import ajuste, ia, perfil as perfil_mod
 from .crawler import Bloqueado, Fetcher, Prohibido
-from .db import Store, ahora
+from .db import DatosError, Store, ahora
 from .exportar import exportar_seguro
 from .extraer import (ATS, busqueda_successfactors, detectar_ats, enlace_ver_todas, extraer, fuera_de_rd, parse_feed,
                       texto_detalle)
-from .texto import es_portal_bloqueado, idioma, limpiar_espacios
+from .texto import es_portal_bloqueado, limpiar_espacios
 
 MAX_DETALLES = 10  # páginas de detalle por empresa (para leer la descripción)
 
@@ -19,38 +19,20 @@ def abrir_store(exportar_al_cambiar: bool = True) -> Store:
     return Store(after_change=(lambda s: exportar_seguro(s)) if exportar_al_cambiar else None)
 
 
-# -- puntuar ------------------------------------------------------------------------------
-def puntuar(store: Store, perfil: dict, vacante_id: int, llamadas: dict | None = None) -> dict:
-    """Usa la IA del perfil si hay clave; si no (o si falla), la heurística local."""
-    vac = store.get_vacante(vacante_id)
-    emp = store.get_empresa(vac["empresa_id"]) if vac.get("empresa_id") else None
-    datos = dict(vac, industria=(emp or {}).get("industria", ""))
-    res = None
-    if ia.disponible(perfil):
-        try:
-            res = ia.puntuar(perfil, datos, llamadas)
-        except ia.IAError as exc:
-            print(f"Aviso: {exc}. Uso la heurística local.", file=sys.stderr)
-    res = res or ajuste.heuristica(perfil, datos)
-    return store.guardar_puntuacion(vacante_id, res["ajuste"], res["por_que_encaja"], res["alertas"],
-                                    res["faltantes"], res["puntuado_por"], res.get("a_conversar", []))
-
-
 # -- pegar --------------------------------------------------------------------------------
-def pegar(store: Store, perfil: dict, texto: str, url: str = "", empresa: str = "", titulo: str = "",
+def pegar(store: Store, texto: str, url: str = "", empresa: str = "", titulo: str = "",
           ubicacion: str = "") -> tuple[dict, bool]:
+    """Guarda una vacante copiada de un portal (LinkedIn, Computrabajo…) como evidencia de una empresa."""
     texto = limpiar_espacios(texto)
     if not texto:
         raise ValueError("El texto de la vacante está vacío.")
     lineas = [l.strip() for l in texto.splitlines() if l.strip()]
-    titulo = titulo or lineas[0][:140]
     emp = store.get_empresa(empresa) if empresa else None
-    vac, nueva = store.upsert_vacante(titulo=titulo, empresa_id=emp["id"] if emp else None,
-                                      empresa_nombre=emp["nombre"] if emp else empresa, ubicacion=ubicacion,
-                                      url=url, descripcion=texto, fuente="pegado")
-    if nueva or vac["ajuste"] is None:
-        vac = puntuar(store, perfil, vac["id"])
-    return vac, nueva
+    if empresa and not emp:
+        raise DatosError(f"No encuentro la empresa «{empresa}». Agrégala primero (scripts/empresas.py guardar).")
+    return store.upsert_vacante(titulo=titulo or lineas[0][:140], empresa_id=emp["id"] if emp else None,
+                                empresa_nombre=emp["nombre"] if emp else "", ubicacion=ubicacion, url=url,
+                                descripcion=texto, fuente="pegado")
 
 
 # -- rastrear -----------------------------------------------------------------------------
@@ -126,8 +108,9 @@ def _desde_ats(fetcher: Fetcher, ats: ATS) -> tuple[list, str, str, str]:
     return vacs, "ok", f"Leído desde el feed público de {ats.nombre}.", ats.nombre
 
 
-def rastrear(store: Store, perfil: dict, fetcher: Fetcher | None = None, solo: list | None = None,
-             detalles: bool = True, puntuar_nuevas: bool = True, log=print) -> dict:
+def rastrear(store: Store, fetcher: Fetcher | None = None, solo: list | None = None,
+             detalles: bool = True, log=print) -> dict:
+    """Revisa las páginas de empleo de las empresas guardadas: ¿hay vacantes abiertas o no?"""
     fetcher = fetcher or Fetcher()
     corrida = store.iniciar_corrida()
     informes, manuales, fuera = [], [], []
@@ -170,19 +153,6 @@ def rastrear(store: Store, perfil: dict, fetcher: Fetcher | None = None, solo: l
         store.conn.commit()
         log(f"  → {estado}: {len(vacs)} vacantes, {len(inf.nuevas)} nuevas. {motivo}".rstrip())
         informes.append(inf)
-    if puntuar_nuevas:
-        for inf in informes:
-            for vid in inf.nuevas:
-                v = store.get_vacante(vid)
-                if v["idioma"] != idioma(v["titulo"] + "\n" + v["descripcion"]):
-                    store.conn.execute("UPDATE vacantes SET idioma = ? WHERE id = ?",
-                                       (idioma(v["titulo"] + "\n" + v["descripcion"]), vid))
-                ajuste_cb = store.after_change
-                store.after_change = None  # exportamos una sola vez al final
-                try:
-                    puntuar(store, perfil, vid)
-                finally:
-                    store.after_change = ajuste_cb
     resumen = {
         "empresas": len(informes),
         "nuevas": sum(len(i.nuevas) for i in informes),
@@ -192,7 +162,3 @@ def rastrear(store: Store, perfil: dict, fetcher: Fetcher | None = None, solo: l
     }
     store.terminar_corrida(corrida, resumen)
     return store.novedades(corrida)
-
-
-def cargar_perfil() -> dict:
-    return perfil_mod.cargar()

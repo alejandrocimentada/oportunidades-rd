@@ -1,4 +1,5 @@
-"""Búsqueda en segundo plano para el tablero: guarda el perfil y rastrea sin bloquear la página.
+"""Revisión de vacantes en segundo plano para el tablero: rastrea las páginas de empleo de tus empresas
+sin bloquear la página (comprobación secundaria: ¿hay vacantes abiertas o no?).
 
 Solo una búsqueda a la vez. El tablero consulta el progreso (líneas del registro y resultado).
 La búsqueda solo LEE páginas públicas de empleo (ver crawler.py); nunca envía nada.
@@ -8,7 +9,6 @@ from __future__ import annotations
 import threading
 from typing import Callable
 
-from . import perfil as perfil_mod
 from .crawler import Fetcher
 from .servicio import abrir_store, rastrear
 
@@ -38,7 +38,7 @@ class Busqueda:
     def iniciar(self, esperar: bool = False) -> None:
         with self._lock:
             if self.corriendo:
-                raise BusquedaEnCurso("Ya hay una búsqueda en curso.")
+                raise BusquedaEnCurso("Ya hay una revisión en curso.")
             self.corriendo, self.registro, self.resultado, self.error = True, [], None, ""
             self.hechas = 0
         self._hilo = threading.Thread(target=self._correr, daemon=True)
@@ -54,16 +54,15 @@ class Busqueda:
 
     def _correr(self) -> None:
         try:
-            perfil = perfil_mod.cargar()
             with abrir_store() as store:  # SQLite: la conexión se abre en este hilo
                 with self._lock:
                     self.total = sum(1 for e in store.empresas() if e["url_empleos"])
-                self._log(f"Buscando en {self.total} páginas de empleo…")
-                self.resultado = rastrear(store, perfil, self.fetcher_factory(), log=self._log)
+                self._log(f"Revisando vacantes en {self.total} páginas de empleo…")
+                self.resultado = rastrear(store, self.fetcher_factory(), log=self._log)
                 self._log("Listo.")
         except Exception as exc:  # se muestra en la página en vez de perderse en la consola
             with self._lock:
-                self.error = f"La búsqueda falló: {exc}"
+                self.error = f"La revisión falló: {exc}"
         finally:
             with self._lock:
                 self.corriendo = False

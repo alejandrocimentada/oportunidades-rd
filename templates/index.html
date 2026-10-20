@@ -29,7 +29,7 @@
 
 <section class="hero">
   <h1>{{ nombre }}</h1>
-  <p>Vacantes de empresas dominicanas, puntuadas contra tu perfil.</p>
+  <p>Lugares donde podrías trabajar en República Dominicana, según tu perfil.</p>
   <span class="hero-note">Procesamiento local · solo lee páginas públicas · nada se envía solo</span>
 </section>
 
@@ -40,8 +40,8 @@
       <button data-view="perfil">Mi perfil</button>
       <button data-view="resumen" class="on">Resumen</button>
       <button data-view="tablero">Tablero</button>
-      <button data-view="vacantes">Vacantes</button>
       <button data-view="empresas">Empresas</button>
+      <button data-view="vacantes">Vacantes</button>
     </nav>
   </div>
 
@@ -106,13 +106,13 @@
           <div class="chips">{% for i in industrias %}<label><input type="checkbox" name="industrias" value="{{ i }}"><span>{{ i }}</span></label>{% endfor %}</div>
         </fieldset>
 
-        <fieldset class="step" data-titulo="¿Quién puntúa y redacta?" data-corto="IA"><legend>¿Quién puntúa y redacta?</legend>
+        <fieldset class="step" data-titulo="¿Quién redacta tus mensajes y cartas?" data-corto="IA"><legend>¿Quién redacta?</legend>
           <div class="row">
             <label class="lbl">Proveedor<select name="ia.proveedor">
               <option value="agente">Tu agente (Claude Code), sin clave</option>
               <option value="claude">Claude, con tu ANTHROPIC_API_KEY</option>
               <option value="openai">OpenAI, con tu OPENAI_API_KEY</option>
-              <option value="ninguno">Ninguno (solo reglas locales)</option></select></label>
+              <option value="ninguno">Ninguno (plantillas básicas)</option></select></label>
             <label class="lbl">Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
           </div>
           <p class="hint" id="buscar-info"></p>
@@ -125,12 +125,12 @@
           <button type="button" class="btn ghost" id="wz-prev">Anterior</button>
           <button type="button" class="btn ghost" id="btn-guardar">Guardar</button>
           <button type="button" class="btn" id="wz-next">Guardar y continuar</button>
-          <button type="submit" class="btn" id="btn-buscar">Guardar y buscar</button>
+          <button type="submit" class="btn" id="btn-buscar">Guardar y revisar vacantes</button>
         </div>
       </form>
 
       <div class="card progreso" id="progreso" hidden>
-        <h4>Búsqueda <small id="prog-texto"></small></h4>
+        <h4>Revisión de vacantes <small id="prog-texto"></small></h4>
         <div class="bar"><div id="prog-bar"></div></div>
         <pre id="prog-log"></pre>
       </div>
@@ -138,17 +138,22 @@
 
     <section id="view-resumen" class="view on">
       <div class="head">
-        <h2>Resumen de proceso</h2>
-        <p>Lo nuevo, lo que elegiste y lo que toca hacer esta semana.</p>
+        <h2>Resumen</h2>
+        <p>Empresas descubiertas, en qué va cada una y lo que toca hacer esta semana.</p>
       </div>
       <div id="aviso-perfil" class="banner" hidden>
         Todavía no tienes perfil. Llénalo en <b>Mi perfil</b> o pídele a tu agente: <i>«Configura Oportunidades RD»</i>.
+      </div>
+      <div id="aviso-empresas" class="banner" hidden>
+        Todavía no hay empresas. Pídele a tu agente: <i>«Busca empresas en RD para mi perfil»</i>.
       </div>
       <div class="tiles" id="tiles"></div>
       <div class="pipeline" id="pipeline"></div>
       <div class="grid2">
         <div class="card">
-          <h4>Novedades <small id="nov-fecha"></small></h4>
+          <h4>Empresas descubiertas</h4>
+          <ul class="list" id="recientes"></ul>
+          <h4 class="mt">Vacantes abiertas <small id="nov-fecha"></small></h4>
           <ul class="list" id="novedades"></ul>
         </div>
         <div class="card">
@@ -163,35 +168,40 @@
     <section id="view-tablero" class="view">
       <div class="head">
         <h2>Tablero</h2>
-        <p>Arrastra una tarjeta para cambiar su estado. Haz clic para ver el detalle.</p>
+        <p>Arrastra una empresa para cambiar su estado. Haz clic para ver el detalle.</p>
       </div>
       <div class="board" id="board"></div>
-    </section>
-
-    <section id="view-vacantes" class="view">
-      <div class="head">
-        <h2>Vacantes</h2>
-        <p>Todas las vacantes encontradas, con su ajuste a tu perfil.</p>
-      </div>
-      <div class="filters">
-        <label>Buscar <input id="f-texto" type="search" placeholder="puesto o empresa"></label>
-        <label>Ajuste mínimo <span class="range"><input id="f-min" type="range" min="0" max="100" step="5" value="0"><output id="f-min-out">0</output></span></label>
-        <label>Empresa <select id="f-empresa"><option value="">Todas</option></select></label>
-        <label>Estado <select id="f-estado"><option value="">Todos</option>{% for e in estados %}<option>{{ e }}</option>{% endfor %}</select></label>
-        <label class="check"><input id="f-activas" type="checkbox" checked> Solo activas</label>
-      </div>
-      <table class="tbl" id="tbl-vacantes">
-        <thead><tr><th>Puesto</th><th>Estado</th><th>Ajuste</th><th><span class="sr">Acciones</span></th></tr></thead>
-        <tbody></tbody>
-      </table>
     </section>
 
     <section id="view-empresas" class="view">
       <div class="head">
         <h2>Empresas</h2>
-        <p>Para contactar se sugieren <b>roles</b>, no personas: el enlace abre una búsqueda en LinkedIn con tu sesión.</p>
+        <p>Con presencia verificada en RD. Para contactar se sugieren <b>roles</b>, no personas: el enlace abre una búsqueda en LinkedIn con tu sesión.</p>
+      </div>
+      <div class="filters">
+        <label>Buscar <input id="f-texto" type="search" placeholder="empresa, equipo o rol"></label>
+        <label>Estado <select id="f-estado"><option value="">Todos</option>{% for e in estados %}<option>{{ e }}</option>{% endfor %}</select></label>
+        <label>Tipo <select id="f-tipo"><option value="">Todos</option>{% for t in tipos %}<option>{{ t }}</option>{% endfor %}</select></label>
+        <label>Industria <select id="f-industria"><option value="">Todas</option>{% for i in industrias %}<option>{{ i }}</option>{% endfor %}</select></label>
+        <label class="check"><input id="f-con-vacantes" type="checkbox"> Solo con vacantes abiertas</label>
       </div>
       <div class="companies" id="companies"></div>
+    </section>
+
+    <section id="view-vacantes" class="view">
+      <div class="head">
+        <h2>Vacantes</h2>
+        <p>Comprobación secundaria: las vacantes publicadas que el rastreador encontró en las páginas de empleo de tus empresas.</p>
+      </div>
+      <div class="filters">
+        <label>Buscar <input id="v-texto" type="search" placeholder="puesto o empresa"></label>
+        <label>Empresa <select id="v-empresa"><option value="">Todas</option></select></label>
+        <label class="check"><input id="v-activas" type="checkbox" checked> Solo activas</label>
+      </div>
+      <table class="tbl" id="tbl-vacantes">
+        <thead><tr><th>Puesto</th><th>Encontrada</th><th><span class="sr">Acciones</span></th></tr></thead>
+        <tbody></tbody>
+      </table>
     </section>
   </main>
 
@@ -202,35 +212,35 @@
 </section>
 
 <section class="features" id="funciones">
-  <h2>Organiza tu búsqueda de empleo sin fricción.</h2>
+  <h2>Encuentra dónde podrías trabajar, aunque no haya vacantes publicadas.</h2>
   <div class="feat">
     <span>01</span><b>Perfil por pasos</b>
-    <p>Define tus roles, habilidades, idiomas, salario e industrias en ocho preguntas cortas, una a la vez. Tu perfil se queda en esta computadora.</p>
+    <p>Define tus roles, habilidades, experiencia, idiomas, preferencias e industrias en ocho preguntas cortas. Tu perfil se queda en esta computadora.</p>
   </div>
   <div class="feat">
-    <span>02</span><b>Tablero kanban de estado</b>
-    <p>Mira en qué etapa va cada vacante, de «Nuevo» y «Me interesa» a entrevistas y ofertas, y muévela arrastrando la tarjeta.</p>
+    <span>02</span><b>Empresas que encajan contigo</b>
+    <p>Empresas con presencia verificada en RD, con los equipos que encajan con tu perfil, roles probables con su razón, evidencia, señales de alerta y cómo postular.</p>
   </div>
   <div class="feat">
-    <span>03</span><b>Ajuste y textos con IA</b>
-    <p>Cada vacante recibe un ajuste de 0 a 100 con razones, alertas y lo que te falta. Para las que te interesan, prepara un mensaje y una carta que copias y envías tú: nada se envía solo.</p>
+    <span>03</span><b>Seguimiento y textos a tu medida</b>
+    <p>Mueve cada empresa de «Descubierta» a «Oferta» con fechas y notas. Para las que te interesan, prepara un mensaje y una carta que copias y envías tú: nada se envía solo.</p>
   </div>
 </section>
 
 <section class="agent" id="agente">
   <div>
-    <h3>Pídele a tu agente que busque y puntúe vacantes.</h3>
-    <p>Oportunidades RD trae comandos y una skill para Claude Code: tu agente revisa las páginas de empleo de tus empresas, respeta robots.txt y puntúa cada vacante contra tu perfil.</p>
+    <h3>Pídele a tu agente que busque empresas para tu perfil.</h3>
+    <p>Oportunidades RD trae una skill para Claude Code: tu agente busca en la web empresas en RD, verifica su presencia con fuentes, propone equipos y roles para ti y las guarda aquí. Luego revisa si tienen vacantes abiertas.</p>
   </div>
   <div class="term">
-    <span>// Desde la carpeta del proyecto, en la terminal:</span>
-    <code>python scripts/rastrear.py</code>
+    <span>// En Claude Code, dentro de la carpeta del proyecto:</span>
+    <code>Busca empresas en RD para mi perfil</code>
   </div>
 </section>
 
 <section class="start">
   <h2>Empieza a ordenar tu búsqueda</h2>
-  <p>Llena tu perfil, busca en las páginas de empleo de tus empresas y descarga todo en Excel cuando quieras.</p>
+  <p>Llena tu perfil, deja que tu agente descubra empresas y descarga todo en Excel cuando quieras.</p>
   <div class="start-btns">
     <button type="button" class="btn pill-btn" data-ir="perfil">Llenar mi perfil</button>
     <a class="btn pill-btn" href="/api/excel">Descargar Excel</a>
