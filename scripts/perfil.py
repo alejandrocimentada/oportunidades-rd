@@ -9,7 +9,8 @@ Uso:
     python scripts/perfil.py set ia.proveedor claude      # agente | claude | openai | ninguno
     python scripts/perfil.py importar mi-perfil.yaml      # cargar un YAML completo
     python scripts/perfil.py ejemplo                      # copiar profile.example.yaml como punto de partida
-    python scripts/perfil.py sugerir                      # habilidades y roles sugeridos (sin IA, mapa local)
+    python scripts/perfil.py sugerir                      # habilidades y roles sugeridos (sin IA: mapa local y ESCO)
+    python scripts/perfil.py buscar-habilidad "hojas de calculo"   # buscar en ESCO (español o inglés, sin tildes)
     python scripts/perfil.py sugerencias --archivo s.json # guardar las sugerencias refinadas por el agente
     python scripts/perfil.py sugerencias --borrar         # quitarlas
 
@@ -37,6 +38,8 @@ def main(argv=None) -> int:
     i.add_argument("archivo")
     sub.add_parser("ejemplo")
     sub.add_parser("sugerir")
+    b = sub.add_parser("buscar-habilidad")
+    b.add_argument("texto")
     s = sub.add_parser("sugerencias")
     grupo = s.add_mutually_exclusive_group(required=True)
     grupo.add_argument("--archivo")
@@ -69,6 +72,10 @@ def main(argv=None) -> int:
             print(f"Copiado el perfil de ejemplo a {path}. Cámbialo con 'set' o edita el archivo.")
         elif args.cmd == "sugerir":
             imprimir_json(sg.sugerir(pf.cargar()))
+        elif args.cmd == "buscar-habilidad":
+            if not sg.cargar_esco():
+                salir_error("Falta static/esco.json: créalo con python scripts/construir_esco.py (ver README).")
+            imprimir_json(sg.buscar_habilidades(args.texto))
         elif args.cmd == "sugerencias":
             data = pf.cargar()
             if args.borrar:

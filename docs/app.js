@@ -302,6 +302,7 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrar(); 
 const LISTAS = ["roles_objetivo", "habilidades", "idiomas"];
 const leer = (obj, ruta) => ruta.split(".").reduce((o, k) => (o ?? {})[k], obj);
 let sugerenciasAgente = {};  // las que el agente refinó (perfil.sugerencias); van primero
+let ESCO = null;  // índice local de ESCO (static/esco.json), preparado al abrir el paso 3
 
 function llenarPerfil(perfil) {
   const f = $("#form-perfil");
@@ -358,6 +359,90 @@ document.querySelectorAll(".chipbox").forEach((box) => {
   pintarChips(box);
 });
 
+// -- buscador de habilidades (paso 3): índice local de ESCO, funciona sin conexión ----
+// Se carga una sola vez, al abrir los pasos 3 o 4; mientras tanto el campo acepta texto libre.
+function cargarEsco() {
+  cargarEsco.p ??= fetch(window.RUTA_ESCO).then((r) => (r.ok ? r.json() : null))
+    .then((d) => { if (d) { ESCO = Sugerencias.prepararEsco(d); pintarSugerencias(); acPintar(); } })
+    .catch(() => { /* sin índice: quedan las sugerencias del mapa y el texto libre */ });
+  return cargarEsco.p;
+}
+const acInput = $("#chip-habilidades"), acBox = acInput.closest(".chipbox");
+const acLista = Object.assign(document.createElement("ul"), { id: "ac-habilidades", className: "ac", hidden: true });
+acLista.setAttribute("role", "listbox");
+acLista.setAttribute("aria-label", "Habilidades que coinciden");
+acInput.parentElement.append(acLista);
+Object.entries({ role: "combobox", "aria-autocomplete": "list", "aria-expanded": "false", "aria-controls": acLista.id,
+  autocomplete: "off" }).forEach(([k, v]) => acInput.setAttribute(k, v));
+let acItems = [], acSel = -1;
+
+// Resalta las palabras buscadas, sin importar tildes: «diseno» marca «Diseño».
+function resaltar(texto, consulta) {
+  const plano = [...texto].map((c) => c.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().charAt(0) || " ").join("");
+  const marcas = new Array(texto.length).fill(false);
+  for (const p of Sugerencias.normalizar(consulta).split(" ").filter(Boolean)) {
+    const m = new RegExp(`(^|[^a-z0-9])(${p.replace(/[^a-z0-9]/g, "")})`).exec(plano);
+    if (m) for (let k = m.index + m[1].length; k < m.index + m[0].length; k++) marcas[k] = true;
+  }
+  return [...texto].map((c, k) => (marcas[k] && !marcas[k - 1] ? "<mark>" : "") + esc(c)
+    + (marcas[k] && !marcas[k + 1] ? "</mark>" : "")).join("");
+}
+function acCerrar() {
+  acLista.hidden = true; acSel = -1;
+  acInput.setAttribute("aria-expanded", "false"); acInput.removeAttribute("aria-activedescendant");
+}
+function acPintar() {
+  const q = acInput.value.trim();
+  if (!q || document.activeElement !== acInput) { acCerrar(); return; }
+  acItems = Sugerencias.buscarHabilidades(q, ESCO);
+  acSel = Math.min(acSel, acItems.length);
+  const opciones = acItems.map((r, i) => `<li role="option" id="ac-op-${i}" data-i="${i}">
+      <b>${resaltar(mayus(r.es), q)}</b><small>${esc(r.en)}${r.sinonimo ? ` · también «${resaltar(r.sinonimo, q)}»` : ""}</small></li>`);
+  if (!ESCO) opciones.push('<li class="ac-nota" aria-disabled="true">Cargando el buscador de habilidades…</li>');
+  else if (q.length >= 2 && !acItems.length) opciones.push('<li class="ac-nota" aria-disabled="true">No está en ESCO: puedes añadirla igual.</li>');
+  opciones.push(`<li role="option" id="ac-op-${acItems.length}" data-i="${acItems.length}" class="ac-libre">Añadir «${esc(q)}» tal cual</li>`);
+  acLista.innerHTML = opciones.join("");
+  acLista.hidden = false;
+  // La ventana de la app recorta lo que se sale (esquinas redondeadas): la lista cabe en el espacio de abajo.
+  const abajo = $("#app").getBoundingClientRect().bottom - acInput.getBoundingClientRect().bottom - 12;
+  acLista.style.maxHeight = `${Math.max(160, Math.min(340, abajo))}px`;
+  acInput.setAttribute("aria-expanded", "true");
+  acMarcar();
+}
+function acMarcar() {
+  acLista.querySelectorAll("[role=option]").forEach((li) => li.setAttribute("aria-selected", String(+li.dataset.i === acSel)));
+  if (acSel >= 0) { acInput.setAttribute("aria-activedescendant", `ac-op-${acSel}`); $(`#ac-op-${acSel}`).scrollIntoView({ block: "nearest" }); }
+  else acInput.removeAttribute("aria-activedescendant");
+}
+function acElegir(i) {
+  agregarChips(acBox, i < acItems.length ? mayus(acItems[i].es) : acInput.value);
+  acInput.value = "";
+  acCerrar();
+  acInput.focus();
+}
+const mayus = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+acInput.addEventListener("input", () => { cargarEsco(); acSel = -1; acPintar(); });
+acInput.addEventListener("focus", cargarEsco);
+acInput.addEventListener("blur", () => setTimeout(acCerrar, 120));
+// En fase de captura, antes que el Enter del chipbox: Enter con una opción marcada la añade; sin marcar, texto libre.
+acInput.addEventListener("keydown", (ev) => {
+  if (acLista.hidden) return;
+  const total = acItems.length + 1;
+  if (ev.key === "ArrowDown" || ev.key === "ArrowUp") {
+    ev.preventDefault();
+    acSel = ev.key === "ArrowDown" ? (acSel + 1) % total : (acSel <= 0 ? total - 1 : acSel - 1);
+    acMarcar();
+  } else if (ev.key === "Enter" && acSel >= 0) {
+    ev.preventDefault(); ev.stopImmediatePropagation(); acElegir(acSel);
+  } else if (ev.key === "Escape") {
+    ev.preventDefault(); ev.stopImmediatePropagation(); acCerrar();
+  } else if (ev.key === "Enter" || ev.key === "Tab") acCerrar();
+}, true);
+acLista.addEventListener("mousedown", (ev) => {  // mousedown: antes de que el campo pierda el foco
+  const li = ev.target.closest("[role=option]");
+  if (li) { ev.preventDefault(); acElegir(+li.dataset.i); }
+});
+
 // Asistente: un paso visible a la vez, con barra de progreso y saltos directos a cualquier paso.
 const PASOS = [...document.querySelectorAll("#form-perfil .step")];
 let paso = 0;
@@ -376,6 +461,7 @@ function irAPaso(i) {
   $("#wz-next").hidden = paso === PASOS.length - 1;
   $("#btn-buscar").hidden = paso !== PASOS.length - 1;  // la revisión se lanza desde el último paso
   $("#wz-next").textContent = paso < PASOS.length - 1 ? "Continuar" : "";
+  if (PASOS[paso].querySelector(".sug")) cargarEsco();  // pasos 3 y 4
   pintarSugerencias();
 }
 $("#wz-steps").addEventListener("click", (ev) => { const b = ev.target.closest("[data-paso]"); if (b) irAPaso(+b.dataset.paso); });
@@ -399,11 +485,13 @@ function alternar(campo, valor) {
   chipCampo(box).value = vals.join("\n");
   pintarChips(box);
 }
-function deAgente(s) { return s.origen === "agente" ? ' <span class="tag">tu agente</span>' : ""; }
+function deAgente(s) {
+  return { agente: ' <span class="tag">tu agente</span>', esco: ' <span class="tag" title="Clasificación europea ESCO">ESCO</span>' }[s.origen] || "";
+}
 function pintarSugerencias() {
   if (!$("#sug-roles")) return;
   const perfil = { ...perfilDelFormulario(), sugerencias: sugerenciasAgente };
-  const s = Sugerencias.sugerir(perfil, window.SUGERENCIAS);
+  const s = Sugerencias.sugerir(perfil, window.SUGERENCIAS, ESCO);
   const tengo = (campo) => chipValores($(`.chipbox[data-for="${campo}"]`));
   const vacio = `<p class="hint">Elige tus áreas en el <button type="button" class="linkbtn" data-paso-ir="0">paso 1</button>
     o cuenta tu experiencia en el <button type="button" class="linkbtn" data-paso-ir="1">paso 2</button> para ver sugerencias.</p>`;

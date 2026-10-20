@@ -152,7 +152,7 @@ def test_javascript_y_python_sugieren_exactamente_lo_mismo():
               "process.stdout.write(JSON.stringify(casos.map((c) => s.sugerir(c, mapa))));")
     r = subprocess.run(["node", "-e", script, str(ROOT / "static" / "sugerencias.js"), str(sg.MAPA)],
                        input=json.dumps(CASOS), capture_output=True, text=True, encoding="utf-8", check=True)
-    assert json.loads(r.stdout) == [sg.sugerir(c) for c in CASOS]
+    assert json.loads(r.stdout) == [sg.sugerir(c, esco=None) for c in CASOS]  # con ESCO: tests/test_esco.py
 
 
 # -- perfil: campos nuevos, migración y CLI ---------------------------------------------------

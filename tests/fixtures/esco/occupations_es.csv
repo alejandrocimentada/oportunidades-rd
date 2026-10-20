@@ -1,0 +1,7 @@
+﻿conceptType,conceptUri,iscoGroup,preferredLabel,altLabels,hiddenLabels,status,modifiedDate,regulatedProfessionNote,scopeNote,definition,inScheme,description,code
+Occupation,http://data.europa.eu/esco/occupation/analista,2511,analista de datos,analista de datos junior,,released,2025-12-10,,,,,,2511.1
+Occupation,http://data.europa.eu/esco/occupation/contable,2511,contable,"contador
+contadora",,released,2025-12-10,,,,,,2511.1
+Occupation,http://data.europa.eu/esco/occupation/enfermero,2511,enfermero responsable de cuidados generales,"enfermera
+enfermero",,released,2025-12-10,,,,,,2511.1
+Occupation,http://data.europa.eu/esco/occupation/disenador,2511,diseñador gráfico,diseñadora gráfica,,released,2025-12-10,,,,,,2511.1

@@ -175,6 +175,27 @@ Independent project, not affiliated with LinkedIn, Computrabajo, Indeed, Greenho
 SmartRecruiters, Teamtailor, BambooHR, SAP, Anthropic or OpenAI. Companies in the examples and the
 demo are made up.
 
+## Credits: ESCO
+
+> This service uses the ESCO classification of the European Commission.
+
+The skills search in step 3 and part of the skill and role suggestions use **ESCO**, the European
+classification of Skills, Competences, Qualifications and Occupations, by the **European Commission**
+(<https://esco.ec.europa.eu/en>), version v1.2.1, licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+- **Adapted version:** `static/esco.json` is not the full ESCO but a reduced index built by `scripts/construir_esco.py` from the
+  official Spanish and English CSV files: for each skill, its label in both languages and up to 4
+  synonyms (short ones such as "MS Excel", and few long phrases); for each occupation, its labels and up to
+  15 essential skills. Released concepts only. The original CSV files (~95 MB) are not in the repository.
+- The European Commission does not endorse this project. Per ESCO's copyright notice, part of its
+  skills hierarchy is based on O\*NET OnLine (USDOL/ETA, CC BY 4.0) and other sources; this index
+  does not include that hierarchy, only skill labels.
+- To update it, download the classification at <https://esco.ec.europa.eu/en/use-esco/download>
+  (CSV, Spanish and English; ESCO emails the link), unzip it into `data/esco/es` and `data/esco/en`
+  and run `python scripts/construir_esco.py --origen data/esco/es --origen data/esco/en --version v1.2.1`, then
+  `python scripts/construir_demo.py`.
+
 ## License
 
 [MIT](LICENSE) © 2026 Alejandro Cimentada.

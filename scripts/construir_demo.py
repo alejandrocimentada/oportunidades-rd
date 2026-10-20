@@ -92,10 +92,10 @@ def construir(destino: Path = DESTINO) -> list[Path]:
         salida = {"index.html": html, "demo-datos.js": js, ".nojekyll": ""}
         for nombre, texto in salida.items():
             (destino / nombre).write_text(texto, encoding="utf-8", newline="\n")
-        for nombre in ("style.css", "app.js", "sugerencias.js"):
-            shutil.copyfile(ROOT / "static" / nombre, destino / nombre)
+        for nombre in ("style.css", "app.js", "sugerencias.js", "esco.json"):
+            shutil.copyfile(ROOT / "static" / nombre, destino / nombre)  # esco.json: python scripts/construir_esco.py
         shutil.copyfile(excel, destino / "oportunidades-demo.xlsx")
-        return [destino / n for n in (*salida, "style.css", "app.js", "sugerencias.js", "oportunidades-demo.xlsx")]
+        return [destino / n for n in (*salida, "style.css", "app.js", "sugerencias.js", "esco.json", "oportunidades-demo.xlsx")]
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 

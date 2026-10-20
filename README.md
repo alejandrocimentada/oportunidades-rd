@@ -324,6 +324,27 @@ Proyecto independiente. No está afiliado a LinkedIn, Computrabajo, Indeed, Gree
 Workable, SmartRecruiters, Teamtailor, BambooHR, SAP, Anthropic ni OpenAI. Las empresas de los
 ejemplos y de la demostración son inventadas.
 
+## Créditos: ESCO
+
+> This service uses the ESCO classification of the European Commission.
+
+El buscador de habilidades del paso 3 y parte de las sugerencias de habilidades y roles usan
+**ESCO**, la clasificación europea de capacidades, competencias, cualificaciones y ocupaciones,
+de la **Comisión Europea** (<https://esco.ec.europa.eu/es>), versión v1.2.1, con licencia
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es).
+
+- **Versión adaptada:** `static/esco.json` no es ESCO completo, sino un índice reducido hecho con `scripts/construir_esco.py` a partir
+  de los CSV oficiales en español e inglés: por habilidad, su nombre en ambos idiomas y hasta 4
+  sinónimos (los cortos, como «MS Excel», y pocas frases largas); por ocupación, sus nombres y hasta 15
+  habilidades esenciales. Solo conceptos publicados. Los CSV originales (~95 MB) no se suben al repositorio.
+- La Comisión Europea no respalda este proyecto. Según el aviso de copyright de ESCO, parte de su
+  jerarquía de habilidades se basa en O\*NET OnLine (USDOL/ETA, CC BY 4.0) y en otras fuentes;
+  este índice no incluye esa jerarquía, solo los nombres de las habilidades.
+- Para actualizarlo: descarga la clasificación en <https://esco.ec.europa.eu/es/use-esco/download>
+  (CSV, español e inglés; ESCO envía el enlace por correo), descomprímela en `data/esco/es` y `data/esco/en`
+  y ejecuta `python scripts/construir_esco.py --origen data/esco/es --origen data/esco/en --version v1.2.1`, luego
+  `python scripts/construir_demo.py`.
+
 ## Licencia
 
 [MIT](LICENSE) © 2026 Alejandro Cimentada.

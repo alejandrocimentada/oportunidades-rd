@@ -58,7 +58,7 @@ def test_cada_empresa_tiene_su_detalle_y_la_fecha_de_construccion(demo):
 
 def test_docs_esta_al_dia(demo):
     """docs/ (la demo publicada) debe reconstruirse cuando cambian templates/ o static/."""
-    for nombre in ("index.html", "app.js", "style.css", "sugerencias.js"):
+    for nombre in ("index.html", "app.js", "style.css", "sugerencias.js", "esco.json"):
         publicado = (tablero.ROOT / "docs" / nombre).read_text(encoding="utf-8").replace("\r\n", "\n")
         nuevo = (demo / nombre).read_text(encoding="utf-8").replace("\r\n", "\n")
         assert publicado == nuevo, f"docs/{nombre} está desactualizado: python scripts/construir_demo.py"

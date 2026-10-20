@@ -1,0 +1,5 @@
+﻿conceptType,conceptUri,iscoGroup,preferredLabel,altLabels,hiddenLabels,status,modifiedDate,regulatedProfessionNote,scopeNote,definition,inScheme,description,code
+Occupation,http://data.europa.eu/esco/occupation/analista,2511,data analyst,data specialist,,released,2025-12-10,,,,,,2511.1
+Occupation,http://data.europa.eu/esco/occupation/contable,2511,accountant,,,released,2025-12-10,,,,,,2511.1
+Occupation,http://data.europa.eu/esco/occupation/enfermero,2511,nurse responsible for general care,,,released,2025-12-10,,,,,,2511.1
+Occupation,http://data.europa.eu/esco/occupation/disenador,2511,graphic designer,,,released,2025-12-10,,,,,,2511.1

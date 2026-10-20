@@ -6,5 +6,7 @@ __pycache__/
 # datos locales: base de datos, caché, Excel y documentos generados
 data/*
 !data/.gitkeep
+# CSV originales de ESCO (~95 MB): solo se sube el índice reducido static/esco.json
+data/esco/
 # nunca subir un perfil real
 profile.yaml
