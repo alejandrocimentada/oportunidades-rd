@@ -14,6 +14,8 @@ adaptada, al estilo de las habilidades de un perfil profesional (nombres cortos,
 - conocimientos de ESCO de hasta 4 palabras que usa alguna ocupación, sin sufijos como «(programación informática)»;
 - las competencias de ESCO más usadas, reescritas como nombre corto (scripts/habilidades/competencias_esco.json);
 - herramientas y métodos que ESCO no tiene, curados a mano y marcados «curada» (scripts/habilidades/curadas.json).
+  Una curada puede tener «esco_equivalente»: el URI de la habilidad de ESCO más parecida (Excel → hojas de cálculo);
+  al buscar ocupaciones, tenerla cuenta como tener esa habilidad de ESCO.
 Cada ocupación guarda sus habilidades esenciales que quedaron en la lista; así funcionan las sugerencias.
 """
 from __future__ import annotations
@@ -131,10 +133,11 @@ class _Lista:
         self.todas: list[dict] = []
         self.por_nombre: dict[str, dict] = {}
 
-    def agregar(self, es: str, en: str, sinonimos=(), uris=(), popularidad: int = 0, esco: set | None = None) -> None:
+    def agregar(self, es: str, en: str, sinonimos=(), uris=(), popularidad: int = 0, esco: set | None = None,
+                equivalente: str | None = None) -> None:
         h = self.por_nombre.get(normalizar(es)) or self.por_nombre.get(normalizar(en))
         if h is None:
-            h = {"es": es, "en": en, "sinonimos": [], "uris": set(), "popularidad": 0, "esco": set()}
+            h = {"es": es, "en": en, "sinonimos": [], "uris": set(), "popularidad": 0, "esco": set(), "equivalente": None}
             self.todas.append(h)
         for s in (es, en, *sinonimos):  # otro nombre de la misma habilidad: queda como sinónimo
             n = normalizar(s)
@@ -143,6 +146,7 @@ class _Lista:
         h["uris"] |= set(uris)
         h["esco"] |= esco or set()
         h["popularidad"] = max(h["popularidad"], popularidad)
+        h["equivalente"] = h["equivalente"] or equivalente
         for s in (es, en):
             self.por_nombre.setdefault(normalizar(s), h)
 
@@ -176,8 +180,10 @@ def construir(origenes: list[Path], destino: Path = DESTINO, version: str | None
         if u in hab_es and usan.get(u) and not c.get("quitar"):
             lista.agregar(c["es"], c["en"], uris={u})
     for g in grupos:
-        for es, en, *resto in g["habilidades"]:
-            lista.agregar(es, en, resto[0] if resto else (), popularidad=g["popularidad"])
+        for es, en, *resto in g["habilidades"]:  # [es, en], con [sinónimos] y {"esco_equivalente": URI} opcionales
+            sinonimos = next((x for x in resto if isinstance(x, list)), ())
+            equivalente = next((x for x in resto if isinstance(x, dict)), {}).get("esco_equivalente")
+            lista.agregar(es, en, sinonimos, popularidad=g["popularidad"], equivalente=equivalente)
     for u, f in hab_es.items():
         es = limpiar(f["preferredLabel"])
         if f.get("skillType") == "knowledge" and usan.get(u) and _palabras(es) <= MAX_PALABRAS:
@@ -193,6 +199,12 @@ def construir(origenes: list[Path], destino: Path = DESTINO, version: str | None
         h["origen"] = ("curada" if not h["uris"] else "esco" if normalizar(h["es"]) in h["esco"] else "reescrita")
     habilidades = sorted(lista.todas, key=lambda h: (-h["popularidad"], normalizar(h["es"]), h["es"]))
     indice = {u: i for i, h in enumerate(habilidades) for u in h["uris"]}
+    # La equivalente tiene que estar en la lista (si no, no la pide ninguna ocupación del índice).
+    sin_equivalente = [f"{h['es']} → {h['equivalente']}" for h in habilidades if h["equivalente"] and h["equivalente"] not in indice]
+    if sin_equivalente:
+        raise ValueError("«esco_equivalente» que no está en la lista de habilidades: " + "; ".join(sin_equivalente))
+    for i, h in enumerate(habilidades):
+        h["eq"] = indice[h["equivalente"]] if h["equivalente"] and indice[h["equivalente"]] != i else None
 
     ocupaciones = []
     for u in sorted(ocu_es, key=lambda u: ocu_es[u]["preferredLabel"].strip().lower()):
@@ -208,8 +220,10 @@ def construir(origenes: list[Path], destino: Path = DESTINO, version: str | None
 
     salida = {"fuente": f"ESCO {version}", "licencia": "CC BY 4.0", "adaptado": True, "atribucion": ATRIBUCION,
               "equivalencias": EQUIVALENCIAS_RD,
-              "campos_h": ["español", "inglés", "sinónimos", "popularidad (ocupaciones de ESCO)", "origen (esco, reescrita o curada)"],
-              "h": [[h["es"], h["en"], h["sinonimos"], h["popularidad"], h["origen"]] for h in habilidades],
+              "campos_h": ["español", "inglés", "sinónimos", "popularidad (ocupaciones de ESCO)", "origen (esco, reescrita o curada)",
+                           "equivalente en ESCO (posición en «h»; solo algunas curadas)"],
+              "h": [[h["es"], h["en"], h["sinonimos"], h["popularidad"], h["origen"]] + ([h["eq"]] if h["eq"] is not None else [])
+                    for h in habilidades],
               "o": ocupaciones}
     texto = json.dumps(salida, ensure_ascii=False, separators=(",", ":"))
     destino.parent.mkdir(parents=True, exist_ok=True)
@@ -217,6 +231,7 @@ def construir(origenes: list[Path], destino: Path = DESTINO, version: str | None
     crudo = len(texto.encode("utf-8"))
     return {"destino": str(destino), "fuente": salida["fuente"], "habilidades": len(habilidades), "ocupaciones": len(ocupaciones),
             "origenes": dict(Counter(h["origen"] for h in habilidades)), "competencias_sin_revisar": len(faltan),
+            "equivalentes": sum(h["eq"] is not None for h in habilidades),
             "bytes": crudo, "gzip": len(gzip.compress(texto.encode("utf-8"), 9))}
 
 
@@ -228,10 +243,11 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     try:
         r = construir(args.origen, args.destino, args.version)
-    except (FileNotFoundError, KeyError, csv.Error) as exc:
+    except (FileNotFoundError, KeyError, ValueError, csv.Error) as exc:
         salir_error(str(exc))
     print(f"{r['fuente']}: {r['habilidades']} habilidades y {r['ocupaciones']} ocupaciones → {r['destino']}")
-    print("Origen: " + ", ".join(f"{n} {k}" for k, n in sorted(r["origenes"].items())))
+    print("Origen: " + ", ".join(f"{n} {k}" for k, n in sorted(r["origenes"].items()))
+          + f"; {r['equivalentes']} curadas cuentan como una habilidad de ESCO")
     if r["competencias_sin_revisar"]:
         print(f"Aviso: {r['competencias_sin_revisar']} competencias muy usadas no están en {COMPETENCIAS.name}: revísalas.")
     print(f"Tamaño: {r['bytes'] / 1e6:.2f} MB ({r['gzip'] / 1e6:.2f} MB comprimido con gzip)")

@@ -340,9 +340,13 @@ de la **Comisión Europea** (<https://esco.ec.europa.eu/es>), versión v1.2.1, c
     sufijos como «(programación informática)».
   - **Nombres reescritos:** las competencias transversales más usadas (40 o más ocupaciones), reescritas como
     nombre corto en `scripts/habilidades/competencias_esco.json` («gestionar proyectos» → «Gestión de proyectos»);
-    las que no sirven como habilidad de perfil se quitan. Conservan su URI de ESCO.
+    las que no sirven como habilidad de perfil se quitan. Ahí también hay algunas otras habilidades de ESCO con
+    nombre corto, a las que apuntan las curadas («utilizar software de gestión de relaciones con clientes» → «CRM»).
+    Conservan su URI de ESCO.
   - **Habilidades curadas, que no son de ESCO:** herramientas y métodos actuales (Excel, Power BI, Salesforce, Scrum,
     ChatGPT…) y habilidades blandas, en `scripts/habilidades/curadas.json`; en el índice van marcadas `curada`.
+    Cuando hay una habilidad de ESCO claramente equivalente, la curada la indica en `esco_equivalente` (Excel → hojas
+    de cálculo, Power BI → Business Intelligence, Salesforce → CRM) y, al sugerir ocupaciones, cuenta como ella.
   - Por ocupación, sus nombres y hasta 15 habilidades esenciales de esta lista. Los CSV originales (~95 MB) no se
     suben al repositorio.
 - La Comisión Europea no respalda este proyecto. Según el aviso de copyright de ESCO, parte de su

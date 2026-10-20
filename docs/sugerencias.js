@@ -105,8 +105,16 @@
   // Roles y habilidades que ESCO sugiere: ocupaciones como su puesto, o que piden 2+ de sus habilidades.
   function deEsco(perfil, esco) {
     if (!esco) return [[], []];
-    const tengo = new Set(lista(perfil.habilidades).map(normalizar).filter((n) => esco.porNombre.has(n))
-      .map((n) => esco.porNombre.get(n)));
+    const directas = lista(perfil.habilidades).map(normalizar).filter((n) => esco.porNombre.has(n))
+      .map((n) => esco.porNombre.get(n));
+    // Una curada con equivalente en ESCO (Excel → hojas de cálculo) cuenta como tener esa habilidad de ESCO.
+    const porTu = new Map();
+    for (const i of directas) {
+      const e = esco.h[i].length > 5 ? esco.h[i][5] : null;
+      if (e !== null && !directas.includes(e) && !porTu.has(e)) porTu.set(e, esco.h[i][0]);
+    }
+    const tengo = new Set([...directas, ...porTu.keys()]);
+    const nombre = (i) => esco.h[i][0] + (porTu.has(i) ? ` (por tu ${porTu.get(i)})` : "");
     const puestos = variantes(normalizar(perfil.puesto_actual), esco);
     const misRoles = new Set(lista(perfil.roles_objetivo).flatMap((r) => variantes(normalizar(r), esco)));
     const ocupaciones = [];
@@ -128,7 +136,7 @@
     for (const { j, porPuesto, comunes } of ocupaciones) {
       if (roles.length < MAX_ESCO_ROLES && (porPuesto || comunes.length >= 2)) {
         const r = porPuesto ? "Ocupación de ESCO parecida a tu trabajo actual."
-          : `Según ESCO, pide ${comunes.slice(0, 2).map((i) => esco.h[i][0]).join(" y ")}, que ya tienes.`;
+          : `Según ESCO, pide ${comunes.slice(0, 2).map(nombre).join(" y ")}, que ya tienes.`;
         roles.push({ rol: mayuscula(esco.o[j][0]), razon: r, origen: "esco" });
       }
     }

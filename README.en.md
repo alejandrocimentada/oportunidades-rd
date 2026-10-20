@@ -191,9 +191,12 @@ classification of Skills, Competences, Qualifications and Occupations, by the **
     "(computer programming)".
   - **Rewritten labels:** the most used transversal competences (40+ occupations), rewritten as short names in
     `scripts/habilidades/competencias_esco.json` ("perform project management" → "Project management"); those that
-    don't work as a profile skill are dropped. They keep their ESCO URI.
+    don't work as a profile skill are dropped. It also holds a few other ESCO skills with short names, which curated
+    skills point to ("use customer relationship management software" → "CRM"). They keep their ESCO URI.
   - **Curated skills, not from ESCO:** current tools and methods (Excel, Power BI, Salesforce, Scrum, ChatGPT…) and
-    soft skills, in `scripts/habilidades/curadas.json`; marked `curada` in the index.
+    soft skills, in `scripts/habilidades/curadas.json`; marked `curada` in the index. When an ESCO skill is a clear
+    equivalent, the curated skill names it in `esco_equivalente` (Excel → spreadsheets, Power BI → business
+    intelligence, Salesforce → CRM) and counts as it when suggesting occupations.
   - For each occupation, its labels and up to 15 essential skills from this list. The original CSV files (~95 MB)
     are not in the repository.
 - The European Commission does not endorse this project. Per ESCO's copyright notice, part of its

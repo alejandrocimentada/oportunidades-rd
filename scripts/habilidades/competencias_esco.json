@@ -1,5 +1,5 @@
 {
- "_nota": "Competencias de ESCO (skill/competence, reuseLevel transversal o cross-sector, usadas por 40 o más ocupaciones) reescritas como nombres cortos de habilidad, al estilo de un perfil profesional. La clave es el URI de ESCO, así que las ocupaciones siguen enlazadas. «quitar»: no sirve como habilidad de perfil. Varias competencias pueden compartir nombre: se unen en una sola habilidad. Lo usa scripts/construir_esco.py.",
+ "_nota": "Competencias de ESCO (skill/competence, reuseLevel transversal o cross-sector, usadas por 40 o más ocupaciones) reescritas como nombres cortos de habilidad, al estilo de un perfil profesional. La clave es el URI de ESCO, así que las ocupaciones siguen enlazadas. «quitar»: no sirve como habilidad de perfil. Varias competencias pueden compartir nombre: se unen en una sola habilidad. También hay algunas habilidades de ESCO de otro tipo, con nombre corto, para que las curadas puedan apuntar a ellas con «esco_equivalente» (p. ej. «CRM» para Salesforce). Lo usa scripts/construir_esco.py.",
  "competencias": {
   "http://data.europa.eu/esco/skill/415abd43-e8e5-4643-b5da-5f11307af57a": {
    "esco": "utilizar distintos métodos de comunicación",
@@ -1986,6 +1986,360 @@
    "esco": "asistir a ensayos",
    "esco_en": "attend rehearsals",
    "quitar": true
+  },
+  "http://data.europa.eu/esco/skill/9889b795-d755-41b2-8afd-2e3c87a65a38": {
+   "esco": "utilizar software de gestión de relaciones con clientes",
+   "esco_en": "use customer relationship management software",
+   "es": "CRM",
+   "en": "CRM"
+  },
+  "http://data.europa.eu/esco/skill/f683ae1d-cb7c-4aa1-b9fe-205e1bd23535": {
+   "esco": "utilizar Microsoft Office",
+   "esco_en": "use microsoft office",
+   "es": "Microsoft Office",
+   "en": "Microsoft Office"
+  },
+  "http://data.europa.eu/esco/skill/81633a44-f1db-4a01-a940-804c6905e330": {
+   "esco": "utilizar programas informáticos de tratamiento de texto",
+   "esco_en": "use word processing software",
+   "es": "Procesadores de texto",
+   "en": "Word processing"
+  },
+  "http://data.europa.eu/esco/skill/f0393af3-bcd9-41af-a36e-0cfb83b60081": {
+   "esco": "gestionar sistemas estándar de planificación de recursos empresariales",
+   "esco_en": "manage standard enterprise resource planning system",
+   "es": "ERP",
+   "en": "ERP"
+  },
+  "http://data.europa.eu/esco/skill/6430eb0d-c6de-46b7-a7fc-3dd2e8e62a69": {
+   "esco": "utilizar sistema de tickets de TIC",
+   "esco_en": "use ICT ticketing system",
+   "es": "Sistemas de tickets",
+   "en": "Ticketing systems"
+  },
+  "http://data.europa.eu/esco/skill/5fed696b-77d6-46e1-aa57-e520928a9837": {
+   "esco": "mecanografiar al tacto",
+   "esco_en": "use free typing techniques",
+   "es": "Mecanografía",
+   "en": "Typing"
+  },
+  "http://data.europa.eu/esco/skill/9ce52938-fe28-4548-b38d-0c783933e19a": {
+   "esco": "editar imágenes digitales en movimiento",
+   "esco_en": "edit digital moving images",
+   "es": "Edición de video",
+   "en": "Video editing"
+  },
+  "http://data.europa.eu/esco/skill/91ba97f5-7518-4638-b2d2-308996db3cf8": {
+   "esco": "editar imágenes",
+   "esco_en": "perform image editing",
+   "es": "Edición de imágenes",
+   "en": "Image editing"
+  },
+  "http://data.europa.eu/esco/skill/36931cb7-ca3f-4be1-8428-f38eefc8e1ed": {
+   "esco": "realizar marketing por correo electrónico",
+   "esco_en": "execute email marketing",
+   "es": "Email marketing",
+   "en": "Email marketing"
+  },
+  "http://data.europa.eu/esco/skill/47a49cd6-097d-457a-9f7b-c290c14930d5": {
+   "esco": "analizar inteligencia de datos",
+   "esco_en": "analyse big data",
+   "es": "Big Data",
+   "en": "Big data"
+  },
+  "http://data.europa.eu/esco/skill/9d0d89be-bffa-4393-b6f6-8d05bea49051": {
+   "esco": "herramientas de extracción transformación y carga de datos",
+   "esco_en": "data extraction, transformation and loading tools",
+   "es": "ETL",
+   "en": "ETL"
+  },
+  "http://data.europa.eu/esco/skill/4a855abe-ac5b-4e95-ac10-3c1adceeee28": {
+   "esco": "Normas Internacionales de Información Financiera",
+   "esco_en": "international financial reporting standards",
+   "es": "NIIF",
+   "en": "IFRS"
+  },
+  "http://data.europa.eu/esco/skill/c5b90c0c-3af0-4c8c-a06c-cc3ced02242c": {
+   "esco": "realizar contabilidad de costes",
+   "esco_en": "perform cost accounting activities",
+   "es": "Contabilidad de costos",
+   "en": "Cost accounting"
+  },
+  "http://data.europa.eu/esco/skill/f0a84d52-91fd-45ec-9fe9-e363d9318b9e": {
+   "esco": "tener inteligencia emocional",
+   "esco_en": "have emotional intelligence",
+   "es": "Inteligencia emocional",
+   "en": "Emotional intelligence"
+  },
+  "http://data.europa.eu/esco/skill/e186976a-64f0-4052-a25b-297d19e1d0ec": {
+   "esco": "pensar de forma proactiva",
+   "esco_en": "think proactively",
+   "es": "Proactividad",
+   "en": "Proactivity"
+  },
+  "http://data.europa.eu/esco/skill/39e7d2a3-8d01-497c-8c5f-d51ab53a4a22": {
+   "esco": "presentar argumentos de forma persuasiva",
+   "esco_en": "present arguments persuasively",
+   "es": "Persuasión",
+   "en": "Persuasion"
+  },
+  "http://data.europa.eu/esco/skill/22c2af9e-ba0d-4cee-abb6-b6dbef006cd5": {
+   "esco": "motivar a los empleados",
+   "esco_en": "motivate employees",
+   "es": "Motivación de equipos",
+   "en": "Team motivation"
+  },
+  "http://data.europa.eu/esco/skill/0cc9c234-f817-4f4c-908a-4d28fe3b0f4a": {
+   "esco": "formar a empleados",
+   "esco_en": "coach employees",
+   "es": "Coaching",
+   "en": "Coaching"
+  },
+  "http://data.europa.eu/esco/skill/6bc02a4a-66af-4b49-9bd3-d07695d52b42": {
+   "esco": "respetar el código de conducta ética empresarial",
+   "esco_en": "abide by business ethical code of conducts",
+   "es": "Ética profesional",
+   "en": "Work ethic"
+  },
+  "http://data.europa.eu/esco/skill/64e09849-a7db-4d6b-a932-66264420eb97": {
+   "esco": "aplicar marketing en redes sociales",
+   "esco_en": "apply social media marketing",
+   "es": "Marketing en redes sociales",
+   "en": "Social media marketing"
+  },
+  "http://data.europa.eu/esco/skill/5303169c-75d6-4751-9136-a4b88343388c": {
+   "esco": "gestión de los medios sociales de comunicación",
+   "esco_en": "social media management",
+   "es": "Gestión de redes sociales",
+   "en": "Social media management"
+  },
+  "http://data.europa.eu/esco/skill/a0bf9b9d-e53f-418c-a839-5d99eff718fe": {
+   "esco": "realizar la optimización de los motores de búsqueda",
+   "esco_en": "conduct search engine optimisation",
+   "es": "SEO",
+   "en": "SEO"
+  },
+  "http://data.europa.eu/esco/skill/c3e36d05-8ae8-447f-bb2b-6f9409f85389": {
+   "esco": "proporcionar presentaciones visuales de datos",
+   "esco_en": "deliver visual presentation of data",
+   "es": "Visualización de datos",
+   "en": "Data visualization"
+  },
+  "http://data.europa.eu/esco/skill/b0560439-14eb-41d1-aa53-1938efc24123": {
+   "esco": "estrategia de marketing de contenidos",
+   "esco_en": "content marketing strategy",
+   "es": "Marketing de contenidos",
+   "en": "Content marketing"
+  },
+  "http://data.europa.eu/esco/skill/5fd5c985-eaaa-47aa-8314-62359c54505a": {
+   "esco": "desarrollar contenido digital",
+   "esco_en": "develop digital content",
+   "es": "Creación de contenido",
+   "en": "Content creation"
+  },
+  "http://data.europa.eu/esco/skill/be40c4c3-a855-4d67-9ca5-6f4428c34b0d": {
+   "esco": "proporcionar contenido escrito",
+   "esco_en": "provide written content",
+   "es": "Redacción de contenidos",
+   "en": "Content writing"
+  },
+  "http://data.europa.eu/esco/skill/9d2e926f-53d9-41f5-98f3-19dfaa687f3f": {
+   "esco": "herramientas para la gestión de la configuración del software",
+   "esco_en": "tools for software configuration management",
+   "es": "Control de versiones",
+   "en": "Version control"
+  },
+  "http://data.europa.eu/esco/skill/c2296e2e-5fef-4f24-a24f-e5b3792268be": {
+   "esco": "proporcionar soporte de TIC",
+   "esco_en": "provide ICT support",
+   "es": "Soporte técnico",
+   "en": "Technical support"
+  },
+  "http://data.europa.eu/esco/skill/85f46538-ae70-498a-bfbc-b8ddafe96c7d": {
+   "esco": "niveles de pruebas del software",
+   "esco_en": "levels of software testing",
+   "es": "Pruebas de software (QA)",
+   "en": "Software testing (QA)"
+  },
+  "http://data.europa.eu/esco/skill/fd33c66c-70c4-40e6-b87c-5495bd3bf26e": {
+   "esco": "diseñar una interfaz de usuario",
+   "esco_en": "design user interface",
+   "es": "Diseño UI",
+   "en": "UI design"
+  },
+  "http://data.europa.eu/esco/skill/a4c2aa71-086f-4a46-b481-2619673c9dfe": {
+   "esco": "ejecutar actividades de investigación de usuarios de TIC",
+   "esco_en": "execute ICT user research activities",
+   "es": "Investigación de usuarios",
+   "en": "User research"
+  },
+  "http://data.europa.eu/esco/skill/f0f5bb34-71df-4715-9c9e-03567b76ec8f": {
+   "esco": "crear estructura de sitio web",
+   "esco_en": "create website wireframe",
+   "es": "Wireframes",
+   "en": "Wireframing"
+  },
+  "http://data.europa.eu/esco/skill/9242ad54-dc3d-41b3-9cfe-142fa8582511": {
+   "esco": "técnicas de marketing de una marca",
+   "esco_en": "brand marketing techniques",
+   "es": "Branding",
+   "en": "Branding"
+  },
+  "http://data.europa.eu/esco/skill/fae7e545-5114-43cc-8e83-178e2549ecb9": {
+   "esco": "modelado de información para la edificación",
+   "esco_en": "building information modelling",
+   "es": "BIM",
+   "en": "Building information modelling (BIM)"
+  },
+  "http://data.europa.eu/esco/skill/9d916d7c-89b3-4084-a6d9-e2b0b3091404": {
+   "esco": "gestionar nóminas",
+   "esco_en": "manage payroll",
+   "es": "Nómina",
+   "en": "Payroll"
+  },
+  "http://data.europa.eu/esco/skill/2fd26ae6-bd98-46c7-b1ba-8a0b52734fac": {
+   "esco": "técnicas de cobro de deuda",
+   "esco_en": "debt collection techniques",
+   "es": "Cobranza",
+   "en": "Collections"
+  },
+  "http://data.europa.eu/esco/skill/e3e42d54-78bd-4337-aa87-bb31a7670c9a": {
+   "esco": "emitir facturas de venta",
+   "esco_en": "issue sales invoices",
+   "es": "Facturación",
+   "en": "Billing"
+  },
+  "http://data.europa.eu/esco/skill/e4b6f863-fa9f-4fe7-a984-f948f8c90d24": {
+   "esco": "gestionar el flujo de caja",
+   "esco_en": "handle cash flow",
+   "es": "Flujo de caja",
+   "en": "Cash flow management"
+  },
+  "http://data.europa.eu/esco/skill/0edaab25-1b72-4531-950d-d8b9a9f4a1c8": {
+   "esco": "sistema de gestión de tesorería",
+   "esco_en": "treasury management system",
+   "es": "Tesorería",
+   "en": "Treasury"
+  },
+  "http://data.europa.eu/esco/skill/afe9c5d2-e8bd-4377-9d2d-49b9589f05f9": {
+   "esco": "analizar el historial crediticio de los clientes potenciales",
+   "esco_en": "analyse the credit history of potential customers",
+   "es": "Análisis de crédito",
+   "en": "Credit analysis"
+  },
+  "http://data.europa.eu/esco/skill/22a173f5-868c-4d82-87e6-beed500ce070": {
+   "esco": "preparar los formularios de autoliquidaciones fiscales",
+   "esco_en": "prepare tax returns forms",
+   "es": "Declaraciones de impuestos",
+   "en": "Tax filing"
+  },
+  "http://data.europa.eu/esco/skill/68b51538-b056-4cb3-bb15-ab8c3e576cc9": {
+   "esco": "dar seguimiento a las cuentas a cobrar",
+   "esco_en": "follow up accounts receivables",
+   "es": "Cuentas por cobrar",
+   "en": "Accounts receivable"
+  },
+  "http://data.europa.eu/esco/skill/6d97bf55-6fb6-4795-8282-3ef915ae0bb8": {
+   "esco": "atraer a nuevos clientes",
+   "esco_en": "prospect new customers",
+   "es": "Prospección de clientes",
+   "en": "Prospecting"
+  },
+  "http://data.europa.eu/esco/skill/4b95c7bb-5672-4e4a-88ea-ba96c12e8ca2": {
+   "esco": "gestionar la experiencia de la clientela",
+   "esco_en": "manage the customer experience",
+   "es": "Experiencia del cliente",
+   "en": "Customer experience"
+  },
+  "http://data.europa.eu/esco/skill/0cb013af-6dd9-4fb2-b34e-63dda1a5cf82": {
+   "esco": "manejar una caja registradora",
+   "esco_en": "operate cash register",
+   "es": "Manejo de caja",
+   "en": "Cash handling"
+  },
+  "http://data.europa.eu/esco/skill/e4aea84e-6f33-41f9-a61c-53cf5125ea26": {
+   "esco": "supervisar mostradores de mercancías",
+   "esco_en": "supervise merchandise displays",
+   "es": "Visual merchandising",
+   "en": "Visual merchandising"
+  },
+  "http://data.europa.eu/esco/skill/f929c89e-c363-4132-a918-e021d57b307c": {
+   "esco": "gestión de la cadena de suministro",
+   "esco_en": "supply chain management",
+   "es": "Cadena de suministro",
+   "en": "Supply chain management"
+  },
+  "http://data.europa.eu/esco/skill/ab6265f2-a9bf-49e8-a9a5-67cbab4de38b": {
+   "esco": "gestionar el inventario",
+   "esco_en": "manage inventory",
+   "es": "Gestión de inventarios",
+   "en": "Inventory management"
+  },
+  "http://data.europa.eu/esco/skill/42ab725f-e57f-4320-a9fd-ac3d6717963d": {
+   "esco": "garantizar el cumplimiento de los requisitos de aduanas",
+   "esco_en": "ensure customs compliance",
+   "es": "Aduanas",
+   "en": "Customs"
+  },
+  "http://data.europa.eu/esco/skill/de0812a4-2313-4bbd-9321-150fc8e2886e": {
+   "esco": "coordinar una flota de vehículos de transporte",
+   "esco_en": "coordinate transport fleet",
+   "es": "Gestión de flotas",
+   "en": "Fleet management"
+  },
+  "http://data.europa.eu/esco/skill/9d59f4e5-20a5-428e-b8b3-645043500457": {
+   "esco": "crear un ambiente de trabajo de mejora continua",
+   "esco_en": "create a work atmosphere of continuous improvement",
+   "es": "Mejora continua",
+   "en": "Continuous improvement"
+  },
+  "http://data.europa.eu/esco/skill/3c03ee71-4a23-448f-b79e-81fd75d27dca": {
+   "esco": "aplicar la gestión de cambios",
+   "esco_en": "apply change management",
+   "es": "Gestión del cambio",
+   "en": "Change management"
+  },
+  "http://data.europa.eu/esco/skill/1af2db15-2af9-44dd-9639-bf1fc69d4c34": {
+   "esco": "gestionar las relaciones con las partes interesadas",
+   "esco_en": "manage relationships with stakeholders",
+   "es": "Gestión de stakeholders",
+   "en": "Stakeholder management"
+  },
+  "http://data.europa.eu/esco/skill/29fb886c-6be0-4e93-9ea1-232881f2092a": {
+   "esco": "planificar la gestión de productos",
+   "esco_en": "plan product management",
+   "es": "Gestión de producto",
+   "en": "Product management"
+  },
+  "http://data.europa.eu/esco/skill/f3934441-4bff-4076-9945-e6c51a01c467": {
+   "esco": "usar técnicas de cocina",
+   "esco_en": "use cooking techniques",
+   "es": "Técnicas de cocina",
+   "en": "Cooking techniques"
+  },
+  "http://data.europa.eu/esco/skill/fd8c0029-9dc7-4b54-845b-ed30c61ba0f8": {
+   "esco": "traducir conceptos lingüísticos",
+   "esco_en": "translate language concepts",
+   "es": "Traducción",
+   "en": "Translation"
+  },
+  "http://data.europa.eu/esco/skill/7566f0b4-7f6e-455c-abb5-ec58e57f7e17": {
+   "esco": "mecánica de los vehículos de motor",
+   "esco_en": "mechanics of motor vehicles",
+   "es": "Mecánica automotriz",
+   "en": "Automotive mechanics"
+  },
+  "http://data.europa.eu/esco/skill/aba2e61d-ef78-45bd-a9bc-392a718d4877": {
+   "esco": "elementos de sistemas de calefacción, ventilación, aire acondicionado y refrigeración",
+   "esco_en": "heating, ventilation, air conditioning and refrigeration parts",
+   "es": "Refrigeración y aire acondicionado",
+   "en": "HVAC"
+  },
+  "http://data.europa.eu/esco/skill/4f1b6304-f54a-42f0-9604-5427a28d240f": {
+   "esco": "realizar operaciones de limpieza",
+   "esco_en": "perform cleaning duties",
+   "es": "Limpieza",
+   "en": "Cleaning"
   }
  }
 }

@@ -10,7 +10,10 @@
      "Excel",
      [
       "MS Excel"
-     ]
+     ],
+     {
+      "esco_equivalente": "http://data.europa.eu/esco/skill/excel"
+     }
     ],
     [
      "Python",

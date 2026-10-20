@@ -49,6 +49,18 @@ def test_construye_una_lista_de_nombres_cortos(indice):
     assert indice["h"][2][1] == "Python"  # sin «(computer programming)»
     contable = next(o for o in indice["o"] if o[0] == "contable")
     assert [indice["h"][i][0] for i in contable[3]] == ["Hojas de cálculo", "Contabilidad"]
+    # Excel apunta a su equivalente de ESCO (posición en «h»); las demás no llevan ese campo.
+    assert indice["h"][indice["h"][0][5]][0] == "Hojas de cálculo"
+    assert [h[0] for h in indice["h"] if len(h) > 5] == ["Excel"]
+
+
+def test_la_equivalente_tiene_que_estar_en_la_lista(tmp_path):
+    curadas = json.loads((MUESTRA / "curadas.json").read_text(encoding="utf-8"))
+    curadas["grupos"][0]["habilidades"][3].append({"esco_equivalente": "http://data.europa.eu/esco/skill/no-existe"})
+    (tmp_path / "curadas.json").write_text(json.dumps(curadas, ensure_ascii=False), encoding="utf-8")
+    with pytest.raises(ValueError, match="Power BI"):
+        construir_esco.construir([MUESTRA], tmp_path / "esco.json", version="v1.2.1",
+                                 competencias=MUESTRA / "competencias_esco.json", curadas=tmp_path / "curadas.json")
 
 
 # -- buscador -----------------------------------------------------------------------------------
@@ -92,7 +104,14 @@ def test_tus_habilidades_sugieren_ocupaciones_que_las_piden(esco):
                            "razon": "Según ESCO, pide Hojas de cálculo y SQL, que ya tienes."}]
     # las otras esenciales de esa ocupación, de la más usada a la menos usada
     assert [h["nombre"] for h in s["habilidades"]] == ["Python", "Trabajo en equipo", "Estadística"]
-    assert sg.sugerir({"habilidades": ["Excel", "sql"]}, esco=esco)["roles"] == []  # las curadas no tienen ocupaciones
+
+    # Excel cuenta como su equivalente de ESCO, hojas de cálculo: misma ocupación, y no te sugiere hojas de cálculo.
+    s = sg.sugerir({"habilidades": ["Excel", "sql"]}, esco=esco)
+    assert s["roles"] == [{"rol": "Analista de datos", "origen": "esco",
+                           "razon": "Según ESCO, pide Hojas de cálculo (por tu Excel) y SQL, que ya tienes."}]
+    assert [h["nombre"] for h in s["habilidades"]] == ["Python", "Trabajo en equipo", "Estadística"]
+    # Scrum no tiene equivalente: con SQL solo, no llega a 2 habilidades de la ocupación.
+    assert sg.sugerir({"habilidades": ["Scrum", "sql"]}, esco=esco)["roles"] == []
 
 
 def test_tus_roles_traen_sus_habilidades_esenciales(esco):
@@ -112,6 +131,7 @@ CONSULTAS = ["as", "te", "pre", "ual", "python", "teneduria", "contador", "compu
              "bookkeep", "cuidado del", "zzz"]
 PERFILES = [{"puesto_actual": "Contador en una firma pequeña", "habilidades": ["contabilidad"]},
             {"habilidades": ["Excel", "sql", "Python"], "intereses": ["datos y análisis"]},
+            {"habilidades": ["MS Excel", "sql"]},
             {"roles_objetivo": ["Diseñador gráfico", "enfermera"], "puesto_actual": "Enfermera"},
             {"intereses": ["salud"], "estudios": "Enfermería", "habilidades": ["patient care", "Inglés"]},
             {"puesto_actual": "Contadora y mesera", "roles_objetivo": ["contador"], "habilidades": ["computadora"]}]
@@ -150,6 +170,16 @@ def test_el_indice_publicado_es_de_esco_y_cabe():
     assert all(x.startswith("Gestión") for x in es(sg.buscar_habilidades("ges", esco)))
     for consulta in ("contabilidad", "contabilidád", "accounting", "diseño gráfico", "diseno grafico", "python"):
         assert sg.buscar_habilidades(consulta, esco), consulta
+
+
+def test_las_curadas_cuentan_como_su_equivalente_de_esco():
+    datos = json.loads(sg.ESCO.read_text(encoding="utf-8"))
+    eq = {h[0]: datos["h"][h[5]][0] for h in datos["h"] if len(h) > 5}
+    assert eq["Excel"] == "Hojas de cálculo" and eq["Power BI"] == "Business Intelligence" and eq["Salesforce"] == "CRM"
+    assert "Scrum" not in eq and "ChatGPT" not in eq  # sin equivalente claro: sin enlace
+    s = sg.sugerir({"habilidades": ["Excel", "Microsoft Word"]})
+    assert {"rol": "Secretario/secretaria", "origen": "esco", "razon": "Según ESCO, pide Hojas de cálculo (por tu Excel) y "
+            "Procesadores de texto (por tu Microsoft Word), que ya tienes."} in s["roles"]
 
 
 def test_entiende_palabras_de_rd_aunque_esco_use_las_de_espana():

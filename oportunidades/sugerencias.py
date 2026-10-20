@@ -176,8 +176,16 @@ def _de_esco(perfil: dict, esco: dict | None) -> tuple[list[dict], list[str]]:
     """Roles y habilidades que ESCO sugiere: ocupaciones como su puesto, o que piden 2+ de sus habilidades."""
     if not esco:
         return [], []
-    tengo = {esco["por_nombre"][n] for n in (normalizar(h) for h in _lista(perfil.get("habilidades")))
-             if n in esco["por_nombre"]}
+    directas = [esco["por_nombre"][n] for n in (normalizar(h) for h in _lista(perfil.get("habilidades")))
+                if n in esco["por_nombre"]]
+    # Una curada con equivalente en ESCO (Excel → hojas de cálculo) cuenta como tener esa habilidad de ESCO.
+    por_tu = {}
+    for i in directas:
+        e = esco["h"][i][5] if len(esco["h"][i]) > 5 else None
+        if e is not None and e not in directas:
+            por_tu.setdefault(e, esco["h"][i][0])
+    tengo = set(directas) | set(por_tu)
+    nombre = lambda i: esco["h"][i][0] + (f" (por tu {por_tu[i]})" if i in por_tu else "")
     puestos = _variantes(normalizar(perfil.get("puesto_actual")), esco)
     mis_roles = {v for r in _lista(perfil.get("roles_objetivo")) for v in _variantes(normalizar(r), esco)}
     ocupaciones = []
@@ -197,7 +205,7 @@ def _de_esco(perfil: dict, esco: dict | None) -> tuple[list[dict], list[str]]:
     for _, j, por_puesto, por_rol, comunes in ocupaciones:
         if len(roles) < MAX_ESCO_ROLES and (por_puesto or len(comunes) >= 2):
             razon = ("Ocupación de ESCO parecida a tu trabajo actual." if por_puesto else
-                     f"Según ESCO, pide {' y '.join(esco['h'][i][0] for i in comunes[:2])}, que ya tienes.")
+                     f"Según ESCO, pide {' y '.join(nombre(i) for i in comunes[:2])}, que ya tienes.")
             roles.append({"rol": _mayuscula(esco["o"][j][0]), "razon": razon, "origen": "esco"})
     habilidades, vistas = [], set(tengo)
     for _, j, *_ in ocupaciones:
