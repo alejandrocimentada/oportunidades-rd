@@ -12,8 +12,9 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? esc(u) : "#");
 const fecha = (iso) => (iso ? new Date(iso).toLocaleDateString("es-DO", { day: "numeric", month: "short" }) : "");
 const pill = (estado) => `<span class="pill" style="background:var(--s-${CLASE_ESTADO[estado] || "nuevo"})">${esc(estado)}</span>`;
-const fit = (n) => n == null ? `<span class="fit" title="Sin puntuar">–</span>`
-  : `<span class="fit ${n >= 70 ? "hi" : n >= 50 ? "mid" : ""}" title="Ajuste con tu perfil">${n}</span>`;
+const fit = (n, sufijo = "") => n == null ? `<span class="fit" title="Sin puntuar">–</span>`
+  : `<span class="fit ${n >= 70 ? "hi" : n >= 50 ? "mid" : ""}" title="Ajuste con tu perfil">${n}%${sufijo}</span>`;
+const ICONO_OK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>';
 
 let state = { vacantes: [], empresas: [], resumen: null, abierta: null };
 
@@ -27,7 +28,7 @@ async function api(path, body) {
 
 function toast(msg) {
   const t = $("#toast");
-  t.textContent = msg;
+  t.innerHTML = `${ICONO_OK}<span>${esc(msg)}</span>`;
   t.classList.add("show");
   clearTimeout(toast._t);
   toast._t = setTimeout(() => t.classList.remove("show"), 2200);
@@ -48,13 +49,13 @@ function pintarResumen() {
   const pe = r.por_estado;
   const tiles = [
     ["Vacantes", r.total_vacantes, `${r.total_empresas} empresas`],
-    ["Me interesa", pe["Me interesa"], "elegidas por ti", true],
-    ["Aplicaciones esta semana", r.aplicadas_semana, "desde el lunes"],
-    ["Entrevistas", pe["Entrevista"], `${pe["Oferta"]} ofertas`],
+    ["Me interesa", pe["Me interesa"], "elegidas por ti"],
+    ["Aplicadas esta semana", r.aplicadas_semana, "desde el lunes", "accent"],
+    ["Entrevistas", pe["Entrevista"], `${pe["Oferta"]} ofertas`, "green"],
     ["Seguimientos", r.seguimientos.length, "próximos 7 días"],
   ];
-  $("#tiles").innerHTML = tiles.map(([k, v, s, hl]) =>
-    `<div class="tile ${hl ? "hl" : ""}"><span>${esc(k)}</span><b>${v}</b><span>${esc(s)}</span></div>`).join("");
+  $("#tiles").innerHTML = tiles.map(([k, v, s, tono]) =>
+    `<div class="tile ${tono || ""}"><span>${esc(k)}</span><b>${v}</b><span>${esc(s)}</span></div>`).join("");
   $("#pipeline").innerHTML = ESTADOS.map((e) =>
     `<div data-estado="${esc(e)}" style="background:var(--s-${CLASE_ESTADO[e]})"><b>${pe[e]}</b>${esc(e)}</div>`).join("");
   document.querySelectorAll("#pipeline div").forEach((d) => d.addEventListener("click", () => {
@@ -85,10 +86,11 @@ function pintarTablero() {
   const activas = state.vacantes.filter((v) => v.activa || v.estado !== "Nuevo");
   $("#board").innerHTML = ESTADOS.map((e) => {
     const vs = activas.filter((v) => v.estado === e);
-    return `<div class="col" data-estado="${esc(e)}"><h3>${pill(e)}<i>${vs.length}</i></h3>
+    return `<div class="col" data-estado="${esc(e)}"><h3><span style="--dot:var(--s-${CLASE_ESTADO[e]})">${esc(e)}</span><i>${vs.length}</i></h3>
       ${vs.map((v) => `<div class="kcard" draggable="true" data-id="${v.id}">
-        <div class="t">${esc(v.titulo)}</div><div class="c">${esc(v.empresa_nombre || "—")}</div>
-        <div class="m">${fit(v.ajuste)}${v.alertas.length ? `<span class="warn" title="${esc(v.alertas.join(" · "))}">⚠ ${v.alertas.length}</span>` : ""}</div>
+        <div class="t">${esc(v.titulo)}</div>
+        <div class="c">${esc(v.empresa_nombre || "—")}${v.ubicacion ? ` · ${esc(v.ubicacion)}` : ""}</div>
+        <div class="m">${fit(v.ajuste, " fit")}${v.alertas.length ? `<span class="warn" title="${esc(v.alertas.join(" · "))}">⚠ ${v.alertas.length} ${v.alertas.length === 1 ? "alerta" : "alertas"}</span>` : ""}</div>
       </div>`).join("")}</div>`;
   }).join("");
   document.querySelectorAll(".kcard").forEach((c) => {
@@ -129,10 +131,11 @@ function pintarVacantes() {
     (v.ajuste ?? 0) >= min && (!emp || v.empresa_nombre === emp) && (!est || v.estado === est) && (!solo || v.activa)
     && (!texto || `${v.titulo} ${v.empresa_nombre}`.toLowerCase().includes(texto)));
   $("#tbl-vacantes tbody").innerHTML = vs.map((v) => `<tr data-id="${v.id}" class="${v.activa ? "" : "inactive"}">
-      <td>${fit(v.ajuste)}</td><td><b>${esc(v.titulo)}</b>${v.alertas.length ? ` <span class="tag" title="${esc(v.alertas.join(" · "))}">⚠ ${v.alertas.length}</span>` : ""}</td>
-      <td>${esc(v.empresa_nombre)}</td><td>${pill(v.estado)}</td><td>${esc(v.ubicacion)}</td>
-      <td>${fecha(v.primera_vez)}${v.fuente === "pegado" ? ' <span class="tag">pegada</span>' : ""}</td></tr>`).join("")
-    || `<tr><td colspan="6" class="hint">No hay vacantes con estos filtros.</td></tr>`;
+      <td><b>${esc(v.titulo)}</b><span class="sub">${esc(v.empresa_nombre || "—")} · ${esc(v.ubicacion || "sin ubicación")} · ${fecha(v.primera_vez)}</span>
+        ${v.alertas.length ? ` <span class="tag" title="${esc(v.alertas.join(" · "))}">⚠ ${v.alertas.length}</span>` : ""}${v.fuente === "pegado" ? ' <span class="tag">pegada</span>' : ""}</td>
+      <td>${pill(v.estado)}</td><td>${fit(v.ajuste, " match")}</td>
+      <td><button type="button" class="btn small">Ver detalle</button></td></tr>`).join("")
+    || `<tr><td colspan="4" class="hint">No hay vacantes con estos filtros.</td></tr>`;
   document.querySelectorAll("#tbl-vacantes tbody tr[data-id]").forEach((tr) => tr.addEventListener("click", () => abrir(+tr.dataset.id)));
 }
 ["#f-texto", "#f-min", "#f-empresa", "#f-estado", "#f-activas"].forEach((s) => $(s).addEventListener("input", pintarVacantes));
@@ -141,14 +144,14 @@ function pintarVacantes() {
 function pintarEmpresas() {
   const clase = (e) => ({ ok: "rs-ok", "revisar manualmente": "rs-warn", "abrir manualmente": "rs-warn", error: "rs-err" }[e] || "");
   $("#companies").innerHTML = state.empresas.map((e) => `<article class="company">
-      <header><div><h3>${esc(e.nombre)}</h3><span class="tag">${esc(e.industria)}</span></div>
-        <div title="Interés ${e.interes}/100"><div class="eyebrow">Interés ${e.interes}</div>
-        <div class="meter"><i style="width:${+e.interes}%"></i></div></div></header>
+      <header><div class="c-logo" aria-hidden="true">${esc((e.nombre || "?").trim().charAt(0).toUpperCase())}</div>
+        <div class="grow"><h3>${esc(e.nombre)}</h3><span class="sub">${esc(e.industria)}</span></div>
+        <span class="count">${e.vacantes_activas} ${e.vacantes_activas === 1 ? "vacante" : "vacantes"}</span></header>
       <p class="why">${esc(e.por_que)}</p>
+      <div class="interes" title="Interés ${e.interes}/100">Interés ${e.interes}<div class="meter"><i style="width:${+e.interes}%"></i></div></div>
       <div class="roles">${e.contactos.map((c) => `<a href="${safeUrl(c.linkedin)}" target="_blank" rel="noopener" title="Buscar en LinkedIn">${esc(c.rol)} ↗</a>`).join("")}</div>
       <div class="foot">
         <span class="pill ${clase(e.estado_rastreo)}">${esc(e.estado_rastreo)}</span>
-        <span>${e.vacantes_activas} ${e.vacantes_activas === 1 ? "vacante activa" : "vacantes activas"}</span>
         ${e.url_empleos ? `<a href="${safeUrl(e.url_empleos)}" target="_blank" rel="noopener">Página de empleos ↗</a>` : ""}
         ${e.sitio_web ? `<a href="${safeUrl(e.sitio_web)}" target="_blank" rel="noopener">Sitio web ↗</a>` : ""}
         ${e.ats ? `<span class="tag">${esc(e.ats)}</span>` : ""}
@@ -166,21 +169,18 @@ async function abrir(id) {
     : `<div class="box none">${vacio}</div>`;
   const doc = (tipo, titulo, texto) => `<div class="doc"><header>${titulo}
       <span><button class="btn small ghost" data-gen="${tipo}" ${puedeDocs ? "" : "disabled"}>${texto ? "Rehacer" : "Preparar"}</button>
-      ${texto ? `<button class="btn small" data-copy="${tipo}">Copiar</button>` : ""}</span></header>
+      ${texto ? `<button class="btn small" data-copy="${tipo}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button>` : ""}</span></header>
       ${texto ? `<textarea id="doc-${tipo}" rows="${tipo === "carta" ? 12 : 6}" readonly>${esc(texto)}</textarea>` : ""}</div>`;
   const n = v.ajuste;
   const [nivel, etiqueta] = n == null ? ["none", "Sin puntuar"] : n >= 70 ? ["hi", "Buen ajuste"] : n >= 50 ? ["mid", "Ajuste parcial"] : ["low", "Ajuste bajo"];
   $("#drawer-body").innerHTML = `
-    <div class="d-head"><div class="d-logo" aria-hidden="true">${esc((v.empresa_nombre || "?").trim().charAt(0).toUpperCase())}</div>
-      <div><h2>${esc(v.titulo)}</h2><div class="sub">${esc(v.empresa_nombre || "Empresa sin registrar")} · ${esc(v.ubicacion || "sin ubicación")}</div>
-      ${v.url ? `<div class="sub"><a href="${safeUrl(v.url)}" target="_blank" rel="noopener">Ver anuncio ↗</a></div>` : ""}</div></div>
+    <div class="d-head"><h2>${esc(v.titulo)}</h2><div class="sub">${esc(v.empresa_nombre || "Empresa sin registrar")} · ${esc(v.ubicacion || "sin ubicación")}</div>
+      ${v.url ? `<div class="sub"><a href="${safeUrl(v.url)}" target="_blank" rel="noopener">Ver anuncio ↗</a></div>` : ""}</div>
     <div class="d-body">
-    <div class="d-fit ${nivel}"><div><span class="eyebrow">Ajuste con tu perfil</span><h3>${etiqueta}</h3>
+    <div class="d-fit ${nivel}"><div><h3>Ajuste con tu perfil · ${etiqueta}</h3>
       <div class="sub">${v.fecha_publicacion ? `publicada ${fecha(v.fecha_publicacion + "T12:00")} · ` : ""}puntuado por ${esc(v.puntuado_por || "—")}</div></div>
-      <b>${n ?? "–"}</b></div>
-    <div class="d-row"><label>Estado <select id="d-estado">${ESTADOS.map((e) => `<option ${e === v.estado ? "selected" : ""}>${esc(e)}</option>`).join("")}</select></label>
-      <label>Seguimiento <input type="date" id="d-seg" value="${esc(v.seguimiento)}"></label>
-      ${v.activa ? "" : '<span class="tag">ya no aparece en la página</span>'}</div>
+      <b>${n == null ? "–" : n + "%"}</b></div>
+    ${v.activa ? "" : '<p class="hint" style="margin:8px 0 0"><span class="tag">ya no aparece en la página</span></p>'}
     <div class="d-sec"><h3>Por qué encaja</h3>${lista(v.por_que_encaja, "good", "Sin puntuar todavía.")}</div>
     <div class="d-sec"><h3>Señales de alerta</h3>${lista(v.alertas, "warn", "Ninguna detectada.")}</div>
     ${(v.a_conversar || []).length ? `<div class="d-sec"><h3>A conversar</h3>${lista(v.a_conversar, "talk", "")}</div>` : ""}
@@ -196,7 +196,9 @@ async function abrir(id) {
     <div class="d-sec"><h3>Descripción</h3><div class="desc">${esc(v.descripcion || "Sin descripción. Abre el anuncio.")}</div></div>
     <div class="d-sec"><h3>Historial</h3><ul class="timeline">${v.historial.map((h) => `<li>${esc(h.a_estado)}
       <div class="sub">${new Date(h.fecha).toLocaleString("es-DO")}${h.nota ? " · " + esc(h.nota) : ""}</div></li>`).join("")}</ul></div>
-    </div>`;
+    </div>
+    <div class="d-actions"><label>Mover a <select id="d-estado">${ESTADOS.map((e) => `<option ${e === v.estado ? "selected" : ""}>${esc(e)}</option>`).join("")}</select></label>
+      <label>Seguimiento <input type="date" id="d-seg" value="${esc(v.seguimiento)}"></label></div>`;
   $("#d-estado").addEventListener("change", (ev) => cambiarEstado(id, ev.target.value));
   $("#d-seg").addEventListener("change", async (ev) => {
     try { await api(`/api/vacantes/${id}/seguimiento`, { fecha: ev.target.value }); toast("Seguimiento guardado"); cargar(); } catch (e) { toast(e.message); }
@@ -262,7 +264,7 @@ function agregarChips(box, texto) {
 }
 document.querySelectorAll(".chipbox").forEach((box) => {
   box.innerHTML = `<div class="add"><input id="chip-${box.dataset.for}" placeholder="${esc(box.dataset.placeholder)}">
-    <button type="button" class="btn lime">Añadir</button></div><div class="list-chips"></div>`;
+    <button type="button" class="btn">Añadir</button></div><div class="list-chips"></div>`;
   const input = box.querySelector("input");
   const agregar = () => { agregarChips(box, input.value); input.value = ""; input.focus(); };
   box.querySelector(".add button").addEventListener("click", agregar);
@@ -289,13 +291,16 @@ function irAPaso(i) {
   PASOS.forEach((s, j) => s.classList.toggle("on", j === paso));
   $("#wz-paso").textContent = `Paso ${paso + 1} de ${PASOS.length}`;
   $("#wz-titulo").textContent = PASOS[paso].dataset.titulo;
-  $("#wz-bar").style.width = `${((paso + 1) / PASOS.length) * 100}%`;
+  const pct = Math.round(((paso + 1) / PASOS.length) * 100);
+  $("#wz-bar").style.width = `${pct}%`;
+  $("#wz-pct").textContent = `Progreso: ${pct}%`;
   $("#wz-steps").innerHTML = PASOS.map((s, j) => `<li><button type="button" data-paso="${j}"
       class="${j < paso ? "hecho" : j === paso ? "actual" : ""}" ${j === paso ? 'aria-current="step"' : ""}>
       <i>${j < paso ? "✓" : j + 1}</i>${esc(s.dataset.corto)}</button></li>`).join("");
   $("#wz-prev").disabled = paso === 0;
   $("#wz-next").hidden = paso === PASOS.length - 1;
-  $("#wz-next").textContent = paso < PASOS.length - 1 ? `Siguiente: ${PASOS[paso + 1].dataset.corto}` : "";
+  $("#btn-buscar").hidden = paso !== PASOS.length - 1;  // la búsqueda se lanza desde el último paso
+  $("#wz-next").textContent = paso < PASOS.length - 1 ? "Continuar" : "";
 }
 $("#wz-steps").addEventListener("click", (ev) => { const b = ev.target.closest("[data-paso]"); if (b) irAPaso(+b.dataset.paso); });
 $("#wz-prev").addEventListener("click", () => irAPaso(paso - 1));
@@ -373,6 +378,15 @@ async function cargarPerfil() {
   const con = state.empresas.filter((e) => e.url_empleos).length;
   $("#buscar-info").textContent = `Se revisarán ${con} páginas de empleo de ${state.empresas.length} empresas guardadas.`;
 }
+
+// -- tema claro / oscuro (se recuerda en este navegador) ------------------------------
+function ponerTema(t) {
+  if (t === "oscuro") document.documentElement.dataset.theme = "dark"; else delete document.documentElement.dataset.theme;
+  document.querySelectorAll("input[name=tema]").forEach((r) => { r.checked = r.value === t; });
+  try { localStorage.setItem("tema", t); } catch (_) { /* sin almacenamiento */ }
+}
+document.querySelectorAll("input[name=tema]").forEach((r) => r.addEventListener("change", () => ponerTema(r.value)));
+ponerTema(document.documentElement.dataset.theme === "dark" ? "oscuro" : "claro");
 
 // -- carga ----------------------------------------------------------------------------
 async function cargar() {
