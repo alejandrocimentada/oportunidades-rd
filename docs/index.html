@@ -49,111 +49,139 @@
   </div>
   <a class="demo-tag" href="#instalar"><b>Demo</b> — instala el skill para usarlo con tu perfil.</a>
 
+  <div class="q-progreso" aria-hidden="true"><div id="q-barra"></div></div>
   <main class="win-body">
     <section id="view-perfil" class="view">
-      <div class="wz-head">
-        <span class="eyebrow" id="wz-paso">Paso 1 de 8</span>
-        <h2 id="wz-titulo">¿Qué te interesa?</h2>
-        <ol class="wz-steps" id="wz-steps" aria-label="Pasos"></ol>
-      </div>
 
-      <form id="form-perfil" class="wizard" autocomplete="off" novalidate>
-        <fieldset class="step" data-titulo="¿Qué te interesa?" data-corto="Intereses"><legend>Áreas de interés</legend>
-          <p class="hint">Elige todas las áreas donde te gustaría trabajar. Con esto te sugerimos habilidades y roles.</p>
-          <div class="areas">
-            <label class="area"><input type="checkbox" name="intereses" value="tecnología">
-              <span><b>Tecnología</b><small>Programación, sistemas, soporte, redes, IA</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="datos y análisis">
-              <span><b>Datos y análisis</b><small>Reportes, tableros, estadística, BI</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="finanzas y contabilidad">
-              <span><b>Finanzas y contabilidad</b><small>Contabilidad, impuestos, banca, auditoría</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="logística y cadena de suministro">
-              <span><b>Logística y cadena de suministro</b><small>Inventario, compras, almacén, transporte</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="operaciones y procesos">
-              <span><b>Operaciones y procesos</b><small>Mejora continua, calidad, proyectos, automatización</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="ventas">
-              <span><b>Ventas</b><small>Ventas, cuentas clave, comercial</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="marketing">
-              <span><b>Marketing</b><small>Marketing digital, redes sociales, contenido, marca</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="diseño">
-              <span><b>Diseño</b><small>Diseño gráfico, UX/UI, multimedia</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="recursos humanos">
-              <span><b>Recursos humanos</b><small>Reclutamiento, nómina, capacitación</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="salud">
-              <span><b>Salud</b><small>Enfermería, medicina, farmacia, laboratorio</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="educación">
-              <span><b>Educación</b><small>Docencia, tutoría, formación</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="servicio al cliente">
-              <span><b>Servicio al cliente</b><small>Atención, call center, experiencia del cliente</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="legal">
-              <span><b>Legal</b><small>Derecho, contratos, cumplimiento</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="manufactura">
-              <span><b>Manufactura</b><small>Producción, calidad, mantenimiento, zonas francas</small></span></label>
-            <label class="area"><input type="checkbox" name="intereses" value="turismo y hotelería">
-              <span><b>Turismo y hotelería</b><small>Hoteles, eventos, viajes, alimentos y bebidas</small></span></label>
-            <label class="area"><input type="checkbox" id="interes-otra">
-              <span><b>Otra</b><small>Escríbela tú</small></span></label>
+      
+      <form id="form-perfil" class="encuesta" autocomplete="off" novalidate>
+        <div class="q" role="group" aria-labelledby="q-areas" data-corto="Áreas" data-req="Elige al menos un área (o escribe otra).">
+          <h3 class="q-t" id="q-areas">¿Qué áreas te interesan?</h3>
+          <p class="q-ayuda">Elige todas las que quieras: toca la opción o pulsa su letra.</p>
+          <div class="opciones">
+            <label class="opcion" title="Programación, sistemas, soporte, redes, IA"><input type="checkbox" name="intereses" value="tecnología">
+              <span><b>Tecnología</b><span class="sr">: Programación, sistemas, soporte, redes, IA</span></span></label>
+            <label class="opcion" title="Reportes, tableros, estadística, BI"><input type="checkbox" name="intereses" value="datos y análisis">
+              <span><b>Datos y análisis</b><span class="sr">: Reportes, tableros, estadística, BI</span></span></label>
+            <label class="opcion" title="Contabilidad, impuestos, banca, auditoría"><input type="checkbox" name="intereses" value="finanzas y contabilidad">
+              <span><b>Finanzas y contabilidad</b><span class="sr">: Contabilidad, impuestos, banca, auditoría</span></span></label>
+            <label class="opcion" title="Inventario, compras, almacén, transporte"><input type="checkbox" name="intereses" value="logística y cadena de suministro">
+              <span><b>Logística y cadena de suministro</b><span class="sr">: Inventario, compras, almacén, transporte</span></span></label>
+            <label class="opcion" title="Mejora continua, calidad, proyectos, automatización"><input type="checkbox" name="intereses" value="operaciones y procesos">
+              <span><b>Operaciones y procesos</b><span class="sr">: Mejora continua, calidad, proyectos, automatización</span></span></label>
+            <label class="opcion" title="Ventas, cuentas clave, comercial"><input type="checkbox" name="intereses" value="ventas">
+              <span><b>Ventas</b><span class="sr">: Ventas, cuentas clave, comercial</span></span></label>
+            <label class="opcion" title="Marketing digital, redes sociales, contenido, marca"><input type="checkbox" name="intereses" value="marketing">
+              <span><b>Marketing</b><span class="sr">: Marketing digital, redes sociales, contenido, marca</span></span></label>
+            <label class="opcion" title="Diseño gráfico, UX/UI, multimedia"><input type="checkbox" name="intereses" value="diseño">
+              <span><b>Diseño</b><span class="sr">: Diseño gráfico, UX/UI, multimedia</span></span></label>
+            <label class="opcion" title="Reclutamiento, nómina, capacitación"><input type="checkbox" name="intereses" value="recursos humanos">
+              <span><b>Recursos humanos</b><span class="sr">: Reclutamiento, nómina, capacitación</span></span></label>
+            <label class="opcion" title="Enfermería, medicina, farmacia, laboratorio"><input type="checkbox" name="intereses" value="salud">
+              <span><b>Salud</b><span class="sr">: Enfermería, medicina, farmacia, laboratorio</span></span></label>
+            <label class="opcion" title="Docencia, tutoría, formación"><input type="checkbox" name="intereses" value="educación">
+              <span><b>Educación</b><span class="sr">: Docencia, tutoría, formación</span></span></label>
+            <label class="opcion" title="Atención, call center, experiencia del cliente"><input type="checkbox" name="intereses" value="servicio al cliente">
+              <span><b>Servicio al cliente</b><span class="sr">: Atención, call center, experiencia del cliente</span></span></label>
+            <label class="opcion" title="Derecho, contratos, cumplimiento"><input type="checkbox" name="intereses" value="legal">
+              <span><b>Legal</b><span class="sr">: Derecho, contratos, cumplimiento</span></span></label>
+            <label class="opcion" title="Producción, calidad, mantenimiento, zonas francas"><input type="checkbox" name="intereses" value="manufactura">
+              <span><b>Manufactura</b><span class="sr">: Producción, calidad, mantenimiento, zonas francas</span></span></label>
+            <label class="opcion" title="Hoteles, eventos, viajes, alimentos y bebidas"><input type="checkbox" name="intereses" value="turismo y hotelería">
+              <span><b>Turismo y hotelería</b><span class="sr">: Hoteles, eventos, viajes, alimentos y bebidas</span></span></label>
+            <label class="opcion"><input type="checkbox" id="interes-otra"><span><b>Otra</b></span></label>
           </div>
-          <label class="lbl" id="otra-lbl" hidden>¿Cuál otra área?<input name="intereses_otra" placeholder="ej. agricultura, deportes, bienes raíces"></label>
-        </fieldset>
+          <label class="q-lbl" id="otra-lbl" hidden>¿Cuál otra área?<input class="campo chico" name="intereses_otra" placeholder="ej. agricultura, deportes, bienes raíces"></label>
+        </div>
 
-        <fieldset class="step" data-titulo="Tu experiencia" data-corto="Experiencia"><legend>Tu experiencia</legend>
-          <label class="lbl">¿Qué estudiaste?<input name="estudios" placeholder="ej. Contabilidad, Bachillerato técnico en informática, Enfermería"></label>
-          <div class="row">
-            <label class="lbl">Tu último trabajo o el actual<input name="puesto_actual" placeholder="ej. Cajera en un supermercado"></label>
-            <label class="lbl short">Años de experiencia<input name="anos_experiencia" type="number" min="0" max="50"></label>
-          </div>
-          <label class="lbl">Algo más sobre tu experiencia (opcional, 2-3 frases; se usa en tus cartas)<textarea name="experiencia" rows="3"></textarea></label>
-        </fieldset>
+        <div class="q" role="group" aria-labelledby="q-estudios" data-corto="Estudios" data-req="Escribe qué estudiaste (puede ser el bachillerato).">
+          <h3 class="q-t" id="q-estudios">¿Qué estudiaste?</h3>
+          <p class="q-ayuda">Tu carrera, técnico o bachillerato.</p>
+          <input class="campo" name="estudios" required aria-labelledby="q-estudios" placeholder="ej. Contabilidad, Enfermería, Bachillerato técnico">
+        </div>
 
-        <fieldset class="step" data-titulo="Tus habilidades" data-corto="Habilidades"><legend>Tus habilidades</legend>
+        <div class="q" role="group" aria-labelledby="q-puesto" data-corto="Último trabajo" data-req="Escribe tu último trabajo o el actual (o «ninguno»).">
+          <h3 class="q-t" id="q-puesto">¿Cuál es tu último trabajo o el actual?</h3>
+          <p class="q-ayuda">El puesto, como lo dirías en una entrevista.</p>
+          <input class="campo" name="puesto_actual" required aria-labelledby="q-puesto" placeholder="ej. Cajera en un supermercado">
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-anos" data-corto="Experiencia" data-req="Escribe un número de años (0 si estás empezando).">
+          <h3 class="q-t" id="q-anos">¿Cuántos años de experiencia tienes?</h3>
+          <p class="q-ayuda">En total, contando todos tus trabajos.</p>
+          <input class="campo corto" name="anos_experiencia" type="number" min="0" max="50" inputmode="numeric" required aria-labelledby="q-anos" placeholder="0">
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-exp" data-corto="Más sobre ti" data-opcional>
+          <h3 class="q-t" id="q-exp">Cuéntanos algo más de tu experiencia</h3>
+          <p class="q-ayuda">Dos o tres frases. Se usan en tus cartas. Opcional.</p>
+          <textarea class="campo" name="experiencia" rows="3" aria-labelledby="q-exp" placeholder="ej. Llevo el inventario de la tienda y armé los reportes semanales en Excel."></textarea>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-habs" data-corto="Habilidades" data-req="Añade al menos una habilidad.">
+          <h3 class="q-t" id="q-habs">Tus habilidades</h3>
+          <p class="q-ayuda">Toca las sugeridas o busca las tuyas.</p>
           <div class="sug" id="sug-habilidades" aria-live="polite"></div>
-          <label class="lbl" for="chip-habilidades">Busca y añade tus habilidades</label>
+          <label class="sr" for="chip-habilidades">Busca y añade tus habilidades</label>
           <div class="chipbox" data-for="habilidades" data-placeholder="Escribe en español o inglés: Excel, contabilidad, Figma…"></div>
           <p class="hint ac-ayuda">Unas 2.600 habilidades (de <a href="https://esco.ec.europa.eu/es" target="_blank" rel="noopener">ESCO</a>
             y herramientas actuales), con ↑ ↓ y Enter. Si la tuya no aparece, Enter la añade tal cual.</p>
           <textarea name="habilidades" hidden></textarea>
-        </fieldset>
+        </div>
 
-        <fieldset class="step" data-titulo="Roles sugeridos" data-corto="Roles"><legend>Roles sugeridos</legend>
+        <div class="q" role="group" aria-labelledby="q-roles" data-corto="Roles" data-req="Elige o añade al menos un rol.">
+          <h3 class="q-t" id="q-roles">Roles que buscas</h3>
+          <p class="q-ayuda">Según tus intereses, experiencia y habilidades. Toca para elegir o añade los tuyos.</p>
+          <label class="sr" for="chip-roles_objetivo">Añade tus roles</label>
+          <div class="chipbox" data-for="roles_objetivo" data-placeholder="ej. Analista de datos, Contador, Diseñador UX…"></div>
           <div class="sug" id="sug-roles" aria-live="polite"></div>
-          <label class="lbl" for="chip-roles_objetivo">Roles que buscas (añade los tuyos)</label>
-          <div class="chipbox" data-for="roles_objetivo" data-placeholder="ej. Analista de datos, Contador, Diseñador UX, Supervisor de logística…"></div>
           <textarea name="roles_objetivo" hidden></textarea>
-        </fieldset>
+        </div>
 
-        <fieldset class="step" data-titulo="¿Qué idiomas hablas?" data-corto="Idiomas"><legend>Idiomas</legend>
-          <label class="lbl" for="chip-idiomas">Idiomas, con nivel</label>
+        <div class="q" role="group" aria-labelledby="q-idiomas" data-corto="Idiomas" data-opcional>
+          <h3 class="q-t" id="q-idiomas">¿Qué idiomas hablas?</h3>
+          <p class="q-ayuda">Con tu nivel. Enter añade cada uno.</p>
+          <label class="sr" for="chip-idiomas">Idiomas, con nivel</label>
           <div class="chipbox" data-for="idiomas" data-placeholder="ej. Inglés (C1)"></div>
           <textarea name="idiomas" hidden></textarea>
-        </fieldset>
+        </div>
 
-        <fieldset class="step" data-titulo="Dónde y cómo quieres trabajar" data-corto="Dónde"><legend>Dónde y cómo quieres trabajar</legend>
-          <div class="row">
-            <label class="lbl">Ciudad<input name="ubicacion" placeholder="Santo Domingo"></label>
-            <label class="lbl">Modalidad<select name="preferencias.modalidad"><option value="presencial">Presencial</option>
-              <option value="hibrido">Híbrido</option><option value="remoto">Remoto</option></select></label>
-            <label class="lbl short">Días remotos<input name="preferencias.dias_remotos" type="number" min="0" max="5"></label>
+        <div class="q" role="group" aria-labelledby="q-donde" data-corto="Dónde y cómo" data-req="Escribe en qué ciudad quieres trabajar.">
+          <h3 class="q-t" id="q-donde">¿Dónde y cómo quieres trabajar?</h3>
+          <p class="q-ayuda">Tu ciudad y la modalidad que prefieres.</p>
+          <input class="campo" name="ubicacion" required aria-label="Ciudad" placeholder="Santo Domingo">
+          <div class="opciones tres" role="radiogroup" aria-label="Modalidad">
+            <label class="opcion"><input type="radio" name="preferencias.modalidad" value="presencial"><span><b>Presencial</b></span></label>
+            <label class="opcion"><input type="radio" name="preferencias.modalidad" value="hibrido"><span><b>Híbrido</b></span></label>
+            <label class="opcion"><input type="radio" name="preferencias.modalidad" value="remoto"><span><b>Remoto</b></span></label>
           </div>
-          <label class="lbl">Días y horario<input name="preferencias.dias" placeholder="lunes a viernes"></label>
-        </fieldset>
+          <div class="q-fila">
+            <label class="q-lbl">Días remotos<input class="campo chico" name="preferencias.dias_remotos" type="number" min="0" max="5" inputmode="numeric"></label>
+            <label class="q-lbl">Días y horario<input class="campo chico" name="preferencias.dias" placeholder="lunes a viernes"></label>
+          </div>
+        </div>
 
-        <fieldset class="step" data-titulo="Salario" data-corto="Salario"><legend>Salario</legend>
-          <label class="lbl short">Mínimo mensual (RD$)<input name="preferencias.salario_minimo_dop" type="number" min="0" step="1000"></label>
-          <label class="check"><input name="preferencias.salario_flexible_startups" type="checkbox">
+        <div class="q" role="group" aria-labelledby="q-salario" data-corto="Salario mínimo" data-opcional>
+          <h3 class="q-t" id="q-salario">¿Cuál es tu salario mínimo?</h3>
+          <p class="q-ayuda">Mensual, en pesos dominicanos (RD$).</p>
+          <input class="campo corto" name="preferencias.salario_minimo_dop" type="number" min="0" inputmode="numeric" aria-labelledby="q-salario" placeholder="45000">
+          <label class="check q-check"><input name="preferencias.salario_flexible_startups" type="checkbox" data-resumen="flexible en startups">
             <span>En startups, un salario menor (con equity o variable) es «a conversar», no una alerta</span></label>
-        </fieldset>
+        </div>
 
-        <fieldset class="step" data-titulo="Tu nombre y enlaces" data-corto="Nombre"><legend>Tu nombre y enlaces</legend>
-          <div class="row">
-            <label class="lbl">Nombre (como va en las cartas)<input name="nombre"></label>
-            <label class="lbl">Titular profesional<input name="titular" placeholder="ej. Contadora con 5 años en auditoría"></label>
-          </div>
-          <div class="row">
-            <label class="lbl">LinkedIn<input name="enlaces.linkedin" type="url" placeholder="https://www.linkedin.com/in/…"></label>
-            <label class="lbl">GitHub (si aplica)<input name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
-          </div>
-          <label class="lbl">Portafolio<input name="enlaces.portafolio" type="url" placeholder="déjalo vacío si aún no está en línea"></label>
+        <div class="q" role="group" aria-labelledby="q-nombre" data-corto="Nombre y titular" data-opcional>
+          <h3 class="q-t" id="q-nombre">Tu nombre y titular</h3>
+          <p class="q-ayuda">Como van en tus cartas.</p>
+          <label class="q-lbl">Nombre<input class="campo chico" name="nombre"></label>
+          <label class="q-lbl">Titular profesional<input class="campo chico" name="titular" placeholder="ej. Contadora con 5 años en auditoría"></label>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-enlaces" data-corto="Enlaces" data-opcional>
+          <h3 class="q-t" id="q-enlaces">Tus enlaces</h3>
+          <p class="q-ayuda">Déjalos vacíos si no los tienes.</p>
+          <label class="q-lbl">LinkedIn<input class="campo chico" name="enlaces.linkedin" type="url" placeholder="https://www.linkedin.com/in/…"></label>
+          <label class="q-lbl">GitHub (si aplica)<input class="campo chico" name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
+          <label class="q-lbl">Portafolio<input class="campo chico" name="enlaces.portafolio" type="url" placeholder="https://…"></label>
           <details class="avanzado">
             <summary>Opciones avanzadas: ¿quién redacta tus mensajes y cartas?</summary>
             <div class="row">
@@ -165,24 +193,32 @@
               <label class="lbl">Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
             </div>
           </details>
-          <p class="hint" id="buscar-info"></p>
-        </fieldset>
+        </div>
 
-        <div class="pactions">
-          <span class="muted" id="wz-pct">Progreso: 13%</span>
-          <div class="bar" aria-hidden="true"><div id="wz-bar"></div></div>
-          <span class="grow"></span>
-          <button type="button" class="btn ghost" id="wz-prev">Anterior</button>
-          <button type="button" class="btn ghost" id="btn-guardar">Guardar</button>
-          <button type="button" class="btn" id="wz-next">Guardar y continuar</button>
-          <button type="submit" class="btn" id="btn-buscar">Guardar y revisar vacantes</button>
+        <div class="q q-fin" id="q-fin" role="group" aria-labelledby="q-listo">
+          <h3 class="q-t" id="q-listo">¡Listo!</h3>
+          <p class="q-ayuda">Es una demo: no se guardó nada. Toca una respuesta para cambiarla.</p>
+          <div class="fin-resumen" id="fin-resumen"></div>
+          <div class="fin-paso">
+            <span>Ahora pídele a tu agente:</span>
+            <div><code id="msg-agente">Busca empresas en RD para mi perfil</code>
+              <button type="button" class="q-ok" data-copiar="#msg-agente"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button></div>
+          </div>
+          <div class="fin-extra">
+            <button type="submit" class="btn ghost small" id="btn-buscar">Guardar y revisar vacantes</button>
+            <span id="buscar-info"></span>
+          </div>
+          <div class="card progreso" id="progreso" hidden>
+            <h4>Revisión de vacantes <small id="prog-texto"></small></h4>
+            <div class="bar"><div id="prog-bar"></div></div>
+            <pre id="prog-log"></pre>
+          </div>
         </div>
       </form>
 
-      <div class="card progreso" id="progreso" hidden>
-        <h4>Revisión de vacantes <small id="prog-texto"></small></h4>
-        <div class="bar"><div id="prog-bar"></div></div>
-        <pre id="prog-log"></pre>
+      <div class="q-nav">
+        <button type="button" id="q-prev" aria-label="Pregunta anterior"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 12.5 10 7.5l5 5"/></svg></button>
+        <button type="button" id="q-next" aria-label="Pregunta siguiente"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></button>
       </div>
     </section>
 

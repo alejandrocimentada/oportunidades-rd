@@ -351,11 +351,11 @@ $("#drawer-close").addEventListener("click", cerrar);
 $("#scrim").addEventListener("click", cerrar);
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrar(); });
 
-// -- mi perfil (8 pasos) y revisión de vacantes ---------------------------------------
+// -- mi perfil (encuesta, una pregunta a la vez) y revisión de vacantes ---------------------------------------
 const LISTAS = ["roles_objetivo", "habilidades", "idiomas"];
 const leer = (obj, ruta) => ruta.split(".").reduce((o, k) => (o ?? {})[k], obj);
 let sugerenciasAgente = {};  // las que el agente refinó (perfil.sugerencias); van primero
-let ESCO = null;  // índice local de ESCO (static/esco.json), preparado al abrir el paso 3
+let ESCO = null;  // índice local de ESCO (static/esco.json), preparado al abrir la pregunta de habilidades
 
 function llenarPerfil(perfil) {
   const f = $("#form-perfil");
@@ -363,7 +363,8 @@ function llenarPerfil(perfil) {
     if (!el.name) return;
     if (el.name === "intereses") { el.checked = (perfil.intereses || []).includes(el.value); return; }
     const v = leer(perfil, el.name);
-    if (el.type === "checkbox") el.checked = !!v;
+    if (el.type === "radio") el.checked = el.value === v;
+    else if (el.type === "checkbox") el.checked = !!v;
     else if (LISTAS.includes(el.name)) el.value = (v || []).join("\n");
     else el.value = v ?? "";
   });
@@ -392,13 +393,13 @@ function agregarChips(box, texto) {
   pintarChips(box);
 }
 document.querySelectorAll(".chipbox").forEach((box) => {
-  box.innerHTML = `<div class="add"><input id="chip-${box.dataset.for}" placeholder="${esc(box.dataset.placeholder)}">
+  box.innerHTML = `<div class="add"><input class="campo" id="chip-${box.dataset.for}" placeholder="${esc(box.dataset.placeholder)}">
     <button type="button" class="btn">Añadir</button></div><div class="list-chips"></div>`;
   const input = box.querySelector("input");
   const agregar = () => { agregarChips(box, input.value); input.value = ""; input.focus(); };
   box.querySelector(".add button").addEventListener("click", agregar);
   input.addEventListener("keydown", (ev) => {
-    if (ev.key === "Enter") { ev.preventDefault(); agregar(); }
+    if (ev.key === "Enter") { if (input.value.trim()) { ev.preventDefault(); agregar(); } }  // vacío: Enter = OK
     else if (ev.key === "Backspace" && !input.value) {  // borrar el último chip con el campo vacío
       const vals = chipValores(box); vals.pop(); chipCampo(box).value = vals.join("\n"); pintarChips(box);
     }
@@ -412,8 +413,8 @@ document.querySelectorAll(".chipbox").forEach((box) => {
   pintarChips(box);
 });
 
-// -- buscador de habilidades (paso 3): índice local (ESCO + habilidades curadas), funciona sin conexión ----
-// Se carga una sola vez, al abrir los pasos 3 o 4; mientras tanto el campo acepta texto libre.
+// -- buscador de habilidades: índice local (ESCO + habilidades curadas), funciona sin conexión ----
+// Se carga una sola vez, al abrir habilidades o roles; mientras tanto el campo acepta texto libre.
 function cargarEsco() {
   cargarEsco.p ??= fetch(window.RUTA_ESCO).then((r) => (r.ok ? r.json() : null))
     .then((d) => { if (d) { ESCO = Sugerencias.prepararEsco(d); pintarSugerencias(); acPintar(); } })
@@ -500,40 +501,158 @@ acLista.addEventListener("mousedown", (ev) => {  // mousedown: antes de que el c
   if (li) { ev.preventDefault(); acElegir(+li.dataset.i); }
 });
 
-// Asistente: un paso visible a la vez, con barra de progreso y saltos directos a cualquier paso.
-const PASOS = [...document.querySelectorAll("#form-perfil .step")];
-let paso = 0;
-function irAPaso(i) {
-  paso = Math.max(0, Math.min(PASOS.length - 1, i));
-  PASOS.forEach((s, j) => s.classList.toggle("on", j === paso));
-  $("#wz-paso").textContent = `Paso ${paso + 1} de ${PASOS.length}`;
-  $("#wz-titulo").textContent = PASOS[paso].dataset.titulo;
-  const pct = Math.round(((paso + 1) / PASOS.length) * 100);
-  $("#wz-bar").style.width = `${pct}%`;
-  $("#wz-pct").textContent = `Progreso: ${pct}%`;
-  $("#wz-steps").innerHTML = PASOS.map((s, j) => `<li><button type="button" data-paso="${j}"
-      class="${j < paso ? "hecho" : j === paso ? "actual" : ""}" ${j === paso ? 'aria-current="step"' : ""}>
-      <i>${j < paso ? "✓" : j + 1}</i>${esc(s.dataset.corto)}</button></li>`).join("");
-  $("#wz-prev").disabled = paso === 0;
-  $("#wz-next").hidden = paso === PASOS.length - 1;
-  $("#btn-buscar").hidden = paso !== PASOS.length - 1;  // la revisión se lanza desde el último paso
-  $("#wz-next").textContent = paso < PASOS.length - 1 ? "Continuar" : "";
-  if (PASOS[paso].querySelector(".sug")) cargarEsco();  // pasos 3 y 4
-  pintarSugerencias();
-}
-$("#wz-steps").addEventListener("click", (ev) => { const b = ev.target.closest("[data-paso]"); if (b) irAPaso(+b.dataset.paso); });
-$("#wz-prev").addEventListener("click", () => irAPaso(paso - 1));
-$("#wz-next").addEventListener("click", () => irAPaso(paso + 1));
-// Enter en un campo de texto avanza de paso en vez de lanzar la revisión.
-$("#form-perfil").addEventListener("keydown", (ev) => {
-  if (ev.key !== "Enter" || ev.target.tagName !== "INPUT" || ev.target.closest(".chipbox")) return;
-  ev.preventDefault();
-  if (paso < PASOS.length - 1) irAPaso(paso + 1);
+// Encuesta: una pregunta por pantalla (Enter = OK), con barra de progreso, flechas y un final con el resumen.
+// Cada respuesta se guarda al pulsar OK; las obligatorias (data-req) muestran su aviso en vez de avanzar.
+const PANTALLAS = [...document.querySelectorAll("#form-perfil .q")];
+const FIN = PANTALLAS.length - 1;  // la última pantalla es «¡Listo!»
+const MAC = /Mac|iP(hone|ad|od)/.test(navigator.platform);
+const ICONO_CHECK = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg>';
+let actual = -1, volverAlFinal = false, guardando = false;
+
+PANTALLAS.slice(0, FIN).forEach((q, i) => {
+  q.querySelector(".q-t").insertAdjacentHTML("afterbegin", `<span class="q-num">${i + 1}<span aria-hidden="true">→</span></span>`);
+  q.querySelectorAll(".opcion").forEach((o, k) => {  // letras A, B, C… para elegir con el teclado
+    o.dataset.letra = String.fromCharCode(65 + k);
+    o.querySelector("input + span").insertAdjacentHTML("afterbegin", `<kbd class="letra" aria-hidden="true">${o.dataset.letra}</kbd>`);
+  });
+  const enter = q.querySelector("textarea:not([hidden])") ? `${MAC ? "⌘" : "Ctrl"} + Enter ↵` : "Enter ↵";
+  q.insertAdjacentHTML("beforeend", `<p class="q-error" role="alert"></p><div class="q-acciones">
+    <button type="button" class="q-ok" data-ok>OK ${ICONO_CHECK}</button>
+    ${"opcional" in q.dataset ? '<button type="button" class="q-saltar" data-saltar>Saltar</button>' : ""}
+    <span class="q-pista">pulsa <b>${enter}</b></span></div>`);
 });
-irAPaso(0);
+PANTALLAS[FIN].querySelector(".q-t").tabIndex = -1;
+
+const enfocables = (q) => [...q.querySelectorAll("input, textarea:not([hidden]), select, button, summary, a[href]")]
+  .filter((el) => el.offsetParent !== null && !el.disabled);
+function enfocar(q) {
+  // La primera respuesta (no las sugerencias); en el final, el título, para que se anuncie.
+  const el = q === PANTALLAS[FIN] ? q.querySelector(".q-t") : enfocables(q).find((x) => !x.closest(".sug"));
+  if (!el) return;
+  el.focus({ preventScroll: !estrecho.matches });
+  // En la ventana (que se desplaza por dentro), que la respuesta enfocada quede a la vista.
+  const wb = $(".win-body"), abajo = el.getBoundingClientRect().bottom - wb.getBoundingClientRect().bottom + 24;
+  if (!estrecho.matches && abajo > 0) wb.scrollTop += abajo;
+}
+function avisar(q, msg) { q.querySelector(".q-error").textContent = msg ? `⚠ ${msg}` : ""; }
+
+function falta(q) {
+  if (!("req" in q.dataset)) return "";
+  const box = q.querySelector(".chipbox");
+  let hay;
+  if (box) { const i = box.querySelector("input"); agregarChips(box, i.value); i.value = ""; hay = chipValores(box).length > 0; }
+  else if (q.querySelector("[name=intereses]")) hay = perfilDelFormulario().intereses.length > 0 || !!$("[name=intereses_otra]").value.trim();
+  else hay = [...q.querySelectorAll("[required]")].every((el) => el.value.trim());
+  return hay ? "" : q.dataset.req;
+}
+function invalido(q) {
+  const el = [...q.querySelectorAll("input")].find((x) => !x.checkValidity());
+  if (!el) return "";
+  return el.type === "url" ? "Escribe el enlace completo, empezando con https://."
+    : `Escribe un número${el.max ? ` entre ${el.min || 0} y ${el.max}` : " válido"}.`;
+}
+
+function irA(i, { foco = true, animar = true } = {}) {
+  i = Math.max(0, Math.min(FIN, i));
+  const viejo = PANTALLAS[actual], nuevo = PANTALLAS[i], atras = i < actual;
+  const moverse = animar && viejo && viejo !== nuevo && !quieto.matches;
+  actual = i;
+  if (i === FIN) { volverAlFinal = false; pintarFin(); }
+  $("#q-barra").style.width = `${(i / FIN) * 100}%`;
+  $("#q-prev").disabled = i === 0;
+  $("#q-next").disabled = i === FIN;
+  clearTimeout(irA.t);
+  const mostrarNuevo = () => {
+    PANTALLAS.forEach((p) => p.classList.remove("on", "sale", "entra", "atras"));
+    nuevo.classList.add("on");
+    if (moverse) nuevo.classList.add("entra", ...(atras ? ["atras"] : []));
+    if (nuevo.querySelector(".sug")) cargarEsco();
+    pintarSugerencias();
+    if (!estrecho.matches) $(".win-body").scrollTop = 0;
+    if (foco) enfocar(nuevo);
+  };
+  // La pregunta actual sube y se desvanece; la siguiente entra desde abajo (al volver, al revés).
+  if (moverse && viejo.classList.contains("on")) {
+    viejo.classList.add("sale"); viejo.classList.toggle("atras", atras);
+    irA.t = setTimeout(mostrarNuevo, 140);
+  } else mostrarNuevo();
+}
+
+async function ok() {
+  const q = PANTALLAS[actual];
+  if (actual >= FIN || guardando) return;
+  const msg = falta(q) || invalido(q);
+  avisar(q, msg);
+  if (msg) { enfocar(q); return; }
+  const destino = volverAlFinal ? FIN : actual + 1;
+  if (!DEMO) {  // en la demo no se guarda nada
+    guardando = true;
+    try { await guardarPerfil(); } catch (e) { avisar(q, e.message); return; } finally { guardando = false; }
+    if (destino === FIN) cargar().catch(() => { /* el resumen se actualiza en la próxima carga */ });
+  }
+  irA(destino);
+}
+function saltar() { avisar(PANTALLAS[actual], ""); irA(volverAlFinal ? FIN : actual + 1); }
+
+// Pantalla final: cada respuesta en corto; un clic vuelve a esa pregunta y, con OK, de vuelta aquí.
+function respuesta(q) {
+  const partes = [];
+  const unidad = (n, uno, varios) => `${n} ${n === "1" ? uno : varios}`;
+  q.querySelectorAll("input[name], select[name], textarea[name]").forEach((el) => {
+    if (el.closest(".avanzado")) return;
+    if (el.type === "checkbox" || el.type === "radio") {
+      if (el.checked) partes.push(el.dataset.resumen || el.closest("label").querySelector("b").textContent);
+    } else if (LISTAS.includes(el.name)) partes.push(chipValores(q.querySelector(".chipbox")).join(", "));
+    else if (el.value.trim() && !(el.name === "preferencias.dias_remotos" && +el.value === 0)) {
+      partes.push({ anos_experiencia: unidad(el.value, "año", "años"), "preferencias.dias_remotos": unidad(el.value, "día remoto", "días remotos"),
+        "preferencias.salario_minimo_dop": `RD$ ${Number(el.value).toLocaleString("es-DO")}` }[el.name] || el.value.trim());
+    }
+  });
+  return partes.filter(Boolean).join(" · ");
+}
+function pintarFin() {
+  $("#fin-resumen").innerHTML = PANTALLAS.slice(0, FIN).map((q, i) => {
+    const r = respuesta(q);
+    return `<button type="button" class="fin-item" data-editar="${i}" aria-label="Cambiar: ${esc(q.dataset.corto)}">
+      <span>${i + 1}. ${esc(q.dataset.corto)}</span>${r ? `<b>${esc(r)}</b>` : '<b class="sin">Sin responder</b>'}</button>`;
+  }).join("");
+}
+
+$("#form-perfil").addEventListener("click", (ev) => {
+  if (ev.target.closest("[data-ok]")) ok();
+  else if (ev.target.closest("[data-saltar]")) saltar();
+  else if (ev.target.closest("[data-alternar]") && actual < FIN) avisar(PANTALLAS[actual], "");
+  const ed = ev.target.closest("[data-editar]");
+  if (ed) { volverAlFinal = true; irA(+ed.dataset.editar); }
+});
+$("#form-perfil").addEventListener("input", () => { if (actual < FIN) avisar(PANTALLAS[actual], ""); });
+$("#q-prev").addEventListener("click", () => irA(actual - 1));
+$("#q-next").addEventListener("click", ok);
+
+// Teclado: Enter = OK (Ctrl/⌘ + Enter en textos largos), Shift+Tab desde la primera respuesta o ↑ = atrás,
+// y la letra de una opción la marca. Los botones, listas y el buscador de habilidades conservan sus teclas.
+const escribiendo = (el) => el.matches("textarea, select, input:not([type=checkbox]):not([type=radio])");
+document.addEventListener("keydown", (ev) => {
+  const t = ev.target;
+  if (!$("#view-perfil").classList.contains("on") || actual >= FIN || ev.defaultPrevented || ev.isComposing) return;
+  if (t !== document.body && !t.closest("#view-perfil")) return;
+  const q = PANTALLAS[actual];
+  if (ev.key === "Enter") {
+    if (t.tagName === "TEXTAREA" ? !(ev.ctrlKey || ev.metaKey) : t.matches("button, summary, select, a")) return;
+    ev.preventDefault(); ok();
+  } else if (ev.key === "Tab" && ev.shiftKey && actual > 0 && t === enfocables(q)[0]) {
+    ev.preventDefault(); irA(actual - 1);
+  } else if (ev.key === "ArrowUp" && actual > 0 && !ev.altKey && !t.matches("textarea, select, input[type=number], input[type=radio]")) {
+    ev.preventDefault(); irA(actual - 1);
+  } else if (/^[a-z]$/i.test(ev.key) && !ev.ctrlKey && !ev.metaKey && !ev.altKey && !escribiendo(t)) {
+    const o = q.querySelector(`.opcion[data-letra="${ev.key.toUpperCase()}"] input`);
+    if (o) { ev.preventDefault(); o.click(); o.focus(); }
+  }
+});
+irA(0, { foco: false, animar: false });
 
 // -- sugerencias de habilidades y roles (sin IA: static/sugerencias.js + mapa local) --
-// Declaradas como function: el asistente pinta las sugerencias desde que carga la página.
+// Declaradas como function: la encuesta pinta las sugerencias desde que carga la página.
 function igual(a, b) { return Sugerencias.normalizar(a) === Sugerencias.normalizar(b); }
 function alternar(campo, valor) {
   const box = $(`.chipbox[data-for="${campo}"]`), vals = chipValores(box);
@@ -550,8 +669,8 @@ function pintarSugerencias() {
   const perfil = { ...perfilDelFormulario(), sugerencias: sugerenciasAgente };
   const s = Sugerencias.sugerir(perfil, window.SUGERENCIAS, ESCO);
   const tengo = (campo) => chipValores($(`.chipbox[data-for="${campo}"]`));
-  const vacio = `<p class="hint">Elige tus áreas en el <button type="button" class="linkbtn" data-paso-ir="0">paso 1</button>
-    o cuenta tu experiencia en el <button type="button" class="linkbtn" data-paso-ir="1">paso 2</button> para ver sugerencias.</p>`;
+  const vacio = `<p class="hint">Elige tus áreas en la <button type="button" class="linkbtn" data-paso-ir="0">pregunta 1</button>
+    o escribe tu trabajo en la <button type="button" class="linkbtn" data-paso-ir="2">pregunta 3</button> para ver sugerencias.</p>`;
   const habs = tengo("habilidades");
   $("#sug-habilidades").innerHTML = s.habilidades.length ? `<p class="sug-t">Sugeridas para ti · toca para añadir o quitar</p>
     <div class="sug-chips">${s.habilidades.map((h) => {
@@ -571,7 +690,7 @@ $("#form-perfil").addEventListener("click", (ev) => {
   const b = ev.target.closest("[data-alternar]");
   if (b) alternar(b.dataset.alternar, b.dataset.valor);
   const ir = ev.target.closest("[data-paso-ir]");
-  if (ir) irAPaso(+ir.dataset.pasoIr);
+  if (ir) irA(+ir.dataset.pasoIr);
 });
 $("#interes-otra").addEventListener("change", (ev) => {
   $("#otra-lbl").hidden = !ev.target.checked;
@@ -582,7 +701,7 @@ $("#interes-otra").addEventListener("change", (ev) => {
 function perfilDelFormulario() {
   const f = $("#form-perfil"), out = {};
   f.querySelectorAll("input, select, textarea").forEach((el) => {
-    if (!el.name || el.name === "intereses") return;
+    if (!el.name || el.name === "intereses" || (el.type === "radio" && !el.checked)) return;
     let v = el.type === "checkbox" ? el.checked : el.value.trim();
     if (LISTAS.includes(el.name)) v = v.split(/\n|;/).map((x) => x.trim()).filter(Boolean);
     const [a, b] = el.name.split(".");
@@ -629,9 +748,6 @@ async function seguirBusqueda() {
   }
 }
 
-$("#btn-guardar").addEventListener("click", async () => {
-  try { await guardarPerfil(); toast("Perfil guardado"); cargar(); } catch (e) { toast(e.message); }
-});
 $("#form-perfil").addEventListener("submit", async (ev) => {
   ev.preventDefault();
   try {
@@ -646,8 +762,10 @@ $("#form-perfil").addEventListener("submit", async (ev) => {
 });
 
 async function cargarPerfil() {
-  const [{ perfil }, b] = await Promise.all([api("/api/perfil"), api("/api/buscar")]);
+  const [{ perfil, existe }, b] = await Promise.all([api("/api/perfil"), api("/api/buscar")]);
   llenarPerfil(perfil);
+  // Con un perfil ya guardado, «Mi perfil» abre el resumen final; si no (o en la demo), la primera pregunta.
+  if (existe && !DEMO) irA(FIN, { foco: false, animar: false });
   pintarBusqueda(b);
   if (b.corriendo) seguirBusqueda();
   const con = state.empresas.filter((e) => e.url_empleos).length;

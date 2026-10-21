@@ -317,21 +317,110 @@ textarea { line-height: 1.6; resize: vertical; }
 .toast svg { width: 16px; height: 16px; flex: none; fill: none; stroke: #34D399; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 :root[data-theme="dark"] .toast { background: #2A2A31; }
 
-/* -- mi perfil (asistente) ------------------------------------------------------------ */
-.wz-head { text-align: center; margin: 0 auto 16px; max-width: 640px; }
-.wz-head h2 { font: 500 24px/1.3 var(--serif); margin-top: 4px; }
-.wz-steps { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; padding: 0; margin: 12px 0 0; }
-.wz-steps button { border: 0; background: none; font-size: 11px; color: var(--faint); padding: 3px 8px; border-radius: 6px; cursor: pointer;
-  display: flex; align-items: center; gap: 5px; }
-.wz-steps button:hover { color: var(--ink); background: var(--card); }
-.wz-steps i { font: normal 500 9.5px/1 var(--mono); width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center;
-  border: 1px solid var(--line-2); }
-.wz-steps .hecho { color: var(--text-2); } .wz-steps .hecho i { background: var(--chip-bg); border-color: transparent; }
-.wz-steps .actual { color: var(--ink); font-weight: 600; } .wz-steps .actual i { background: var(--btn-bg); color: var(--btn-fg); border-color: transparent; }
-.wizard { max-width: 640px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
-.step { border: 0; padding: 0; margin: 0; display: none; gap: 16px; min-width: 0; }
-.step.on { display: grid; }
-.step legend { display: none; }
+/* -- mi perfil: encuesta, una pregunta a la vez ---------------------------------------
+   Columna de ~560px centrada en la ventana, número de la pregunta en el acento, respuestas subrayadas, OK en el
+   acento y flechas abajo a la derecha. app.js añade .on a la pregunta visible y .sale / .entra al cambiar. */
+#view-perfil.on { display: flex; flex-direction: column; min-height: 100%; }
+/* La línea de progreso va bajo la barra de título, de borde a borde, solo con «Mi perfil» abierto. */
+.q-progreso { flex: none; height: 3px; background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.window:not(:has(#view-perfil.on)) .q-progreso { display: none; }
+.q-progreso div { height: 100%; width: 0; background: var(--accent); transition: width .3s ease-out; }
+.encuesta { flex: 1; display: flex; flex-direction: column; justify-content: safe center; width: 100%; max-width: 560px; margin: 0 auto;
+  padding: 16px 0 8px; }
+.encuesta:has(.q-fin.on) { max-width: 720px; }
+.q { display: none; position: relative; padding-left: 40px; }
+.q.on { display: block; }
+.q.entra { animation: q-entra .25s ease-out both; }
+.q.entra.atras { animation-name: q-entra-atras; }
+.q.sale { animation: q-sale .14s ease-in both; }
+.q.sale.atras { animation-name: q-sale-atras; }
+@keyframes q-entra { from { opacity: 0; transform: translateY(28px); } }
+@keyframes q-entra-atras { from { opacity: 0; transform: translateY(-28px); } }
+@keyframes q-sale { to { opacity: 0; transform: translateY(-28px); } }
+@keyframes q-sale-atras { to { opacity: 0; transform: translateY(28px); } }
+.q-t { font: 500 23px/1.3 var(--sans); letter-spacing: -.012em; color: var(--ink); outline: none; }
+.q-num { position: absolute; left: 0; top: 6px; display: inline-flex; align-items: center; gap: 3px; font: 500 14px/1 var(--sans);
+  color: var(--accent); }
+.q-num span { font-size: 12px; }
+.q-ayuda { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--muted); }
+#form-perfil .campo { display: block; width: 100%; height: auto; margin-top: 20px; padding: 4px 0 8px; border: 0; border-radius: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 28%, transparent); background: transparent; color: var(--ink);
+  font: 400 20px/1.35 var(--sans); box-shadow: none; transition: border-color .15s; }
+#form-perfil .campo::placeholder { color: color-mix(in srgb, var(--ink) 30%, transparent); }
+#form-perfil .campo:focus { border-bottom: 2px solid var(--accent); padding-bottom: 7px; }
+#form-perfil .campo.corto { max-width: 220px; }
+#form-perfil .campo.chico { margin-top: 4px; font-size: 17px; }
+#form-perfil textarea.campo { resize: none; font-size: 17px; line-height: 1.5; }
+.q-lbl { display: block; margin-top: 18px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.q-fila { display: flex; gap: 20px; }
+.q-fila .q-lbl:first-child { flex: 0 0 120px; }
+.q-fila .q-lbl:last-child { flex: 1; }
+.q-check { margin-top: 18px; font-size: 13px; color: var(--text-2); }
+.q-check input { accent-color: var(--accent); }
+/* opciones grandes, con su letra (A, B, C…): casillas en «áreas», radios en «modalidad» */
+.opciones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 18px; }
+.opcion { position: relative; cursor: pointer; }
+.opcion input { position: absolute; opacity: 0; pointer-events: none; }
+.opcion > span { display: flex; align-items: center; gap: 9px; height: 100%; padding: 6px 8px 6px 7px; border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent); background: color-mix(in srgb, var(--accent) 5%, transparent);
+  color: var(--ink); transition: background .12s, border-color .12s, box-shadow .12s; }
+.opcion > span::after { content: "✓"; margin-left: auto; padding-left: 4px; font-size: 13px; color: var(--accent); opacity: 0; }
+.opcion b { font-size: 13px; font-weight: 500; line-height: 1.2; }
+.opcion:hover > span { background: color-mix(in srgb, var(--accent) 11%, transparent); }
+.opcion input:checked + span { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, transparent); }
+.opcion input:checked + span::after { opacity: 1; }
+.opcion input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.letra { flex: none; width: 20px; height: 20px; border-radius: 4px; display: grid; place-items: center; font: 600 11px/1 var(--sans);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); background: var(--panel); color: var(--accent); }
+.opcion input:checked + span .letra { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+/* OK, Saltar, aviso y flechas */
+.q-acciones { display: flex; align-items: center; gap: 14px; margin-top: 22px; }
+.q-ok { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 16px; border: 0; border-radius: 6px;
+  background: var(--accent); color: #FFFFFF; font: 600 15px/1 var(--sans); cursor: pointer; transition: filter .12s; }
+.q-ok:hover { filter: brightness(.93); }
+.q-ok:focus-visible, .q-nav button:focus-visible, .q-saltar:focus-visible, .fin-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.q-ok svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+:root[data-theme="dark"] .q-ok, :root[data-theme="dark"] .q-nav button,
+:root[data-theme="dark"] .opcion input:checked + span .letra { color: #06121F; }
+.q-saltar { border: 0; background: none; padding: 8px 2px; color: var(--muted); font: 500 14px/1 var(--sans); cursor: pointer; }
+.q-saltar:hover { color: var(--ink); text-decoration: underline; }
+.q-pista { font-size: 12px; color: var(--muted); }
+.q-pista b { font-weight: 600; }
+@media (hover: none) { .q-pista { display: none; } }
+.q-error { margin: 12px 0 0; font-size: 13px; font-weight: 500; color: var(--danger); }
+.q-error:empty { display: none; }
+.q-nav { position: sticky; bottom: 0; z-index: 3; align-self: flex-end; display: flex; gap: 2px; margin-top: 8px; }
+.q-nav button { width: 32px; height: 32px; display: grid; place-items: center; padding: 0; border: 0; background: var(--accent); color: #FFFFFF;
+  cursor: pointer; }
+.q-nav button:first-child { border-radius: 6px 0 0 6px; }
+.q-nav button:last-child { border-radius: 0 6px 6px 0; }
+.q-nav button:disabled { opacity: .35; cursor: default; }
+.q-nav svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* habilidades, roles e idiomas dentro de la encuesta */
+.q .sug { margin-top: 18px; }
+.q .chipbox + .sug { margin-top: 14px; }
+.q .chipbox { margin-top: 6px; gap: 10px; }
+.q .chipbox .add { align-items: flex-end; gap: 10px; }
+.q .chipbox .add .btn { flex: none; padding: 7px 12px; background: var(--pill); color: var(--ink); }
+.q .list-chips { min-height: 0; padding: 0; border: 0; background: none; }
+.q .ac-ayuda { margin: 8px 0 0; }
+.q .avanzado { margin-top: 20px; }
+/* final: resumen que se puede cambiar y el siguiente paso */
+.q-fin { padding-left: 0; }
+.fin-resumen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 16px; }
+.fin-item { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 7px 10px; text-align: left; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--panel); cursor: pointer; transition: border-color .12s; }
+.fin-item:hover { border-color: var(--accent); }
+.fin-item span { font-size: 11px; color: var(--muted); }
+.fin-item b { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fin-item b.sin { color: var(--faint); font-weight: 400; }
+.fin-paso { margin-top: 14px; padding: 12px 14px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  background: color-mix(in srgb, var(--accent) 7%, transparent); font-size: 13px; color: var(--text-2); }
+.fin-paso > div { display: flex; align-items: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.fin-paso code { flex: 1; min-width: 0; font-size: 13px; color: var(--ink); user-select: all; }
+.fin-paso .q-ok { height: 32px; font-size: 13px; }
+.fin-extra { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; font-size: 12px; color: var(--muted); }
 .lbl { display: flex; flex-direction: column; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-2); flex: 1; min-width: 0; }
 .lbl.short { max-width: 220px; }
 .row { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -368,19 +457,7 @@ textarea { line-height: 1.6; resize: vertical; }
   transition: background .15s, border-color .15s; }
 .chips input:checked + span { background: var(--btn-bg); color: var(--btn-fg); border-color: var(--btn-bg); }
 .chips input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-/* paso 1: tarjetas de áreas (selección múltiple) */
-.areas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.area { position: relative; cursor: pointer; }
-.area input { position: absolute; opacity: 0; pointer-events: none; }
-.area span { display: flex; flex-direction: column; gap: 2px; height: 100%; padding: 10px 12px; border-radius: 10px; background: var(--panel);
-  border: 1px solid var(--line-2); transition: border-color .15s, background .15s; }
-.area b { font-size: 12.5px; font-weight: 600; }
-.area small { font-size: 11px; color: var(--muted); line-height: 1.4; }
-.area:hover span { border-color: var(--faint); }
-.area input:checked + span { background: var(--btn-bg); border-color: var(--btn-bg); color: var(--btn-fg); }
-.area input:checked + span small { color: color-mix(in srgb, var(--btn-fg) 75%, transparent); }
-.area input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-/* pasos 3 y 4: sugerencias que se eligen con un toque */
+/* habilidades y roles: sugerencias que se eligen con un toque */
 .sug-t { margin: 0 0 8px; font-size: 11px; font-weight: 600; color: var(--muted); }
 .sug-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .sug-chip { border: 1px dashed var(--line-2); background: var(--panel); border-radius: 999px; padding: 5px 12px; font-size: 12px; cursor: pointer;
@@ -393,7 +470,7 @@ textarea { line-height: 1.6; resize: vertical; }
 .sug-rol:hover { border-color: var(--faint); }
 .sug-rol i { font: normal 600 11px/1 var(--mono); width: 20px; height: 20px; flex: none; border-radius: 50%; display: grid; place-items: center;
   border: 1px solid var(--line-2); color: var(--muted); }
-.sug-rol span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sug-rol > span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .sug-rol b { font-size: 12.5px; font-weight: 600; }
 .sug-rol small { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
 .sug-rol[aria-pressed="true"] { border-color: var(--ink); background: var(--card-2); }
@@ -403,11 +480,9 @@ textarea { line-height: 1.6; resize: vertical; }
 .avanzado { border-top: 1px solid var(--line); padding-top: 12px; }
 .avanzado summary { font-size: 12px; font-weight: 600; color: var(--text-2); cursor: pointer; }
 .avanzado .row { margin-top: 12px; }
-.pactions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
-.pactions .bar { width: 80px; }
 .bar { height: 4px; background: var(--chip-bg); border-radius: 99px; overflow: hidden; }
 .bar > div { height: 100%; width: 0; background: var(--ink); border-radius: 99px; transition: width .3s; }
-.progreso { max-width: 640px; margin: 16px auto 0; }
+.progreso { margin: 14px 0 0; }
 .progreso .bar { margin-bottom: 10px; }
 #prog-log { margin: 0; max-height: 220px; overflow: auto; font: 11px/1.6 var(--mono); color: var(--muted); white-space: pre-wrap; }
 
@@ -442,10 +517,15 @@ textarea { line-height: 1.6; resize: vertical; }
   .pipeline div:nth-child(odd) { border-left: 0; }
   .pipeline div:nth-child(n+3) { border-top: 1px solid var(--line); }
   .companies { grid-template-columns: 1fr; }
-  .wizard { padding: 16px; }
-  .areas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pactions .bar, .pactions .grow { display: none; }
-  .pactions #wz-pct { flex-basis: 100%; }
+  .encuesta { padding: 20px 0 8px; }
+  .q { padding-left: 30px; }
+  .q-t { font-size: 20px; }
+  .q-num { top: 4px; font-size: 13px; }
+  .opciones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .opciones.tres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .opciones.tres .opcion > span::after { display: none; }  /* sin espacio: la marcan el borde y la letra */
+  .fin-resumen { grid-template-columns: 1fr; }
+  .q-nav { position: static; }
   .tbl th:nth-child(2), .tbl td:nth-child(2) { display: none; }
   .tbl td { padding: 10px; }
   .filters label { min-width: 0; flex: 1 1 40%; }
