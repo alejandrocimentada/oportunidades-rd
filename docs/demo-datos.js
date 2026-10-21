@@ -1,5 +1,5 @@
 // Datos INVENTADOS para la demo pública. Generado por scripts/construir_demo.py; no lo edites a mano.
-window.DEMO_FECHA = "2026-10-20";
+window.DEMO_FECHA = "2026-10-21";
 window.DEMO = {
  "/api/resumen": {
   "con_documentos": [
@@ -22,9 +22,9 @@ window.DEMO = {
   ],
   "novedades": {
    "corrida": {
-    "fin": "2026-10-20T17:20:30",
+    "fin": "2026-10-21T10:29:28",
     "id": 1,
-    "inicio": "2026-10-20T17:20:30",
+    "inicio": "2026-10-21T10:29:28",
     "resumen": {
      "manuales": [
       {
@@ -57,10 +57,10 @@ window.DEMO = {
      "fuente": "rastreo",
      "id": 1,
      "idioma": "es",
-     "primera_vez": "2026-10-20T17:20:30",
+     "primera_vez": "2026-10-21T10:29:28",
      "titulo": "Analista de Automatización (demo)",
      "ubicacion": "Santo Domingo",
-     "ultima_vez": "2026-10-20T17:20:30",
+     "ultima_vez": "2026-10-21T10:29:28",
      "url": "https://distribuidoradelcaribe.example/empleos/1",
      "url_canonica": "https://distribuidoradelcaribe.example/empleos/1",
      "vista_corrida": 1
@@ -76,10 +76,10 @@ window.DEMO = {
      "fuente": "rastreo",
      "id": 2,
      "idioma": "es",
-     "primera_vez": "2026-10-20T17:20:30",
+     "primera_vez": "2026-10-21T10:29:28",
      "titulo": "Analista de Planificación (demo)",
      "ubicacion": "Santo Domingo",
-     "ultima_vez": "2026-10-20T17:20:30",
+     "ultima_vez": "2026-10-21T10:29:28",
      "url": "https://distribuidoradelcaribe.example/empleos/2",
      "url_canonica": "https://distribuidoradelcaribe.example/empleos/2",
      "vista_corrida": 1
@@ -95,10 +95,10 @@ window.DEMO = {
      "fuente": "rastreo",
      "id": 3,
      "idioma": "es",
-     "primera_vez": "2026-10-20T17:20:30",
+     "primera_vez": "2026-10-21T10:29:28",
      "titulo": "Ingeniero de IA Conversacional (demo)",
      "ubicacion": "Santo Domingo",
-     "ultima_vez": "2026-10-20T17:20:30",
+     "ultima_vez": "2026-10-21T10:29:28",
      "url": "https://telecomantillas.example/empleos/1",
      "url_canonica": "https://telecomantillas.example/empleos/1",
      "vista_corrida": 1
@@ -122,7 +122,7 @@ window.DEMO = {
    },
    "recientes": [
     {
-     "creado": "2026-10-20T17:20:30",
+     "creado": "2026-10-21T10:29:28",
      "estado": "Descubierta",
      "id": 6,
      "industria": "tecnología/consultoría",
@@ -131,7 +131,7 @@ window.DEMO = {
      "tipo": "tecnología/startup"
     },
     {
-     "creado": "2026-10-20T17:20:30",
+     "creado": "2026-10-21T10:29:28",
      "estado": "Aplicado",
      "id": 5,
      "industria": "logística",
@@ -140,7 +140,7 @@ window.DEMO = {
      "tipo": "empresa local en crecimiento"
     },
     {
-     "creado": "2026-10-20T17:20:30",
+     "creado": "2026-10-21T10:29:28",
      "estado": "Entrevista",
      "id": 4,
      "industria": "telecomunicaciones",
@@ -149,7 +149,7 @@ window.DEMO = {
      "tipo": "multinacional"
     },
     {
-     "creado": "2026-10-20T17:20:30",
+     "creado": "2026-10-21T10:29:28",
      "estado": "Descubierta",
      "id": 3,
      "industria": "banca",
@@ -158,7 +158,7 @@ window.DEMO = {
      "tipo": "grupo local"
     },
     {
-     "creado": "2026-10-20T17:20:30",
+     "creado": "2026-10-21T10:29:28",
      "estado": "Contacté",
      "id": 2,
      "industria": "tecnología/consultoría",
@@ -167,7 +167,7 @@ window.DEMO = {
      "tipo": "multinacional"
     },
     {
-     "creado": "2026-10-20T17:20:30",
+     "creado": "2026-10-21T10:29:28",
      "estado": "Me interesa",
      "id": 1,
      "industria": "retail/distribución",
@@ -181,29 +181,29 @@ window.DEMO = {
      "estado": "Entrevista",
      "id": 4,
      "nombre": "Telecom Antillas (demo)",
-     "seguimiento": "2026-10-23",
+     "seguimiento": "2026-10-24",
      "vencido": false
     },
     {
      "estado": "Contacté",
      "id": 2,
      "nombre": "Servicios Globales RD (demo)",
-     "seguimiento": "2026-10-25",
+     "seguimiento": "2026-10-26",
      "vencido": false
     },
     {
      "estado": "Aplicado",
      "id": 5,
      "nombre": "LogiPuerto RD (demo)",
-     "seguimiento": "2026-10-27",
+     "seguimiento": "2026-10-28",
      "vencido": false
     }
    ],
    "total_empresas": 6,
    "ultima_corrida": {
-    "fin": "2026-10-20T17:20:30",
+    "fin": "2026-10-21T10:29:28",
     "id": 1,
-    "inicio": "2026-10-20T17:20:30",
+    "inicio": "2026-10-21T10:29:28",
     "resumen": {
      "manuales": [
       {
@@ -233,13 +233,13 @@ window.DEMO = {
      "rol": "Head of Data"
     }
    ],
-   "creado": "2026-10-20T17:20:30",
+   "creado": "2026-10-21T10:29:28",
    "equipos": [
     "Transformación digital / innovación",
     "Datos y analítica"
    ],
    "estado": "Descubierta",
-   "estado_fecha": "2026-10-20T17:20:30",
+   "estado_fecha": "2026-10-21T10:29:28",
    "estado_rastreo": "sin vacantes",
    "evidencia": [
     {
@@ -302,13 +302,13 @@ window.DEMO = {
      "rol": "Fundador / CTO"
     }
    ],
-   "creado": "2026-10-20T17:20:30",
+   "creado": "2026-10-21T10:29:28",
    "equipos": [
     "Producto / IA",
     "Integraciones"
    ],
    "estado": "Descubierta",
-   "estado_fecha": "2026-10-20T17:20:30",
+   "estado_fecha": "2026-10-21T10:29:28",
    "estado_rastreo": "abrir manualmente",
    "evidencia": [
     {
@@ -370,14 +370,14 @@ window.DEMO = {
      "rol": "Talent Acquisition"
     }
    ],
-   "creado": "2026-10-20T17:20:30",
+   "creado": "2026-10-21T10:29:28",
    "equipos": [
     "Automatización de procesos",
     "BI y analítica",
     "Transformación digital"
    ],
    "estado": "Me interesa",
-   "estado_fecha": "2026-10-20T17:20:30",
+   "estado_fecha": "2026-10-21T10:29:28",
    "estado_rastreo": "ok",
    "evidencia": [
     {
@@ -444,13 +444,13 @@ window.DEMO = {
      "rol": "Gerente de Automatización"
     }
    ],
-   "creado": "2026-10-20T17:20:30",
+   "creado": "2026-10-21T10:29:28",
    "equipos": [
     "Automatización de procesos (RPA)",
     "IA aplicada"
    ],
    "estado": "Contacté",
-   "estado_fecha": "2026-10-20T17:20:30",
+   "estado_fecha": "2026-10-21T10:29:28",
    "estado_rastreo": "sin vacantes",
    "evidencia": [
     {
@@ -493,7 +493,7 @@ window.DEMO = {
     "Talent Acquisition",
     "Gerente de Automatización"
    ],
-   "seguimiento": "2026-10-25",
+   "seguimiento": "2026-10-26",
    "sitio_web": "https://serviciosglobalesrd.example",
    "talento": "https://serviciosglobalesrd.example/talento",
    "tipo": "multinacional",
@@ -513,13 +513,13 @@ window.DEMO = {
      "rol": "Gerente de Operaciones"
     }
    ],
-   "creado": "2026-10-20T17:20:30",
+   "creado": "2026-10-21T10:29:28",
    "equipos": [
     "Datos y analítica",
     "Mejora de procesos"
    ],
    "estado": "Aplicado",
-   "estado_fecha": "2026-10-20T17:20:30",
+   "estado_fecha": "2026-10-21T10:29:28",
    "estado_rastreo": "sin vacantes",
    "evidencia": [
     {
@@ -557,7 +557,7 @@ window.DEMO = {
    "roles_contacto": [
     "Gerente de Operaciones"
    ],
-   "seguimiento": "2026-10-27",
+   "seguimiento": "2026-10-28",
    "sitio_web": "https://logipuertord.example",
    "talento": "https://logipuertord.example/talento",
    "tipo": "empresa local en crecimiento",
@@ -577,13 +577,13 @@ window.DEMO = {
      "rol": "Gerente de Canales Digitales"
     }
    ],
-   "creado": "2026-10-20T17:20:30",
+   "creado": "2026-10-21T10:29:28",
    "equipos": [
     "Atención digital / chatbots",
     "Datos y analítica"
    ],
    "estado": "Entrevista",
-   "estado_fecha": "2026-10-20T17:20:30",
+   "estado_fecha": "2026-10-21T10:29:28",
    "estado_rastreo": "ok",
    "evidencia": [
     {
@@ -625,7 +625,7 @@ window.DEMO = {
    "roles_contacto": [
     "Gerente de Canales Digitales"
    ],
-   "seguimiento": "2026-10-23",
+   "seguimiento": "2026-10-24",
    "sitio_web": "https://telecomantillas.example",
    "talento": "https://telecomantillas.example/talento",
    "tipo": "multinacional",
@@ -646,10 +646,10 @@ window.DEMO = {
    "fuente": "rastreo",
    "id": 3,
    "idioma": "es",
-   "primera_vez": "2026-10-20T17:20:30",
+   "primera_vez": "2026-10-21T10:29:28",
    "titulo": "Ingeniero de IA Conversacional (demo)",
    "ubicacion": "Santo Domingo",
-   "ultima_vez": "2026-10-20T17:20:30",
+   "ultima_vez": "2026-10-21T10:29:28",
    "url": "https://telecomantillas.example/empleos/1",
    "url_canonica": "https://telecomantillas.example/empleos/1",
    "vista_corrida": 1
@@ -664,10 +664,10 @@ window.DEMO = {
    "fuente": "rastreo",
    "id": 2,
    "idioma": "es",
-   "primera_vez": "2026-10-20T17:20:30",
+   "primera_vez": "2026-10-21T10:29:28",
    "titulo": "Analista de Planificación (demo)",
    "ubicacion": "Santo Domingo",
-   "ultima_vez": "2026-10-20T17:20:30",
+   "ultima_vez": "2026-10-21T10:29:28",
    "url": "https://distribuidoradelcaribe.example/empleos/2",
    "url_canonica": "https://distribuidoradelcaribe.example/empleos/2",
    "vista_corrida": 1
@@ -682,10 +682,10 @@ window.DEMO = {
    "fuente": "rastreo",
    "id": 1,
    "idioma": "es",
-   "primera_vez": "2026-10-20T17:20:30",
+   "primera_vez": "2026-10-21T10:29:28",
    "titulo": "Analista de Automatización (demo)",
    "ubicacion": "Santo Domingo",
-   "ultima_vez": "2026-10-20T17:20:30",
+   "ultima_vez": "2026-10-21T10:29:28",
    "url": "https://distribuidoradelcaribe.example/empleos/1",
    "url_canonica": "https://distribuidoradelcaribe.example/empleos/1",
    "vista_corrida": 1
@@ -694,7 +694,7 @@ window.DEMO = {
  "/api/perfil": {
   "existe": true,
   "perfil": {
-   "actualizado": "2026-10-20",
+   "actualizado": "2026-10-21",
    "anos_experiencia": 3,
    "enlaces": {
     "github": "https://github.com/ana-ejemplo",
@@ -773,13 +773,13 @@ window.DEMO = {
     "rol": "Head of Data"
    }
   ],
-  "creado": "2026-10-20T17:20:30",
+  "creado": "2026-10-21T10:29:28",
   "equipos": [
    "Transformación digital / innovación",
    "Datos y analítica"
   ],
   "estado": "Descubierta",
-  "estado_fecha": "2026-10-20T17:20:30",
+  "estado_fecha": "2026-10-21T10:29:28",
   "estado_rastreo": "sin vacantes",
   "evidencia": [
    {
@@ -799,7 +799,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 3,
     "empresa_nombre": "Banco Quisqueya Digital (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 7,
     "nota": "Presencia en RD verificada: https://bancoquisqueyadigital.example/republica-dominicana"
    }
@@ -856,13 +856,13 @@ window.DEMO = {
     "rol": "Fundador / CTO"
    }
   ],
-  "creado": "2026-10-20T17:20:30",
+  "creado": "2026-10-21T10:29:28",
   "equipos": [
    "Producto / IA",
    "Integraciones"
   ],
   "estado": "Descubierta",
-  "estado_fecha": "2026-10-20T17:20:30",
+  "estado_fecha": "2026-10-21T10:29:28",
   "estado_rastreo": "abrir manualmente",
   "evidencia": [
    {
@@ -882,7 +882,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 6,
     "empresa_nombre": "Nube Taína Labs (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 16,
     "nota": "Presencia en RD verificada: https://nubetaínalabs.example/republica-dominicana"
    }
@@ -927,7 +927,7 @@ window.DEMO = {
    "Algunos roles son presenciales en el centro de distribución."
   ],
   "ats": "",
-  "carta": "Santo Domingo, 20/10/2026\n\nEstimado equipo:\n\nLes escribo para expresar mi interés en formar parte del equipo de Automatización de procesos en Distribuidora del Caribe (demo), en un rol como Especialista en automatización.\nTres años automatizando reportes y procesos en una empresa de distribución; construí un asistente interno con IA para consultar inventario y un tablero de ventas en Power BI.\n\nPor qué me interesa Distribuidora del Caribe (demo):\n- Es la misma industria en la que ya trabajas.\n- Usa Power BI y Power Automate.\n\nEntre mis habilidades principales están Python, SQL, Power BI, Power Automate. Me encantaría conversar sobre oportunidades actuales o futuras en su equipo.\n\nPueden ver mi trabajo aquí:\nhttps://ejemplo.dev\nhttps://github.com/ana-ejemplo\n\nAtentamente,\nAna Ejemplo Pérez",
+  "carta": "Santo Domingo, 21/10/2026\n\nEstimado equipo:\n\nLes escribo para expresar mi interés en formar parte del equipo de Automatización de procesos en Distribuidora del Caribe (demo), en un rol como Especialista en automatización.\nTres años automatizando reportes y procesos en una empresa de distribución; construí un asistente interno con IA para consultar inventario y un tablero de ventas en Power BI.\n\nPor qué me interesa Distribuidora del Caribe (demo):\n- Es la misma industria en la que ya trabajas.\n- Usa Power BI y Power Automate.\n\nEntre mis habilidades principales están Python, SQL, Power BI, Power Automate. Me encantaría conversar sobre oportunidades actuales o futuras en su equipo.\n\nPueden ver mi trabajo aquí:\nhttps://ejemplo.dev\nhttps://github.com/ana-ejemplo\n\nAtentamente,\nAna Ejemplo Pérez",
   "contactos": [
    {
     "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Gerente+de+Transformaci%C3%B3n+Digital+Distribuidora+del+Caribe+%28demo%29",
@@ -938,14 +938,14 @@ window.DEMO = {
     "rol": "Talent Acquisition"
    }
   ],
-  "creado": "2026-10-20T17:20:30",
+  "creado": "2026-10-21T10:29:28",
   "equipos": [
    "Automatización de procesos",
    "BI y analítica",
    "Transformación digital"
   ],
   "estado": "Me interesa",
-  "estado_fecha": "2026-10-20T17:20:30",
+  "estado_fecha": "2026-10-21T10:29:28",
   "estado_rastreo": "ok",
   "evidencia": [
    {
@@ -965,7 +965,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 1,
     "empresa_nombre": "Distribuidora del Caribe (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 1,
     "nota": "Presencia en RD verificada: https://distribuidoradelcaribe.example/republica-dominicana"
    },
@@ -974,7 +974,7 @@ window.DEMO = {
     "de_estado": "Descubierta",
     "empresa_id": 1,
     "empresa_nombre": "Distribuidora del Caribe (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 2,
     "nota": ""
    }
@@ -994,10 +994,10 @@ window.DEMO = {
     "fuente": "rastreo",
     "id": 2,
     "idioma": "es",
-    "primera_vez": "2026-10-20T17:20:30",
+    "primera_vez": "2026-10-21T10:29:28",
     "titulo": "Analista de Planificación (demo)",
     "ubicacion": "Santo Domingo",
-    "ultima_vez": "2026-10-20T17:20:30",
+    "ultima_vez": "2026-10-21T10:29:28",
     "url": "https://distribuidoradelcaribe.example/empleos/2",
     "url_canonica": "https://distribuidoradelcaribe.example/empleos/2",
     "vista_corrida": 1
@@ -1012,10 +1012,10 @@ window.DEMO = {
     "fuente": "rastreo",
     "id": 1,
     "idioma": "es",
-    "primera_vez": "2026-10-20T17:20:30",
+    "primera_vez": "2026-10-21T10:29:28",
     "titulo": "Analista de Automatización (demo)",
     "ubicacion": "Santo Domingo",
-    "ultima_vez": "2026-10-20T17:20:30",
+    "ultima_vez": "2026-10-21T10:29:28",
     "url": "https://distribuidoradelcaribe.example/empleos/1",
     "url_canonica": "https://distribuidoradelcaribe.example/empleos/1",
     "vista_corrida": 1
@@ -1061,7 +1061,7 @@ window.DEMO = {
    "Las reuniones con clientes son en inglés."
   ],
   "ats": "",
-  "carta": "Santo Domingo, 20/10/2026\n\nEstimado equipo:\n\nLes escribo para expresar mi interés en formar parte del equipo de Automatización de procesos (RPA) en Servicios Globales RD (demo), en un rol como Automation Specialist.\nTres años automatizando reportes y procesos en una empresa de distribución; construí un asistente interno con IA para consultar inventario y un tablero de ventas en Power BI.\n\nPor qué me interesa Servicios Globales RD (demo):\n- Centro con procesos en inglés y español.\n- Programa activo de automatización.\n\nEntre mis habilidades principales están Python, SQL, Power BI, Power Automate. Me encantaría conversar sobre oportunidades actuales o futuras en su equipo.\n\nPueden ver mi trabajo aquí:\nhttps://ejemplo.dev\nhttps://github.com/ana-ejemplo\n\nAtentamente,\nAna Ejemplo Pérez",
+  "carta": "Santo Domingo, 21/10/2026\n\nEstimado equipo:\n\nLes escribo para expresar mi interés en formar parte del equipo de Automatización de procesos (RPA) en Servicios Globales RD (demo), en un rol como Automation Specialist.\nTres años automatizando reportes y procesos en una empresa de distribución; construí un asistente interno con IA para consultar inventario y un tablero de ventas en Power BI.\n\nPor qué me interesa Servicios Globales RD (demo):\n- Centro con procesos en inglés y español.\n- Programa activo de automatización.\n\nEntre mis habilidades principales están Python, SQL, Power BI, Power Automate. Me encantaría conversar sobre oportunidades actuales o futuras en su equipo.\n\nPueden ver mi trabajo aquí:\nhttps://ejemplo.dev\nhttps://github.com/ana-ejemplo\n\nAtentamente,\nAna Ejemplo Pérez",
   "contactos": [
    {
     "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Talent+Acquisition+Servicios+Globales+RD+%28demo%29",
@@ -1072,13 +1072,13 @@ window.DEMO = {
     "rol": "Gerente de Automatización"
    }
   ],
-  "creado": "2026-10-20T17:20:30",
+  "creado": "2026-10-21T10:29:28",
   "equipos": [
    "Automatización de procesos (RPA)",
    "IA aplicada"
   ],
   "estado": "Contacté",
-  "estado_fecha": "2026-10-20T17:20:30",
+  "estado_fecha": "2026-10-21T10:29:28",
   "estado_rastreo": "sin vacantes",
   "evidencia": [
    {
@@ -1098,7 +1098,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 2,
     "empresa_nombre": "Servicios Globales RD (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 3,
     "nota": "Presencia en RD verificada: https://serviciosglobalesrd.example/republica-dominicana"
    },
@@ -1107,7 +1107,7 @@ window.DEMO = {
     "de_estado": "Descubierta",
     "empresa_id": 2,
     "empresa_nombre": "Servicios Globales RD (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 4,
     "nota": ""
    },
@@ -1116,7 +1116,7 @@ window.DEMO = {
     "de_estado": "Me interesa",
     "empresa_id": 2,
     "empresa_nombre": "Servicios Globales RD (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 5,
     "nota": ""
    },
@@ -1125,7 +1125,7 @@ window.DEMO = {
     "de_estado": "Investigando",
     "empresa_id": 2,
     "empresa_nombre": "Servicios Globales RD (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 6,
     "nota": ""
    }
@@ -1161,7 +1161,7 @@ window.DEMO = {
    "Talent Acquisition",
    "Gerente de Automatización"
   ],
-  "seguimiento": "2026-10-25",
+  "seguimiento": "2026-10-26",
   "sitio_web": "https://serviciosglobalesrd.example",
   "talento": "https://serviciosglobalesrd.example/talento",
   "tipo": "multinacional",
@@ -1175,20 +1175,20 @@ window.DEMO = {
    "Horario extendido en temporada alta."
   ],
   "ats": "",
-  "carta": "Santo Domingo, 20/10/2026\n\nEstimado equipo:\n\nLes escribo para expresar mi interés en formar parte del equipo de Datos y analítica en LogiPuerto RD (demo), en un rol como Analista de datos.\nTres años automatizando reportes y procesos en una empresa de distribución; construí un asistente interno con IA para consultar inventario y un tablero de ventas en Power BI.\n\nPor qué me interesa LogiPuerto RD (demo):\n- Muchos procesos manuales por automatizar.\n- Empresa en crecimiento, con mucho por automatizar.\n\nEntre mis habilidades principales están Python, SQL, Power BI, Power Automate. Me encantaría conversar sobre oportunidades actuales o futuras en su equipo.\n\nPueden ver mi trabajo aquí:\nhttps://ejemplo.dev\nhttps://github.com/ana-ejemplo\n\nAtentamente,\nAna Ejemplo Pérez",
+  "carta": "Santo Domingo, 21/10/2026\n\nEstimado equipo:\n\nLes escribo para expresar mi interés en formar parte del equipo de Datos y analítica en LogiPuerto RD (demo), en un rol como Analista de datos.\nTres años automatizando reportes y procesos en una empresa de distribución; construí un asistente interno con IA para consultar inventario y un tablero de ventas en Power BI.\n\nPor qué me interesa LogiPuerto RD (demo):\n- Muchos procesos manuales por automatizar.\n- Empresa en crecimiento, con mucho por automatizar.\n\nEntre mis habilidades principales están Python, SQL, Power BI, Power Automate. Me encantaría conversar sobre oportunidades actuales o futuras en su equipo.\n\nPueden ver mi trabajo aquí:\nhttps://ejemplo.dev\nhttps://github.com/ana-ejemplo\n\nAtentamente,\nAna Ejemplo Pérez",
   "contactos": [
    {
     "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Gerente+de+Operaciones+LogiPuerto+RD+%28demo%29",
     "rol": "Gerente de Operaciones"
    }
   ],
-  "creado": "2026-10-20T17:20:30",
+  "creado": "2026-10-21T10:29:28",
   "equipos": [
    "Datos y analítica",
    "Mejora de procesos"
   ],
   "estado": "Aplicado",
-  "estado_fecha": "2026-10-20T17:20:30",
+  "estado_fecha": "2026-10-21T10:29:28",
   "estado_rastreo": "sin vacantes",
   "evidencia": [
    {
@@ -1208,7 +1208,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 5,
     "empresa_nombre": "LogiPuerto RD (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 13,
     "nota": "Presencia en RD verificada: https://logipuertord.example/republica-dominicana"
    },
@@ -1217,7 +1217,7 @@ window.DEMO = {
     "de_estado": "Descubierta",
     "empresa_id": 5,
     "empresa_nombre": "LogiPuerto RD (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 14,
     "nota": ""
    },
@@ -1226,7 +1226,7 @@ window.DEMO = {
     "de_estado": "Me interesa",
     "empresa_id": 5,
     "empresa_nombre": "LogiPuerto RD (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 15,
     "nota": ""
    }
@@ -1257,7 +1257,7 @@ window.DEMO = {
   "roles_contacto": [
    "Gerente de Operaciones"
   ],
-  "seguimiento": "2026-10-27",
+  "seguimiento": "2026-10-28",
   "sitio_web": "https://logipuertord.example",
   "talento": "https://logipuertord.example/talento",
   "tipo": "empresa local en crecimiento",
@@ -1271,20 +1271,20 @@ window.DEMO = {
    "Algunas vacantes piden Azure, que no está en tu perfil."
   ],
   "ats": "",
-  "carta": "Santo Domingo, 20/10/2026\n\nEstimado equipo:\n\nLes escribo para expresar mi interés en formar parte del equipo de Atención digital / chatbots en Telecom Antillas (demo), en un rol como Ingeniero de IA aplicada.\nTres años automatizando reportes y procesos en una empresa de distribución; construí un asistente interno con IA para consultar inventario y un tablero de ventas en Power BI.\n\nPor qué me interesa Telecom Antillas (demo):\n- Tecnología es una de tus áreas de interés.\n- Equipo local de canales digitales.\n\nEntre mis habilidades principales están Python, SQL, Power BI, Power Automate. Me encantaría conversar sobre oportunidades actuales o futuras en su equipo.\n\nPueden ver mi trabajo aquí:\nhttps://ejemplo.dev\nhttps://github.com/ana-ejemplo\n\nAtentamente,\nAna Ejemplo Pérez",
+  "carta": "Santo Domingo, 21/10/2026\n\nEstimado equipo:\n\nLes escribo para expresar mi interés en formar parte del equipo de Atención digital / chatbots en Telecom Antillas (demo), en un rol como Ingeniero de IA aplicada.\nTres años automatizando reportes y procesos en una empresa de distribución; construí un asistente interno con IA para consultar inventario y un tablero de ventas en Power BI.\n\nPor qué me interesa Telecom Antillas (demo):\n- Tecnología es una de tus áreas de interés.\n- Equipo local de canales digitales.\n\nEntre mis habilidades principales están Python, SQL, Power BI, Power Automate. Me encantaría conversar sobre oportunidades actuales o futuras en su equipo.\n\nPueden ver mi trabajo aquí:\nhttps://ejemplo.dev\nhttps://github.com/ana-ejemplo\n\nAtentamente,\nAna Ejemplo Pérez",
   "contactos": [
    {
     "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Gerente+de+Canales+Digitales+Telecom+Antillas+%28demo%29",
     "rol": "Gerente de Canales Digitales"
    }
   ],
-  "creado": "2026-10-20T17:20:30",
+  "creado": "2026-10-21T10:29:28",
   "equipos": [
    "Atención digital / chatbots",
    "Datos y analítica"
   ],
   "estado": "Entrevista",
-  "estado_fecha": "2026-10-20T17:20:30",
+  "estado_fecha": "2026-10-21T10:29:28",
   "estado_rastreo": "ok",
   "evidencia": [
    {
@@ -1304,7 +1304,7 @@ window.DEMO = {
     "de_estado": "",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 8,
     "nota": "Presencia en RD verificada: https://telecomantillas.example/republica-dominicana"
    },
@@ -1313,7 +1313,7 @@ window.DEMO = {
     "de_estado": "Descubierta",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 9,
     "nota": ""
    },
@@ -1322,7 +1322,7 @@ window.DEMO = {
     "de_estado": "Me interesa",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 10,
     "nota": ""
    },
@@ -1331,7 +1331,7 @@ window.DEMO = {
     "de_estado": "Investigando",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 11,
     "nota": ""
    },
@@ -1340,7 +1340,7 @@ window.DEMO = {
     "de_estado": "Aplicado",
     "empresa_id": 4,
     "empresa_nombre": "Telecom Antillas (demo)",
-    "fecha": "2026-10-20T17:20:30",
+    "fecha": "2026-10-21T10:29:28",
     "id": 12,
     "nota": ""
    }
@@ -1360,10 +1360,10 @@ window.DEMO = {
     "fuente": "rastreo",
     "id": 3,
     "idioma": "es",
-    "primera_vez": "2026-10-20T17:20:30",
+    "primera_vez": "2026-10-21T10:29:28",
     "titulo": "Ingeniero de IA Conversacional (demo)",
     "ubicacion": "Santo Domingo",
-    "ultima_vez": "2026-10-20T17:20:30",
+    "ultima_vez": "2026-10-21T10:29:28",
     "url": "https://telecomantillas.example/empleos/1",
     "url_canonica": "https://telecomantillas.example/empleos/1",
     "vista_corrida": 1
@@ -1394,7 +1394,7 @@ window.DEMO = {
   "roles_contacto": [
    "Gerente de Canales Digitales"
   ],
-  "seguimiento": "2026-10-23",
+  "seguimiento": "2026-10-24",
   "sitio_web": "https://telecomantillas.example",
   "talento": "https://telecomantillas.example/talento",
   "tipo": "multinacional",

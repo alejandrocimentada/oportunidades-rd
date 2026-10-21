@@ -72,6 +72,59 @@ function toast(msg) {
   toast._t = setTimeout(() => t.classList.remove("show"), Math.max(2200, msg.length * 50));  // los avisos largos duran más
 }
 
+// -- página: reloj de la barra de menú y secciones que aparecen al bajar ------------------
+const reloj = $("#reloj");
+function tic() {
+  if (!reloj) return;
+  const d = new Date();
+  const dia = d.toLocaleDateString("es-DO", { weekday: "short", day: "numeric", month: "short" }).replace(/\./g, "");
+  reloj.textContent = `${dia.charAt(0).toUpperCase()}${dia.slice(1)}  ${d.toLocaleTimeString("es-DO", { hour: "numeric", minute: "2-digit" })}`;
+}
+tic(); setInterval(tic, 30000);
+
+// Al bajar, el escritorio pasa de tarjeta a ocupar toda la ventana, y la barra superior sube y se va (style.css,
+// «.con-efecto»). --p: 1 arriba del todo (tarjeta), 0 tras bajar media pantalla. Sin efecto con movimiento reducido
+// o en el teléfono.
+const raiz = document.documentElement, barra = $(".top"), envoltura = $(".stage-wrap");
+const quieto = matchMedia("(prefers-reduced-motion: reduce)"), estrecho = matchMedia("(max-width: 640px)");
+let pendiente = false;
+const conEfecto = () => !quieto.matches && !estrecho.matches;
+function medirEscritorio() {
+  raiz.classList.toggle("con-efecto", conEfecto());
+  raiz.style.setProperty("--top", `${barra ? barra.offsetHeight : 0}px`);
+  efectoEscritorio();
+}
+function efectoEscritorio() {
+  pendiente = false;
+  const avance = conEfecto() ? Math.min(1, Math.max(0, scrollY / (innerHeight * 0.5))) : 1;
+  const p = conEfecto() ? 1 - avance : 1;
+  const lado = Math.max(24, (raiz.clientWidth - 1152) / 2);
+  raiz.style.setProperty("--p", p.toFixed(3));
+  raiz.style.setProperty("--ix", `${(p * lado).toFixed(1)}px`);
+  raiz.style.setProperty("--iy", `${(p * (barra ? barra.offsetHeight : 0)).toFixed(1)}px`);
+  raiz.classList.toggle("moviendo", avance < 1);
+  // La barra superior sigue al escritorio y, cuando el escritorio ya se fue de la pantalla, vuelve a bajar.
+  const altoBarra = barra ? barra.offsetHeight : 0;
+  const pasado = envoltura && scrollY > envoltura.offsetTop + envoltura.offsetHeight - altoBarra;
+  const n = conEfecto() ? (pasado ? 1 : p) : 1;
+  raiz.style.setProperty("--n", n.toFixed(3));
+  raiz.classList.toggle("barra-fuera", n < 0.5);
+}
+addEventListener("scroll", () => { if (!pendiente) { pendiente = true; requestAnimationFrame(efectoEscritorio); } }, { passive: true });
+addEventListener("resize", medirEscritorio);
+quieto.addEventListener?.("change", medirEscritorio); estrecho.addEventListener?.("change", medirEscritorio);
+medirEscritorio();
+// Ir a la app desde un botón: con el efecto, arriba del todo (la tarjeta con la app); si no, hasta la ventana.
+function irALaApp() {
+  if (raiz.classList.contains("con-efecto") && envoltura) scrollTo({ top: envoltura.offsetTop, behavior: "smooth" });
+  else $("#app").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+if ("IntersectionObserver" in window) {
+  const ver = new IntersectionObserver((xs) => xs.forEach((x) => { if (x.isIntersecting) { x.target.classList.add("in"); ver.unobserve(x.target); } }),
+    { rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll(".reveal").forEach((el, i) => { el.style.transitionDelay = `${(i % 3) * 60}ms`; ver.observe(el); });
+} else document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+
 // -- navegación -----------------------------------------------------------------------
 function mostrar(view) {
   document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("on", b.dataset.view === view));
@@ -82,7 +135,7 @@ document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("cli
 // «Llenar mi perfil» y otros botones con data-ir: abre esa vista y sube a la ventana de la app.
 document.querySelectorAll("[data-ir]").forEach((b) => b.addEventListener("click", () => {
   mostrar(b.dataset.ir);
-  $("#app").scrollIntoView({ behavior: "smooth", block: "start" });
+  irALaApp();
 }));
 
 // -- resumen --------------------------------------------------------------------------
@@ -614,9 +667,14 @@ document.querySelectorAll("[data-copiar]").forEach((b) => b.addEventListener("cl
 function ponerTema(t) {
   if (t === "oscuro") document.documentElement.dataset.theme = "dark"; else delete document.documentElement.dataset.theme;
   document.querySelectorAll("input[name=tema]").forEach((r) => { r.checked = r.value === t; });
+  $("#btn-tema")?.setAttribute("aria-label", t === "oscuro" ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
   try { localStorage.setItem("tema", t); } catch (_) { /* sin almacenamiento */ }
 }
 document.querySelectorAll("input[name=tema]").forEach((r) => r.addEventListener("change", () => ponerTema(r.value)));
+// Botón «Cambiar tema» de la barra de acciones.
+$("#btn-tema")?.addEventListener("click", () => {
+  ponerTema(document.documentElement.dataset.theme === "dark" ? "claro" : "oscuro");
+});
 ponerTema(document.documentElement.dataset.theme === "dark" ? "oscuro" : "claro");
 
 // -- carga ----------------------------------------------------------------------------
