@@ -360,9 +360,11 @@ let ESCO = null;  // índice local de ESCO (static/esco.json), preparado al abri
 function llenarPerfil(perfil) {
   const f = $("#form-perfil");
   f.querySelectorAll("input, select, textarea").forEach((el) => {
-    if (!el.name) return;
+    if (!el.name || el.name.startsWith("_")) return;
     if (el.name === "intereses") { el.checked = (perfil.intereses || []).includes(el.value); return; }
-    const v = leer(perfil, el.name);
+    let v = leer(perfil, el.name);
+    if (el.name === "tiene_experiencia") v = v === true ? "si" : v === false ? "no" : "";
+    if (["edad", "preferencias.salario_minimo_dop"].includes(el.name) && !v) v = "";  // 0 = sin responder
     if (el.type === "radio") el.checked = el.value === v;
     else if (el.type === "checkbox") el.checked = !!v;
     else if (LISTAS.includes(el.name)) el.value = (v || []).join("\n");
@@ -393,12 +395,13 @@ function agregarChips(box, texto) {
   pintarChips(box);
 }
 document.querySelectorAll(".chipbox").forEach((box) => {
-  box.innerHTML = `<div class="add"><input class="campo" id="chip-${box.dataset.for}" placeholder="${esc(box.dataset.placeholder)}">
-    <button type="button" class="btn">Añadir</button></div><div class="list-chips"></div>`;
+  const conCampo = !box.classList.contains("solo-lista");  // idiomas: se añaden con su propio selector
+  box.innerHTML = (conCampo ? `<div class="add"><input class="campo" id="chip-${box.dataset.for}" placeholder="${esc(box.dataset.placeholder)}">
+    <button type="button" class="btn">Añadir</button></div>` : "") + `<div class="list-chips"></div>`;
   const input = box.querySelector("input");
   const agregar = () => { agregarChips(box, input.value); input.value = ""; input.focus(); };
-  box.querySelector(".add button").addEventListener("click", agregar);
-  input.addEventListener("keydown", (ev) => {
+  if (conCampo) box.querySelector(".add button").addEventListener("click", agregar);
+  input?.addEventListener("keydown", (ev) => {
     if (ev.key === "Enter") { if (input.value.trim()) { ev.preventDefault(); agregar(); } }  // vacío: Enter = OK
     else if (ev.key === "Backspace" && !input.value) {  // borrar el último chip con el campo vacío
       const vals = chipValores(box); vals.pop(); chipCampo(box).value = vals.join("\n"); pintarChips(box);
@@ -523,6 +526,18 @@ PANTALLAS.slice(0, FIN).forEach((q, i) => {
 });
 PANTALLAS[FIN].querySelector(".q-t").tabIndex = -1;
 
+// Preguntas con data-si="tiene_experiencia" solo salen si la respuesta fue «Sí».
+const tieneExperiencia = () => $("[name=tiene_experiencia]:checked")?.value === "si";
+const visible = (q) => !q.dataset.si || tieneExperiencia();
+const visibles = () => PANTALLAS.slice(0, FIN).filter(visible);
+function vecina(i, paso) {  // la siguiente (o anterior) pregunta visible; al pasar la última, el final
+  for (let j = i + paso; j >= 0 && j < FIN; j += paso) if (visible(PANTALLAS[j])) return j;
+  return paso > 0 ? FIN : i;
+}
+function numerar() {
+  visibles().forEach((q, k) => { q.querySelector(".q-num").firstChild.textContent = k + 1; });
+  $("#inicio-n").textContent = visibles().length;
+}
 const enfocables = (q) => [...q.querySelectorAll("input, textarea:not([hidden]), select, button, summary, a[href]")]
   .filter((el) => el.offsetParent !== null && !el.disabled);
 function enfocar(q) {
@@ -540,7 +555,12 @@ function falta(q) {
   if (!("req" in q.dataset)) return "";
   const box = q.querySelector(".chipbox");
   let hay;
-  if (box) { const i = box.querySelector("input"); agregarChips(box, i.value); i.value = ""; hay = chipValores(box).length > 0; }
+  const radios = q.querySelectorAll("input[type=radio]:not([name^=_])");
+  if (box) {
+    const i = box.querySelector("input");
+    if (i) { agregarChips(box, i.value); i.value = ""; }
+    hay = chipValores(box).length > 0 || !!q.querySelector("[name=roles_abiertos]:checked");
+  } else if (radios.length && !q.querySelector("[required]")) hay = [...radios].some((r) => r.checked);
   else if (q.querySelector("[name=intereses]")) hay = perfilDelFormulario().intereses.length > 0 || !!$("[name=intereses_otra]").value.trim();
   else hay = [...q.querySelectorAll("[required]")].every((el) => el.value.trim());
   return hay ? "" : q.dataset.req;
@@ -548,6 +568,7 @@ function falta(q) {
 function invalido(q) {
   const el = [...q.querySelectorAll("input")].find((x) => !x.checkValidity());
   if (!el) return "";
+  if (el.type === "email") return "Escribe un correo válido, como nombre@ejemplo.com.";
   return el.type === "url" ? "Escribe el enlace completo, empezando con https://."
     : `Escribe un número${el.max ? ` entre ${el.min || 0} y ${el.max}` : " válido"}.`;
 }
@@ -557,9 +578,12 @@ function irA(i, { foco = true, animar = true } = {}) {
   const viejo = PANTALLAS[actual], nuevo = PANTALLAS[i], atras = i < actual;
   const moverse = animar && viejo && viejo !== nuevo && !quieto.matches;
   actual = i;
+  $("#view-perfil").classList.remove("en-inicio");
   if (i === FIN) { volverAlFinal = false; pintarFin(); }
-  $("#q-barra").style.width = `${(i / FIN) * 100}%`;
-  $("#q-prev").disabled = i === 0;
+  numerar();
+  const vis = visibles(), pos = i === FIN ? vis.length : vis.indexOf(nuevo);
+  $("#q-barra").style.width = `${(Math.max(0, pos) / vis.length) * 100}%`;
+  $("#q-prev").disabled = i === 0 || vecina(i, -1) === i;
   $("#q-next").disabled = i === FIN;
   clearTimeout(irA.t);
   const mostrarNuevo = () => {
@@ -584,22 +608,29 @@ async function ok() {
   const msg = falta(q) || invalido(q);
   avisar(q, msg);
   if (msg) { enfocar(q); return; }
-  const destino = volverAlFinal ? FIN : actual + 1;
-  if (!DEMO) {  // en la demo no se guarda nada
+  await avanzar(q, volverAlFinal ? FIN : vecina(actual, 1));
+}
+// Se guarda solo al llegar al final (con OK o con «Saltar»); en la demo, nunca.
+async function avanzar(q, destino) {
+  if (!DEMO && destino === FIN) {
     guardando = true;
     try { await guardarPerfil(); } catch (e) { avisar(q, e.message); return; } finally { guardando = false; }
-    if (destino === FIN) cargar().catch(() => { /* el resumen se actualiza en la próxima carga */ });
+    cargar().catch(() => { /* el resumen se actualiza en la próxima carga */ });
   }
   irA(destino);
 }
-function saltar() { avisar(PANTALLAS[actual], ""); irA(volverAlFinal ? FIN : actual + 1); }
+function saltar() {
+  if (actual >= FIN || guardando) return;
+  const q = PANTALLAS[actual]; avisar(q, "");
+  avanzar(q, volverAlFinal ? FIN : vecina(actual, 1));
+}
 
 // Pantalla final: cada respuesta en corto; un clic vuelve a esa pregunta y, con OK, de vuelta aquí.
 function respuesta(q) {
   const partes = [];
   const unidad = (n, uno, varios) => `${n} ${n === "1" ? uno : varios}`;
   q.querySelectorAll("input[name], select[name], textarea[name]").forEach((el) => {
-    if (el.closest(".avanzado")) return;
+    if (el.closest(".avanzado") || el.name.startsWith("_")) return;
     if (el.type === "checkbox" || el.type === "radio") {
       if (el.checked) partes.push(el.dataset.resumen || el.closest("label").querySelector("b").textContent);
     } else if (LISTAS.includes(el.name)) partes.push(chipValores(q.querySelector(".chipbox")).join(", "));
@@ -611,10 +642,10 @@ function respuesta(q) {
   return partes.filter(Boolean).join(" · ");
 }
 function pintarFin() {
-  $("#fin-resumen").innerHTML = PANTALLAS.slice(0, FIN).map((q, i) => {
-    const r = respuesta(q);
+  $("#fin-resumen").innerHTML = visibles().map((q, k) => {
+    const r = respuesta(q), i = PANTALLAS.indexOf(q);
     return `<button type="button" class="fin-item" data-editar="${i}" aria-label="Cambiar: ${esc(q.dataset.corto)}">
-      <span>${i + 1}. ${esc(q.dataset.corto)}</span>${r ? `<b>${esc(r)}</b>` : '<b class="sin">Sin responder</b>'}</button>`;
+      <span>${k + 1}. ${esc(q.dataset.corto)}</span>${r ? `<b>${esc(r)}</b>` : '<b class="sin">Sin responder</b>'}</button>`;
   }).join("");
 }
 
@@ -626,7 +657,8 @@ $("#form-perfil").addEventListener("click", (ev) => {
   if (ed) { volverAlFinal = true; irA(+ed.dataset.editar); }
 });
 $("#form-perfil").addEventListener("input", () => { if (actual < FIN) avisar(PANTALLAS[actual], ""); });
-$("#q-prev").addEventListener("click", () => irA(actual - 1));
+$("#form-perfil").addEventListener("change", (ev) => { if (ev.target.name === "tiene_experiencia") numerar(); });
+$("#q-prev").addEventListener("click", () => irA(vecina(actual, -1)));
 $("#q-next").addEventListener("click", ok);
 
 // Teclado: Enter = OK (Ctrl/⌘ + Enter en textos largos), Shift+Tab desde la primera respuesta o ↑ = atrás,
@@ -634,22 +666,48 @@ $("#q-next").addEventListener("click", ok);
 const escribiendo = (el) => el.matches("textarea, select, input:not([type=checkbox]):not([type=radio])");
 document.addEventListener("keydown", (ev) => {
   const t = ev.target;
-  if (!$("#view-perfil").classList.contains("on") || actual >= FIN || ev.defaultPrevented || ev.isComposing) return;
+  if (!$("#view-perfil").classList.contains("on") || ev.defaultPrevented || ev.isComposing) return;
+  if (enInicio()) {  // portada: Enter empieza
+    if (ev.key === "Enter" && (t === document.body || t.closest("#q-inicio"))) { ev.preventDefault(); empezar(); }
+    return;
+  }
+  if (actual >= FIN) return;
   if (t !== document.body && !t.closest("#view-perfil")) return;
   const q = PANTALLAS[actual];
   if (ev.key === "Enter") {
     if (t.tagName === "TEXTAREA" ? !(ev.ctrlKey || ev.metaKey) : t.matches("button, summary, select, a")) return;
     ev.preventDefault(); ok();
   } else if (ev.key === "Tab" && ev.shiftKey && actual > 0 && t === enfocables(q)[0]) {
-    ev.preventDefault(); irA(actual - 1);
+    ev.preventDefault(); irA(vecina(actual, -1));
   } else if (ev.key === "ArrowUp" && actual > 0 && !ev.altKey && !t.matches("textarea, select, input[type=number], input[type=radio]")) {
-    ev.preventDefault(); irA(actual - 1);
+    ev.preventDefault(); irA(vecina(actual, -1));
   } else if (/^[a-z]$/i.test(ev.key) && !ev.ctrlKey && !ev.metaKey && !ev.altKey && !escribiendo(t)) {
     const o = q.querySelector(`.opcion[data-letra="${ev.key.toUpperCase()}"] input`);
     if (o) { ev.preventDefault(); o.click(); o.focus(); }
   }
 });
 irA(0, { foco: false, animar: false });
+
+// Portada: la encuesta empieza con título, descripción y «Empezar»; al pulsarlo entra la primera pregunta.
+const enInicio = () => $("#view-perfil").classList.contains("en-inicio");
+function empezar() {
+  const v = $("#view-perfil");
+  if (!quieto.matches) {
+    v.classList.add("saliendo");
+    setTimeout(() => { v.classList.remove("saliendo"); irA(0); PANTALLAS[0].classList.add("entra"); }, 160);
+  } else irA(0);
+}
+numerar();
+// Idiomas: idioma + nivel (A1…C2 o Nativo) → «Inglés (C1)» en la lista.
+$("#idioma-ok").addEventListener("click", () => {
+  const box = $('.chipbox[data-for="idiomas"]'), idioma = $("#idioma-sel").value;
+  const nivel = $("[name=_nivel]:checked")?.value || "B2";
+  const vals = chipValores(box).filter((v) => !igual(v.replace(/\s*\(.*\)\s*$/, ""), idioma));  // cambia el nivel si ya estaba
+  vals.push(`${idioma} (${nivel})`);
+  chipCampo(box).value = vals.join("\n"); pintarChips(box);
+});
+$("#view-perfil").classList.add("en-inicio");
+$("#q-empezar").addEventListener("click", empezar);
 
 // -- sugerencias de habilidades y roles (sin IA: static/sugerencias.js + mapa local) --
 // Declaradas como function: la encuesta pinta las sugerencias desde que carga la página.
@@ -661,29 +719,30 @@ function alternar(campo, valor) {
   chipCampo(box).value = vals.join("\n");
   pintarChips(box);
 }
-function deAgente(s) {
-  return { agente: ' <span class="tag">tu agente</span>', esco: ' <span class="tag" title="Clasificación europea ESCO">ESCO</span>' }[s.origen] || "";
-}
 function pintarSugerencias() {
   if (!$("#sug-roles")) return;
   const perfil = { ...perfilDelFormulario(), sugerencias: sugerenciasAgente };
   const s = Sugerencias.sugerir(perfil, window.SUGERENCIAS, ESCO);
   const tengo = (campo) => chipValores($(`.chipbox[data-for="${campo}"]`));
-  const vacio = `<p class="hint">Elige tus áreas en la <button type="button" class="linkbtn" data-paso-ir="0">pregunta 1</button>
-    o escribe tu trabajo en la <button type="button" class="linkbtn" data-paso-ir="2">pregunta 3</button> para ver sugerencias.</p>`;
+  const iAreas = [...document.querySelectorAll("#form-perfil .q")].findIndex((q) => q.querySelector("[name=intereses]"));
+  const vacio = `<p class="hint">Elige tus <button type="button" class="linkbtn" data-paso-ir="${iAreas}">áreas de interés</button> para ver sugerencias.</p>`;
   const habs = tengo("habilidades");
-  $("#sug-habilidades").innerHTML = s.habilidades.length ? `<p class="sug-t">Sugeridas para ti · toca para añadir o quitar</p>
-    <div class="sug-chips">${s.habilidades.map((h) => {
-      const on = habs.some((x) => igual(x, h.nombre));
-      return `<button type="button" class="sug-chip" aria-pressed="${on}" data-alternar="habilidades" data-valor="${esc(h.nombre)}">
-        ${on ? "✓" : "+"} ${esc(h.nombre)}${deAgente(h)}</button>`;
+  // Todas las habilidades de las áreas que elegiste (sin tope); si no elegiste ninguna, las sugeridas por tu trabajo.
+  const elegidas = new Set((perfil.intereses || []).map(Sugerencias.normalizar));
+  const deAreas = [];
+  window.SUGERENCIAS.areas.filter((a) => elegidas.has(Sugerencias.normalizar(a.area)))
+    .forEach((a) => a.habilidades.forEach((h) => { if (!deAreas.some((x) => igual(x, h))) deAreas.push(h); }));
+  const lista = deAreas.length ? deAreas : s.habilidades.map((h) => h.nombre);
+  $("#sug-habilidades").innerHTML = lista.length ? `<div class="sug-chips">${lista.map((h) => {
+      const on = habs.some((x) => igual(x, h));
+      return `<button type="button" class="sug-chip" aria-pressed="${on}" data-alternar="habilidades" data-valor="${esc(h)}">
+        ${on ? "✓" : "+"} ${esc(h)}</button>`;
     }).join("")}</div>` : vacio;
   const roles = tengo("roles_objetivo");
-  $("#sug-roles").innerHTML = s.roles.length ? `<p class="sug-t">Según tus intereses, experiencia y habilidades · toca para elegir</p>
-    <div class="sug-roles">${s.roles.map((r) => {
+  $("#sug-roles").innerHTML = s.roles.length ? `<div class="sug-chips">${s.roles.map((r) => {
       const on = roles.some((x) => igual(x, r.rol));
-      return `<button type="button" class="sug-rol" aria-pressed="${on}" data-alternar="roles_objetivo" data-valor="${esc(r.rol)}">
-        <i aria-hidden="true">${on ? "✓" : "+"}</i><span><b>${esc(r.rol)}${deAgente(r)}</b><small>${esc(r.razon)}</small></span></button>`;
+      return `<button type="button" class="sug-chip" aria-pressed="${on}" data-alternar="roles_objetivo" data-valor="${esc(r.rol)}"
+        title="${esc(r.razon)}">${on ? "✓" : "+"} ${esc(r.rol)}</button>`;
     }).join("")}</div>` : vacio;
 }
 $("#form-perfil").addEventListener("click", (ev) => {
@@ -701,7 +760,7 @@ $("#interes-otra").addEventListener("change", (ev) => {
 function perfilDelFormulario() {
   const f = $("#form-perfil"), out = {};
   f.querySelectorAll("input, select, textarea").forEach((el) => {
-    if (!el.name || el.name === "intereses" || (el.type === "radio" && !el.checked)) return;
+    if (!el.name || el.name.startsWith("_") || el.name === "intereses" || (el.type === "radio" && !el.checked)) return;
     let v = el.type === "checkbox" ? el.checked : el.value.trim();
     if (LISTAS.includes(el.name)) v = v.split(/\n|;/).map((x) => x.trim()).filter(Boolean);
     const [a, b] = el.name.split(".");
@@ -714,7 +773,7 @@ function perfilDelFormulario() {
 
 function datosPerfil() {
   // Un chip escrito pero sin pulsar Enter también cuenta.
-  document.querySelectorAll(".chipbox").forEach((box) => { const i = box.querySelector("input"); agregarChips(box, i.value); i.value = ""; });
+  document.querySelectorAll(".chipbox").forEach((box) => { const i = box.querySelector("input"); if (i) { agregarChips(box, i.value); i.value = ""; } });
   return perfilDelFormulario();
 }
 
@@ -762,10 +821,12 @@ $("#form-perfil").addEventListener("submit", async (ev) => {
 });
 
 async function cargarPerfil() {
-  const [{ perfil, existe }, b] = await Promise.all([api("/api/perfil"), api("/api/buscar")]);
-  llenarPerfil(perfil);
-  // Con un perfil ya guardado, «Mi perfil» abre el resumen final; si no (o en la demo), la primera pregunta.
-  if (existe && !DEMO) irA(FIN, { foco: false, animar: false });
+  const [, b] = await Promise.all([api("/api/perfil"), api("/api/buscar")]);
+  // La encuesta empieza siempre en blanco: al recargar la página no se rellenan las respuestas anteriores.
+  // (El perfil guardado sigue en la computadora para el agente; se reemplaza al terminar la encuesta.)
+  if (!cargarPerfil.lista) {
+    $("#form-perfil").querySelectorAll("[autocomplete]").forEach((el) => { el.autocomplete = "off"; });  // sin autocompletar del navegador
+    $("#form-perfil").reset(); llenarPerfil({}); cargarPerfil.lista = true; }
   pintarBusqueda(b);
   if (b.corriendo) seguirBusqueda();
   const con = state.empresas.filter((e) => e.url_empleos).length;

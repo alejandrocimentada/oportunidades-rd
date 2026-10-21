@@ -1,6 +1,7 @@
 /* Oportunidades RD: estilo minimalista de app de escritorio (fuente del sistema + Inter), la app dentro de una
    ventana sobre un escritorio, modo claro y oscuro. */
 :root {
+  --portada: #0B3D73; --portada-t: #EAF3FF; --portada-p: #B9D3F0; --portada-btn: #CDE4FF;
   --bg: #FFFFFF; --card: #FAFAFA; --card-2: #F0F1F3; --panel: #FFFFFF; --titlebar: #F7F7F8;
   --ink: #14171C; --text-2: #3A3F46; --muted: #5B6169; --faint: #727272;
   --line: #E5E5EA; --line-2: #D1D5DB; --chip-bg: #E9E9EE;
@@ -27,6 +28,7 @@
   color-scheme: light;
 }
 :root[data-theme="dark"] {
+  --portada: #0A2C52; --portada-t: #E6F0FC; --portada-p: #A9C3E2; --portada-btn: #BFDBFF;
   --bg: #0E0E11; --card: #17171B; --card-2: #1F1F24; --panel: #121215; --titlebar: #18181C;
   --ink: #F2F2F5; --text-2: #D4D4D8; --muted: #A1A1AA; --faint: #8B8B94;
   --line: #2A2A31; --line-2: #3A3A42; --chip-bg: #2A2A31;
@@ -397,6 +399,57 @@ textarea { line-height: 1.6; resize: vertical; }
 .q-nav button:last-child { border-radius: 0 6px 6px 0; }
 .q-nav button:disabled { opacity: .35; cursor: default; }
 .q-nav svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* La encuesta usa Abhaya Libre (serif, Google Fonts, licencia OFL), como el formulario de referencia.
+   Al cambiar --sans aquí, todas las reglas de la encuesta que usan var(--sans) la toman. */
+#view-perfil { --sans: "Abhaya Libre", Georgia, "Times New Roman", serif; font-family: var(--sans); }
+#view-perfil :is(input, textarea, select, button, kbd) { font-family: var(--sans); }
+#view-perfil .q-t { font-size: 27px; font-weight: 500; letter-spacing: 0; }
+#view-perfil .q-ayuda { font-size: 17px; }
+#view-perfil .opcion b { font-size: 15px; }
+#view-perfil .q-pista, #view-perfil .q-lbl { font-size: 14px; }
+#view-perfil .fin-item span { font-size: 13px; }
+#view-perfil .fin-item b { font-size: 15px; }
+/* portada: título, descripción, «Empezar» y el tiempo, centrados en la ventana (como la portada de un Typeform) */
+.q-inicio { display: none; }
+#view-perfil.en-inicio .encuesta, #view-perfil.en-inicio .q-nav { display: none; }
+/* Con la portada abierta, el cuerpo de la ventana es un solo color de borde a borde (sin la línea de progreso). */
+.win-body:has(#view-perfil.en-inicio.on) { background: var(--portada); scrollbar-gutter: auto; }
+.window:has(#view-perfil.en-inicio.on) .q-progreso { visibility: hidden; }
+#view-perfil.en-inicio .q-inicio { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 100%; max-width: 720px; margin: 0 auto; padding: 32px 0; text-align: center; animation: q-entra .3s ease-out both; }
+#view-perfil.saliendo .q-inicio { animation: q-sale .16s ease-in both; }
+.inicio-t { font: 400 36px/1.15 var(--sans); letter-spacing: 0; color: var(--portada-t); outline: none; }
+.inicio-p { margin: 12px 0 0; max-width: 600px; font-size: 18px; line-height: 1.5; color: var(--portada-p); text-wrap: balance; }
+.inicio-btn { margin-top: 32px; height: 40px; padding: 0 18px; border: 0; border-radius: 6px; background: var(--portada-btn);
+  color: var(--portada); font: 500 18px/1 var(--sans); cursor: pointer; transition: filter .12s; }
+.inicio-btn:hover { filter: brightness(.95); }
+.inicio-btn:focus-visible { outline: 2px solid var(--portada-btn); outline-offset: 3px; }
+.inicio-tiempo { display: inline-flex; align-items: center; gap: 5px; margin: 12px 0 0; font-size: 14px; color: var(--portada-p); }
+.inicio-tiempo svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.opciones.dos { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 420px; }
+.opcion small { display: block; font-size: 13px; color: var(--muted); }
+.opcion > span:has(small) { align-items: center; }
+.opcion > span:has(small) b { display: flex; flex-direction: column; }
+.q .no-se { display: inline-block; margin-top: 16px; }
+.q .no-se > span { padding: 8px 12px 8px 8px; }
+/* idiomas: idioma + nivel + Añadir */
+.idioma-add { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; margin-top: 18px; }
+#form-perfil .idioma-add select.campo { width: auto; min-width: 170px; margin: 0; cursor: pointer; }
+.niveles { display: flex; flex-wrap: wrap; gap: 4px; }
+.nivel { position: relative; cursor: pointer; }
+.nivel input { position: absolute; opacity: 0; pointer-events: none; }
+.nivel span { display: grid; place-items: center; min-width: 40px; height: 34px; padding: 0 8px; border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent); background: color-mix(in srgb, var(--accent) 5%, transparent);
+  font-size: 15px; color: var(--ink); transition: background .12s, border-color .12s; }
+.nivel:hover span { background: color-mix(in srgb, var(--accent) 11%, transparent); }
+.nivel input:checked + span { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+:root[data-theme="dark"] .nivel input:checked + span { color: #06121F; }
+.nivel input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+#form-perfil .idioma-add .btn { height: 34px; padding: 0 14px; border: 0; border-radius: 6px; background: var(--pill); color: var(--ink);
+  font: 500 15px/1 var(--sans); cursor: pointer; }
+#form-perfil .idioma-add .btn:hover { filter: brightness(.95); }
+.q .list-chips .vacio { display: none; }
+.chipbox.solo-lista { margin-top: 14px; }
 /* habilidades, roles e idiomas dentro de la encuesta */
 .q .sug { margin-top: 18px; }
 .q .chipbox + .sug { margin-top: 14px; }
@@ -496,6 +549,8 @@ textarea { line-height: 1.6; resize: vertical; }
   .pipeline div:nth-child(n+5) { border-top: 1px solid var(--line); }
 }
 @media (max-width: 640px) {
+  .inicio-t { font-size: 26px; }
+  .inicio-p { font-size: 15px; }
   .top { padding: 16px; }
   .stage { width: 100%; border-radius: 0; padding: 12px 10px 18px; height: auto; gap: 16px; }
   .window { flex: none; height: auto; }
@@ -621,3 +676,5 @@ textarea { line-height: 1.6; resize: vertical; }
 .rolelist span { display: block; color: var(--muted); font-size: 11.5px; line-height: 1.5; margin-top: 2px; }
 .d-rol { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 600; color: var(--text-2); margin-bottom: 4px; }
 .tbl td:last-child .btn { color: var(--btn-fg); }
+
+@media (prefers-reduced-motion: reduce) { #view-perfil.en-inicio .q-inicio, #view-perfil.saliendo .q-inicio { animation: none; } }

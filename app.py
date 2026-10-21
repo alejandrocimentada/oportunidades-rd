@@ -33,7 +33,7 @@ REPO = "https://github.com/alejandrocimentada/oportunidades-rd"
 
 # Campos del perfil que la página «Mi perfil» puede cambiar (los 8 pasos).
 CAMPOS_PERFIL = {
-    **dict.fromkeys(["nombre", "titular", "intereses", "intereses_otra", "estudios", "puesto_actual", "roles_objetivo",
+    **dict.fromkeys(["nombre", "edad", "email", "tiene_experiencia", "roles_abiertos", "titular", "intereses", "intereses_otra", "estudios", "puesto_actual", "roles_objetivo",
                      "habilidades", "experiencia", "anos_experiencia", "idiomas", "ubicacion"]),
     "preferencias": {"dias", "modalidad", "dias_remotos", "salario_minimo_dop", "salario_flexible_startups"},
     "enlaces": {"portafolio", "github", "linkedin"},

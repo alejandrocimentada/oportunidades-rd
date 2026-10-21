@@ -21,7 +21,7 @@ MODALIDADES = {"presencial", "hibrido", "remoto"}
 # Campos de texto libre o listas que se pueden cambiar con `perfil.py set`.
 LISTAS = {"intereses", "roles_objetivo", "habilidades", "industrias", "idiomas"}
 ESCALARES = {
-    "nombre", "titular", "intereses_otra", "estudios", "puesto_actual", "experiencia", "anos_experiencia", "ubicacion",
+    "nombre", "edad", "email", "tiene_experiencia", "roles_abiertos", "titular", "intereses_otra", "estudios", "puesto_actual", "experiencia", "anos_experiencia", "ubicacion",
     "preferencias.dias", "preferencias.modalidad", "preferencias.dias_remotos",
     "preferencias.salario_minimo_dop", "preferencias.salario_flexible_startups", "enlaces.portafolio", "enlaces.github",
     "enlaces.linkedin", "ia.proveedor", "ia.modelo",
@@ -31,16 +31,20 @@ ESCALARES = {
 def plantilla() -> dict:
     return {
         "nombre": "",
+        "edad": 0,  # opcional
+        "email": "",  # opcional; solo se guarda en esta computadora
         "titular": "",
         # Áreas de oportunidades/sugerencias.json (paso 1); lo que no está en la lista va en intereses_otra.
         "intereses": [],
         "intereses_otra": "",
         "estudios": "",
         "puesto_actual": "",  # último puesto o el actual
+        "tiene_experiencia": None,  # True / False; None = sin responder
         "anos_experiencia": 0,
         "experiencia": "",  # resumen opcional de 2-3 frases (se usa en las cartas)
         "habilidades": [],
         "roles_objetivo": [],
+        "roles_abiertos": False,  # «No sé todavía»: el agente propone roles
         "idiomas": [],
         "ubicacion": "Santo Domingo",
         "preferencias": {
@@ -116,7 +120,7 @@ def validar(data: dict) -> dict:
         data[campo] = [str(x).strip() for x in valor if str(x).strip()]
     data["intereses"] = _areas(data["intereses"])
     data["sugerencias"] = _sugerencias(data.get("sugerencias"))
-    for campo in ("intereses_otra", "estudios", "puesto_actual", "experiencia"):
+    for campo in ("nombre", "email", "intereses_otra", "estudios", "puesto_actual", "experiencia"):
         data[campo] = str(data.get(campo) or "").strip()
     prov = str(data["ia"].get("proveedor") or "agente").lower()
     if prov not in PROVEEDORES:
@@ -132,7 +136,24 @@ def validar(data: dict) -> dict:
     data["preferencias"]["salario_flexible_startups"] = (
         str(flex).strip().lower() in ("true", "1", "si", "sí", "yes") if isinstance(flex, str) else bool(flex))
     data["anos_experiencia"] = _entero(data.get("anos_experiencia"), "anos_experiencia")
+    data["edad"] = _entero(data.get("edad"), "edad")
+    data["tiene_experiencia"] = _si_no(data.get("tiene_experiencia"))
+    data["roles_abiertos"] = _si_no(data.get("roles_abiertos")) is True
     return data
+
+
+def _si_no(valor):
+    """«si»/«no» (o true/false) a True/False; vacío = None (sin responder)."""
+    if valor is None or valor == "":
+        return None
+    if isinstance(valor, bool):
+        return valor
+    texto = str(valor).strip().lower()
+    if texto in ("si", "sí", "true", "1", "yes"):
+        return True
+    if texto in ("no", "false", "0"):
+        return False
+    raise PerfilError("Usa «si» o «no».")
 
 
 def _areas(valores: list[str]) -> list[str]:
@@ -209,7 +230,8 @@ def faltantes(data: dict) -> list[str]:
     """Campos importantes que siguen vacíos (para que el agente pregunte)."""
     out = []
     for campo in ("intereses", "habilidades", "roles_objetivo", "idiomas"):
-        if not data.get(campo) and not (campo == "intereses" and data.get("intereses_otra")):
+        if not data.get(campo) and not (campo == "intereses" and data.get("intereses_otra")) \
+                and not (campo == "roles_objetivo" and data.get("roles_abiertos")):
             out.append(campo)
     if not (data.get("estudios") or data.get("puesto_actual") or data.get("experiencia")):
         out.append("estudios / puesto_actual")

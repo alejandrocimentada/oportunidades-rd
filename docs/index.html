@@ -9,7 +9,7 @@
 <script>try { if (localStorage.getItem("tema") === "oscuro") document.documentElement.dataset.theme = "dark"; } catch (_) {}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -54,7 +54,33 @@
     <section id="view-perfil" class="view">
 
       
+      <div class="q-inicio" id="q-inicio">
+        <h3 class="inicio-t" id="inicio-t" tabindex="-1">Arma tu perfil</h3>
+        <p class="inicio-p">Responde <span id="inicio-n">unas</span> preguntas cortas y te mostramos empresas en RD donde podrías trabajar.</p>
+        <button type="button" class="inicio-btn" id="q-empezar">Empezar</button>
+        <p class="inicio-tiempo"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.5 2"/></svg>Toma unos 3 minutos · demo, no se guarda nada</p>
+      </div>
+
+      
       <form id="form-perfil" class="encuesta" autocomplete="off" novalidate>
+        <div class="q" role="group" aria-labelledby="q-nombre" data-corto="Nombre" data-req="Escribe tu nombre.">
+          <h3 class="q-t" id="q-nombre">¿Cómo te llamas?</h3>
+          <p class="q-ayuda">Tu nombre y apellido.</p>
+          <input class="campo" name="nombre" required aria-labelledby="q-nombre" placeholder="Escribe tu nombre aquí…">
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-edad" data-corto="Edad" data-opcional>
+          <h3 class="q-t" id="q-edad">¿Cuántos años tienes?</h3>
+          <p class="q-ayuda">Algunas empresas tienen programas para jóvenes o pasantías. Opcional.</p>
+          <input class="campo corto" name="edad" type="number" min="14" max="90" inputmode="numeric" aria-labelledby="q-edad" placeholder="25">
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-email" data-corto="Correo" data-opcional>
+          <h3 class="q-t" id="q-email">¿Cuál es tu correo?</h3>
+          <p class="q-ayuda">Solo se guarda en tu computadora. Opcional.</p>
+          <input class="campo" name="email" type="email" aria-labelledby="q-email" placeholder="nombre@ejemplo.com">
+        </div>
+
         <div class="q" role="group" aria-labelledby="q-areas" data-corto="Áreas" data-req="Elige al menos un área (o escribe otra).">
           <h3 class="q-t" id="q-areas">¿Qué áreas te interesan?</h3>
           <p class="q-ayuda">Elige todas las que quieras: toca la opción o pulsa su letra.</p>
@@ -94,70 +120,88 @@
           <label class="q-lbl" id="otra-lbl" hidden>¿Cuál otra área?<input class="campo chico" name="intereses_otra" placeholder="ej. agricultura, deportes, bienes raíces"></label>
         </div>
 
+        <div class="q" role="group" aria-labelledby="q-tiene" data-corto="Experiencia laboral" data-req="Elige Sí o No.">
+          <h3 class="q-t" id="q-tiene">¿Tienes experiencia laboral?</h3>
+          <p class="q-ayuda">Cualquier trabajo cuenta, también pasantías.</p>
+          <div class="opciones dos" role="radiogroup" aria-labelledby="q-tiene">
+            <label class="opcion"><input type="radio" name="tiene_experiencia" value="si"><span><b>Sí</b></span></label>
+            <label class="opcion"><input type="radio" name="tiene_experiencia" value="no"><span><b>No, estoy empezando</b></span></label>
+          </div>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-anos" data-corto="Años en tu campo" data-si="tiene_experiencia" data-req="Escribe cuántos años llevas en tu campo.">
+          <h3 class="q-t" id="q-anos">¿Cuántos años llevas en tu campo?</h3>
+          <p class="q-ayuda">Contando solo los trabajos de tu área.</p>
+          <input class="campo corto" name="anos_experiencia" type="number" min="0" max="60" inputmode="numeric" required aria-labelledby="q-anos" placeholder="0">
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-puesto" data-corto="Último trabajo" data-si="tiene_experiencia" data-req="Escribe tu último trabajo o el actual (o «ninguno»).">
+          <h3 class="q-t" id="q-puesto">¿Cuál es tu último trabajo o el actual?</h3>
+          <p class="q-ayuda">El puesto, como lo dirías en una entrevista.</p>
+          <input class="campo" name="puesto_actual" required aria-labelledby="q-puesto" placeholder="ej. Cajera en un supermercado">
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-exp" data-corto="Más sobre ti" data-si="tiene_experiencia" data-opcional>
+          <h3 class="q-t" id="q-exp">Cuéntanos algo más de tu experiencia</h3>
+          <p class="q-ayuda">Dos o tres frases. Se usan en tus cartas. Opcional.</p>
+          <textarea class="campo" name="experiencia" rows="3" aria-labelledby="q-exp" placeholder="ej. Llevo el inventario de la tienda y armé los reportes semanales en Excel."></textarea>
+        </div>
+
         <div class="q" role="group" aria-labelledby="q-estudios" data-corto="Estudios" data-req="Escribe qué estudiaste (puede ser el bachillerato).">
           <h3 class="q-t" id="q-estudios">¿Qué estudiaste?</h3>
           <p class="q-ayuda">Tu carrera, técnico o bachillerato.</p>
           <input class="campo" name="estudios" required aria-labelledby="q-estudios" placeholder="ej. Contabilidad, Enfermería, Bachillerato técnico">
         </div>
 
-        <div class="q" role="group" aria-labelledby="q-puesto" data-corto="Último trabajo" data-req="Escribe tu último trabajo o el actual (o «ninguno»).">
-          <h3 class="q-t" id="q-puesto">¿Cuál es tu último trabajo o el actual?</h3>
-          <p class="q-ayuda">El puesto, como lo dirías en una entrevista.</p>
-          <input class="campo" name="puesto_actual" required aria-labelledby="q-puesto" placeholder="ej. Cajera en un supermercado">
-        </div>
-
-        <div class="q" role="group" aria-labelledby="q-anos" data-corto="Experiencia" data-req="Escribe un número de años (0 si estás empezando).">
-          <h3 class="q-t" id="q-anos">¿Cuántos años de experiencia tienes?</h3>
-          <p class="q-ayuda">En total, contando todos tus trabajos.</p>
-          <input class="campo corto" name="anos_experiencia" type="number" min="0" max="50" inputmode="numeric" required aria-labelledby="q-anos" placeholder="0">
-        </div>
-
-        <div class="q" role="group" aria-labelledby="q-exp" data-corto="Más sobre ti" data-opcional>
-          <h3 class="q-t" id="q-exp">Cuéntanos algo más de tu experiencia</h3>
-          <p class="q-ayuda">Dos o tres frases. Se usan en tus cartas. Opcional.</p>
-          <textarea class="campo" name="experiencia" rows="3" aria-labelledby="q-exp" placeholder="ej. Llevo el inventario de la tienda y armé los reportes semanales en Excel."></textarea>
-        </div>
-
         <div class="q" role="group" aria-labelledby="q-habs" data-corto="Habilidades" data-req="Añade al menos una habilidad.">
           <h3 class="q-t" id="q-habs">Tus habilidades</h3>
-          <p class="q-ayuda">Toca las sugeridas o busca las tuyas.</p>
+          <p class="q-ayuda">Toca las de tus áreas o busca otras.</p>
           <div class="sug" id="sug-habilidades" aria-live="polite"></div>
           <label class="sr" for="chip-habilidades">Busca y añade tus habilidades</label>
-          <div class="chipbox" data-for="habilidades" data-placeholder="Escribe en español o inglés: Excel, contabilidad, Figma…"></div>
-          <p class="hint ac-ayuda">Unas 2.600 habilidades (de <a href="https://esco.ec.europa.eu/es" target="_blank" rel="noopener">ESCO</a>
-            y herramientas actuales), con ↑ ↓ y Enter. Si la tuya no aparece, Enter la añade tal cual.</p>
+          <div class="chipbox" data-for="habilidades" data-placeholder="Busca una habilidad"></div>
           <textarea name="habilidades" hidden></textarea>
         </div>
 
-        <div class="q" role="group" aria-labelledby="q-roles" data-corto="Roles" data-req="Elige o añade al menos un rol.">
-          <h3 class="q-t" id="q-roles">Roles que buscas</h3>
-          <p class="q-ayuda">Según tus intereses, experiencia y habilidades. Toca para elegir o añade los tuyos.</p>
-          <label class="sr" for="chip-roles_objetivo">Añade tus roles</label>
-          <div class="chipbox" data-for="roles_objetivo" data-placeholder="ej. Analista de datos, Contador, Diseñador UX…"></div>
+        <div class="q" role="group" aria-labelledby="q-roles" data-corto="Roles" data-req="Elige un rol, añade uno o marca «No sé».">
+          <h3 class="q-t" id="q-roles">¿Qué roles buscas?</h3>
+          <p class="q-ayuda">Toca los que te interesen o escribe otro.</p>
           <div class="sug" id="sug-roles" aria-live="polite"></div>
+          <label class="sr" for="chip-roles_objetivo">Añade tus roles</label>
+          <div class="chipbox" data-for="roles_objetivo" data-placeholder="Escribe otro rol"></div>
           <textarea name="roles_objetivo" hidden></textarea>
+          <label class="opcion no-se"><input type="checkbox" name="roles_abiertos" data-resumen="No sé, muéstrame opciones"><span><b>No sé todavía: muéstrame opciones</b></span></label>
         </div>
 
         <div class="q" role="group" aria-labelledby="q-idiomas" data-corto="Idiomas" data-opcional>
           <h3 class="q-t" id="q-idiomas">¿Qué idiomas hablas?</h3>
-          <p class="q-ayuda">Con tu nivel. Enter añade cada uno.</p>
-          <label class="sr" for="chip-idiomas">Idiomas, con nivel</label>
-          <div class="chipbox" data-for="idiomas" data-placeholder="ej. Inglés (C1)"></div>
+          <p class="q-ayuda">Elige el idioma y tu nivel.</p>
+          <div class="idioma-add">
+            <label class="sr" for="idioma-sel">Idioma</label>
+            <select id="idioma-sel" class="campo chico">
+              <option>Inglés</option><option>Español</option><option>Francés</option><option>Portugués</option><option>Italiano</option>
+              <option>Alemán</option><option>Chino mandarín</option><option>Japonés</option><option>Criollo haitiano</option>
+            </select>
+            <div class="niveles" role="radiogroup" aria-label="Nivel">
+              <label class="nivel"><input type="radio" name="_nivel" value="A1"><span>A1</span></label><label class="nivel"><input type="radio" name="_nivel" value="A2"><span>A2</span></label><label class="nivel"><input type="radio" name="_nivel" value="B1"><span>B1</span></label><label class="nivel"><input type="radio" name="_nivel" value="B2" checked><span>B2</span></label><label class="nivel"><input type="radio" name="_nivel" value="C1"><span>C1</span></label><label class="nivel"><input type="radio" name="_nivel" value="C2"><span>C2</span></label><label class="nivel"><input type="radio" name="_nivel" value="Nativo"><span>Nativo</span></label>
+            </div>
+            <button type="button" class="btn small" id="idioma-ok">Añadir</button>
+          </div>
+          <div class="chipbox solo-lista" data-for="idiomas"></div>
           <textarea name="idiomas" hidden></textarea>
         </div>
 
         <div class="q" role="group" aria-labelledby="q-donde" data-corto="Dónde y cómo" data-req="Escribe en qué ciudad quieres trabajar.">
           <h3 class="q-t" id="q-donde">¿Dónde y cómo quieres trabajar?</h3>
-          <p class="q-ayuda">Tu ciudad y la modalidad que prefieres.</p>
+          <p class="q-ayuda">Tu ciudad, la modalidad y los días.</p>
           <input class="campo" name="ubicacion" required aria-label="Ciudad" placeholder="Santo Domingo">
           <div class="opciones tres" role="radiogroup" aria-label="Modalidad">
             <label class="opcion"><input type="radio" name="preferencias.modalidad" value="presencial"><span><b>Presencial</b></span></label>
             <label class="opcion"><input type="radio" name="preferencias.modalidad" value="hibrido"><span><b>Híbrido</b></span></label>
             <label class="opcion"><input type="radio" name="preferencias.modalidad" value="remoto"><span><b>Remoto</b></span></label>
           </div>
-          <div class="q-fila">
-            <label class="q-lbl">Días remotos<input class="campo chico" name="preferencias.dias_remotos" type="number" min="0" max="5" inputmode="numeric"></label>
-            <label class="q-lbl">Días y horario<input class="campo chico" name="preferencias.dias" placeholder="lunes a viernes"></label>
+          <div class="opciones dos" role="radiogroup" aria-label="Días">
+            <label class="opcion"><input type="radio" name="preferencias.dias" value="lunes a viernes" data-resumen="L-V"><span><b>L-V</b><small>lunes a viernes</small></span></label>
+            <label class="opcion"><input type="radio" name="preferencias.dias" value="lunes a sábado" data-resumen="L-S"><span><b>L-S</b><small>lunes a sábado</small></span></label>
           </div>
         </div>
 
@@ -167,32 +211,6 @@
           <input class="campo corto" name="preferencias.salario_minimo_dop" type="number" min="0" inputmode="numeric" aria-labelledby="q-salario" placeholder="45000">
           <label class="check q-check"><input name="preferencias.salario_flexible_startups" type="checkbox" data-resumen="flexible en startups">
             <span>En startups, un salario menor (con equity o variable) es «a conversar», no una alerta</span></label>
-        </div>
-
-        <div class="q" role="group" aria-labelledby="q-nombre" data-corto="Nombre y titular" data-opcional>
-          <h3 class="q-t" id="q-nombre">Tu nombre y titular</h3>
-          <p class="q-ayuda">Como van en tus cartas.</p>
-          <label class="q-lbl">Nombre<input class="campo chico" name="nombre"></label>
-          <label class="q-lbl">Titular profesional<input class="campo chico" name="titular" placeholder="ej. Contadora con 5 años en auditoría"></label>
-        </div>
-
-        <div class="q" role="group" aria-labelledby="q-enlaces" data-corto="Enlaces" data-opcional>
-          <h3 class="q-t" id="q-enlaces">Tus enlaces</h3>
-          <p class="q-ayuda">Déjalos vacíos si no los tienes.</p>
-          <label class="q-lbl">LinkedIn<input class="campo chico" name="enlaces.linkedin" type="url" placeholder="https://www.linkedin.com/in/…"></label>
-          <label class="q-lbl">GitHub (si aplica)<input class="campo chico" name="enlaces.github" type="url" placeholder="https://github.com/…"></label>
-          <label class="q-lbl">Portafolio<input class="campo chico" name="enlaces.portafolio" type="url" placeholder="https://…"></label>
-          <details class="avanzado">
-            <summary>Opciones avanzadas: ¿quién redacta tus mensajes y cartas?</summary>
-            <div class="row">
-              <label class="lbl">Proveedor<select name="ia.proveedor">
-                <option value="agente">Tu agente (Claude Code), sin clave</option>
-                <option value="claude">Claude, con tu ANTHROPIC_API_KEY</option>
-                <option value="openai">OpenAI, con tu OPENAI_API_KEY</option>
-                <option value="ninguno">Ninguno (plantillas básicas)</option></select></label>
-              <label class="lbl">Modelo (opcional)<input name="ia.modelo" placeholder="vacío = claude-sonnet-5-5 / gpt-5"></label>
-            </div>
-          </details>
         </div>
 
         <div class="q q-fin" id="q-fin" role="group" aria-labelledby="q-listo">
@@ -311,7 +329,7 @@
     <div class="fcard reveal">
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4.5h12M4 10h12M4 15.5h7"/><circle cx="15" cy="15.5" r="1.6"/></svg>
       <h3>Perfil por pasos</h3>
-      <p>Ocho preguntas cortas.</p>
+      <p>Preguntas cortas, una a la vez.</p>
     </div>
     <div class="fcard reveal">
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 16.5V7l6.5-3.5L16.5 7v9.5"/><path d="M7.5 16.5v-5h5v5"/></svg>
