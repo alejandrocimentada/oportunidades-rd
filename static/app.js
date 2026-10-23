@@ -120,9 +120,19 @@ function irALaApp() {
   else $("#app").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 if ("IntersectionObserver" in window) {
-  const ver = new IntersectionObserver((xs) => xs.forEach((x) => { if (x.isIntersecting) { x.target.classList.add("in"); ver.unobserve(x.target); } }),
+  // Aparece al entrar (un poco antes del borde de abajo) y se repite cada vez: cuando la sección vuelve a quedar
+  // del todo debajo de la pantalla (subiste por encima de ella), se reinicia para animarse otra vez al bajar.
+  const ver = new IntersectionObserver((xs) => xs.forEach((x) => { if (x.isIntersecting) x.target.classList.add("in"); }),
     { rootMargin: "0px 0px -8% 0px" });
-  document.querySelectorAll(".reveal").forEach((el, i) => { el.style.transitionDelay = `${(i % 3) * 60}ms`; ver.observe(el); });
+  const reiniciar = new IntersectionObserver((xs) => xs.forEach((x) => {
+    if (!x.isIntersecting && x.boundingClientRect.top > 0) x.target.classList.remove("in");
+  }));
+  // Las tarjetas entran una tras otra; el resto, sin retraso.
+  document.querySelectorAll(".reveal").forEach((el) => {
+    const hermanos = el.classList.contains("fcard") ? [...el.parentElement.children] : [el];
+    el.style.setProperty("--d", `${hermanos.indexOf(el) * 70}ms`);
+    ver.observe(el); reiniciar.observe(el);
+  });
 } else document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
 
 // -- navegación -----------------------------------------------------------------------
@@ -132,11 +142,55 @@ function mostrar(view) {
   try { localStorage.setItem("vista", view); } catch (_) { /* sin almacenamiento */ }
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => mostrar(b.dataset.view)));
-// «Llenar mi perfil» y otros botones con data-ir: abre esa vista y sube a la ventana de la app.
+// «Llenar mi perfil» y otros botones con data-ir: abre esa vista (y la ventana, si estaba cerrada) y sube a ella.
 document.querySelectorAll("[data-ir]").forEach((b) => b.addEventListener("click", () => {
   mostrar(b.dataset.ir);
+  abrirVentana();
   irALaApp();
 }));
+
+// -- botones de la ventana: rojo cierra, amarillo minimiza, verde pantalla completa --------------
+const ventana = $("#app"), escritorio = $(".stage"), avisoEscritorio = $("#escritorio-vacio");
+function salirDePantallaCompleta() { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); }
+function ventanaFuera(clase, aviso) {
+  salirDePantallaCompleta();
+  ventana.classList.add(clase);
+  escritorio.classList.toggle("app-cerrada", clase === "cerrada");
+  avisoEscritorio.textContent = aviso;
+  avisoEscritorio.classList.add("on");
+}
+function abrirVentana() {
+  if (!ventana.classList.contains("cerrada") && !ventana.classList.contains("minimizada")) return;
+  ventana.classList.remove("cerrada", "minimizada");
+  escritorio.classList.remove("app-cerrada");
+  avisoEscritorio.classList.remove("on");
+}
+$("#win-cerrar").addEventListener("click", () => {
+  ventanaFuera("cerrada", "Cerraste la ventana. Ábrela otra vez con «Mi perfil» en el dock.");
+  // Como cerrar una app: al abrirla de nuevo empieza en la portada, en blanco (no se guardó nada a medias).
+  setTimeout(() => {
+    $("#form-perfil").reset(); llenarPerfil({});
+    irA(0, { foco: false, animar: false });
+    $("#view-perfil").classList.add("en-inicio");
+  }, 300);
+});
+$("#win-min").addEventListener("click", () => {
+  // Se encoge hacia el botón «Mi perfil» del dock.
+  const v = ventana.getBoundingClientRect(), d = $('.dock-btn[data-ir="perfil"]').getBoundingClientRect();
+  ventana.style.setProperty("--dx", `${d.left + d.width / 2 - (v.left + v.width / 2)}px`);
+  ventana.style.setProperty("--dy", `${d.top + d.height / 2 - (v.top + v.height / 2)}px`);
+  ventanaFuera("minimizada", "Minimizada. Tócala en el dock («Mi perfil») para volver.");
+  const b = $('.dock-btn[data-ir="perfil"]');
+  b.classList.remove("rebota"); void b.offsetWidth; b.classList.add("rebota");
+});
+$("#win-max").addEventListener("click", () => {
+  if (document.fullscreenElement) { salirDePantallaCompleta(); return; }
+  if (!ventana.requestFullscreen) { toast("Tu navegador no permite pantalla completa aquí."); return; }
+  ventana.requestFullscreen().catch(() => toast("No se pudo abrir en pantalla completa."));
+});
+document.addEventListener("fullscreenchange", () => {
+  $("#win-max").setAttribute("aria-label", document.fullscreenElement ? "Salir de pantalla completa" : "Pantalla completa");
+});
 
 // -- resumen --------------------------------------------------------------------------
 function pintarResumen() {
@@ -578,7 +632,7 @@ function irA(i, { foco = true, animar = true } = {}) {
   const viejo = PANTALLAS[actual], nuevo = PANTALLAS[i], atras = i < actual;
   const moverse = animar && viejo && viejo !== nuevo && !quieto.matches;
   actual = i;
-  $("#view-perfil").classList.remove("en-inicio");
+  $("#view-perfil").classList.remove("en-inicio", "en-sig");
   if (i === FIN) { volverAlFinal = false; pintarFin(); }
   numerar();
   const vis = visibles(), pos = i === FIN ? vis.length : vis.indexOf(nuevo);
@@ -708,6 +762,15 @@ $("#idioma-ok").addEventListener("click", () => {
 });
 $("#view-perfil").classList.add("en-inicio");
 $("#q-empezar").addEventListener("click", empezar);
+// «Continuar» (en ¡Listo!): la pantalla con los pasos para usarlo con tu agente.
+$("#q-continuar").addEventListener("click", () => {
+  const v = $("#view-perfil");
+  v.classList.add("en-sig");
+  if (!quieto.matches) { $("#q-sig").classList.remove("entra"); void $("#q-sig").offsetWidth; $("#q-sig").classList.add("entra"); }
+  if (!estrecho.matches) $(".win-body").scrollTop = 0;
+  $("#sig-t").focus({ preventScroll: true });
+});
+$("#sig-volver").addEventListener("click", () => irA(FIN));
 
 // -- sugerencias de habilidades y roles (sin IA: static/sugerencias.js + mapa local) --
 // Declaradas como function: la encuesta pinta las sugerencias desde que carga la página.
@@ -785,6 +848,7 @@ async function guardarPerfil() {
 
 function pintarBusqueda(b) {
   const caja = $("#progreso");
+  if (!caja) return;  // la demo no revisa vacantes
   caja.hidden = !b.corriendo && !b.resultado && !b.error && !b.registro.length;
   const pct = b.total ? Math.round((100 * b.hechas) / b.total) : 0;
   $("#prog-bar").style.width = `${b.corriendo ? Math.max(pct, 3) : 100}%`;
@@ -793,7 +857,7 @@ function pintarBusqueda(b) {
   $("#prog-log").textContent = (b.error ? b.error + "\n\n" : "") + b.registro.join("\n");
   $("#prog-log").scrollTop = $("#prog-log").scrollHeight;
   $("#btn-buscar").disabled = b.corriendo;
-  $("#btn-buscar").textContent = b.corriendo ? "Revisando…" : "Guardar y revisar vacantes";
+  $("#btn-buscar").textContent = b.corriendo ? "Revisando…" : "Revisar vacantes";
 }
 
 async function seguirBusqueda() {
@@ -830,9 +894,8 @@ async function cargarPerfil() {
   pintarBusqueda(b);
   if (b.corriendo) seguirBusqueda();
   const con = state.empresas.filter((e) => e.url_empleos).length;
-  $("#buscar-info").textContent = state.empresas.length
-    ? `Con «Guardar y revisar vacantes» se revisan ${con} páginas de empleo de tus ${state.empresas.length} empresas.`
-    : "Para descubrir empresas donde podrías trabajar, pídele a tu agente: «Busca empresas en RD para mi perfil».";
+  if ($("#buscar-info")) $("#buscar-info").textContent = state.empresas.length
+    ? `${state.empresas.length} empresas guardadas, ${con} con página de empleo.` : "Todavía no hay empresas.";
 }
 
 // Botones «Copiar» fuera de la app (p. ej. el mensaje para instalar en la demo pública).
@@ -851,8 +914,22 @@ function ponerTema(t) {
 }
 document.querySelectorAll("input[name=tema]").forEach((r) => r.addEventListener("change", () => ponerTema(r.value)));
 // Botón «Cambiar tema» de la barra de acciones.
-$("#btn-tema")?.addEventListener("click", () => {
-  ponerTema(document.documentElement.dataset.theme === "dark" ? "claro" : "oscuro");
+$("#btn-tema")?.addEventListener("click", (ev) => {
+  const nuevo = document.documentElement.dataset.theme === "dark" ? "claro" : "oscuro";
+  if (quieto.matches) { ponerTema(nuevo); return; }
+  if (!document.startViewTransition) {  // sin View Transitions: los colores se funden
+    document.documentElement.classList.add("tema-fundido");
+    ponerTema(nuevo);
+    setTimeout(() => document.documentElement.classList.remove("tema-fundido"), 450);
+    return;
+  }
+  // El tema nuevo se abre en un círculo que sale del botón y cubre la pantalla.
+  const r = ev.currentTarget.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+  const radio = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+  document.startViewTransition(() => ponerTema(nuevo)).ready.then(() => {
+    document.documentElement.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radio}px at ${x}px ${y}px)`] },
+      { duration: 600, easing: "cubic-bezier(.4, 0, .2, 1)", pseudoElement: "::view-transition-new(root)" });
+  }).catch(() => { /* si la transición falla, el tema ya cambió */ });
 });
 ponerTema(document.documentElement.dataset.theme === "dark" ? "oscuro" : "claro");
 
@@ -866,15 +943,7 @@ async function cargar() {
   pintarResumen(); pintarTablero(); pintarEmpresas(); pintarVacantes();
 }
 
-// Enlaces directos: #tablero, #empresas, #vacantes, #empresa-12
-const hash = location.hash.slice(1);
-if (["perfil", "resumen", "tablero", "empresas", "vacantes"].includes(hash)) mostrar(hash);
-else { try { const v = localStorage.getItem("vista"); if (v) mostrar(v); } catch (_) { /* sin almacenamiento */ } }
-cargar().then(() => {
-  const m = hash.match(/^empresa-(\d+)$/);
-  if (m) { mostrar("empresas"); abrir(+m[1]); }
-  // Página de inicio: sin perfil o sin empresas todavía, empieza en «Mi perfil».
-  else if (!hash && (!state.resumen.perfil_existe || !state.empresas.length)) mostrar("perfil");
-  return cargarPerfil();
-})
+// La ventana muestra solo «Mi perfil» (la encuesta). El resto de vistas sigue en el código, sin pestañas.
+mostrar("perfil");
+cargar().then(() => cargarPerfil())
   .catch((e) => toast(e.message));

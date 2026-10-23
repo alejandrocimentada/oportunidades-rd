@@ -9,7 +9,7 @@
 <script>try { if (localStorage.getItem("tema") === "oscuro") document.documentElement.dataset.theme = "dark"; } catch (_) {}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -36,16 +36,14 @@
     <span id="reloj"></span>
   </div>
 
+<p class="escritorio-vacio" id="escritorio-vacio" role="status"></p>
 <section class="window" id="app">
   <div class="titlebar">
-    <div class="dots"><i></i><i></i><i></i><span>oportunidades-rd / mi-busqueda</span></div>
-    <nav class="tabs" role="tablist" aria-label="Secciones">
-      <button data-view="perfil">Mi perfil</button>
-      <button data-view="resumen" class="on">Resumen</button>
-      <button data-view="tablero">Tablero</button>
-      <button data-view="empresas">Empresas</button>
-      <button data-view="vacantes">Vacantes</button>
-    </nav>
+    <div class="dots">
+      <button type="button" class="dot rojo" id="win-cerrar" aria-label="Cerrar ventana"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 2.5l5 5M7.5 2.5l-5 5"/></svg></button>
+      <button type="button" class="dot amarillo" id="win-min" aria-label="Minimizar ventana"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 5h6"/></svg></button>
+      <button type="button" class="dot verde" id="win-max" aria-label="Pantalla completa"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.6 6.4V2.6h3.8M7.4 3.6v3.8H3.6"/></svg></button>
+      <span>oportunidades-rd / mi-busqueda</span></div>
   </div>
   <a class="demo-tag" href="#instalar"><b>Demo</b> — instala el skill para usarlo con tu perfil.</a>
 
@@ -217,20 +215,29 @@
           <h3 class="q-t" id="q-listo">¡Listo!</h3>
           <p class="q-ayuda">Es una demo: no se guardó nada. Toca una respuesta para cambiarla.</p>
           <div class="fin-resumen" id="fin-resumen"></div>
-          <div class="fin-paso">
-            <span>Ahora pídele a tu agente:</span>
-            <div><code id="msg-agente">Busca empresas en RD para mi perfil</code>
-              <button type="button" class="q-ok" data-copiar="#msg-agente"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button></div>
-          </div>
-          <div class="fin-extra">
-            <button type="submit" class="btn ghost small" id="btn-buscar">Guardar y revisar vacantes</button>
-            <span id="buscar-info"></span>
-          </div>
-          <div class="card progreso" id="progreso" hidden>
-            <h4>Revisión de vacantes <small id="prog-texto"></small></h4>
-            <div class="bar"><div id="prog-bar"></div></div>
-            <pre id="prog-log"></pre>
-          </div>
+          <div class="fin-acciones"><button type="button" class="q-ok" id="q-continuar">Continuar <span aria-hidden="true">→</span></button></div>
+        </div>
+
+        
+        
+        <div class="q-sig" id="q-sig" role="group" aria-labelledby="sig-t">
+          <h3 class="q-t" id="sig-t" tabindex="-1">Úsalo con tu perfil real</h3>
+          <p class="q-ayuda">Esto fue una demo. Instálalo en tu computadora con tu agente de IA: no necesitas saber programar.</p>
+          <ol class="sig-pasos">
+          
+            <li><div class="sig-txt"><b>Ten un agente de IA y Python.</b><p>Claude Code u otro agente compatible con skills, y Python 3.10 o superior.</p></div>
+              <div class="sig-cmd"><p>Para revisar si tienes Python, escribe en una terminal:</p><code>python --version</code></div></li>
+            <li><div class="sig-txt"><b>Pídele que lo instale.</b><p>Tu agente descarga el proyecto, instala lo necesario y te abre el panel.</p></div>
+              <div class="sig-cmd"><p>Copia este mensaje en tu agente:</p>
+                <div class="cmd"><code id="msg-instalar-fin"><b>Instala</b> el skill oportunidades-rd desde https://github.com/alejandrocimentada/oportunidades-rd y ábreme el panel.</code>
+                  <button type="button" class="cmd-copiar" data-copiar="#msg-instalar-fin"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button></div></div></li>
+            <li><div class="sig-txt"><b>Llena tu perfil ahí.</b><p>Se guarda solo en tu computadora. Luego le pides que busque empresas para ti.</p></div>
+              <div class="sig-cmd"><p>Después, escríbele:</p>
+                <div class="cmd"><code id="msg-buscar-demo"><b>Busca empresas</b> en RD para mi perfil</code>
+                  <button type="button" class="cmd-copiar" data-copiar="#msg-buscar-demo"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button></div></div></li>
+          
+          </ol>
+          <button type="button" class="q-saltar sig-volver" id="sig-volver">← Volver al resumen</button>
         </div>
       </form>
 
@@ -313,18 +320,16 @@
 
   <nav class="dock" aria-label="Acciones rápidas">
     <button type="button" class="dock-btn" data-ir="perfil"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="7" r="3.2"/><path d="M3.8 16.5c.9-3 3.3-4.6 6.2-4.6s5.3 1.6 6.2 4.6"/></svg><span>Mi perfil</span></button>
-    <button type="button" class="dock-btn" data-ir="tablero"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3.5" width="4" height="13" rx="1.2"/><rect x="8" y="3.5" width="4" height="9" rx="1.2"/><rect x="13" y="3.5" width="4" height="11" rx="1.2"/></svg><span>Tablero</span></button>
     <button type="button" class="dock-btn" id="btn-tema" aria-label="Cambiar a modo oscuro"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></svg><span>Cambiar tema</span></button>
-    <a class="dock-btn" href="oportunidades-demo.xlsx" download><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 8.5 10 12l3.5-3.5M4 15.5h12"/></svg><span>Exportar Excel</span></a>
   </nav>
 </section>
 </div>
 
-<section class="intro">
+<section class="intro" id="funciones">
   <h2 class="reveal">Oportunidades RD te muestra dónde podrías trabajar en República Dominicana, según tu perfil, aunque no haya vacantes publicadas.</h2>
 </section>
 
-<section class="features" id="funciones">
+<section class="features">
   <div class="fgrid">
     <div class="fcard reveal">
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4.5h12M4 10h12M4 15.5h7"/><circle cx="15" cy="15.5" r="1.6"/></svg>
@@ -352,9 +357,9 @@
       <p>Listos para copiar, nunca se envían solos.</p>
     </div>
     <div class="fcard reveal">
-      <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2"/><path d="M3.5 8h13M3.5 12.5h13M8.5 3.5v13"/></svg>
-      <h3>Exporta a Excel</h3>
-      <p>Toda tu búsqueda en una hoja.</p>
+      <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5"/><path d="m12.2 12.2 4.3 4.3"/></svg>
+      <h3>Revisa vacantes</h3>
+      <p>Tu agente mira si tus empresas tienen puestos abiertos.</p>
     </div>
   </div>
 </section>
@@ -371,30 +376,37 @@
 </section>
 
 
-<section class="install" id="instalar">
-  <h2>Instálalo con tu agente</h2>
-  <ol class="install-steps">
-    <li><span>01</span><b>Ten un agente de IA y Python</b>
-      <p>Claude Code u otro agente compatible con skills, y Python 3.10 o superior en tu computadora.</p></li>
-    <li><span>02</span><b>Copia este mensaje en tu agente</b>
-      <div class="term copy">
-        <code id="msg-instalar">Instala el skill oportunidades-rd desde https://github.com/alejandrocimentada/oportunidades-rd y ábreme el panel.</code>
-        <button type="button" class="btn small" data-copiar="#msg-instalar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button>
-      </div></li>
-    <li><span>03</span><b>Tu agente hace el resto</b>
-      <p>Instala todo y abre tu panel local en tu computadora. Tú llenas tu perfil y le pides: <i>«Busca empresas en RD para mi perfil.»</i></p></li>
-  </ol>
-  <p class="install-note">No necesitas clave de API: la parte de IA la hace tu agente, con tu propio plan. Tus datos se quedan en tu computadora.</p>
+<section class="agente-sec" id="instalar">
+  <div class="agent reveal">
+    <div>
+      <h3>Instala el skill con tu agente.</h3>
+      <p>Claude Code descarga el proyecto, lo instala en tu computadora y te abre el panel. No necesitas saber programar ni tener clave de API.</p>
+    </div>
+    <div class="term">
+      <span>Abre Claude Code (en la app de Claude o en una terminal) y pega esto:</span>
+      <div class="cmd"><code id="msg-instalar"><b>Instala</b> el skill oportunidades-rd desde https://github.com/alejandrocimentada/oportunidades-rd y ábreme el panel.</code>
+        <button type="button" class="cmd-copiar" data-copiar="#msg-instalar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button></div>
+    </div>
+  </div>
+  <div class="agent reveal">
+    <div>
+      <h3>Pídele que busque empresas para tu perfil.</h3>
+      <p>Tu agente busca en la web empresas en RD que encajan contigo, verifica que estén aquí con fuentes y te propone equipos y roles. Luego puede revisar si tienen vacantes abiertas.</p>
+    </div>
+    <div class="term">
+      <span>Cuando ya llenaste tu perfil, escríbele en Claude Code (desde cualquier carpeta):</span>
+      <div class="cmd"><code id="msg-agente-pie"><b>Busca empresas</b> en RD para mi perfil</code>
+        <button type="button" class="cmd-copiar" data-copiar="#msg-agente-pie"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>Copiar</button></div>
+    </div>
+  </div>
 </section>
 
-
-<section class="start">
+<section class="start reveal">
   <h2>Empieza a ordenar tu búsqueda</h2>
   
-  <p>Instálalo con tu agente, llena tu perfil y deja que descubra empresas para ti. Mira cómo queda el Excel con el ejemplo.</p>
+  <p>Instálalo con tu agente, llena tu perfil y deja que descubra empresas para ti.</p>
   <div class="start-btns">
     <a class="btn pill-btn" href="#instalar">Instálalo con tu agente</a>
-    <a class="btn pill-btn ghost" href="oportunidades-demo.xlsx" download>Descargar Excel de ejemplo</a>
   </div>
   
   <div class="start-meta">

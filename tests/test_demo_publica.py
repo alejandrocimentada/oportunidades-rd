@@ -45,7 +45,7 @@ def test_la_demo_es_estatica_y_solo_tiene_datos_inventados(demo):
     assert "/api/" not in html and "/static/" not in html
     assert 'class="demo-tag"' in html and "instala el skill para usarlo con tu perfil" in html
     assert 'id="instalar"' in html and "y ábreme el panel." in html and tablero.REPO in html
-    assert "Llenar mi perfil" not in html and 'href="oportunidades-demo.xlsx"' in html
+    assert "Llenar mi perfil" not in html
 
 
 def test_cada_empresa_tiene_su_detalle_y_la_fecha_de_construccion(demo):
@@ -66,5 +66,5 @@ def test_docs_esta_al_dia(demo):
 
 def test_la_app_local_no_cambia():
     html = tablero.crear_app().test_client().get("/").get_data(as_text=True)
-    assert 'href="/api/excel"' in html and "Llenar mi perfil" in html and 'id="agente"' in html
+    assert "Llenar mi perfil" in html and 'id="agente"' in html
     assert "demo-tag" not in html and "demo-datos.js" not in html and 'id="instalar"' not in html
