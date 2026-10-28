@@ -167,9 +167,42 @@ def test_contactos_son_roles_con_busqueda_de_linkedin(store):
     e = empresa(store, roles_contacto=["Head of Data", "Gerente de Innovación"])
     cts = contactos.contactos(e)
     assert [c["rol"] for c in cts] == ["Head of Data", "Gerente de Innovación"]
-    assert set(cts[0]) == {"rol", "linkedin"}
+    assert set(cts[0]) == {"nombre", "rol", "fuente", "linkedin"} and cts[0]["nombre"] == ""
     assert cts[0]["linkedin"] == ("https://www.linkedin.com/search/results/people/?keywords="
                                   "Head+of+Data+Banco+Ejemplo")
     sin_roles = empresa(store, "Telco Ejemplo", industria="telecomunicaciones")
     assert len(contactos.contactos(sin_roles)) == 3  # sugeridos por industria
     assert contactos.url_linkedin_empresa(sin_roles).startswith("https://www.linkedin.com/search/results/companies/")
+
+
+def test_personas_a_contactar_con_fuente_publica_y_sin_correos_ni_telefonos(store):
+    e = empresa(store, roles_contacto=["Talent Acquisition"], personas=[
+        {"nombre": "María Ejemplo", "cargo": "Gerente de Supply Chain", "fuente": "https://banco-ejemplo.com/equipo",
+         "linkedin": "https://www.linkedin.com/in/maria-ejemplo/"},
+        {"nombre": "Juan Ejemplo", "cargo": "Head of Data", "fuente": "https://noticias.example.com/nota"}])
+    cts = contactos.contactos(e)
+    assert [c["nombre"] for c in cts] == ["María Ejemplo", "Juan Ejemplo", ""]  # personas primero, luego cargos
+    assert cts[0]["linkedin"] == "https://www.linkedin.com/in/maria-ejemplo/"
+    assert cts[1]["linkedin"].startswith("https://www.linkedin.com/search/results/people/?keywords=Juan+Ejemplo")
+    malas = [
+        {"nombre": "Ana", "cargo": "CTO", "fuente": "https://x.com/a", "email": "ana@x.com"},  # correo
+        {"nombre": "Ana 809-555-1234", "cargo": "CTO", "fuente": "https://x.com/a"},  # teléfono en el nombre
+        {"nombre": "Ana", "cargo": "CTO"},  # sin fuente
+        {"nombre": "Ana", "cargo": "CTO", "fuente": "https://www.linkedin.com/in/ana"},  # la fuente no puede ser LinkedIn
+        {"nombre": "Ana", "cargo": "CTO", "fuente": "https://x.com/a", "linkedin": "https://x.com/ana"},  # no es perfil
+    ]
+    for mala in malas:
+        with pytest.raises(DatosError):
+            store.guardar_empresa({"nombre": "Otra Ejemplo", "fuentes_presencia": ["https://otra.example.com"],
+                                   "personas": [mala]})
+
+
+def test_base_anterior_sin_personas_se_actualiza(tmp_path):
+    import sqlite3
+    ruta = tmp_path / "vieja.db"
+    s1 = Store(ruta)
+    s1.conn.execute("ALTER TABLE empresas DROP COLUMN personas")
+    s1.conn.commit(); s1.conn.close()
+    s2 = Store(ruta)
+    cols = {c["name"] for c in s2.conn.execute("PRAGMA table_info(empresas)")}
+    assert "personas" in cols

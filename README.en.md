@@ -10,14 +10,16 @@ have no open postings today.
 ## What it does
 
 1. **You fill in your profile** with a few short questions (about 3 minutes).
-2. **Your AI agent finds companies** in the DR that fit you. Each one comes with a source that
-   confirms it operates there.
+2. **Your AI agent finds companies** in the DR that fit you.
 3. **It explains why they fit**: which teams, which roles you could have and how to apply.
 4. **It checks whether they have open postings.**
-5. **If one interests you**, it drafts a message and a letter. You decide whether to send them.
+5. **If they have no openings**, it tells you who leads the team you're interested in (name, title and
+   where it found them) so you can send your CV and message directly, without waiting on HR.
+6. **If one interests you**, it drafts a message and a letter. You decide whether to send them.
 
-Everything stays on your computer. It never sends anything for you, never visits LinkedIn or other
-job boards, and never stores other people's data.
+Everything stays on your computer. It never sends anything for you and never visits LinkedIn or other
+job boards. For the people to contact it saves only public details (name, title and the source), never
+emails or phone numbers.
 
 The app's interface is in Spanish.
 
@@ -25,8 +27,8 @@ The app's interface is in Spanish.
 
 ## How to use it (the easy way)
 
-You need [Claude Code](https://code.claude.com/docs/en/quickstart), an AI assistant that works on your
-computer. No programming needed.
+All you need is [Claude Code](https://code.claude.com/docs/en/quickstart) and these steps (no programming
+needed):
 
 1. Open Claude Code and paste this message:
 
@@ -48,16 +50,14 @@ itself.
 
 ## FAQ
 
-**Does it cost money?** The project is free. Claude Code depends on your Claude plan.
+**Does it cost money?** The project is free and open source: anyone can use it. Claude Code requires a
+Claude plan.
 
 **Where is my data?** Only on your computer: the profile in `~/.config/oportunidades-rd/` and the
 companies in the project's `data/` folder.
 
-**Why doesn't it score each company?** Because a number gives false precision. You see the reasons and
-the red flags, and you decide.
-
-**I saw a posting on LinkedIn or Computrabajo.** Those sites aren't checked automatically. Copy the text
-and paste it to your agent: it's saved with that company.
+**I saw a posting on LinkedIn or another site. Can I add it?** Yes. Copy the text and paste it to your
+agent: it's saved with that company.
 
 ---
 

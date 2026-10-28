@@ -10,21 +10,23 @@ tengan vacantes publicadas.
 ## Qué hace
 
 1. **Llenas tu perfil** en unas preguntas cortas (unos 3 minutos).
-2. **Tu agente de IA busca empresas** con presencia en RD que encajan contigo. Cada una viene con una
-   fuente que lo confirma.
+2. **Tu agente de IA busca empresas** con presencia en RD que encajan contigo.
 3. **Te explica por qué encajan**: qué equipos, qué roles podrías tener y cómo postular.
 4. **Revisa si tienen vacantes abiertas.**
-5. **Si una te interesa**, te prepara un mensaje y una carta. Tú decides si los envías.
+5. **Si no tienen vacantes**, te dice quién dirige el área que te interesa (nombre, cargo y dónde lo
+   encontró) para que le envíes tu CV y tu mensaje directamente, sin esperar a Recursos Humanos.
+6. **Si una te interesa**, te prepara un mensaje y una carta. Tú decides si los envías.
 
-Todo se guarda en tu computadora. No envía nada por ti, no entra a LinkedIn ni a otros portales de
-empleo y no guarda datos de otras personas.
+Todo se guarda en tu computadora. No envía nada por ti y no entra a LinkedIn ni a otros portales de
+empleo. De las personas a contactar solo guarda lo público (nombre, cargo y la fuente); nunca correos
+ni teléfonos.
 
 ![Una pregunta del perfil](docs/captura-pregunta.png)
 
 ## Cómo usarlo (la forma más fácil)
 
-Necesitas [Claude Code](https://code.claude.com/docs/es/quickstart), un asistente de IA que trabaja
-en tu computadora. No hace falta saber programar.
+Solo necesitas [Claude Code](https://code.claude.com/docs/es/quickstart) y seguir estos pasos (no hace falta
+saber programar):
 
 1. Abre Claude Code y pega este mensaje:
 
@@ -46,16 +48,14 @@ actualiza solo.
 
 ## Preguntas frecuentes
 
-**¿Cuesta dinero?** El proyecto es gratis. Claude Code depende de tu plan de Claude.
+**¿Cuesta dinero?** El proyecto es gratis y de código abierto: cualquiera puede usarlo. Claude Code
+requiere un plan de Claude.
 
 **¿Dónde están mis datos?** Solo en tu computadora: el perfil en `~/.config/oportunidades-rd/` y las
 empresas en la carpeta `data/` del proyecto.
 
-**¿Por qué no da una puntuación a cada empresa?** Porque un número da una falsa precisión. Ves las
-razones y las señales de alerta, y decides tú.
-
-**Vi una vacante en LinkedIn o Computrabajo.** Esos portales no se revisan solos. Copia el texto y
-pégaselo a tu agente: queda guardado con esa empresa.
+**Vi una vacante en LinkedIn u otra página. ¿Puedo agregarla?** Sí. Copia el texto y pégaselo a tu
+agente: queda guardada con esa empresa.
 
 ---
 

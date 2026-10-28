@@ -1,7 +1,8 @@
-"""A quién contactar: solo ROLES y enlaces de búsqueda de LinkedIn.
+"""A quién contactar: las personas que dirigen el área (si el agente las encontró en una fuente
+pública) y los cargos a buscar, cada uno con un enlace de LinkedIn.
 
-Nunca se guardan nombres, correos, teléfonos ni perfiles de personas. El enlace abre una
-búsqueda en LinkedIn (con tu propia sesión) y tú decides a quién escribir.
+De las personas solo se guarda lo profesional y público (nombre, cargo, fuente, perfil de LinkedIn);
+nunca correos ni teléfonos. Los enlaces se abren con tu propia sesión; nada se visita ni se rastrea.
 """
 from __future__ import annotations
 
@@ -36,6 +37,16 @@ def url_linkedin_empresa(empresa: dict) -> str:
         "https://www.linkedin.com/search/results/companies/?" + urlencode({"keywords": empresa["nombre"]}))
 
 
+def url_persona_linkedin(empresa: str, nombre: str) -> str:
+    """Búsqueda de una persona por nombre + empresa (cuando no se tiene su perfil)."""
+    return "https://www.linkedin.com/search/results/people/?" + urlencode({"keywords": f"{nombre} {empresa}"})
+
+
 def contactos(empresa: dict) -> list[dict]:
+    """Primero las personas encontradas (nombre, cargo, fuente), luego los cargos a buscar."""
+    personas = [{"nombre": p["nombre"], "rol": p["cargo"], "fuente": p["fuente"],
+                 "linkedin": p.get("linkedin") or url_persona_linkedin(empresa["nombre"], p["nombre"])}
+                for p in empresa.get("personas") or []]
     roles = empresa.get("roles_contacto") or roles_sugeridos(empresa.get("industria", ""))
-    return [{"rol": r, "linkedin": url_busqueda_linkedin(empresa["nombre"], r)} for r in roles]
+    return personas + [{"nombre": "", "rol": r, "fuente": "", "linkedin": url_busqueda_linkedin(empresa["nombre"], r)}
+                       for r in roles]

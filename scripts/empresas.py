@@ -27,7 +27,8 @@ Uso:
 Formato del JSON (ver SKILL.md): nombre, tipo, industria, sitio_web, presencia_rd, fuentes_presencia
 [{titulo, url}] (al menos una: sin fuente no se agrega), equipos [..], roles [{rol, razon}],
 evidencia [{texto, url}], razones [3], alertas [..], url_empleos, portal_rd, talento, linkedin_empresa,
-roles_contacto [2-3 cargos]. Solo cargos: nunca nombres, correos ni teléfonos de personas.
+roles_contacto [2-3 cargos], personas [{nombre, cargo, fuente, linkedin?}: quién dirige el área, con fuente
+pública]. Nunca correos ni teléfonos de personas.
 """
 from __future__ import annotations
 

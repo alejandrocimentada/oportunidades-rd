@@ -369,7 +369,7 @@ async function abrir(id) {
     <div class="d-sec"><h3>Señales de alerta</h3>${lista(e.alertas, "warn", "Ninguna detectada.")}</div>
     <div class="d-sec"><h3>Cómo postular</h3>${postular ? `<ul class="links">${postular}</ul>` : '<div class="box none">—</div>'}</div>
     <div class="d-sec"><h3>A quién contactar (roles)</h3><div class="roles">
-      ${e.contactos.map((c) => `<a href="${safeUrl(c.linkedin)}" target="_blank" rel="noopener" title="Buscar en LinkedIn">${esc(c.rol)} ↗</a>`).join("")}</div></div>
+      ${e.contactos.map((c) => `<a href="${safeUrl(c.linkedin)}" target="_blank" rel="noopener" title="Buscar en LinkedIn">${c.nombre ? `${esc(c.nombre)} · ` : ""}${esc(c.rol)} ↗</a>`).join("")}</div></div>
     <div class="d-sec"><h3>Mensaje y carta</h3>
       ${puedeDocs ? "" : '<p class="hint">Marca la empresa «Me interesa» para preparar el mensaje y la carta.</p>'}
       ${puedeDocs && e.roles.length > 1 ? `<label class="d-rol">Centrar en el rol <select id="d-rol">${e.roles.map((r) => `<option>${esc(r.rol)}</option>`).join("")}</select></label>` : ""}

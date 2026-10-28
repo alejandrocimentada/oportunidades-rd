@@ -1,6 +1,6 @@
 ---
 name: oportunidades-rd
-description: Career agent for the Dominican Republic ("Oportunidades RD"). Builds the user's profile by asking questions, then discovers companies with a VERIFIED presence in the DR (multinationals with DR offices, regional hubs, shared-service centers or free-zone plants; large local groups; fast-growing local companies; tech companies and startups) where someone with that profile could work, whether or not they have open postings. For each company it records the matching teams, likely roles with reasons, evidence, why it fits, red flags, and how to apply (careers portal, talent pool, LinkedIn page, contact roles with people-search links). Tracks a per-company pipeline (Descubierta → Me interesa → Investigando → Contacté → Aplicado → Entrevista → Oferta / Descartada), drafts outreach messages and general application letters only for companies the user picks, politely checks career pages for open postings as a secondary signal, and shows everything in a local dashboard and an Excel file. Works for any user's profile. Use when the user wants to find where they could work in the DR, research a company, see what's new, or prepare an outreach. Never crawls LinkedIn/Computrabajo/Indeed, never scores with numbers, and never collects personal data about individuals.
+description: Career agent for the Dominican Republic ("Oportunidades RD"). Builds the user's profile by asking questions, then discovers companies with a VERIFIED presence in the DR (multinationals with DR offices, regional hubs, shared-service centers or free-zone plants; large local groups; fast-growing local companies; tech companies and startups) where someone with that profile could work, whether or not they have open postings. For each company it records the matching teams, likely roles with reasons, evidence, why it fits, red flags, and how to apply (careers portal, talent pool, LinkedIn page, contact roles with people-search links). Tracks a per-company pipeline (Descubierta → Me interesa → Investigando → Contacté → Aplicado → Entrevista → Oferta / Descartada), drafts outreach messages and general application letters only for companies the user picks, politely checks career pages for open postings as a secondary signal, and shows everything in a local dashboard and an Excel file. Works for any user's profile. Use when the user wants to find where they could work in the DR, research a company, see what's new, or prepare an outreach. Never crawls LinkedIn/Computrabajo/Indeed, never scores with numbers, and never stores emails or phone numbers of individuals.
 ---
 
 # Oportunidades RD
@@ -17,9 +17,13 @@ write in English; keep it simple, they may not be technical.
 - **Never** fetch LinkedIn, Computrabajo, Indeed, Glassdoor or similar job boards (not with web
   fetch, not with scripts). You may *link* to them (e.g. `portal_rd`, LinkedIn company page) for
   the user to open. Web *search results* that mention them are fine as leads; verify elsewhere.
-- **Never** collect or store names, emails, phone numbers, personal profile URLs or any personal data
-  of individuals. For "who to contact", save only ROLES (e.g. "Talent Acquisition", "Gerente de Supply
-  Chain"); the app turns them into LinkedIn people-search links the user opens.
+- **Contacts: only public, professional data.** For "who to contact", save 2–3 ROLES (`roles_contacto`,
+  e.g. "Talent Acquisition", "Gerente de Supply Chain") and, when you can find them, the **people who lead
+  the matched team** (`personas`): name, title, the public page where they appear with that title (company
+  leadership/team page, press release, news) and, optionally, their public LinkedIn profile URL as it
+  appears in search results. **Never** fetch LinkedIn to find them, and **never** look up or store emails,
+  phone numbers, home addresses or anything personal; the script rejects them. If no public source
+  names someone, save roles only.
 - **Never** add a company without at least one source link that verifies its presence in the DR.
   The script rejects it anyway. Don't invent facts, teams or evidence; say "no encontré evidencia".
 - **No numeric scores.** Describe fit with teams, likely roles, reasons and red flags.
@@ -139,7 +143,11 @@ one person or field.
    never a job board); `portal_rd` = careers portal filtered to the DR if the site allows it (may be a
    job-board link, it's only shown to the user); `talento` = talent pool / general application;
    `linkedin_empresa` = the company page (`linkedin.com/company/…`); `roles_contacto` = 2–3 job titles
-   to contact (Talent Acquisition, the matched team's manager…).
+   to contact (Talent Acquisition, the matched team's manager…); `personas` = up to 3 people who lead the
+   team that matches the user (head of the area, its manager or director), each with `nombre`, `cargo`,
+   `fuente` (a public non-job-board page that names them with that title) and optional `linkedin`
+   (`linkedin.com/in/…`, from search results only). This matters most when the company has no open
+   postings: the user can write to the decision-maker directly.
 6. **Save** a JSON file (one object or a list) in a temp folder and run
    `python scripts/empresas.py guardar --archivo <file>`. Re-saving the same name updates it. Format:
 
@@ -160,7 +168,10 @@ one person or field.
   "portal_rd": "https://empresa-x.com/careers?location=Dominican%20Republic",
   "talento": "https://empresa-x.com/talent-community",
   "linkedin_empresa": "https://www.linkedin.com/company/empresa-x",
-  "roles_contacto": ["Gerente de Supply Chain", "Talent Acquisition"]
+  "roles_contacto": ["Gerente de Supply Chain", "Talent Acquisition"],
+  "personas": [{"nombre": "Nombre Apellido", "cargo": "Gerente de Supply Chain",
+                "fuente": "https://empresa-x.com/nuestro-equipo",
+                "linkedin": "https://www.linkedin.com/in/nombre-apellido"}]
 }
 ```
 

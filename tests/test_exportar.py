@@ -35,7 +35,7 @@ def test_xlsx_con_hojas_filtros_encabezados_fijos_y_colores(store):
     fila = dict(zip(encabezados, [c.value for c in banco]))
     assert "ejemplo.do/contacto" in fila["Fuentes de presencia"] and fila["Equipos que encajan"] == "Datos y analítica"
     assert fila["Roles probables"] == "BI Analyst: Tableau" and fila["Vacantes"] == "hay vacantes"
-    assert "Head of Data" in fila["Roles a contactar"] and "linkedin.com/search" in fila["Búsqueda LinkedIn"]
+    assert "Head of Data" in fila["Cargos a contactar"] and "linkedin.com/search" in fila["LinkedIn"]
     vac = list(wb["Vacantes"].iter_rows(min_row=2, values_only=True))
     assert vac[0][2] == "Analista de Datos" and len(vac[0]) == 9
     seg = [(r[2].value, r[3].value) for r in wb["Seguimiento"].iter_rows(min_row=2)]

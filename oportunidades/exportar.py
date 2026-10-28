@@ -72,7 +72,9 @@ def exportar(store: Store, destino: Path | None = None) -> Path:
             "\n".join(f"{x['rol']}: {x['razon']}".rstrip(": ") for x in e["roles"]),
             _enlaces(e["evidencia"], "texto"), "\n".join(e["razones"]), "\n".join(e["alertas"]),
             e["sitio_web"], e["url_empleos"], e["portal_rd"], e["talento"], url_linkedin_empresa(e),
-            "; ".join(c["rol"] for c in cts), "\n".join(c["linkedin"] for c in cts),
+            "\n".join(f"{c['nombre']} ({c['rol']})" + (f" · fuente: {c['fuente']}" if c["fuente"] else "")
+                      for c in cts if c["nombre"]),
+            "; ".join(c["rol"] for c in cts if not c["nombre"]), "\n".join(c["linkedin"] for c in cts),
             e["vacantes"], e["vacantes_activas"], e["nota_rastreo"], e["nota"], e["seguimiento"],
             e["mensaje_path"], e["carta_path"], e["creado"][:10]])
     _hoja(wb, "Empresas", [
@@ -80,7 +82,7 @@ def exportar(store: Store, destino: Path | None = None) -> Path:
         ("Fuentes de presencia", 50), ("Equipos que encajan", 34), ("Roles probables", 50), ("Evidencia", 50),
         ("Por qué encaja", 50), ("Señales de alerta", 44), ("Sitio web", 28), ("Página de empleos", 32),
         ("Portal filtrado a RD", 32), ("Talento / postulación general", 32), ("LinkedIn de la empresa", 32),
-        ("Roles a contactar", 36), ("Búsqueda LinkedIn", 56), ("Vacantes", 16), ("Vacantes abiertas", 10),
+        ("Personas a contactar", 44), ("Cargos a contactar", 36), ("LinkedIn", 56), ("Vacantes", 16), ("Vacantes abiertas", 10),
         ("Nota de rastreo", 34), ("Notas", 30), ("Seguimiento", 12), ("Mensaje", 30), ("Carta", 30),
         ("Descubierta", 12)], filas, col_estado=3)
 

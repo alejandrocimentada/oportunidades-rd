@@ -4,8 +4,9 @@ que el rastreador encuentra (como comprobación secundaria).
 El centro es la EMPRESA: presencia verificada en RD (con fuentes), equipos y roles probables para tu
 perfil, evidencia, por qué encaja, señales de alerta y cómo postular. No hay puntuación numérica.
 
-Para las personas de contacto solo se guardan ROLES (p. ej. "Head of Data"); nunca nombres,
-correos, teléfonos ni otros datos personales de individuos.
+Para las personas de contacto se guardan los cargos (p. ej. "Head of Data") y, si el agente las encuentra
+en una fuente pública, las personas que dirigen el área: nombre, cargo, la fuente donde aparecen y su
+perfil de LinkedIn si es público. Nunca correos, teléfonos ni otros datos personales.
 """
 from __future__ import annotations
 
@@ -57,6 +58,7 @@ CREATE TABLE IF NOT EXISTS empresas (
     talento TEXT NOT NULL DEFAULT '',
     linkedin_empresa TEXT NOT NULL DEFAULT '',
     roles_contacto TEXT NOT NULL DEFAULT '[]',
+    personas TEXT NOT NULL DEFAULT '[]',
     estado TEXT NOT NULL DEFAULT 'Descubierta',
     estado_fecha TEXT NOT NULL,
     nota TEXT NOT NULL DEFAULT '',
@@ -106,7 +108,8 @@ CREATE TABLE IF NOT EXISTS corridas (
 );
 """
 
-JSON_FIELDS = {"fuentes_presencia", "equipos", "roles", "evidencia", "razones", "alertas", "roles_contacto", "resumen"}
+JSON_FIELDS = {"fuentes_presencia", "equipos", "roles", "evidencia", "razones", "alertas", "roles_contacto", "personas",
+               "resumen"}
 
 # Un rol de contacto debe parecer un cargo, no un dato personal.
 _PARECE_DATO_PERSONAL = re.compile(r"@|https?://|www\.|\d{3}[\s.-]?\d{3,4}|\+\d|linkedin\.com/in/", re.I)
@@ -178,6 +181,42 @@ def _lista_enlaces(valor, campo: str, clave_texto: str, url_obligatoria: bool, m
     return out[:maximo]
 
 
+_CORREO_O_TELEFONO = re.compile(r"@|\d{3}[\s.-]?\d{3,4}|\+\d")
+_PERFIL_LINKEDIN = re.compile(r"^https?://([a-z]{2,3}\.)?(www\.)?linkedin\.com/in/[^\s/?#]+/?$", re.I)
+
+
+def _lista_personas(valor) -> list[dict]:
+    """Quién dirige el área que encaja: [{nombre, cargo, fuente, linkedin?}], máx. 5.
+
+    Solo datos profesionales y públicos: la fuente (obligatoria) es una página pública donde aparece la
+    persona (sitio de la empresa, nota de prensa, noticia), no un portal como LinkedIn. El perfil de
+    LinkedIn es opcional. Nunca correos ni teléfonos."""
+    out = []
+    for item in valor or []:
+        if not isinstance(item, dict):
+            raise DatosError(f"Formato inválido en «personas»: {item!r}. Usa {{nombre, cargo, fuente}}.")
+        for clave in ("email", "correo", "telefono", "teléfono", "phone", "celular"):
+            if item.get(clave):
+                raise DatosError("No se guardan correos ni teléfonos de personas: solo nombre, cargo y fuente.")
+        nombre = _texto(item.get("nombre"), 80)
+        if not nombre:
+            raise DatosError("Cada persona necesita «nombre».")
+        if _CORREO_O_TELEFONO.search(nombre) or re.search(r"https?://|www\.", nombre, re.I):
+            raise DatosError(f"«{nombre}» no parece un nombre. No se guardan correos, teléfonos ni enlaces aquí.")
+        cargo = validar_rol(item.get("cargo") or item.get("rol"))
+        fuente = str(item.get("fuente") or item.get("url") or "").strip()
+        if not re.match(r"^https?://[^\s/]+\.[^\s]+$", fuente, re.I):
+            raise DatosError(f"«{nombre}»: falta la fuente pública (un enlace) donde aparece con ese cargo.")
+        if es_portal_bloqueado(fuente):
+            raise DatosError(f"«{nombre}»: la fuente debe ser una página pública (sitio de la empresa, prensa), "
+                             "no LinkedIn ni otro portal. El perfil de LinkedIn va en «linkedin».")
+        linkedin = str(item.get("linkedin") or "").strip()
+        if linkedin and not _PERFIL_LINKEDIN.match(linkedin):
+            raise DatosError(f"«{linkedin}» no es un perfil de LinkedIn (linkedin.com/in/…).")
+        out.append({"nombre": nombre, "cargo": cargo, "fuente": fuente, "linkedin": linkedin})
+    return out[:5]
+
+
 def _lista_roles(valor) -> list[dict]:
     out = []
     for item in valor or []:
@@ -235,6 +274,8 @@ def validar_empresa(data: dict, nueva: bool) -> dict:
         out["alertas"] = _lista_textos(data["alertas"])
     if "roles_contacto" in data:
         out["roles_contacto"] = [validar_rol(r) for r in _lista_textos(data["roles_contacto"], 5)]
+    if "personas" in data:
+        out["personas"] = _lista_personas(data["personas"])
     return out
 
 
@@ -251,6 +292,9 @@ class Store:
                   f"Se guardó en {respaldo.name} y se empezó una nueva.", file=sys.stderr)
             self.conn = self._conectar()
         self.conn.executescript(SCHEMA)
+        # Bases de datos de antes de «personas»: se agrega la columna sin tocar lo demás.
+        if "personas" not in {c["name"] for c in self.conn.execute("PRAGMA table_info(empresas)")}:
+            self.conn.execute("ALTER TABLE empresas ADD COLUMN personas TEXT NOT NULL DEFAULT '[]'")
         self.conn.execute(f"PRAGMA user_version = {VERSION_ESQUEMA}")
         self.after_change = after_change
 
