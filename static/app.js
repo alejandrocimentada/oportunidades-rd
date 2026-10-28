@@ -149,24 +149,22 @@ document.querySelectorAll("[data-ir]").forEach((b) => b.addEventListener("click"
   irALaApp();
 }));
 
-// -- botones de la ventana: rojo cierra, amarillo minimiza, verde pantalla completa --------------
-const ventana = $("#app"), escritorio = $(".stage"), avisoEscritorio = $("#escritorio-vacio");
-function salirDePantallaCompleta() { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); }
-function ventanaFuera(clase, aviso) {
-  salirDePantallaCompleta();
-  ventana.classList.add(clase);
-  escritorio.classList.toggle("app-cerrada", clase === "cerrada");
-  avisoEscritorio.textContent = aviso;
-  avisoEscritorio.classList.add("on");
-}
+// -- botones de la ventana: rojo cierra (queda un ícono en el escritorio), amarillo minimiza (al dock),
+//    verde maximiza (la ventana llena la tarjeta del escritorio) --------------------------------------------
+const ventana = $("#app"), escritorio = $(".stage"), icono = $("#icono-app");
+function quitarMax() { escritorio.classList.remove("max"); $("#win-max").setAttribute("aria-label", "Maximizar ventana"); }
 function abrirVentana() {
   if (!ventana.classList.contains("cerrada") && !ventana.classList.contains("minimizada")) return;
   ventana.classList.remove("cerrada", "minimizada");
+  icono.hidden = true; icono.classList.remove("sel");
   escritorio.classList.remove("app-cerrada");
-  avisoEscritorio.classList.remove("on");
 }
 $("#win-cerrar").addEventListener("click", () => {
-  ventanaFuera("cerrada", "Cerraste la ventana. Ábrela otra vez con «Mi perfil» en el dock.");
+  quitarMax();
+  ventana.classList.add("cerrada");
+  escritorio.classList.add("app-cerrada");
+  ventana.classList.remove("minimizada");
+  setTimeout(() => { icono.hidden = false; }, 180);
   // Como cerrar una app: al abrirla de nuevo empieza en la portada, en blanco (no se guardó nada a medias).
   setTimeout(() => {
     $("#form-perfil").reset(); llenarPerfil({});
@@ -174,23 +172,33 @@ $("#win-cerrar").addEventListener("click", () => {
     $("#view-perfil").classList.add("en-inicio");
   }, 300);
 });
-$("#win-min").addEventListener("click", () => {
-  // Se encoge hacia el botón «Mi perfil» del dock.
-  const v = ventana.getBoundingClientRect(), d = $('.dock-btn[data-ir="perfil"]').getBoundingClientRect();
-  ventana.style.setProperty("--dx", `${d.left + d.width / 2 - (v.left + v.width / 2)}px`);
-  ventana.style.setProperty("--dy", `${d.top + d.height / 2 - (v.top + v.height / 2)}px`);
-  ventanaFuera("minimizada", "Minimizada. Tócala en el dock («Mi perfil») para volver.");
-  const b = $('.dock-btn[data-ir="perfil"]');
-  b.classList.remove("rebota"); void b.offsetWidth; b.classList.add("rebota");
+// Ícono del escritorio: un clic lo selecciona y doble clic abre (con teclado o en pantallas táctiles, abre de una).
+icono.addEventListener("click", (ev) => {
+  if (ev.detail === 0 || matchMedia("(hover: none)").matches) abrirVentana(); else icono.classList.add("sel");
+});
+icono.addEventListener("dblclick", abrirVentana);
+escritorio.addEventListener("click", (ev) => { if (!ev.target.closest("#icono-app")) icono.classList.remove("sel"); });
+$("#win-min").addEventListener("click", (ev) => {
+  ev.stopPropagation();
+  quitarMax();
+  if (!ventana.classList.contains("minimizada")) {
+    ventana.style.setProperty("--alto-barra", `${$(".titlebar").offsetHeight}px`);
+    ventana.style.setProperty("--alto-ventana", `${ventana.offsetHeight}px`);
+  }
+  ventana.classList.toggle("minimizada");
+});
+// Minimizada, un clic en la barra la vuelve a abrir (los botones rojo y verde siguen funcionando).
+$(".titlebar").addEventListener("click", (ev) => {
+  if (ventana.classList.contains("minimizada") && !ev.target.closest(".dot")) ventana.classList.remove("minimizada");
 });
 $("#win-max").addEventListener("click", () => {
-  if (document.fullscreenElement) { salirDePantallaCompleta(); return; }
-  if (!ventana.requestFullscreen) { toast("Tu navegador no permite pantalla completa aquí."); return; }
-  ventana.requestFullscreen().catch(() => toast("No se pudo abrir en pantalla completa."));
+  if (estrecho.matches) return;  // en el teléfono la ventana ya ocupa todo el ancho
+  ventana.classList.remove("minimizada");
+  $(".stage").style.setProperty("--alto-dock", `${$(".dock").offsetHeight}px`);
+  const max = escritorio.classList.toggle("max");
+  $("#win-max").setAttribute("aria-label", max ? "Restaurar tamaño" : "Maximizar ventana");
 });
-document.addEventListener("fullscreenchange", () => {
-  $("#win-max").setAttribute("aria-label", document.fullscreenElement ? "Salir de pantalla completa" : "Pantalla completa");
-});
+document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && escritorio.classList.contains("max")) quitarMax(); });
 
 // -- resumen --------------------------------------------------------------------------
 function pintarResumen() {
@@ -637,7 +645,7 @@ function irA(i, { foco = true, animar = true } = {}) {
   numerar();
   const vis = visibles(), pos = i === FIN ? vis.length : vis.indexOf(nuevo);
   $("#q-barra").style.width = `${(Math.max(0, pos) / vis.length) * 100}%`;
-  $("#q-prev").disabled = i === 0 || vecina(i, -1) === i;
+  $("#q-prev").disabled = i > 0 && vecina(i, -1) === i;  // en la primera pregunta, ↑ vuelve a la portada
   $("#q-next").disabled = i === FIN;
   clearTimeout(irA.t);
   const mostrarNuevo = () => {
@@ -712,7 +720,16 @@ $("#form-perfil").addEventListener("click", (ev) => {
 });
 $("#form-perfil").addEventListener("input", () => { if (actual < FIN) avisar(PANTALLAS[actual], ""); });
 $("#form-perfil").addEventListener("change", (ev) => { if (ev.target.name === "tiene_experiencia") numerar(); });
-$("#q-prev").addEventListener("click", () => irA(vecina(actual, -1)));
+// Atrás: a la pregunta anterior; desde la primera, de vuelta a la portada («Arma tu perfil»).
+function atras() { if (actual === 0) volverAPortada(); else irA(vecina(actual, -1)); }
+function volverAPortada() {
+  const v = $("#view-perfil"), q = PANTALLAS[0];
+  const fin = () => { q.classList.remove("sale", "atras"); v.classList.add("en-inicio"); $("#q-empezar").focus({ preventScroll: true }); };
+  if (quieto.matches) { fin(); return; }
+  q.classList.add("sale", "atras");
+  setTimeout(fin, 140);
+}
+$("#q-prev").addEventListener("click", atras);
 $("#q-next").addEventListener("click", ok);
 
 // Teclado: Enter = OK (Ctrl/⌘ + Enter en textos largos), Shift+Tab desde la primera respuesta o ↑ = atrás,
@@ -733,8 +750,8 @@ document.addEventListener("keydown", (ev) => {
     ev.preventDefault(); ok();
   } else if (ev.key === "Tab" && ev.shiftKey && actual > 0 && t === enfocables(q)[0]) {
     ev.preventDefault(); irA(vecina(actual, -1));
-  } else if (ev.key === "ArrowUp" && actual > 0 && !ev.altKey && !t.matches("textarea, select, input[type=number], input[type=radio]")) {
-    ev.preventDefault(); irA(vecina(actual, -1));
+  } else if (ev.key === "ArrowUp" && !ev.altKey && !t.matches("textarea, select, input[type=number], input[type=radio]")) {
+    ev.preventDefault(); atras();
   } else if (/^[a-z]$/i.test(ev.key) && !ev.ctrlKey && !ev.metaKey && !ev.altKey && !escribiendo(t)) {
     const o = q.querySelector(`.opcion[data-letra="${ev.key.toUpperCase()}"] input`);
     if (o) { ev.preventDefault(); o.click(); o.focus(); }

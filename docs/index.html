@@ -36,13 +36,16 @@
     <span id="reloj"></span>
   </div>
 
-<p class="escritorio-vacio" id="escritorio-vacio" role="status"></p>
+<button type="button" class="icono-app" id="icono-app" hidden aria-label="Abrir oportunidades-rd">
+  <span class="icono-img" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="8" y="12" width="16" height="11" rx="2.2"/><path d="M12.5 12V9.8c0-.7.6-1.3 1.3-1.3h4.4c.7 0 1.3.6 1.3 1.3V12M8 17h16"/></svg></span>
+  <span class="icono-nombre">oportunidades-rd</span>
+</button>
 <section class="window" id="app">
   <div class="titlebar">
     <div class="dots">
       <button type="button" class="dot rojo" id="win-cerrar" aria-label="Cerrar ventana"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 2.5l5 5M7.5 2.5l-5 5"/></svg></button>
       <button type="button" class="dot amarillo" id="win-min" aria-label="Minimizar ventana"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 5h6"/></svg></button>
-      <button type="button" class="dot verde" id="win-max" aria-label="Pantalla completa"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.6 6.4V2.6h3.8M7.4 3.6v3.8H3.6"/></svg></button>
+      <button type="button" class="dot verde" id="win-max" aria-label="Maximizar ventana"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.6 6.4V2.6h3.8M7.4 3.6v3.8H3.6"/></svg></button>
       <span>oportunidades-rd / mi-busqueda</span></div>
   </div>
   <a class="demo-tag" href="#instalar"><b>Demo</b> — instala el skill para usarlo con tu perfil.</a>
@@ -402,7 +405,7 @@
 </section>
 
 <section class="start reveal">
-  <h2>Empieza a ordenar tu búsqueda</h2>
+  <h2>Descubre dónde encajas</h2>
   
   <p>Instálalo con tu agente, llena tu perfil y deja que descubra empresas para ti.</p>
   <div class="start-btns">
@@ -411,20 +414,24 @@
   
   <div class="start-meta">
     <span>Versión 1.1.0 · Sin inicio de sesión · Funciona en tu computadora</span>
-    <a href="#funciones">Cómo funciona</a>
+    <a href="https://github.com/alejandrocimentada/oportunidades-rd#c%C3%B3mo-usarlo-la-forma-m%C3%A1s-f%C3%A1cil" target="_blank" rel="noopener">Cómo funciona</a>
   </div>
 </section>
 
 <footer class="foot-page">
-  <span>Oportunidades RD · búsqueda de empleo local</span>
-  <span><span lang="en">This service uses the <a href="https://esco.ec.europa.eu/en" target="_blank" rel="noopener">ESCO</a>
-    classification of the European Commission.</span> Usamos una versión adaptada: un subconjunto de ESCO, algunos
-    nombres reescritos y habilidades curadas que no son de ESCO,
-    <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener">CC BY 4.0</a>.</span>
-  
-  <span>Demo con datos inventados · <a href="https://github.com/alejandrocimentada/oportunidades-rd" target="_blank" rel="noopener">Código en GitHub</a></span>
-  
-  <span>Hecho por Alejandro Cimentada</span>
+  <div class="foot-fila">
+    <span class="foot-marca">oportunidades-rd <small>© 2026 Alejandro Cimentada · demo con datos inventados</small></span>
+    <nav class="foot-links" aria-label="Enlaces">
+      <a href="https://github.com/alejandrocimentada/oportunidades-rd#c%C3%B3mo-usarlo-la-forma-m%C3%A1s-f%C3%A1cil" target="_blank" rel="noopener">Cómo funciona</a>
+      <a href="https://github.com/alejandrocimentada/oportunidades-rd" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/alejandrocimentada/oportunidades-rd/blob/main/LICENSE" target="_blank" rel="noopener">Licencia MIT</a>
+    </nav>
+  </div>
+  <div class="foot-fila foot-fino">
+    <span><span lang="en">This service uses the <a href="https://esco.ec.europa.eu/en" target="_blank" rel="noopener">ESCO</a> classification of the European Commission.</span>
+      Usamos una versión adaptada, con habilidades curadas ·
+      <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener">CC BY 4.0</a></span>
+  </div>
 </footer>
 
 <aside class="drawer" id="drawer" aria-hidden="true">

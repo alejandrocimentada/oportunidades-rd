@@ -142,7 +142,7 @@ code { font-family: var(--mono); font-size: 11px; }
   cursor: pointer; white-space: nowrap; transition: color .12s, background .12s; }
 .tabs button:hover { color: var(--ink); }
 .tabs button.on { background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .1); }
-.win-body { padding: 20px; flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.win-body { padding: 20px; flex: 1 1 auto; min-height: 0; overflow: auto; scrollbar-gutter: stable; }
 
 /* Barra de acciones de cristal debajo de la ventana. */
 .dock { flex: none; display: flex; align-items: center; gap: 2px; padding: 4px; border-radius: 9999px; background: rgba(36, 38, 44, .33);
@@ -153,8 +153,8 @@ code { font-family: var(--mono); font-size: 11px; }
 .dock-btn:hover { background: rgba(255, 255, 255, .16); color: #FFFFFF; }
 .dock-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
-.foot-page { max-width: 1152px; margin: 72px auto 0; padding: 28px 24px 40px; border-top: 1px solid var(--line); display: flex;
-  justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--faint); }
+.foot-page { max-width: 1152px; margin: 96px auto 0; padding: 24px 24px 32px; border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 14px; }
 
 .view { display: none; }
 .view.on { display: block; animation: fade .12s ease-out; }
@@ -620,7 +620,7 @@ textarea { line-height: 1.6; resize: vertical; }
   .tbl th:nth-child(2), .tbl td:nth-child(2) { display: none; }
   .tbl td { padding: 10px; }
   .filters label { min-width: 0; flex: 1 1 40%; }
-  .foot-page { justify-content: center; text-align: center; }
+  .foot-fila { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
@@ -748,12 +748,6 @@ html.tema-fundido, html.tema-fundido * { transition: background-color .4s ease, 
 .window { transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .35s ease, visibility 0s; }
 .window.cerrada { opacity: 0; transform: scale(.92); visibility: hidden; pointer-events: none;
   transition: transform .25s ease-in, opacity .22s ease-in, visibility 0s .25s; }
-.window.minimizada { opacity: 0; transform: translate(var(--dx, 0px), var(--dy, 300px)) scale(.06); visibility: hidden; pointer-events: none;
-  transition: transform .5s cubic-bezier(.55, 0, .75, .2), opacity .45s ease-in, visibility 0s .5s; }
-.escritorio-vacio { position: absolute; left: 50%; top: 46%; translate: -50% -50%; margin: 0; padding: 10px 16px; border-radius: 10px;
-  background: rgba(20, 40, 70, .28); color: #FFFFFF; font: 500 13px/1.4 var(--sans); text-align: center; text-shadow: 0 1px 2px rgba(0, 0, 0, .2);
-  opacity: 0; pointer-events: none; transition: opacity .3s .2s; z-index: 1; }
-.escritorio-vacio.on { opacity: 1; }
 /* el ícono «Mi perfil» del dock lleva un punto mientras la ventana está abierta, como una app abierta */
 .dock-btn[data-ir="perfil"] { position: relative; }
 .dock-btn[data-ir="perfil"]::after { content: ""; position: absolute; left: 50%; bottom: 1px; width: 4px; height: 4px; margin-left: -2px;
@@ -761,6 +755,51 @@ html.tema-fundido, html.tema-fundido * { transition: background-color .4s ease, 
 .stage.app-cerrada .dock-btn[data-ir="perfil"]::after { opacity: 0; }
 .dock-btn.rebota { animation: rebota .5s ease-out 2; }
 @keyframes rebota { 40% { transform: translateY(-6px); } }
-#app:fullscreen { width: 100vw; max-width: none; height: 100vh; border-radius: 0; border: 0; scale: none !important; transform: none; }
-#app:fullscreen .encuesta { max-width: 720px; }
 @media (prefers-reduced-motion: reduce) { .window, .window.cerrada, .window.minimizada { transition: none; } .dock-btn.rebota { animation: none; } }
+
+/* Pie de página: una fila con la marca y los enlaces, y una fila fina con el crédito y la atribución de ESCO */
+.foot-fila { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.foot-marca { font: 500 14px/1 var(--sans); color: var(--ink); }
+.foot-marca small { margin-left: 10px; font-size: 12px; font-weight: 400; color: var(--faint); }
+.foot-links { display: flex; gap: 22px; }
+.foot-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .15s; }
+.foot-links a:hover { color: var(--ink); }
+.foot-fino { font-size: 11.5px; line-height: 1.5; color: var(--faint); }
+.foot-fino a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.foot-fino a:hover { color: var(--ink); }
+
+/* Ícono en el escritorio al cerrar la ventana: doble clic (o Enter / un toque) la abre otra vez */
+.icono-app { position: absolute; top: calc(var(--iy, 0px) + 46px); left: calc(var(--ix, 0px) + 20px); z-index: 2; width: 128px; padding: 6px 4px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px; border: 0; border-radius: 8px; background: none; cursor: default;
+  animation: icono-entra .35s cubic-bezier(.2, .8, .2, 1.2) both; }
+:root:not(.con-efecto) .icono-app { top: 46px; left: 26px; }
+.icono-app[hidden] { display: none; }
+.icono-img { width: 52px; height: 52px; border-radius: 13px; display: grid; place-items: center;
+  background: linear-gradient(160deg, #2B3340, #14171C); box-shadow: 0 6px 16px rgba(0, 0, 0, .25), inset 0 0 0 1px rgba(255, 255, 255, .08); }
+.icono-img svg { width: 30px; height: 30px; fill: none; stroke: #FFFFFF; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.icono-nombre { white-space: nowrap; padding: 1px 5px; border-radius: 4px; color: #FFFFFF; font: 500 12px/1.3 var(--sans); text-shadow: 0 1px 2px rgba(0, 0, 0, .45); }
+.icono-app.sel .icono-img { outline: 2px solid rgba(255, 255, 255, .55); outline-offset: 2px; }
+.icono-app.sel .icono-nombre { background: #0A64D8; text-shadow: none; }
+.icono-app:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+@keyframes icono-entra { from { opacity: 0; transform: scale(.6); } }
+
+/* Minimizar: la ventana se recoge hasta quedar solo su barra de título, más angosta. Un clic en la barra (o en el
+   amarillo otra vez) la abre. */
+.window.minimizada { max-width: 380px; height: var(--alto-barra, 38px); cursor: pointer;
+  margin-bottom: calc(var(--alto-ventana, 600px) - var(--alto-barra, 38px)); } /* el dock no se mueve */
+.window { transition-property: transform, opacity, visibility, max-width, height, border-radius, margin-bottom; }
+.window.minimizada .win-body, .window.minimizada .q-progreso, .window.minimizada .demo-tag { visibility: hidden; }
+.window.minimizada .titlebar { border-bottom-color: transparent; }
+.stage.max .window.minimizada { max-width: 380px; height: var(--alto-barra, 38px); }
+.con-efecto .stage.max .window.minimizada { height: var(--alto-barra, 38px); }
+
+/* Maximizar: la ventana llena la tarjeta del escritorio (debajo de la barra de menú, encima del dock) */
+.stage { --alto-escritorio: max(560px, min(880px, calc(100vh - 90px))); transition: padding .45s cubic-bezier(.2, .8, .2, 1), gap .45s; }
+.con-efecto .stage { --alto-escritorio: 100vh; }
+.window { transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .35s ease, visibility 0s,
+  max-width .45s cubic-bezier(.2, .8, .2, 1), height .45s cubic-bezier(.2, .8, .2, 1), border-radius .45s; }
+.stage.max { padding: 42px 12px 12px; gap: 12px; }
+.stage.max .window { max-width: 100%; height: calc(var(--alto-escritorio) - 42px - 12px - 12px - var(--alto-dock, 36px)); border-radius: 10px; }
+.con-efecto .stage.max { padding: calc(var(--iy, 0px) + 42px) calc(var(--ix, 0px) + 12px) calc(var(--p, 1) * 20px + 12px); }
+.con-efecto .stage.max .window { scale: 1; height: calc(100vh - var(--iy, 0px) - 42px - var(--p, 1) * 20px - 12px - 12px - var(--alto-dock, 36px)); }
+@media (prefers-reduced-motion: reduce) { .stage, .window { transition: none; } .icono-app { animation: none; } }

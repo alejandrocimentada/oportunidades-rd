@@ -2,16 +2,17 @@
 
 ![Oportunidades RD](docs/banner.png)
 
-<p align="center"><strong>Un agente de IA que te ayuda a encontrar dónde podrías trabajar en la República Dominicana según tu perfil, aunque esas empresas no tengan vacantes publicadas: qué equipos encajan contigo, qué roles probables hay para ti, cómo postular y a quién contactar. Todo en tu computadora, con un tablero y un Excel.</strong></p>
+<p align="center"><strong>Un agente de IA que te ayuda a encontrar dónde podrías trabajar en la República Dominicana según tu perfil, aunque esas empresas no tengan vacantes publicadas: qué equipos encajan contigo, qué roles probables hay para ti, cómo postular y a quién contactar. Todo en tu computadora.</strong></p>
 
 ## ¿Qué es esto?
 
 **Oportunidades RD** es un "skill" (un paquete de instrucciones y herramientas) que se instala en
 tu asistente de IA, como Claude Code. Le dices *"busca empresas en RD para mi perfil"* y:
 
-1. **Te conoce**: la primera vez eliges qué áreas te interesan y cuentas qué estudiaste y dónde
-   trabajas; te sugiere habilidades y roles (cada uno con su porqué) y tú eliges. Luego idiomas, cómo
-   quieres trabajar y salario. Tu perfil se guarda en tu computadora.
+1. **Te conoce**: respondes unas preguntas cortas, una a la vez: tu nombre, qué áreas te interesan,
+   tu experiencia, qué estudiaste, tus habilidades y los roles que buscas (te sugiere ambos según tus
+   áreas, y puedes decir "no sé"), idiomas, cómo quieres trabajar y salario. Tu perfil se guarda en tu
+   computadora.
 2. **Descubre empresas con presencia verificada en RD**: multinacionales con operaciones aquí
    (oficinas, hubs regionales, centros de servicios compartidos, plantas de zona franca), grupos
    locales grandes, empresas locales en crecimiento y empresas de tecnología o startups que operan
@@ -29,8 +30,8 @@ tu asistente de IA, como Claude Code. Le dices *"busca empresas en RD para mi pe
    páginas de empleo y te dice "hay vacantes" o "no hay".
 6. **Tú eliges.** Solo para las empresas que marcas "Me interesa", prepara un **mensaje corto** y una
    **carta de postulación general**, adaptados al equipo y al rol probable, con enlaces a tu trabajo.
-7. **Llevas el control** en un tablero y un Excel: Descubierta → Me interesa → Investigando →
-   Contacté → Aplicado → Entrevista → Oferta / Descartada, con fechas y notas.
+7. **Llevas el control** con tu agente y un Excel que se actualiza solo: Descubierta → Me interesa →
+   Investigando → Contacté → Aplicado → Entrevista → Oferta / Descartada, con fechas y notas.
 
 ## ¿Para quién es?
 
@@ -73,9 +74,9 @@ No necesitas saber programar: el asistente de IA hace la parte técnica.
 
    </details>
 
-2. **Llena tu perfil**: en la conversación, o en la pestaña **Mi perfil** del tablero (ocho pasos
-   cortos: intereses, experiencia, habilidades y roles sugeridos, idiomas, dónde, salario y nombre). Si no sabes algo, di "no sé" y sigue. Se guarda en `~/.config/oportunidades-rd/profile.yaml`,
-   fuera de la carpeta del proyecto.
+2. **Llena tu perfil**: en la conversación, o en el panel que te abre tu agente (unas 11 preguntas
+   cortas, una a la vez; toma unos 3 minutos). Si no sabes algo, sáltalo o di "no sé" y sigue. Se
+   guarda al terminar, en `~/.config/oportunidades-rd/profile.yaml`, fuera de la carpeta del proyecto.
 
 3. **Pídele lo que necesites**, con tus palabras:
 
@@ -84,32 +85,37 @@ No necesitas saber programar: el asistente de IA hace la parte técnica.
    > Revisa si tienen vacantes abiertas.
    > Marca Empresa X como "Me interesa" y prepárame el mensaje y la carta para el rol de BI Analyst.
    > Pasa Empresa X a "Contacté": le escribí a Talent Acquisition.
-   > Abre el tablero.
+   > Ábreme el panel.
+   > ¿Qué empresas tengo guardadas y en qué estado está cada una?
 
-## El tablero
+## El panel
 
-Pídele al asistente *"abre el tablero"*, o escribe `python app.py` en la carpeta del proyecto.
-Se abre en tu navegador en <http://localhost:8765> (solo tu computadora puede verlo).
+Pídele al asistente *"ábreme el panel"*, o escribe `python app.py` en la carpeta del proyecto.
+Se abre en tu navegador en <http://localhost:8765> (solo tu computadora puede verlo). Puedes probar la
+[demo](https://alejandrocimentada.github.io/oportunidades-rd/) antes de instalarlo (no guarda nada).
 
-- **Mi perfil**: ocho pasos. Las habilidades y los roles se sugieren a partir de tus intereses y tu
-  experiencia, sin IA (con un mapa local); si tu agente está trabajando, puede afinarlas para ti.
-- **Resumen**: cuántas empresas hay en cada estado, las últimas descubiertas, contactos de esta
-  semana, próximos seguimientos y vacantes abiertas del último rastreo.
-- **Tablero**: una columna por estado. **Arrastra una empresa** para cambiarla de estado.
-- **Empresas**: filtros por estado, tipo, industria y "solo con vacantes abiertas".
-- **Vacantes**: las vacantes publicadas que encontró el rastreador (comprobación secundaria).
-- **Detalle** de cada empresa: presencia en RD con sus fuentes, equipos, roles probables, evidencia,
-  por qué encaja, señales de alerta, cómo postular, a quién contactar, vacantes abiertas, el mensaje
-  y la carta con botón **Copiar**, tus notas y el historial con fechas.
+![El panel: «Arma tu perfil»](docs/captura-portada.png)
 
-*(Las capturas de `docs/` son de una versión anterior y usan datos inventados.)*
+- **Arma tu perfil**: una pregunta a la vez, con Enter para seguir y ↑ para volver. Si dices que no
+  tienes experiencia laboral, se saltan las preguntas de experiencia.
+- **Habilidades y roles sugeridos**: salen de las áreas que elegiste, sin IA (con un mapa local); si tu
+  agente ya trabajó en tu perfil, puede afinarlos. En roles puedes marcar *"No sé todavía"*.
+- **Al terminar** ves un resumen de tus respuestas (toca una para cambiarla) y, con **Continuar**, qué
+  pedirle a tu agente.
+- **Tu perfil empieza en blanco** cada vez que abres la página y se guarda solo al terminar: si cierras
+  a mitad, no se cambia lo que ya tenías guardado.
+
+![Una pregunta de la encuesta](docs/captura-pregunta.png)
+
+Tus empresas, su análisis, los mensajes y el seguimiento se los pides a tu agente en la conversación,
+y quedan todos en el Excel.
 
 ## El Excel
 
-`data/oportunidades.xlsx` se actualiza solo después de cada cambio. Tiene cuatro hojas, con filtros,
-encabezados fijos y colores por estado: **Resumen**, **Empresas** (todo el análisis de cada una),
-**Vacantes** y **Seguimiento** (cada cambio de estado con su fecha). También puedes bajarlo desde el
-botón *Descargar Excel* del tablero. Si lo tienes abierto en Excel, ciérralo para que se pueda actualizar.
+`data/oportunidades.xlsx` (en la carpeta del proyecto) se actualiza solo después de cada cambio. Tiene
+cuatro hojas, con filtros, encabezados fijos y colores por estado: **Resumen**, **Empresas** (todo el
+análisis de cada una), **Vacantes** y **Seguimiento** (cada cambio de estado con su fecha). Pídele a tu
+agente *"ábreme el Excel"*. Si lo tienes abierto en Excel, ciérralo para que se pueda actualizar.
 
 ## Estados de una empresa
 
@@ -164,7 +170,7 @@ ambos casos tienes el enlace para abrirla tú.
 
 **oportunidades-rd** es una skill para agentes de IA (Claude Code, Codex y otros agentes
 compatibles con `SKILL.md`) más una pequeña aplicación en Python: scripts de línea de comandos,
-una base SQLite, un tablero Flask y exportación a Excel. El agente sigue [`SKILL.md`](SKILL.md):
+una base SQLite, un panel local en Flask (la encuesta del perfil) y exportación a Excel. El agente sigue [`SKILL.md`](SKILL.md):
 descubre y analiza empresas con búsquedas web y las guarda con `scripts/empresas.py guardar`.
 
 ### Instalación manual
@@ -210,7 +216,7 @@ python scripts/rastrear.py                             # 4. ¿hay vacantes abier
 python scripts/empresas.py list                        # 5. tú eliges
 python scripts/empresas.py estado "Empresa X" "Me interesa"
 python scripts/empresas.py generar "Empresa X" --rol "BI Analyst"   # 6. mensaje + carta (o el agente: guardar-texto)
-python app.py                                          # 7. tablero en http://localhost:8765
+python app.py                                          # 7. panel en http://localhost:8765
 python scripts/empresas.py estado "Empresa X" Contacté --nota "Escribí a Talent Acquisition"   # 8. seguimiento
 ```
 
@@ -238,7 +244,7 @@ nombre actualiza los campos que traiga.
 
 Para probar sin tus datos: `python scripts/demo.py` y luego `python app.py --demo` (usa `data/demo/`).
 
-Demo pública (GitHub Pages): `python scripts/construir_demo.py` escribe en `docs/` una copia estática del tablero
+Demo pública (GitHub Pages): `python scripts/construir_demo.py` escribe en `docs/` una copia estática del panel
 con datos inventados (sin servidor, no guarda nada). Vuelve a ejecutarlo cuando cambies `templates/` o `static/`;
 en GitHub, Settings → Pages → rama `main`, carpeta `/docs`.
 
@@ -254,7 +260,7 @@ en GitHub, Settings → Pages → rama `main`, carpeta `/docs`.
 | `scripts/vacantes.py list [--empresa X] [--activas] \| show <id>` | Vacantes encontradas |
 | `scripts/pegar.py --archivo f.txt [--url] [--empresa] [--titulo]` | Vacante copiada de un portal |
 | `scripts/exportar.py` | Forzar el Excel |
-| `app.py [--puerto 8765] [--no-abrir] [--demo]` | Tablero local |
+| `app.py [--puerto 8765] [--no-abrir] [--demo]` | Panel local |
 
 ### Cómo revisa las vacantes
 
@@ -305,7 +311,7 @@ python -m pytest
 Las pruebas usan páginas guardadas en [`tests/fixtures/`](tests/fixtures/) y nunca salen a internet.
 Cubren la validación de empresas (fuente de presencia obligatoria, enlaces, sin datos personales), el
 flujo de estados con historial y seguimientos, la redacción (adaptada al equipo y rol, solo al
-proveedor elegido), el Excel, el tablero (solo localhost, cambios solo en JSON), que el perfil nunca se
+proveedor elegido), el Excel, el panel (solo localhost, cambios solo en JSON), que el perfil nunca se
 guarde en el repo, y el rastreador (robots.txt, ritmo, caché, portales bloqueados, formatos y fallos
 vistos en sitios reales).
 
@@ -328,7 +334,7 @@ ejemplos y de la demostración son inventadas.
 
 > This service uses the ESCO classification of the European Commission.
 
-El buscador de habilidades del paso 3 y parte de las sugerencias de habilidades y roles usan
+El buscador de la pregunta de habilidades y parte de las sugerencias de habilidades y roles usan
 **ESCO**, la clasificación europea de capacidades, competencias, cualificaciones y ocupaciones,
 de la **Comisión Europea** (<https://esco.ec.europa.eu/es>), versión v1.2.1, con licencia
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es).

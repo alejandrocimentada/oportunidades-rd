@@ -27,7 +27,7 @@ write in English; keep it simple, they may not be technical.
 - The user's data goes only to the AI provider they chose (`ia.proveedor`). In `agente` mode you do
   the research and writing; don't paste their profile into other services.
 
-## 0. Right after installing: open the dashboard
+## 0. Right after installing: open the panel
 
 When you have just installed this skill (or the user asks to "abre el panel / el tablero"):
 
@@ -35,29 +35,32 @@ When you have just installed this skill (or the user asks to "abre el panel / el
 2. Start the dashboard **in the background** (it keeps running; don't wait for it to exit):
    `python app.py`. It serves http://localhost:8765 and opens it in the browser by itself. If the
    browser doesn't open (or you started it with `--no-abrir`), give the user that link.
-3. Tell the user in one or two lines: the panel is open; they can fill **Mi perfil** there (8 short
-   steps) or answer your questions here; then they can ask you «Busca empresas en RD para mi perfil».
+3. Tell the user in one or two lines: the panel is open; they can build their profile there («Arma tu
+   perfil»: about 11 short questions, one at a time, saved when they finish) or answer your questions
+   here; then they can ask you «Busca empresas en RD para mi perfil».
 
 If port 8765 is busy, the dashboard is probably already running: just give the link.
 
 ## 1. First run: build the profile
 
 Run `python scripts/perfil.py show`. Exit code 2 means there is no profile yet. Either point the user
-to the dashboard's **Mi perfil** tab (`python app.py`), or ask these questions (the same 8 steps as the
-dashboard's wizard) in one or two short messages, accepting "no sé" and moving on:
+to the panel's survey (`python app.py`), or ask these questions (the same order as the panel's survey)
+in one or two short messages, accepting "no sé" and moving on:
 
-1. **Interests**: which areas they'd like to work in. Offer the list from `python scripts/perfil.py sugerir`'s
+1. **Name** (`nombre`). Then, optional: **age** (`edad`) and **email** (`email`); both stay on this computer.
+2. **Interests**: which areas they'd like to work in. Offer the list from `python scripts/perfil.py sugerir`'s
    map (tecnología, datos y análisis, finanzas y contabilidad, logística y cadena de suministro, operaciones y
    procesos, ventas, marketing, diseño, recursos humanos, salud, educación, servicio al cliente, legal,
    manufactura, turismo y hotelería); anything else goes in `intereses_otra`.
-2. **Experience**: what they studied, their last or current job, years of experience, and (optional) a
-   2-3 sentence summary.
-3. **Skills**: run `python scripts/perfil.py sugerir` and offer its `habilidades`; they pick and add their own.
-4. **Roles**: offer the suggested `roles` with their one-line `razon`; they pick, remove or add their own.
-5. Languages and level.
-6. Where they live / can work, Monday–Friday?, remote or hybrid days.
-7. Minimum monthly salary in DOP (and whether startups may offer a different package).
-8. Name as it should appear on letters, a one-line headline, and links (LinkedIn, portfolio, GitHub).
+3. **Work experience?** yes / no (`tiene_experiencia`). If yes: years in their field (`anos_experiencia`),
+   last or current job (`puesto_actual`) and (optional) a 2-3 sentence summary (`experiencia`).
+4. **Studies** (`estudios`).
+5. **Skills**: run `python scripts/perfil.py sugerir` and offer its `habilidades`; they pick and add their own.
+6. **Roles**: offer the suggested `roles`; they pick, remove or add their own. If they don't know, set
+   `roles_abiertos` to `si` and propose roles yourself when you research companies.
+7. **Languages** with level (A1, A2, B1, B2, C1, C2 or Nativo), saved like «Inglés (C1)».
+8. **Where and how**: city, modality (presencial / híbrido / remoto) and days (lunes a viernes or lunes a sábado).
+9. **Minimum monthly salary** in DOP (optional; and whether startups may offer a different package).
    Drafting defaults to you (`ia.proveedor agente`); only change it if they ask for `claude`, `openai` or `ninguno`.
 
 Save each answer (lists are separated by `;`):
@@ -201,16 +204,16 @@ company works in English or the user asks. Use only facts from the profile and t
 
 Files land in `data/documentos/<id>-<empresa>/`. Remind the user: nothing is sent automatically.
 
-## 6. Dashboard and spreadsheet
+## 6. Panel and spreadsheet
 
-- `python app.py` opens http://localhost:8765 (local only): Mi perfil, Resumen, Tablero (drag companies
-  between states), Empresas (filters), Vacantes (secondary), and a company detail panel with sources,
-  teams, roles, evidence, how to apply, contact links, drafts with copy buttons, notes and history.
+- `python app.py` opens http://localhost:8765 (local only): the profile survey («Arma tu perfil»). It
+  starts blank each time and saves the profile only when the user finishes. It no longer shows companies:
+  show them in the conversation (`empresas.py list` / `show`) and point to the Excel file.
   `python app.py --demo` after `python scripts/demo.py` shows made-up sample data.
 - `data/oportunidades.xlsx` (Resumen, Empresas, Vacantes, Seguimiento) is regenerated after every
   change; `python scripts/exportar.py` forces it. If Excel has it open, ask the user to close it.
 
 ## Routine ("¿qué hay de nuevo?")
 
-`empresas.py list` → follow-ups due (dashboard Resumen) → `rastrear.py` and relay companies that now
+`empresas.py list` → follow-ups due → `rastrear.py` and relay companies that now
 have openings → offer to research more companies for the profile or to dig into one the user likes.

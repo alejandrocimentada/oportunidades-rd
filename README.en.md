@@ -2,7 +2,7 @@
 
 ![Oportunidades RD](docs/banner.en.png)
 
-<p align="center"><strong>An AI agent that helps you find where you could work in the Dominican Republic based on your profile, even if those companies have no open postings: which teams match you, which roles are likely for you, how to apply and whom to contact. Everything runs on your computer, with a dashboard and a spreadsheet.</strong></p>
+<p align="center"><strong>An AI agent that helps you find where you could work in the Dominican Republic based on your profile, even if those companies have no open postings: which teams match you, which roles are likely for you, how to apply and whom to contact. Everything runs on your computer.</strong></p>
 
 ## What is this?
 
@@ -30,7 +30,7 @@ profile"* and it:
 6. **You choose.** Only for companies you mark "Me interesa" (interested) does it draft a **short
    message** and a **general application letter**, tailored to the matched team and likely role and
    linking to your work.
-7. **You stay on top of it** with a dashboard and an Excel file: Descubierta (discovered) → Me
+7. **You stay on top of it** with your agent and an Excel file that updates itself: Descubierta (discovered) → Me
    interesa → Investigando (researching) → Contacté (contacted) → Aplicado (applied) → Entrevista
    (interview) → Oferta (offer) / Descartada (discarded), with dates and notes.
 
@@ -56,7 +56,7 @@ code: the AI assistant handles the technical part.
 1. **Ask your AI assistant to install it.** If you use Claude Code or another AI agent, paste:
 
    ```text
-   Install the oportunidades-rd skill from https://github.com/alejandrocimentada/oportunidades-rd and open the dashboard for me.
+   Install the oportunidades-rd skill from https://github.com/alejandrocimentada/oportunidades-rd and open the panel for me.
    ```
 
    <details>
@@ -72,8 +72,9 @@ code: the AI assistant handles the technical part.
 
    </details>
 
-2. **Fill in your profile**: in the conversation, or in the dashboard's **Mi perfil** tab (eight
-   short steps, with suggested skills and roles). It's saved in `~/.config/oportunidades-rd/profile.yaml`, outside the project folder.
+2. **Fill in your profile**: in the conversation, or in the panel your agent opens for you (about 11
+   short questions, one at a time; it takes about 3 minutes). Skip anything you don't know. It's saved
+   when you finish, in `~/.config/oportunidades-rd/profile.yaml`, outside the project folder.
 
 3. **Ask for what you need**, in your own words:
 
@@ -82,30 +83,35 @@ code: the AI assistant handles the technical part.
    > Check whether they have open postings.
    > Mark Company X as "Me interesa" and draft the message and letter for the BI Analyst role.
    > Move Company X to "Contacté": I wrote to Talent Acquisition.
-   > Open the dashboard.
+   > Open the panel.
+   > Which companies do I have saved, and what status is each one in?
 
-## The dashboard
+## The panel
 
-Ask the assistant to *"open the dashboard"*, or run `python app.py` in the project folder. It opens
-at <http://localhost:8765> (only your computer can see it).
+Ask the assistant to *"open the panel"*, or run `python app.py` in the project folder. It opens at
+<http://localhost:8765> (only your computer can see it). You can try the
+[demo](https://alejandrocimentada.github.io/oportunidades-rd/) before installing it (it saves nothing).
 
-- **Mi perfil**: eight steps. Skills and roles are suggested from your interests and experience, without
-  AI (a local map); when your agent is running, it can refine them for you.
-- **Resumen**: companies per status, the latest discovered, contacts this week, upcoming follow-ups
-  and open postings from the last check.
-- **Tablero**: one column per status; **drag a company** to change it.
-- **Empresas**: filters by status, type, industry and "only with open postings".
-- **Vacantes**: postings the crawler found (secondary check).
-- **Company detail**: DR presence with sources, teams, likely roles, evidence, why it fits, red flags,
-  how to apply, whom to contact, open postings, the message and letter with a **Copy** button, your
-  notes and the dated history.
+![The panel: «Arma tu perfil»](docs/captura-portada.png)
 
-*(The screenshots in `docs/` are from an earlier version and use made-up data.)*
+- **Arma tu perfil** (build your profile): one question at a time; Enter moves on and ↑ goes back. If
+  you have no work experience, the experience questions are skipped.
+- **Suggested skills and roles** come from the areas you picked, without AI (a local map); your agent
+  can refine them. For roles you can choose *"No sé todavía"* (I don't know yet).
+- **At the end** you see a summary of your answers (tap one to change it) and, with **Continuar**, what
+  to ask your agent next.
+- **The form starts blank** every time you open the page and is saved only when you finish, so leaving
+  halfway never changes the profile you already had.
+
+![A survey question](docs/captura-pregunta.png)
+
+Ask your agent for your companies, their analysis, drafts and follow-ups in the conversation; all of it
+is also in the Excel file.
 
 ## For technical users
 
 **oportunidades-rd** is a skill for AI agents (Claude Code, Codex and other agents that support
-`SKILL.md`) plus a small Python app: command-line scripts, a SQLite database, a Flask dashboard and
+`SKILL.md`) plus a small Python app: command-line scripts, a SQLite database, a local Flask panel (the profile survey) and
 an Excel export. The agent follows [`SKILL.md`](SKILL.md): it discovers and analyzes companies with
 web searches and saves them with `scripts/empresas.py guardar`.
 
@@ -126,14 +132,14 @@ python scripts/rastrear.py                             # 4. any open postings? (
 python scripts/empresas.py list                        # 5. you choose
 python scripts/empresas.py estado "Company X" "Me interesa"
 python scripts/empresas.py generar "Company X" --rol "BI Analyst"   # 6. message + letter (or the agent: guardar-texto)
-python app.py                                          # 7. dashboard at http://localhost:8765
+python app.py                                          # 7. panel at http://localhost:8765
 ```
 
 The JSON format for companies (one object or a list) is documented in [`README.md`](README.md) and
 [`SKILL.md`](SKILL.md). Without `fuentes_presencia` holding a valid link, a company **is not saved**.
 To try it without your data: `python scripts/demo.py`, then `python app.py --demo`.
 
-Public demo (GitHub Pages): `python scripts/construir_demo.py` writes a static copy of the dashboard with made-up
+Public demo (GitHub Pages): `python scripts/construir_demo.py` writes a static copy of the panel with made-up
 data to `docs/` (no server, nothing is saved). Re-run it after changing `templates/` or `static/`; on GitHub,
 Settings → Pages → branch `main`, folder `/docs`.
 
@@ -179,7 +185,7 @@ demo are made up.
 
 > This service uses the ESCO classification of the European Commission.
 
-The skills search in step 3 and part of the skill and role suggestions use **ESCO**, the European
+The skills search (the skills question) and part of the skill and role suggestions use **ESCO**, the European
 classification of Skills, Competences, Qualifications and Occupations, by the **European Commission**
 (<https://esco.ec.europa.eu/en>), version v1.2.1, licensed under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
