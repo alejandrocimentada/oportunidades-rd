@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Source for docs/banner.png (Spanish) and docs/banner.en.png (open with #en).
-     Render at 1600x640, e.g. with headless Edge/Chrome:
+<!-- Fuente de docs/banner.png (español) y docs/banner.en.png (ábrelo con #en).
+     Se renderiza a 1600x640, p. ej. con Chrome o Edge sin interfaz:
      msedge --headless --window-size=1600,640 --screenshot=banner.png docs/banner.html -->
 <html lang="es">
 <head>
@@ -8,95 +8,77 @@
 <title>Oportunidades RD banner</title>
 <style>
   :root {
-    --ink: #1b1f23; --muted: #5b6570; --line: #e3e7ea; --card: #ffffff; --bg: #f5f7f6;
-    --accent: #9BE28F; --accent-ink: #1f5a17; --soft: #eefaeb; --warn: #9a5b00; --warn-soft: #fff5e0;
-    --mono: "Cascadia Mono", "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
-    --sans: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    --ink: #14171C; --muted: #5B6169; --line: #E6E8EB; --accent: #0088FF;
+    --portada: #0B3D73; --portada-t: #EAF3FF; --portada-p: #B9D3F0; --portada-btn: #CDE4FF;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", Helvetica, Arial, sans-serif;
+    --serif: "Abhaya Libre", Georgia, "Times New Roman", serif;
+    --wall: radial-gradient(120% 90% at 12% 8%, #CFE8FF 0%, rgba(207, 232, 255, 0) 55%),
+            radial-gradient(90% 80% at 88% 18%, #FFE3D1 0%, rgba(255, 227, 209, 0) 60%),
+            radial-gradient(110% 90% at 70% 100%, #7FB8F2 0%, rgba(127, 184, 242, 0) 62%),
+            linear-gradient(160deg, #A9D2FA 0%, #6FA8E6 48%, #3E7FCB 100%);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 1600px; height: 640px; overflow: hidden; background: var(--bg); }
-  body { font-family: var(--sans); color: var(--ink); padding: 28px; }
-  .card {
-    position: relative; width: 100%; height: 100%; background: var(--card);
-    border: 1.5px solid var(--line); border-radius: 28px; overflow: hidden;
-    display: grid; grid-template-columns: 780px 1fr; grid-template-rows: 1fr 64px;
-  }
-  .left { padding: 0 0 8px 72px; display: flex; flex-direction: column; justify-content: center; }
-  .label { align-self: flex-start; font-family: var(--mono); font-size: 18px; letter-spacing: .18em; color: var(--accent-ink); display: flex; align-items: center; gap: 12px; }
-  .label::before { content: ""; width: 12px; height: 12px; border-radius: 3px; background: var(--accent); }
-  h1 { font-size: 74px; font-weight: 750; letter-spacing: -.02em; margin-top: 22px; line-height: 1; }
-  .subtitle { font-size: 30px; color: var(--muted); margin-top: 20px; max-width: 660px; line-height: 1.25; }
-  .pills { display: flex; align-self: flex-start; gap: 12px; margin-top: 40px; }
-  .pill { font-family: var(--mono); font-size: 19px; padding: 9px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--soft); }
-  .pill b { color: var(--accent-ink); font-weight: 600; }
+  html, body { width: 1600px; height: 640px; overflow: hidden; background: #FFFFFF; }
+  body { font-family: var(--sans); color: var(--ink); display: grid; grid-template-columns: 700px 1fr; -webkit-font-smoothing: antialiased; }
 
-  .right { display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 0 64px 8px 0; }
-  .lanes { display: flex; gap: 10px; font-size: 16px; font-weight: 600; }
-  .lanes span { padding: 6px 14px; border-radius: 999px; background: #e8eef2; }
-  .lanes .on { background: var(--accent); color: #14310f; }
-  .job { width: 660px; border: 1.5px solid var(--line); border-radius: 22px; padding: 22px 26px; background: #fff; box-shadow: 0 6px 24px rgba(20, 50, 20, .07); }
-  .top { display: flex; gap: 18px; align-items: center; }
-  .ring { width: 74px; height: 74px; border-radius: 50%; display: grid; place-items: center; flex: none;
-          background: conic-gradient(var(--accent) 84%, #edf0ee 0); }
-  .ring b { width: 58px; height: 58px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 24px; }
-  .top h2 { font-size: 27px; } .top p { color: var(--muted); font-size: 19px; margin-top: 2px; }
-  .rows { margin-top: 16px; display: grid; gap: 9px; font-size: 19px; }
-  .rows div { display: flex; gap: 12px; align-items: center; }
-  .rows i { font-style: normal; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; flex: none; font-weight: 800; font-size: 16px; }
-  .ok i { background: var(--soft); color: var(--accent-ink); }
-  .warn i { background: var(--warn-soft); color: var(--warn); }
-  .meta { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
-  .meta span { font-family: var(--mono); font-size: 15px; color: var(--muted); border: 1.5px solid var(--line); border-radius: 8px; padding: 4px 10px; }
-  .meta .g { color: var(--accent-ink); border-color: #cdeec6; background: var(--soft); }
+  .texto { padding: 0 40px 0 84px; display: flex; flex-direction: column; justify-content: center; }
+  .marca { font-size: 22px; font-weight: 500; color: var(--muted); display: flex; align-items: center; gap: 2px; }
+  .marca i { width: 2px; height: 22px; background: var(--accent); margin-left: 3px; }
+  h1 { margin-top: 26px; font-size: 64px; font-weight: 600; letter-spacing: -.025em; line-height: 1.05; }
+  p { margin-top: 22px; font-size: 26px; line-height: 1.4; color: var(--muted); max-width: 540px; }
+  .chips { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .chips span { padding: 9px 16px; border-radius: 9999px; background: #F0F1F3; font-size: 17px; font-weight: 500; color: var(--ink); }
 
-  .strip {
-    grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; padding-left: 72px;
-    background: var(--accent); font-family: var(--mono); font-size: 19px; letter-spacing: .12em; color: #14310f; font-weight: 600;
-  }
+  /* el escritorio con la app, como en la página */
+  .escritorio { position: relative; margin: 36px 36px 36px 0; border-radius: 22px; overflow: hidden; background: var(--wall);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding-top: 34px; }
+  .menubar { position: absolute; top: 0; left: 0; right: 0; height: 34px; padding: 0 18px; display: flex; align-items: center; gap: 20px;
+    background: rgba(20, 40, 70, .28); color: #FFFFFF; font-size: 15px; text-shadow: 0 1px 2px rgba(0, 0, 0, .25); }
+  .menubar b { font-weight: 700; }
+  .ventana { width: 640px; height: 400px; border-radius: 16px; overflow: hidden; background: #FFFFFF; display: flex; flex-direction: column;
+    box-shadow: 0 22px 50px rgba(0, 0, 0, .25), 0 2px 8px rgba(0, 0, 0, .1); }
+  .barra { height: 44px; flex: none; padding: 0 16px; display: flex; align-items: center; gap: 8px; background: #F7F7F8; border-bottom: 1px solid var(--line); }
+  .barra i { width: 13px; height: 13px; border-radius: 50%; }
+  .barra span { margin-left: 10px; font-size: 14px; color: #8A9099; }
+  .portada { flex: 1; background: var(--portada); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .portada h2 { font-family: var(--serif); font-weight: 400; font-size: 44px; color: var(--portada-t); }
+  .portada p { margin-top: 12px; font-size: 18px; line-height: 1.45; color: var(--portada-p); max-width: 400px; }
+  .portada button { margin-top: 26px; height: 44px; padding: 0 22px; border: 0; border-radius: 7px; background: var(--portada-btn);
+    color: var(--portada); font: 500 17px/1 var(--sans); }
+  .portada small { margin-top: 14px; font-size: 14px; color: var(--portada-p); }
+  .dock { display: flex; gap: 4px; padding: 5px; border-radius: 9999px; background: rgba(36, 38, 44, .33); }
+  .dock span { padding: 7px 14px; border-radius: 9999px; color: rgba(255, 255, 255, .9); font-size: 14px; font-weight: 500; }
+
+  .en { display: none; }
+  html.ingles .es { display: none; }
+  html.ingles .en { display: revert; }
 </style>
 </head>
 <body>
-<div class="card">
-  <section class="left">
-    <div class="label" data-es="AGENTE DE EMPLEO · REPÚBLICA DOMINICANA" data-en="JOB-SEARCH AGENT · DOMINICAN REPUBLIC"></div>
+  <div class="texto">
+    <div class="marca">oportunidades-rd<i></i></div>
     <h1>Oportunidades RD</h1>
-    <p class="subtitle" data-es="Encuentra empresas, revisa sus vacantes y prepara tu postulación"
-       data-en="Find companies, review their openings and prepare your application"></p>
-    <div class="pills">
-      <span class="pill" data-es="IA · datos · automatización" data-en="AI · data · automation"></span>
-      <span class="pill"><b>localhost</b>:8765</span>
-      <span class="pill">.xlsx</span>
+    <p class="es">Descubre dónde podrías trabajar en República Dominicana, según tu perfil.</p>
+    <p class="en">Find where you could work in the Dominican Republic, based on your profile.</p>
+    <div class="chips">
+      <span class="es">Skill para Claude Code</span><span class="en">Claude Code skill</span>
+      <span class="es">Todo en tu computadora</span><span class="en">Runs on your computer</span>
+      <span class="es">Gratis</span><span class="en">Free</span>
     </div>
-  </section>
-
-  <section class="right">
-    <div class="lanes">
-      <span data-es="Nuevo" data-en="New"></span><span class="on" data-es="Me interesa" data-en="Interested"></span>
-      <span data-es="Aplicado" data-en="Applied"></span><span data-es="Entrevista" data-en="Interview"></span>
-    </div>
-    <div class="job">
-      <div class="top"><div class="ring"><b>84</b></div>
-        <div><h2>AI Integration Specialist</h2><p data-es="Banco de ejemplo · Santo Domingo · híbrido" data-en="Sample bank · Santo Domingo · hybrid"></p></div></div>
-      <div class="rows">
-        <div class="ok"><i>✓</i><span data-es="Coincide con tu objetivo y tus habilidades" data-en="Matches your target role and skills"></span></div>
-        <div class="ok"><i>✓</i><span data-es="Python, SQL, LLM, Power Automate" data-en="Python, SQL, LLM, Power Automate"></span></div>
-        <div class="warn"><i>!</i><span data-es="Pide 5+ años con Azure" data-en="Asks for 5+ years of Azure"></span></div>
-      </div>
-      <div class="meta">
-        <span class="g" data-es="mensaje.md ✓" data-en="mensaje.md ✓"></span>
-        <span class="g" data-es="carta.md ✓" data-en="carta.md ✓"></span>
-        <span data-es="Head of Data ↗ LinkedIn" data-en="Head of Data ↗ LinkedIn"></span>
+  </div>
+  <div class="escritorio">
+    <div class="menubar"><b>Oportunidades RD</b><span class="es">Archivo</span><span class="en">File</span><span class="es">Editar</span><span class="en">Edit</span><span class="es">Ver</span><span class="en">View</span></div>
+    <div class="ventana">
+      <div class="barra"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span>oportunidades-rd / mi-busqueda</span></div>
+      <div class="portada">
+        <h2>Arma tu perfil</h2>
+        <p>Responde 11 preguntas cortas y te mostramos empresas en RD donde podrías trabajar.</p>
+        <button>Empezar</button>
+        <small>Toma unos 3 minutos</small>
       </div>
     </div>
-  </section>
-
-  <div class="strip" data-es="🔒 TODO EN TU COMPUTADORA · RESPETA ROBOTS.TXT · NADA SE ENVÍA SOLO"
-       data-en="🔒 RUNS ON YOUR COMPUTER · RESPECTS ROBOTS.TXT · NOTHING IS SENT FOR YOU"></div>
-</div>
-<script>
-  const lang = location.hash === "#en" ? "en" : "es";
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-es]").forEach(el => { el.textContent = el.dataset[lang]; });
-</script>
+    <div class="dock"><span>Mi perfil</span><span>Cambiar tema</span></div>
+  </div>
+<script>if (location.hash === "#en") document.documentElement.classList.add("ingles");</script>
 </body>
 </html>
